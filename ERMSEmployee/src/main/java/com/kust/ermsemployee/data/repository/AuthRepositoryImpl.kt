@@ -4,8 +4,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.firestore.FirebaseFirestore
-import com.kust.ermsemployee.data.model.CompanyModel
-import com.kust.ermsemployee.data.model.EmployeeModel
 import com.kust.ermsemployee.utils.FireStoreCollection
 import com.kust.ermsemployee.utils.UiState
 

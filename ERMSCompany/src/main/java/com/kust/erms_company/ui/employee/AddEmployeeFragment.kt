@@ -26,10 +26,6 @@ class AddEmployeeFragment : Fragment() {
     @Inject
     lateinit var auth : FirebaseAuth
 
-    companion object {
-        fun newInstance() = AddEmployeeFragment()
-    }
-
     private lateinit var viewModel: EmployeeViewModel
 
     override fun onCreateView(

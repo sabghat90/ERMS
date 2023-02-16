@@ -1,7 +1,5 @@
 package com.kust.ermsmanager.data.models
 
-import com.kust.erms_company.utils.Role
-
 data class EmployeeModel(
     var id: String = "",
     val name: String = "",

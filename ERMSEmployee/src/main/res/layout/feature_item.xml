@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginStart="40dp"
-            android:text="Feature Name"
+            android:text="@string/feature_name"
             app:cornerRadius="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

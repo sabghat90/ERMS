@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -23,8 +22,6 @@ private const val ARG_PARAM1 = "param1"
 
 @AndroidEntryPoint
 class FeaturesFragment : Fragment() {
-
-    val TAG by lazy { "FeaturesFragment" }
 
     private var _binding: FragmentFeaturesBinding? = null
     private val binding get() = _binding!!
@@ -94,13 +91,6 @@ class FeaturesFragment : Fragment() {
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance(param1: String) =
-            FeaturesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                }
-            }
     }
 
     override fun onDestroyView() {

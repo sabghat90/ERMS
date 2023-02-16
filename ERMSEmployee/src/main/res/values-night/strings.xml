@@ -29,4 +29,5 @@
     <string name="pakistan">Pakistan</string>
     <string name="kust">KUST</string>
     <string name="basic_information">Basic Information</string>
+    <string name="feature_name">Feature Name</string>
 </resources>

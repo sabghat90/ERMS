@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kust.erms_company.data.model.FeatureModel
 import com.kust.erms_company.databinding.DashboardFeatureItemBinding
 
-class FeaturesAdapter() : RecyclerView.Adapter<FeaturesAdapter.ViewHolder>() {
+class FeaturesAdapter : RecyclerView.Adapter<FeaturesAdapter.ViewHolder>() {
 
     var features: MutableList<FeatureModel> = arrayListOf()
 
