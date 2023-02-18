@@ -1,5 +1,10 @@
 package com.kust.erms_company.data.model
 
+import kotlinx.parcelize.Parcelize
+import android.os.Parcelable
+
+
+@Parcelize
 data class EmployeeModel(
     var id: String = "",
     val name: String = "",
@@ -18,4 +23,4 @@ data class EmployeeModel(
     val points: String = "",
     val role: String = "",
     val profilePicture: String = ""
-)
+) : Parcelable

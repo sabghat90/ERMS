@@ -50,10 +50,9 @@ class AuthRepositoryImpl(
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 val id = auth.currentUser?.uid ?: ""
-                validateUser(id)
                 if (task.isSuccessful) {
+                        result(UiState.Success("Login successful"))
 
-                    result(UiState.Success("Login successful"))
                 } else {
                     try {
                         throw task.exception ?: java.lang.Exception("Invalid authentication")
@@ -89,7 +88,7 @@ class AuthRepositoryImpl(
                 }
             }
 
-        return true
+        return false
     }
 
     override fun forgotPassword(email: String, result: (UiState<String>) -> Unit) {

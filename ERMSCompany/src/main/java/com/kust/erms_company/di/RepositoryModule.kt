@@ -2,10 +2,7 @@ package com.kust.erms_company.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.kust.erms_company.data.repositroy.AuthRepository
-import com.kust.erms_company.data.repositroy.AuthRepositoryImpl
-import com.kust.erms_company.data.repositroy.EmployeeRepository
-import com.kust.erms_company.data.repositroy.EmployeeRepositoryImpl
+import com.kust.erms_company.data.repositroy.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,5 +29,14 @@ object RepositoryModule {
         database: FirebaseFirestore,
     ): EmployeeRepository {
         return EmployeeRepositoryImpl(auth, database)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCompanyRepository(
+        auth: FirebaseAuth,
+        database: FirebaseFirestore,
+    ): CompanyRepository {
+        return CompanyRepositoryImpl(auth, database)
     }
 }

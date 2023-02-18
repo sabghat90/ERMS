@@ -37,5 +37,14 @@
         android:id="@+id/manageEmployeeFragment"
         android:name="com.kust.erms_company.ui.employee.ManageEmployeeFragment"
         android:label="fragment_manage_employee"
-        tools:layout="@layout/fragment_manage_employee" />
+        tools:layout="@layout/fragment_manage_employee" >
+        <action
+            android:id="@+id/action_manageEmployeeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.kust.erms_company.ui.details.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

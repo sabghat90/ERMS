@@ -1,5 +1,10 @@
 package com.kust.erms_company.data.model
 
+
+import kotlinx.parcelize.Parcelize
+import android.os.Parcelable
+
+@Parcelize
 data class CompanyModel(
     var id: String = "",
     val name: String = "",
@@ -11,4 +16,4 @@ data class CompanyModel(
     val website: String = "",
     var role : String = "",
     val profilePicture : String = ""
-)
+) : Parcelable
