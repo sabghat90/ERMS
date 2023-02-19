@@ -44,7 +44,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.kust.erms_company.ui.details.ProfileFragment"
+        android:name="com.kust.erms_company.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

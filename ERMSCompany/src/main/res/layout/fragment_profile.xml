@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.details.ProfileFragment">
+    tools:context=".ui.profile.ProfileFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -16,16 +16,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/img_cover"
+            <View
+                android:id="@+id/view4"
                 android:layout_width="wrap_content"
                 android:layout_height="150dp"
-                android:scaleType="centerCrop"
+                android:background="@color/md_theme_dark_onSurfaceVariant"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@tools:sample/backgrounds/scenic"
-                android:contentDescription="cover_img" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/img_logo"
@@ -34,26 +32,27 @@
                 android:src="@drawable/avatar7"
                 app:civ_border_overlay="true"
                 app:civ_border_width="1dp"
-                app:layout_constraintBottom_toBottomOf="@+id/img_cover"
-                app:layout_constraintEnd_toEndOf="@+id/img_cover"
-                app:layout_constraintStart_toStartOf="@+id/img_cover"
-                app:layout_constraintTop_toBottomOf="@+id/img_cover" />
+                app:layout_constraintBottom_toBottomOf="@+id/view4"
+                app:layout_constraintEnd_toEndOf="@+id/view4"
+                app:layout_constraintStart_toStartOf="@+id/view4"
+                app:layout_constraintTop_toBottomOf="@+id/view4" />
 
             <TextView
                 android:id="@+id/company_name"
                 style="@style/h1"
-                android:layout_width="wrap_content"
+                android:layout_width="56dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@string/kust"
                 app:layout_constraintEnd_toEndOf="@+id/img_logo"
                 app:layout_constraintStart_toStartOf="@+id/img_logo"
                 app:layout_constraintTop_toBottomOf="@+id/img_logo" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/company_name">
@@ -164,12 +163,12 @@
 
                 <TextView
                     android:id="@+id/textView8"
+                    style="@style/h2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    style="@style/h2"
-                    android:textStyle="bold"
                     android:text="@string/address"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view2" />
 
@@ -223,7 +222,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="State" />
+                        android:text="@string/State" />
 
                     <TextView
                         android:id="@+id/tv_state"
@@ -259,6 +258,38 @@
                 </RelativeLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/update"
+                android:textAllCaps="true"
+                app:cornerRadius="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_select_manager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/select_manager"
+                android:textAllCaps="true"
+                app:cornerRadius="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/btn_update"
+                app:layout_constraintStart_toStartOf="@+id/btn_update"
+                app:layout_constraintTop_toBottomOf="@+id/btn_update" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

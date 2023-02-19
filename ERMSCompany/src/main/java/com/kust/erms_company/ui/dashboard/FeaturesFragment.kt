@@ -28,7 +28,7 @@ class FeaturesFragment : Fragment() {
 
     private val authViewModel : AuthViewModel by viewModels()
 
-    private val adapter by lazy { FeaturesAdapter() }
+    private val adapter by lazy { FeaturesListingAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,7 +60,7 @@ class FeaturesFragment : Fragment() {
 
         binding.rvFeatures.adapter = adapter
 
-        adapter.setOnItemClickListener(object : FeaturesAdapter.OnItemClickListener {
+        adapter.setOnItemClickListener(object : FeaturesListingAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 when (position) {
                     0 -> {
@@ -88,9 +88,6 @@ class FeaturesFragment : Fragment() {
                 }
             }
         })
-    }
-
-    companion object {
     }
 
     override fun onDestroyView() {

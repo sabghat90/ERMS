@@ -1,4 +1,4 @@
-package com.kust.erms_company.ui.details
+package com.kust.erms_company.ui.profile
 
 import androidx.lifecycle.ViewModel
 

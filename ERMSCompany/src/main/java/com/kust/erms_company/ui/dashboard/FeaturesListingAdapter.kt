@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kust.erms_company.data.model.FeatureModel
-import com.kust.erms_company.databinding.DashboardFeatureItemBinding
+import com.kust.erms_company.databinding.FeatureItemBinding
 
-class FeaturesAdapter : RecyclerView.Adapter<FeaturesAdapter.ViewHolder>() {
+class FeaturesListingAdapter : RecyclerView.Adapter<FeaturesListingAdapter.ViewHolder>() {
 
     var features: MutableList<FeatureModel> = arrayListOf()
 
@@ -22,7 +22,7 @@ class FeaturesAdapter : RecyclerView.Adapter<FeaturesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView =
-            DashboardFeatureItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            FeatureItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(itemView, listener)
     }
 
@@ -35,7 +35,7 @@ class FeaturesAdapter : RecyclerView.Adapter<FeaturesAdapter.ViewHolder>() {
         return features.size
     }
 
-    inner class ViewHolder(private val binding: DashboardFeatureItemBinding, listener : OnItemClickListener) :
+    inner class ViewHolder(private val binding: FeatureItemBinding, listener : OnItemClickListener) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(feature: FeatureModel, position: Int) {
             binding.featureImage.setImageResource(feature.image)

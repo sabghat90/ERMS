@@ -1,4 +1,4 @@
-package com.kust.erms_company.ui.details
+package com.kust.erms_company.ui.profile
 
 import android.app.ProgressDialog
 import android.os.Bundle
@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.kust.erms_company.R
 import com.kust.erms_company.data.model.EmployeeModel
 import com.kust.erms_company.databinding.FragmentProfileBinding
 import com.kust.erms_company.ui.employee.EmployeeViewModel
+import com.kust.erms_company.utils.Role
 import com.kust.erms_company.utils.UiState
 import com.kust.erms_company.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,11 +49,17 @@ class ProfileFragment : Fragment() {
         progressDialog.setCancelable(false)
         progressDialog.setCanceledOnTouchOutside(false)
 
-        viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
-        employeeViewModel = ViewModelProvider(this).get(EmployeeViewModel::class.java)
+        viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
+        employeeViewModel = ViewModelProvider(this)[EmployeeViewModel::class.java]
 
         updateUi()
         observer()
+
+        binding.btnSelectManager.setOnClickListener {
+            employeeObj.role = Role.MANAGER
+
+            employeeViewModel.updateEmployee(employeeObj)
+        }
     }
 
     private fun observer() {
@@ -73,6 +79,22 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+
+        employeeViewModel.updateEmployee.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Loading -> {
+                    progressDialog.show()
+                }
+                is UiState.Success -> {
+                    progressDialog.dismiss()
+                    toast("Update successfully")
+                }
+                is UiState.Error -> {
+                    progressDialog.dismiss()
+                    toast(state.error)
+                }
+            }
+        }
     }
 
     private fun updateUi() {
@@ -82,7 +104,7 @@ class ProfileFragment : Fragment() {
             tvEmail.text = employeeObj.email
             tvPhone.text = employeeObj.phone
             tvCountry.text = employeeObj.country
-            tvState.text = "employeeObj.state"
+            tvState.text = employeeObj.state
             tvFullAddress.text = employeeObj.address
             isMakeEnableUI(false)
         }
@@ -107,10 +129,6 @@ class ProfileFragment : Fragment() {
             }
         }
 
-    }
-
-    private fun getEmployee() {
-        employeeViewModel.getEmployee(EmployeeModel())
     }
 
     override fun onDestroyView() {

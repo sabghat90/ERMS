@@ -55,7 +55,7 @@ class EmployeeListingAdapter (
                 .into(binding.imgEmployee)
 
             binding.tvEmployeeName.text = employee.name
-            binding.tvDepartment.text = employee.designation
+            binding.tvDepartment.text = employee.jobTitle
 
             if (employee.role == "manager") {
                 binding.tvStatus.text = "Manager"

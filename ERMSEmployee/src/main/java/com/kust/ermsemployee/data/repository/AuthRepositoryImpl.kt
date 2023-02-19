@@ -51,8 +51,11 @@ class AuthRepositoryImpl(
             .addOnCompleteListener { task ->
                 val id = auth.currentUser?.uid ?: ""
                 if (task.isSuccessful) {
+                    if (validateUser(id)) {
                         result(UiState.Success("Login successful"))
-
+                    } else {
+                        result(UiState.Error("User does not exist"))
+                    }
                 } else {
                     try {
                         throw task.exception ?: java.lang.Exception("Invalid authentication")
@@ -68,27 +71,16 @@ class AuthRepositoryImpl(
     }
 
     override fun validateUser(id : String): Boolean {
+        var isValid = false
 
-        val employeeRef =
-            database.collection(FireStoreCollection.EMPLOYEE).document(id)
-        val companyRef =
-            database.collection(FireStoreCollection.COMPANY).document(id)
-
-        employeeRef.get()
+        database.collection(FireStoreCollection.EMPLOYEE).document(id).get()
             .addOnSuccessListener {
-                if (it.getString("role") != "employee") {
-                    return@addOnSuccessListener
+                if (it.exists()) {
+                    val role = it.get("role") as String
+                    isValid = role == "employee"
                 }
             }
-
-        companyRef.get()
-            .addOnSuccessListener {
-                if (it.getString("role") != "employee") {
-                    return@addOnSuccessListener
-                }
-            }
-
-        return false
+        return isValid
     }
 
     override fun forgotPassword(email: String, result: (UiState<String>) -> Unit) {
