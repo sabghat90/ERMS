@@ -19,6 +19,9 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_featuresFragment_to_companyProfileFragment"
+            app:destination="@id/companyProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEmployeeFragment"
@@ -40,11 +43,27 @@
         tools:layout="@layout/fragment_manage_employee" >
         <action
             android:id="@+id/action_manageEmployeeFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/employeeProfileFragment" />
+        <action
+            android:id="@+id/action_manageEmployeeFragment_to_featuresFragment"
+            app:destination="@id/featuresFragment" />
     </fragment>
     <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.kust.erms_company.ui.profile.ProfileFragment"
+        android:id="@+id/employeeProfileFragment"
+        android:name="com.kust.erms_company.ui.employee_profile.EmployeeProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_employee_profile" >
+        <action
+            android:id="@+id/action_employeeProfileFragment_to_manageEmployeeFragment"
+            app:destination="@id/manageEmployeeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyProfileFragment"
+        android:name="com.kust.erms_company.ui.company.CompanyProfileFragment"
+        android:label="fragment_company_profile"
+        tools:layout="@layout/fragment_company_profile" >
+        <action
+            android:id="@+id/action_companyProfileFragment_to_featuresFragment"
+            app:destination="@id/featuresFragment" />
+    </fragment>
 </navigation>

@@ -1,4 +1,4 @@
-package com.kust.erms_company.ui.profile
+package com.kust.erms_company.ui.employee_profile
 
 import android.app.ProgressDialog
 import android.os.Bundle
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.kust.erms_company.data.model.EmployeeModel
-import com.kust.erms_company.databinding.FragmentProfileBinding
+import com.kust.erms_company.databinding.FragmentEmployeeProfileBinding
 import com.kust.erms_company.ui.employee.EmployeeViewModel
 import com.kust.erms_company.utils.Role
 import com.kust.erms_company.utils.UiState
@@ -17,11 +17,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class ProfileFragment : Fragment() {
+class EmployeeProfileFragment : Fragment() {
 
-    val TAG = "ProfileFragment"
+    val TAG = "EmployeeProfileFragment"
 
-    private var _binding: FragmentProfileBinding? = null
+    private var _binding: FragmentEmployeeProfileBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var employeeObj : EmployeeModel
@@ -36,9 +36,9 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        _binding = FragmentEmployeeProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
 

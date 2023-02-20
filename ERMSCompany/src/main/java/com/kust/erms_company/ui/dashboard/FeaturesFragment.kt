@@ -7,14 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kust.erms_company.R
+import com.kust.erms_company.data.model.CompanyModel
 import com.kust.erms_company.data.model.FeatureModel
 import com.kust.erms_company.databinding.FragmentFeaturesBinding
 import com.kust.erms_company.ui.auth.AuthViewModel
 import com.kust.erms_company.ui.auth.RegistrationActivity
+import com.kust.erms_company.ui.company.CompanyViewModel
+import com.kust.erms_company.utils.UiState
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -27,6 +31,10 @@ class FeaturesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val authViewModel : AuthViewModel by viewModels()
+
+    private lateinit var companyViewModel: CompanyViewModel
+
+    private var companyObj : CompanyModel? = null
 
     private val adapter by lazy { FeaturesListingAdapter() }
 
@@ -41,6 +49,8 @@ class FeaturesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        companyViewModel = ViewModelProvider(this)[CompanyViewModel::class.java]
 
 
         val features = mutableListOf<FeatureModel>()
@@ -76,7 +86,7 @@ class FeaturesFragment : Fragment() {
 
                     }
                     4 -> {
-
+                        findNavController().navigate(R.id.action_featuresFragment_to_companyProfileFragment)
                     }
                     5 -> {
                         authViewModel.logout {

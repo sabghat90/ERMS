@@ -9,7 +9,7 @@ interface CompanyRepository {
     fun updateCompanyDetails(
         companyId: String,
         companyModel: CompanyModel,
-        result: (UiState<CompanyModel>) -> Unit
+        result: (UiState<Pair<CompanyModel, String>>) -> Unit
     )
 
 

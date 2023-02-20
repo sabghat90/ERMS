@@ -28,11 +28,11 @@ class CompanyRepositoryImpl @Inject constructor(
     override fun updateCompanyDetails(
         companyId: String,
         companyModel: CompanyModel,
-        result: (UiState<CompanyModel>) -> Unit
+        result: (UiState<Pair<CompanyModel, String>>) -> Unit
     ) {
         val document = database.collection(FireStoreCollection.COMPANY).document(companyId)
         document.set(companyModel).addOnSuccessListener {
-            result.invoke(UiState.Success(companyModel))
+            result.invoke(UiState.Success(Pair(companyModel, "Company updated successfully")))
         }.addOnFailureListener {
             result(UiState.Error(it.message.toString()))
         }
