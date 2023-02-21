@@ -4,8 +4,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.firestore.FirebaseFirestore
-import com.kust.ermsemployee.data.model.CompanyModel
-import com.kust.ermsemployee.data.model.EmployeeModel
 import com.kust.ermsemployee.utils.FireStoreCollection
 import com.kust.ermsemployee.utils.UiState
 
@@ -14,84 +12,45 @@ class AuthRepositoryImpl(
     private val database: FirebaseFirestore
 ) : AuthRepository {
 
-//    override fun registerCompany(
-//        email: String,
-//        password: String,
-//        companyModel: CompanyModel,
-//        result: (UiState<String>) -> Unit
-//    ) {
-//        auth.createUserWithEmailAndPassword(email, password)
-//            .addOnCompleteListener { task ->
-//                if (task.isSuccessful) {
-//                    companyModel.id = task.result.user?.uid ?: ""
-//                    updateCompanyInformation(companyModel) { uiState ->
-//                        when (uiState) {
-//                            is UiState.Success -> result(UiState.Success(uiState.data))
-//                            is UiState.Error -> result(UiState.Error(uiState.error))
-//                            is UiState.Loading -> result(UiState.Loading)
-//                        }
-//                    }
-//                }
-//                else {
-//                    try {
-//                        throw task.exception ?: java.lang.Exception("Invalid authentication")
-//                    } catch (e: FirebaseAuthWeakPasswordException) {
-//                        result(UiState.Error("Weak password"))
-//                    } catch (e: FirebaseAuthInvalidCredentialsException) {
-//                        result(UiState.Error("Invalid email"))
-//                    } catch (e: FirebaseAuthUserCollisionException) {
-//                        result(UiState.Error("User already exists"))
-//                    } catch (e: Exception) {
-//                        result(UiState.Error("Unknown error"))
-//                    }
-//                }
-//            }
-//    }
-
     override fun login(email: String, password: String, result: (UiState<String>) -> Unit) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                val id = auth.currentUser?.uid ?: ""
-                validateUser(id)
-                if (task.isSuccessful) {
 
-                    result(UiState.Success("Login successful"))
-                } else {
-                    try {
-                        throw task.exception ?: java.lang.Exception("Invalid authentication")
-                    } catch (e: FirebaseAuthInvalidUserException) {
-                        result(UiState.Error("User does not exist"))
-                    } catch (e: FirebaseAuthInvalidCredentialsException) {
-                        result(UiState.Error("Invalid email or password"))
-                    } catch (e: Exception) {
-                        result(UiState.Error("Unknown error"))
+        if (!validateUser(email)) {
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    auth.currentUser?.uid ?: ""
+                    if (task.isSuccessful) {
+                        result(UiState.Success("Login successful"))
+                    } else {
+                        try {
+                            throw task.exception ?: java.lang.Exception("Invalid authentication")
+                        } catch (e: FirebaseAuthInvalidUserException) {
+                            result(UiState.Error("User does not exist"))
+                        } catch (e: FirebaseAuthInvalidCredentialsException) {
+                            result(UiState.Error("Invalid email or password"))
+                        } catch (e: Exception) {
+                            result(UiState.Error("Unknown error"))
+                        }
                     }
                 }
-            }
+        } else {
+            result(UiState.Error("User not an employee"))
+        }
     }
+    override fun validateUser(email : String): Boolean {
+        var isValid = false
 
-    override fun validateUser(id : String): Boolean {
-
-        val employeeRef =
-            database.collection(FireStoreCollection.EMPLOYEE).document(id)
-        val companyRef =
-            database.collection(FireStoreCollection.COMPANY).document(id)
-
-        employeeRef.get()
-            .addOnSuccessListener {
-                if (it.getString("role") != "employee") {
-                    return@addOnSuccessListener
-                }
+        val documentReference = database.collection(FireStoreCollection.EMPLOYEE).document()
+        documentReference.collection(FireStoreCollection.EMPLOYEE).whereEqualTo("email", email)
+            .get()
+            .addOnSuccessListener { document ->
+                val role = document.documents[0].get("role").toString()
+                isValid = role == "employee"
+            }
+            .addOnFailureListener {
+                isValid = false
             }
 
-        companyRef.get()
-            .addOnSuccessListener {
-                if (it.getString("role") != "employee") {
-                    return@addOnSuccessListener
-                }
-            }
-
-        return true
+        return isValid
     }
 
     override fun forgotPassword(email: String, result: (UiState<String>) -> Unit) {
@@ -119,23 +78,7 @@ class AuthRepositoryImpl(
         result()
     }
 
-//    override fun updateCompanyInformation(companyModel: CompanyModel, result: (UiState<String>) -> Unit) {
-//
-//        val documentReference = database.collection(FireStoreCollection.COMPANY).document(companyModel.id)
-//
-//        documentReference
-//            .set(companyModel)
-//            .addOnSuccessListener {
-//                result.invoke(UiState.Success("CompanyModel updated successfully"))
-//            }
-//            .addOnFailureListener {
-//                result.invoke(UiState.Error("Error updating companyModel"))
-//            }
-//    }
-
     override fun isUserLoggedIn(): Boolean {
         return auth.currentUser != null
     }
-
-
 }

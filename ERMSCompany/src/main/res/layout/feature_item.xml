@@ -29,7 +29,6 @@
             android:layout_marginBottom="16dp"
             android:text="@string/feature_name"
             app:cornerRadius="5dp"
-            android:paddingEnd="5dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

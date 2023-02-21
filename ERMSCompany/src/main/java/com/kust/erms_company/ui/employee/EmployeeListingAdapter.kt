@@ -8,24 +8,26 @@ import com.kust.erms_company.R
 import com.kust.erms_company.data.model.EmployeeModel
 import com.kust.erms_company.databinding.ItemEmployeeBinding
 
-class EmployeeListingAdapter : RecyclerView.Adapter<EmployeeListingAdapter.ViewHolder>() {
+class EmployeeListingAdapter (
+    val onItemClicked: (Int, EmployeeModel) -> Unit
+        ) : RecyclerView.Adapter<EmployeeListingAdapter.ViewHolder>() {
 
     var employees: MutableList<EmployeeModel> = arrayListOf()
 
-    private lateinit var listener: OnItemClickListener
+//    private lateinit var listener: OnItemClickListener
+//
+//    interface OnItemClickListener {
+//        fun onItemClick(position: Int)
+//    }
 
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
-    }
-
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        this.listener = listener
-    }
+//    fun setOnItemClickListener(listener: OnItemClickListener) {
+//        this.listener = listener
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView =
             ItemEmployeeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(itemView, listener)
+        return ViewHolder(itemView, /*listener*/ )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -42,7 +44,7 @@ class EmployeeListingAdapter : RecyclerView.Adapter<EmployeeListingAdapter.ViewH
         return employees.size
     }
 
-    inner class ViewHolder(private val binding: ItemEmployeeBinding, listener : OnItemClickListener) :
+    inner class ViewHolder(private val binding: ItemEmployeeBinding, /* listener : OnItemClickListener*/ ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(employee: EmployeeModel, position: Int) {
 
@@ -53,22 +55,29 @@ class EmployeeListingAdapter : RecyclerView.Adapter<EmployeeListingAdapter.ViewH
                 .into(binding.imgEmployee)
 
             binding.tvEmployeeName.text = employee.name
-            binding.tvDepartment.text = employee.designation
+            binding.tvDepartment.text = employee.jobTitle
 
             if (employee.role == "manager") {
                 binding.tvStatus.text = "Manager"
             } else {
                 binding.tvStatus.text = "Employee"
             }
-        }
 
-        init {
             binding.cardEmployee.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(position)
+                    onItemClicked(position, employees[position])
                 }
             }
         }
+
+//        init {
+//            binding.cardEmployee.setOnClickListener {
+//                val position = adapterPosition
+//                if (position != RecyclerView.NO_POSITION) {
+//                    listener.onItemClick(position)
+//                }
+//            }
+//        }
     }
 }

@@ -1,5 +1,6 @@
 package com.kust.erms_company.ui.dashboard
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,26 +13,30 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kust.erms_company.R
+import com.kust.erms_company.data.model.CompanyModel
 import com.kust.erms_company.data.model.FeatureModel
 import com.kust.erms_company.databinding.FragmentFeaturesBinding
 import com.kust.erms_company.ui.auth.AuthViewModel
 import com.kust.erms_company.ui.auth.RegistrationActivity
+import com.kust.erms_company.ui.company.CompanyViewModel
+import com.kust.erms_company.utils.UiState
+import com.kust.erms_company.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
-
-private const val ARG_PARAM1 = "param1"
 
 @AndroidEntryPoint
 class FeaturesFragment : Fragment() {
 
-    val TAG by lazy { "FeaturesFragment" }
-
     private var _binding: FragmentFeaturesBinding? = null
     private val binding get() = _binding!!
 
+    private val progressDialog : ProgressDialog by lazy {
+        ProgressDialog(requireContext())
+    }
     private val authViewModel : AuthViewModel by viewModels()
-
-    private val adapter by lazy { FeaturesAdapter() }
+    private val companyViewModel : CompanyViewModel by viewModels()
+    private var companyObj : CompanyModel? = null
+    private val adapter by lazy { FeaturesListingAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +50,10 @@ class FeaturesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        progressDialog.setMessage("Loading...")
+        progressDialog.setCancelable(false)
+        progressDialog.setCanceledOnTouchOutside(false)
+
 
         val features = mutableListOf<FeatureModel>()
 
@@ -56,14 +65,15 @@ class FeaturesFragment : Fragment() {
         features.add(FeatureModel("Logout", R.drawable.ic_logout))
 
         adapter.features = features
-
         val layout = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
-
         binding.rvFeatures.layoutManager = layout
-
         binding.rvFeatures.adapter = adapter
 
-        adapter.setOnItemClickListener(object : FeaturesAdapter.OnItemClickListener {
+        companyViewModel.getCompanyDetails
+
+        observer()
+
+        adapter.setOnItemClickListener(object : FeaturesListingAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 when (position) {
                     0 -> {
@@ -80,6 +90,9 @@ class FeaturesFragment : Fragment() {
                     }
                     4 -> {
 
+                        findNavController().navigate(R.id.action_featuresFragment_to_companyProfileFragment, Bundle().apply {
+                            putParcelable("company", companyObj)
+                        })
                     }
                     5 -> {
                         authViewModel.logout {
@@ -93,14 +106,22 @@ class FeaturesFragment : Fragment() {
         })
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String) =
-            FeaturesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
+    private fun observer () {
+        companyViewModel.getCompanyDetails.observe(viewLifecycleOwner) {
+            when (it) {
+                is UiState.Loading -> {
+                    progressDialog.show()
+                }
+                is UiState.Success -> {
+                    progressDialog.hide()
+                    companyObj = it.data[0]
+                }
+                is UiState.Error -> {
+                    progressDialog.hide()
+                    requireActivity().toast(it.error)
                 }
             }
+        }
     }
 
     override fun onDestroyView() {

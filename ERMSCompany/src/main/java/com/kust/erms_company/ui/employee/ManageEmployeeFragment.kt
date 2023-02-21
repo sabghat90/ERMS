@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kust.erms_company.R
 import com.kust.erms_company.data.model.EmployeeModel
 import com.kust.erms_company.databinding.FragmentManageEmployeeBinding
 import com.kust.erms_company.utils.UiState
@@ -24,7 +26,13 @@ class ManageEmployeeFragment : Fragment() {
 
     private val viewModel : EmployeeViewModel by viewModels()
 
-    private val adapter by lazy { EmployeeListingAdapter() }
+    private val adapter by lazy { EmployeeListingAdapter(
+        onItemClicked = {pos, employee ->
+            findNavController().navigate(R.id.action_manageEmployeeFragment_to_profileFragment, Bundle().apply {
+                putParcelable("employee", employee)
+            })
+        }
+    ) }
 
     private val progressDialog : ProgressDialog by lazy {
         ProgressDialog(requireContext())
@@ -54,11 +62,11 @@ class ManageEmployeeFragment : Fragment() {
         binding.rvEmployee.layoutManager = LinearLayoutManager(requireContext())
         binding.rvEmployee.adapter = adapter
 
-        adapter.setOnItemClickListener(object : EmployeeListingAdapter.OnItemClickListener {
-            override fun onItemClick(position: Int) {
-                toast(adapter.employees[position].toString())
-            }
-        })
+//        adapter.setOnItemClickListener(object : EmployeeListingAdapter.OnItemClickListener {
+//            override fun onItemClick(position: Int) {
+//                toast(adapter.employees[position].toString())
+//            }
+//        })
 
     }
 
@@ -72,7 +80,6 @@ class ManageEmployeeFragment : Fragment() {
                     adapter.employees = it.data as MutableList<EmployeeModel>
                     adapter.updateList(it.data.toMutableList())
                     progressDialog.dismiss()
-                    toast(it.data.toString())
                 }
                 is UiState.Error -> {
                     progressDialog.dismiss()

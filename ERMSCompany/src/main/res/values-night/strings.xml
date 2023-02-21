@@ -32,4 +32,10 @@
     <string name="feature_name">Feature Name</string>
     <string name="department">Department Name</string>
     <string name="manager">Manager</string>
+    <string name="job_title">Designation/Job Title</string>
+    <string name="basic_pay">Basic Pay</string>
+    <string name="joining_date">Joining Date</string>
+    <string name="update">update</string>
+    <string name="State">state</string>
+    <string name="select_manager">Select Manager</string>
 </resources>
