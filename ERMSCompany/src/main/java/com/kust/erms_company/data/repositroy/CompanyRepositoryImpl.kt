@@ -11,17 +11,19 @@ class CompanyRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
     private val database: FirebaseFirestore
 ) : CompanyRepository {
-
-    override fun getCompanyDetails(companyId: String, result: (UiState<CompanyModel>) -> Unit) {
-
-        auth.uid?.let { it ->
-            database.collection(FireStoreCollection.COMPANY).document(it).get()
-                .addOnSuccessListener { document ->
-                    val company = document.toObject(CompanyModel::class.java)
-                    result.invoke(UiState.Success(company!!))
-                }.addOnFailureListener {
-                    result(UiState.Error(it.message.toString()))
-                }
+    override fun getCompanyDetails(
+        companyModel: CompanyModel,
+        result: (UiState<List<CompanyModel>>) -> Unit
+    ) {
+        val id = auth.currentUser?.uid
+        val document = database.collection(FireStoreCollection.COMPANY).document(id!!)
+        document.get().addOnSuccessListener {
+            val company = it.toObject(CompanyModel::class.java)
+            val list = arrayListOf<CompanyModel>()
+            list.add(company!!)
+            result.invoke(UiState.Success(list))
+        }.addOnFailureListener {
+            result(UiState.Error(it.message.toString()))
         }
     }
 

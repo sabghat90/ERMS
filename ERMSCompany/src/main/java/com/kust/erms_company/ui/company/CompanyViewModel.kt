@@ -14,8 +14,8 @@ class CompanyViewModel @Inject constructor(
     private val repository: CompanyRepository
 ) : ViewModel() {
 
-    private val _getCompanyDetails = MutableLiveData<UiState<CompanyModel>>()
-    val getCompanyDetails: MutableLiveData<UiState<CompanyModel>>
+    private val _getCompanyDetails = MutableLiveData<UiState<List<CompanyModel>>>()
+    val getCompanyDetails: MutableLiveData<UiState<List<CompanyModel>>>
         get() = _getCompanyDetails
 
     private val _updateCompanyDetails = MutableLiveData<UiState<Pair<CompanyModel, String>>>()
@@ -23,12 +23,13 @@ class CompanyViewModel @Inject constructor(
         get() = _updateCompanyDetails
 
     init {
-
+        getCompanyDetails(CompanyModel())
     }
 
-    fun getCompanyDetails(companyId: String) {
+
+    private fun getCompanyDetails(companyModel: CompanyModel) {
         _getCompanyDetails.value = UiState.Loading
-        repository.getCompanyDetails(companyId) {
+        repository.getCompanyDetails(companyModel) {
             _getCompanyDetails.value = it
         }
     }

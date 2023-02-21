@@ -15,7 +15,7 @@
         <action
             android:id="@+id/action_featuresFragment_to_manageEmployeeFragment"
             app:destination="@id/manageEmployeeFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
+            app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
@@ -34,7 +34,9 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/featuresFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/manageEmployeeFragment"
@@ -46,7 +48,9 @@
             app:destination="@id/employeeProfileFragment" />
         <action
             android:id="@+id/action_manageEmployeeFragment_to_featuresFragment"
-            app:destination="@id/featuresFragment" />
+            app:destination="@id/featuresFragment"
+            app:popUpTo="@id/featuresFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/employeeProfileFragment"
@@ -64,6 +68,8 @@
         tools:layout="@layout/fragment_company_profile" >
         <action
             android:id="@+id/action_companyProfileFragment_to_featuresFragment"
-            app:destination="@id/featuresFragment" />
+            app:destination="@id/featuresFragment"
+            app:popUpTo="@id/featuresFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
