@@ -16,13 +16,16 @@ class EmployeeRepositoryImpl(
         employeeModel: EmployeeModel,
         result: (UiState<String>) -> Unit
     ) {
-        auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
-            val document = database.collection(FireStoreCollection.EMPLOYEE).document()
-            employeeModel.id = document.id
-            document.set(employeeModel).addOnSuccessListener {
-                result.invoke(UiState.Success("Employee registered successfully"))
-            }.addOnFailureListener {
-                result(UiState.Error(it.message.toString()))
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val id = task.result.user?.uid ?: ""
+                val document = database.collection(FireStoreCollection.EMPLOYEE).document(id)
+                employeeModel.id = document.id
+                document.set(employeeModel).addOnSuccessListener {
+                    result.invoke(UiState.Success("Employee registered successfully"))
+                }.addOnFailureListener {
+                    result(UiState.Error(it.message.toString()))
+                }
             }
         }.addOnFailureListener {
             result(UiState.Error(it.message.toString()))

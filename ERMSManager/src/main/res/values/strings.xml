@@ -31,4 +31,5 @@
     <string name="kust">KUST</string>
     <string name="basic_information">Basic Information</string>
     <string name="site_example">kust.edu.pk</string>
+    <string name="feature_name">Feature Name</string>
 </resources>

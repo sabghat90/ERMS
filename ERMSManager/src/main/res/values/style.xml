@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="h1">
+        <item name="android:fontFamily">@font/titillium_web_bold</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="h2">
+        <item name="android:fontFamily">@font/titillium_web_semibold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="body">
+        <item name="fontFamily">@font/titillium_web</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+</resources>
