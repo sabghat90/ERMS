@@ -1,4 +1,4 @@
-package com.kust.ermsmanager.ui
+package com.kust.ermsmanager.ui.auth
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

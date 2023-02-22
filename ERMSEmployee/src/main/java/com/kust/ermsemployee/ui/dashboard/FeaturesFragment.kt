@@ -19,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class FeatureFragment : Fragment() {
+class FeaturesFragment : Fragment() {
 
     private var _binding: FragmentFeatureBinding? = null
     private val binding get() = _binding!!

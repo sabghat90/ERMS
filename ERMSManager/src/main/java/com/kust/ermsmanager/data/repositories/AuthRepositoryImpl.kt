@@ -24,7 +24,7 @@ class AuthRepositoryImpl(
                                 if (document.exists()) {
                                     val employeeObj = document.toObject(EmployeeModel::class.java)
                                     if (employeeObj != null) {
-                                        if (employeeObj.role == Role.EMPLOYEE) {
+                                        if (employeeObj.role == Role.MANAGER) {
                                             result(UiState.Success("Login successful"))
                                         } else {
                                             result(UiState.Error("You are not an admin"))

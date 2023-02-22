@@ -1,10 +1,11 @@
-package com.kust.ermsmanager.ui
+package com.kust.ermsmanager.ui.auth
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.kust.ermsmanager.databinding.ActivityLoginBinding
+import com.kust.ermsmanager.ui.dashboard.DashboardActivity
 import com.kust.ermsmanager.utils.UiState
 import com.kust.ermsmanager.utils.toast
 import dagger.hilt.android.AndroidEntryPoint

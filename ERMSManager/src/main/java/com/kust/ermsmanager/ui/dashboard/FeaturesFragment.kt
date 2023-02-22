@@ -1,4 +1,4 @@
-package com.kust.ermsmanager
+package com.kust.ermsmanager.ui.dashboard
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,11 +8,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.FeatureModel
 import com.kust.ermsmanager.databinding.FragmentFeatureBinding
+import com.kust.ermsmanager.ui.dashboard.FeaturesListingAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
 
-class FeatureFragment : Fragment() {
+@AndroidEntryPoint
+class FeaturesFragment : Fragment() {
 
     private var _binding: FragmentFeatureBinding? = null
     private val binding get() = _binding!!

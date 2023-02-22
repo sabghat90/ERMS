@@ -1,4 +1,4 @@
-package com.kust.ermsmanager
+package com.kust.ermsmanager.ui.dashboard
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

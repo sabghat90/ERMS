@@ -1,4 +1,4 @@
-package com.kust.ermsmanager.ui
+package com.kust.ermsmanager.ui.dashboard
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
