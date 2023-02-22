@@ -17,7 +17,8 @@ class EmployeeRepositoryImpl(
         result: (UiState<String>) -> Unit
     ) {
         auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
-            val document = database.collection(FireStoreCollection.EMPLOYEE).document()
+            val id = it.user?.uid.toString()
+            val document = database.collection(FireStoreCollection.EMPLOYEE).document(id)
             employeeModel.id = document.id
             document.set(employeeModel).addOnSuccessListener {
                 result.invoke(UiState.Success("Employee registered successfully"))
