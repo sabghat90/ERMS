@@ -40,4 +40,5 @@
     <string name="update">update</string>
     <string name="State">state</string>
     <string name="select_manager">Select Manager</string>
+    <string name="loading">Loading...</string>
 </resources>

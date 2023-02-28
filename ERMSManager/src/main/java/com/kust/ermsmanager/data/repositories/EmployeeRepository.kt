@@ -7,6 +7,6 @@ import com.kust.ermsmanager.utils.UiState
 import javax.inject.Inject
 
 interface EmployeeRepository {
-    fun getEmployeeList(employeeModel: EmployeeModel?, result : (UiState<List<EmployeeModel>>) -> Unit)
+    fun getEmployeeList(employeeList : EmployeeModel?, result: (UiState<List<EmployeeModel>>) -> Unit)
     fun updateEmployee(employeeModel: EmployeeModel?, result : (UiState<Pair<EmployeeModel, String>>) -> Unit)
 }

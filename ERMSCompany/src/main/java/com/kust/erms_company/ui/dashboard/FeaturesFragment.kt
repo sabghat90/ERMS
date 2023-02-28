@@ -1,5 +1,6 @@
 package com.kust.erms_company.ui.dashboard
 
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -33,6 +33,7 @@ class FeaturesFragment : Fragment() {
     private val progressDialog : ProgressDialog by lazy {
         ProgressDialog(requireContext())
     }
+    private val dialog = Dialog(requireContext())
     private val authViewModel : AuthViewModel by viewModels()
     private val companyViewModel : CompanyViewModel by viewModels()
     private var companyObj : CompanyModel? = null
@@ -50,10 +51,16 @@ class FeaturesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        dialog.setContentView(R.layout.custom_dialog)
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+
         progressDialog.setMessage("Loading...")
         progressDialog.setCancelable(false)
         progressDialog.setCanceledOnTouchOutside(false)
 
+        observer()
 
         val features = mutableListOf<FeatureModel>()
 
@@ -71,7 +78,6 @@ class FeaturesFragment : Fragment() {
 
         companyViewModel.getCompanyDetails
 
-        observer()
 
         adapter.setOnItemClickListener(object : FeaturesListingAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
@@ -110,14 +116,14 @@ class FeaturesFragment : Fragment() {
         companyViewModel.getCompanyDetails.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
-                    progressDialog.show()
+                    dialog.show()
                 }
                 is UiState.Success -> {
-                    progressDialog.hide()
+                    dialog.hide()
                     companyObj = it.data[0]
                 }
                 is UiState.Error -> {
-                    progressDialog.hide()
+                    dialog.hide()
                     requireActivity().toast(it.error)
                 }
             }

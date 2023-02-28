@@ -12,40 +12,28 @@ class AuthRepositoryImpl(
     private val database: FirebaseFirestore
 ) : AuthRepository {
     override fun login(email: String, password: String, result: (UiState<String>) -> Unit) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    if (user != null) {
-                        database.collection(FireStoreCollection.EMPLOYEE)
-                            .document(user.uid)
-                            .get()
-                            .addOnSuccessListener { document ->
-                                if (document.exists()) {
-                                    val employeeObj = document.toObject(EmployeeModel::class.java)
-                                    if (employeeObj != null) {
-                                        if (employeeObj.role == Role.MANAGER) {
-                                            result(UiState.Success("Login successful"))
-                                        } else {
-                                            result(UiState.Error("You are not an admin"))
-                                        }
-                                    } else {
-                                        result(UiState.Error("Manager 1 not found"))
-                                    }
-                                } else {
-                                    result(UiState.Error("Manager 2 not found"))
-                                }
+        val documentRef = database.collection(FireStoreCollection.EMPLOYEE).document(email)
+        documentRef.get().addOnSuccessListener {
+            val employee = it.toObject(EmployeeModel::class.java)
+            if (employee != null) {
+                if (employee.role == Role.MANAGER) {
+                    auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                result(UiState.Success("Login successful"))
+                            } else {
+                                result(UiState.Error(task.exception?.message.toString()))
                             }
-                            .addOnFailureListener { exception ->
-                                result(UiState.Error(exception.message.toString()))
-                            }
-                    } else {
-                        result(UiState.Error("User not found"))
-                    }
+                        }
                 } else {
-                    result(UiState.Error(task.exception?.message.toString()))
+                    result(UiState.Error("You are not a manager"))
                 }
+            } else {
+                result(UiState.Error("User not found"))
             }
+        }.addOnFailureListener {
+            result(UiState.Error(it.message.toString()))
+        }
     }
 
     override fun forgotPassword(email: String, result: (UiState<String>) -> Unit) {
