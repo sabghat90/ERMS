@@ -93,9 +93,7 @@ class AuthRepositoryImpl(
     }
 
     override fun updateCompanyInformation(companyModel: CompanyModel, result: (UiState<String>) -> Unit) {
-
-        val documentReference = database.collection(FireStoreCollection.COMPANY).document(companyModel.id)
-
+        val documentReference = database.collection(FireStoreCollection.COMPANY).document(companyModel.email)
         documentReference
             .set(companyModel)
             .addOnSuccessListener {

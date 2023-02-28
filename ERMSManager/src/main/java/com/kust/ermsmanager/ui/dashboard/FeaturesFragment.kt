@@ -6,12 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.FeatureModel
 import com.kust.ermsmanager.databinding.FragmentFeatureBinding
+import com.kust.ermsmanager.ui.auth.AuthViewModel
 import com.kust.ermsmanager.ui.dashboard.FeaturesListingAdapter
+import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -20,6 +23,9 @@ class FeaturesFragment : Fragment() {
 
     private var _binding: FragmentFeatureBinding? = null
     private val binding get() = _binding!!
+
+    private val employeeViewModel : EmployeeViewModel by viewModels()
+    private val authViewMode : AuthViewModel by viewModels()
 
     private val adapter by lazy { FeaturesListingAdapter() }
 
@@ -65,7 +71,10 @@ class FeaturesFragment : Fragment() {
                     4 -> Toast.makeText(requireContext(), "Events", Toast.LENGTH_SHORT).show()
                     5 -> Toast.makeText(requireContext(), "Setting", Toast.LENGTH_SHORT).show()
                     6 -> Toast.makeText(requireContext(), "Profile", Toast.LENGTH_SHORT).show()
-                    7 -> Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()
+                    7 -> {
+                        Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()
+                        authViewMode.logout()
+                    }
                 }
             }
         })

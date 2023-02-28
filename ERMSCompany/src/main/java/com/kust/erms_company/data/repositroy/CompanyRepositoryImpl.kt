@@ -15,8 +15,8 @@ class CompanyRepositoryImpl @Inject constructor(
         companyModel: CompanyModel,
         result: (UiState<List<CompanyModel>>) -> Unit
     ) {
-        val id = auth.currentUser?.uid
-        val document = database.collection(FireStoreCollection.COMPANY).document(id!!)
+        val email = auth.currentUser?.email
+        val document = database.collection(FireStoreCollection.COMPANY).document(email!!)
         document.get().addOnSuccessListener {
             val company = it.toObject(CompanyModel::class.java)
             val list = arrayListOf<CompanyModel>()
@@ -32,7 +32,7 @@ class CompanyRepositoryImpl @Inject constructor(
         companyModel: CompanyModel,
         result: (UiState<Pair<CompanyModel, String>>) -> Unit
     ) {
-        val document = database.collection(FireStoreCollection.COMPANY).document(companyId)
+        val document = database.collection(FireStoreCollection.COMPANY).document(companyModel.email)
         document.set(companyModel).addOnSuccessListener {
             result.invoke(UiState.Success(Pair(companyModel, "Company updated successfully")))
         }.addOnFailureListener {

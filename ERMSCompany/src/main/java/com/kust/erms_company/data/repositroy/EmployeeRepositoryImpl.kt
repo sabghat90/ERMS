@@ -18,7 +18,7 @@ class EmployeeRepositoryImpl(
     ) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val id = task.result.user?.uid ?: ""
+                val id = employeeModel.email
                 val document = database.collection(FireStoreCollection.EMPLOYEE).document(id)
                 employeeModel.id = document.id
                 document.set(employeeModel).addOnSuccessListener {
@@ -36,7 +36,7 @@ class EmployeeRepositoryImpl(
         employeeModel: EmployeeModel,
         result: (UiState<Pair<EmployeeModel, String>>) -> Unit
     ) {
-        val document = database.collection(FireStoreCollection.EMPLOYEE).document(employeeModel.id)
+        val document = database.collection(FireStoreCollection.EMPLOYEE).document(employeeModel.email)
         document.set(employeeModel).addOnSuccessListener {
             result.invoke(UiState.Success(Pair(employeeModel, "Employee updated successfully")))
         }.addOnFailureListener {
@@ -45,7 +45,7 @@ class EmployeeRepositoryImpl(
     }
 
     override fun deleteEmployee(employeeModel: EmployeeModel, result: (UiState<String>) -> Unit) {
-        val document = database.collection(FireStoreCollection.EMPLOYEE).document(employeeModel.id)
+        val document = database.collection(FireStoreCollection.EMPLOYEE).document(employeeModel.email)
         document.delete().addOnSuccessListener {
             result.invoke(UiState.Success("Employee deleted successfully"))
         }.addOnFailureListener {
