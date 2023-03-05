@@ -46,30 +46,15 @@
         <action
             android:id="@+id/action_manageEmployeeFragment_to_profileFragment"
             app:destination="@id/employeeProfileFragment" />
-        <action
-            android:id="@+id/action_manageEmployeeFragment_to_featuresFragment"
-            app:destination="@id/featuresFragment"
-            app:popUpTo="@id/featuresFragment"
-            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/employeeProfileFragment"
         android:name="com.kust.erms_company.ui.employee_profile.EmployeeProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_employee_profile" >
-        <action
-            android:id="@+id/action_employeeProfileFragment_to_manageEmployeeFragment"
-            app:destination="@id/manageEmployeeFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_employee_profile" />
     <fragment
         android:id="@+id/companyProfileFragment"
         android:name="com.kust.erms_company.ui.company.CompanyProfileFragment"
         android:label="fragment_company_profile"
-        tools:layout="@layout/fragment_company_profile" >
-        <action
-            android:id="@+id/action_companyProfileFragment_to_featuresFragment"
-            app:destination="@id/featuresFragment"
-            app:popUpTo="@id/featuresFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+        tools:layout="@layout/fragment_company_profile" />
 </navigation>
