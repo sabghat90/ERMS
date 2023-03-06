@@ -1,5 +1,6 @@
 package com.kust.erms_company.ui.company
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kust.erms_company.data.model.CompanyModel
@@ -15,11 +16,11 @@ class CompanyViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _getCompanyDetails = MutableLiveData<UiState<List<CompanyModel>>>()
-    val getCompanyDetails: MutableLiveData<UiState<List<CompanyModel>>>
+    val getCompanyDetails: LiveData<UiState<List<CompanyModel>>>
         get() = _getCompanyDetails
 
     private val _updateCompanyDetails = MutableLiveData<UiState<Pair<CompanyModel, String>>>()
-    val updateCompanyDetails: MutableLiveData<UiState<Pair<CompanyModel, String>>>
+    val updateCompanyDetails: LiveData<UiState<Pair<CompanyModel, String>>>
         get() = _updateCompanyDetails
 
     init {
