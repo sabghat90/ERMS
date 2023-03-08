@@ -11,17 +11,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.erms_company.R
 import com.kust.erms_company.data.model.EmployeeModel
-import com.kust.erms_company.databinding.FragmentManageEmployeeBinding
+import com.kust.erms_company.databinding.FragmentEmployeeListingBinding
 import com.kust.erms_company.utils.UiState
 import com.kust.erms_company.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
-class ManageEmployeeFragment : Fragment() {
+class EmployeeListingFragment : Fragment() {
 
-    private val TAG = "ManageEmployeeFragment"
-    private var _binding : FragmentManageEmployeeBinding? = null
+    private val TAG = "EmployeeListingFragment"
+    private var _binding : FragmentEmployeeListingBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel : EmployeeViewModel by viewModels()
@@ -45,7 +45,7 @@ class ManageEmployeeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentManageEmployeeBinding.inflate(inflater, container, false)
+        _binding = FragmentEmployeeListingBinding.inflate(inflater, container, false)
 
         progressDialog.setMessage("Loading...")
         progressDialog.setCancelable(false)
