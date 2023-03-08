@@ -22,6 +22,10 @@ class EmployeeViewModel @Inject constructor(
     val updateEmployee : LiveData<UiState<Pair<EmployeeModel, String>>>
         get() = _updateEmployee
 
+    init {
+        getEmployeeList(EmployeeModel())
+    }
+
     private fun getEmployeeList(employeeModel: EmployeeModel) {
         _getEmployeeList.value = UiState.Loading
         employeeRepository.getEmployeeList(employeeModel) {

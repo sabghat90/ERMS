@@ -1,5 +1,6 @@
 package com.kust.ermsmanager.ui.auth
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kust.ermsmanager.data.repositories.AuthRepository
@@ -13,13 +14,24 @@ class AuthViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _login = MutableLiveData<UiState<String>>()
-    val login = _login
+    val login : LiveData<UiState<String>>
+        get() = _login
 
     private val _forgotPassword = MutableLiveData<UiState<String>>()
-    val forgotPassword = _forgotPassword
+    val forgotPassword : LiveData<UiState<String>>
+        get() = _forgotPassword
 
     private val _logout = MutableLiveData<UiState<String>>()
-    val logout = _logout
+    val logout : LiveData<UiState<String>>
+        get() = _logout
+
+    private val _isUserLoggedIn = MutableLiveData<Boolean>()
+    val isUserLoggedIn : LiveData<Boolean>
+        get() = _isUserLoggedIn
+
+    init {
+        _isUserLoggedIn.value = authRepository.isUserLoggedIn()
+    }
 
     fun login(email : String, password : String){
         authRepository.login(email, password) {
@@ -33,9 +45,8 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun logout(){
-        authRepository.logout {
-            _logout.value = UiState.Success("Logout Success")
-        }
+    fun logout (result : () -> Unit) {
+        authRepository.logout(result)
+        _login.value = UiState.Success("Logout Successful")
     }
 }

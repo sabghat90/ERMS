@@ -1,5 +1,6 @@
 package com.kust.ermsmanager.ui.dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.FeatureModel
 import com.kust.ermsmanager.databinding.FragmentFeatureBinding
 import com.kust.ermsmanager.ui.auth.AuthViewModel
+import com.kust.ermsmanager.ui.auth.LoginActivity
 import com.kust.ermsmanager.ui.dashboard.FeaturesListingAdapter
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +28,7 @@ class FeaturesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val employeeViewModel : EmployeeViewModel by viewModels()
-    private val authViewMode : AuthViewModel by viewModels()
+    private val authViewModel : AuthViewModel by viewModels()
 
     private val adapter by lazy { FeaturesListingAdapter() }
 
@@ -64,7 +67,9 @@ class FeaturesFragment : Fragment() {
         adapter.setOnItemClickListener(object : FeaturesListingAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 when (position) {
-                    0 -> Toast.makeText(requireContext(), "View Employees", Toast.LENGTH_SHORT).show()
+                    0 -> {
+                        findNavController().navigate(R.id.action_featureFragment_to_employeeListingFragment)
+                    }
                     1 -> Toast.makeText(requireContext(), "Manage Employee", Toast.LENGTH_SHORT).show()
                     2 -> Toast.makeText(requireContext(), "Mark Attendance", Toast.LENGTH_SHORT).show()
                     3 -> Toast.makeText(requireContext(), "Task", Toast.LENGTH_SHORT).show()
@@ -72,8 +77,11 @@ class FeaturesFragment : Fragment() {
                     5 -> Toast.makeText(requireContext(), "Setting", Toast.LENGTH_SHORT).show()
                     6 -> Toast.makeText(requireContext(), "Profile", Toast.LENGTH_SHORT).show()
                     7 -> {
-                        Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()
-                        authViewMode.logout()
+                        authViewModel.logout() {
+                            val intent = Intent(requireContext(), LoginActivity::class.java)
+                            startActivity(intent)
+                            requireActivity().finish()
+                        }
                     }
                 }
             }
