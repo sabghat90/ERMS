@@ -3,6 +3,7 @@ package com.kust.ermsmanager.data.repositories
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kust.ermsmanager.data.models.EmployeeModel
+import com.kust.ermsmanager.utils.FireStoreCollection
 import com.kust.ermsmanager.utils.UiState
 import javax.inject.Inject
 
@@ -14,10 +15,10 @@ class EmployeeRepositoryImpl @Inject constructor(
         employeeModel: EmployeeModel?,
         result: (UiState<List<EmployeeModel>>) -> Unit
     ) {
-        val docRef = database.collection("employee")
+        val docRef = database.collection(FireStoreCollection.EMPLOYEE)
         docRef.get()
             .addOnSuccessListener { documents ->
-                val employeeList = mutableListOf<EmployeeModel>()
+                val employeeList = arrayListOf<EmployeeModel>()
                 for (document in documents) {
                     val employee = document.toObject(EmployeeModel::class.java)
                     employeeList.add(employee)

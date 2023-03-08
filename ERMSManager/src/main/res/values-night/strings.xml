@@ -31,4 +31,9 @@
     <string name="basic_information">Basic Information</string>
     <string name="feature_name">Feature Name</string>
     <string name="loading">Loading...</string>
+    <string name="confirm">Confirm</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="department">Department</string>
+    <string name="manager">Manager</string>
 </resources>

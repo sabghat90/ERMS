@@ -33,11 +33,11 @@ class FeaturesFragment : Fragment() {
     private val progressDialog : ProgressDialog by lazy {
         ProgressDialog(requireContext())
     }
-    private val dialog = Dialog(requireContext())
     private val authViewModel : AuthViewModel by viewModels()
     private val companyViewModel : CompanyViewModel by viewModels()
     private var companyObj : CompanyModel? = null
     private val adapter by lazy { FeaturesListingAdapter() }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,10 +51,6 @@ class FeaturesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        dialog.setContentView(R.layout.custom_dialog)
-        dialog.setCancelable(false)
-        dialog.setCanceledOnTouchOutside(false)
 
         progressDialog.setMessage("Loading...")
         progressDialog.setCancelable(false)
@@ -116,14 +112,14 @@ class FeaturesFragment : Fragment() {
         companyViewModel.getCompanyDetails.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
-                    dialog.show()
+                    progressDialog.show()
                 }
                 is UiState.Success -> {
-                    dialog.hide()
+                    progressDialog.hide()
                     companyObj = it.data[0]
                 }
                 is UiState.Error -> {
-                    dialog.hide()
+                    progressDialog.hide()
                     requireActivity().toast(it.error)
                 }
             }

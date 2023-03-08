@@ -7,54 +7,66 @@
     <fragment
         android:id="@+id/featuresFragment"
         android:name="com.kust.erms_company.ui.dashboard.FeaturesFragment"
-        android:label="fragment_features"
-        tools:layout="@layout/fragment_features" >
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_features">
         <action
             android:id="@+id/action_featuresFragment_to_addEmployeeFragment"
-            app:destination="@id/addEmployeeFragment" />
+            app:destination="@id/addEmployeeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_featuresFragment_to_manageEmployeeFragment"
             app:destination="@id/manageEmployeeFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_featuresFragment_to_companyProfileFragment"
-            app:destination="@id/companyProfileFragment" />
+            app:destination="@id/companyProfileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/addEmployeeFragment"
         android:name="com.kust.erms_company.ui.employee.AddEmployeeFragment"
-        android:label="fragment_add_employee"
-        tools:layout="@layout/fragment_add_employee" >
+        android:label="@string/add_employee"
+        tools:layout="@layout/fragment_add_employee">
         <action
             android:id="@+id/action_addEmployeeFragment_to_featuresFragment"
             app:destination="@id/featuresFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/featuresFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/manageEmployeeFragment"
         android:name="com.kust.erms_company.ui.employee.ManageEmployeeFragment"
-        android:label="fragment_manage_employee"
-        tools:layout="@layout/fragment_manage_employee" >
+        android:label="Manage Employee"
+        tools:layout="@layout/fragment_manage_employee">
         <action
             android:id="@+id/action_manageEmployeeFragment_to_profileFragment"
-            app:destination="@id/employeeProfileFragment" />
+            app:destination="@id/employeeProfileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/employeeProfileFragment"
         android:name="com.kust.erms_company.ui.employee_profile.EmployeeProfileFragment"
-        android:label="fragment_profile"
+        android:label="Employee Profile"
         tools:layout="@layout/fragment_employee_profile" />
     <fragment
         android:id="@+id/companyProfileFragment"
         android:name="com.kust.erms_company.ui.company.CompanyProfileFragment"
-        android:label="fragment_company_profile"
+        android:label="Company Profile"
         tools:layout="@layout/fragment_company_profile" />
 </navigation>

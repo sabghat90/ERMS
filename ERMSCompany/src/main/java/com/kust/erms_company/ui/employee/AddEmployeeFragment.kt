@@ -35,11 +35,6 @@ class AddEmployeeFragment : Fragment() {
     ): View {
         _binding = FragmentAddEmployeeBinding.inflate(inflater, container, false)
 
-        binding.toolbar.setNavigationOnClickListener {
-            findNavController().navigateUp()
-        }
-        binding.toolbar.title = "Add Employee"
-
         return binding.root
     }
 

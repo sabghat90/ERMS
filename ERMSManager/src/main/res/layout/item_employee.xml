@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_employee"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:clickable="true"
+    android:elevation="10dp"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:padding="10dp"
+    app:strokeColor="@color/md_theme_light_primary"
+    app:strokeWidth="2dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_employee"
+            android:layout_width="120dp"
+            app:civ_border_width="1dp"
+            android:layout_height="120dp"
+            android:src="@drawable/avatar6" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="10dp"
+            android:layout_toEndOf="@id/img_employee"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_employee_name"
+                style="@style/h1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/kust" />
+
+            <TextView
+                android:id="@+id/tv_department"
+                style="@style/body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/department" />
+
+            <TextView
+                android:id="@+id/tv_status"
+                style="@style/body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/manager" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

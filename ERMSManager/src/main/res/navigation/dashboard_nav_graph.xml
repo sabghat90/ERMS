@@ -9,5 +9,14 @@
         android:id="@+id/featureFragment"
         android:name="com.kust.ermsmanager.ui.dashboard.FeaturesFragment"
         android:label="fragment_feature"
-        tools:layout="@layout/fragment_feature" />
+        tools:layout="@layout/fragment_feature" >
+        <action
+            android:id="@+id/action_featureFragment_to_employeeListingFragment"
+            app:destination="@id/employeeListingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/employeeListingFragment"
+        android:name="com.kust.ermsmanager.ui.employee.EmployeeListingFragment"
+        android:label="fragment_employee_listing"
+        tools:layout="@layout/fragment_employee_listing" />
 </navigation>
