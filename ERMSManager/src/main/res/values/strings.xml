@@ -21,8 +21,8 @@
     <string name="secondary_text">Please add an employee to the company.</string>
     <string name="nested_scroll_view">Nested Scroll View Description</string>
     <string name="name">Name</string>
-    <string name="add_employee">Add Employee</string>
-    <string name="add_emp_sub_heading">Please provide the employee information to register in the company, and Get Started.</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sub_heading">Please provide your information to register, and Get Started.</string>
     <string name="cnic_employee_id">CNIC / Employee ID</string>
     <string name="website">Website</string>
     <string name="email_example">example@gmail.com</string>
@@ -38,4 +38,6 @@
     <string name="no">No</string>
     <string name="department">Department</string>
     <string name="manager">Manager</string>
+    <string name="job_title">Job Title</string>
+    <string name="joining_date">Joining Date</string>
 </resources>

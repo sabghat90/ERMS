@@ -20,6 +20,8 @@ import com.kust.erms_company.ui.auth.AuthViewModel
 import com.kust.erms_company.ui.auth.RegistrationActivity
 import com.kust.erms_company.ui.company.CompanyViewModel
 import com.kust.erms_company.utils.UiState
+import com.kust.erms_company.utils.hide
+import com.kust.erms_company.utils.show
 import com.kust.erms_company.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,9 +32,6 @@ class FeaturesFragment : Fragment() {
     private var _binding: FragmentFeaturesBinding? = null
     private val binding get() = _binding!!
 
-    private val progressDialog : ProgressDialog by lazy {
-        ProgressDialog(requireContext())
-    }
     private val authViewModel : AuthViewModel by viewModels()
     private val companyViewModel : CompanyViewModel by viewModels()
     private var companyObj : CompanyModel? = null
@@ -51,11 +50,6 @@ class FeaturesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        progressDialog.setMessage("Loading...")
-        progressDialog.setCancelable(false)
-        progressDialog.setCanceledOnTouchOutside(false)
-
         observer()
 
         val features = mutableListOf<FeatureModel>()
@@ -73,7 +67,6 @@ class FeaturesFragment : Fragment() {
         binding.rvFeatures.adapter = adapter
 
         companyViewModel.getCompanyDetails
-
 
         adapter.setOnItemClickListener(object : FeaturesListingAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
@@ -109,20 +102,31 @@ class FeaturesFragment : Fragment() {
     }
 
     private fun observer () {
-        companyViewModel.getCompanyDetails.observe(viewLifecycleOwner) {
-            when (it) {
+        companyViewModel.getCompanyDetails.observe(viewLifecycleOwner) { state ->
+            when (state) {
                 is UiState.Loading -> {
-                    progressDialog.show()
+                    isMakeUiVisible(false)
+                    binding.progressBar.show()
                 }
                 is UiState.Success -> {
-                    progressDialog.hide()
-                    companyObj = it.data[0]
+                    isMakeUiVisible(true)
+                    binding.progressBar.hide()
+                    companyObj = state.data[0]
                 }
                 is UiState.Error -> {
-                    progressDialog.hide()
-                    requireActivity().toast(it.error)
+                    isMakeUiVisible(false)
+                    binding.progressBar.hide()
+                    requireActivity().toast(state.error)
                 }
             }
+        }
+    }
+
+    private fun isMakeUiVisible(isDisable : Boolean) {
+        if (isDisable) {
+            binding.rvFeatures.visibility = View.VISIBLE
+        } else {
+            binding.rvFeatures.visibility = View.GONE
         }
     }
 

@@ -16,15 +16,13 @@ class EmployeeRepositoryImpl(
         employeeModel: EmployeeModel,
         result: (UiState<String>) -> Unit
     ) {
-        val localAuth : FirebaseAuth = FirebaseAuth.getInstance()
-        localAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val id = employeeModel.email
                 val document = database.collection(FireStoreCollection.EMPLOYEE).document(id)
                 employeeModel.id = document.id
                 document.set(employeeModel).addOnSuccessListener {
                     result.invoke(UiState.Success("Employee registered successfully"))
-                    localAuth.signOut()
                 }.addOnFailureListener {
                     result(UiState.Error(it.message.toString()))
                 }
