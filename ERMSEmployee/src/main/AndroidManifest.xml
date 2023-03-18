@@ -9,23 +9,29 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:name=".MyApplication"
+        android:name=".EmployeeApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Base.ERMS">
         <activity
-            android:name=".ui.dashboard.DashboardActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.auth.LoginActivity"
-            android:exported="true">
+            android:name=".ui.auth.AuthActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".ui.dashboard.DashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.auth.LoginActivity"
+            android:exported="true">
+
         </activity>
 
         <meta-data

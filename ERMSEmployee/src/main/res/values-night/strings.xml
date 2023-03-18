@@ -30,4 +30,8 @@
     <string name="kust">KUST</string>
     <string name="basic_information">Basic Information</string>
     <string name="feature_name">Feature Name</string>
+    <string name="employee_registration">Employee Registration</string>
+    <string name="enter_your_credential">Please Enter Your Credential To Get Started</string>
+    <string name="joining_date">Joining Date</string>
+    <string name="gender">Gender</string>
 </resources>

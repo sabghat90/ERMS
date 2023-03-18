@@ -15,8 +15,6 @@ import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.FeatureModel
 import com.kust.ermsmanager.databinding.FragmentFeatureBinding
 import com.kust.ermsmanager.ui.auth.AuthViewModel
-import com.kust.ermsmanager.ui.auth.LoginActivity
-import com.kust.ermsmanager.ui.dashboard.FeaturesListingAdapter
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

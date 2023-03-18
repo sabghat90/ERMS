@@ -9,3 +9,7 @@ object FirebaseStorageConstants {
     const val COMPANY_PROFILE = "company_profile"
     const val EMPLOYEE_PROFILE = "employee_profile"
 }
+
+object Role {
+    const val EMPLOYEE = "employee"
+}

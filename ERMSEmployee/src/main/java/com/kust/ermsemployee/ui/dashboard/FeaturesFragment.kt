@@ -10,11 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.kust.ermsemployee.R
 import com.kust.ermsemployee.data.model.FeatureModel
 import com.kust.ermsemployee.databinding.FragmentFeatureBinding
+import com.kust.ermsemployee.ui.auth.AuthActivity
 import com.kust.ermsemployee.ui.auth.AuthViewModel
-import com.kust.ermsemployee.ui.auth.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -92,7 +93,7 @@ class FeaturesFragment : Fragment() {
                         Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()
                         // Logout
                         authViewModel.logout {
-                            val intent = Intent(requireContext(), LoginActivity::class.java)
+                            val intent = Intent(requireContext(), AuthActivity::class.java)
                             intent.flags =
                                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
