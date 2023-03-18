@@ -16,6 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Base.ERMS">
         <activity
+            android:name=".ui.auth.RegistrationActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ui.dashboard.DashboardActivity"
             android:exported="false" />
         <activity
