@@ -34,22 +34,12 @@ class EmployeeListingFragment : Fragment() {
         }
     ) }
 
-    private val progressDialog : ProgressDialog by lazy {
-        ProgressDialog(requireContext())
-    }
-
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentEmployeeListingBinding.inflate(inflater, container, false)
-
-        progressDialog.setMessage("Loading...")
-        progressDialog.setCancelable(false)
-        progressDialog.setCanceledOnTouchOutside(false)
 
         return binding.root
     }
@@ -74,15 +64,17 @@ class EmployeeListingFragment : Fragment() {
         viewModel.getEmployeeList.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
-                    progressDialog.show()
+                    binding.shimmerLayout.startShimmer()
                 }
                 is UiState.Success -> {
                     adapter.employees = it.data as MutableList<EmployeeModel>
                     adapter.updateList(it.data.toMutableList())
-                    progressDialog.dismiss()
+                    binding.shimmerLayout.stopShimmer()
+                    binding.shimmerLayout.visibility = View.GONE
+                    binding.rvEmployee.visibility = View.VISIBLE
                 }
                 is UiState.Error -> {
-                    progressDialog.dismiss()
+                    binding.shimmerLayout.stopShimmer()
                     toast(it.error)
                 }
             }
