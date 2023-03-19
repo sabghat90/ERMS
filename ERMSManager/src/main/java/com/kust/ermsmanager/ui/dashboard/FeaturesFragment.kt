@@ -15,6 +15,7 @@ import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.FeatureModel
 import com.kust.ermsmanager.databinding.FragmentFeatureBinding
 import com.kust.ermsmanager.ui.auth.AuthViewModel
+import com.kust.ermsmanager.ui.auth.RegistrationActivity
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -76,7 +77,7 @@ class FeaturesFragment : Fragment() {
                     6 -> Toast.makeText(requireContext(), "Profile", Toast.LENGTH_SHORT).show()
                     7 -> {
                         authViewModel.logout() {
-                            val intent = Intent(requireContext(), LoginActivity::class.java)
+                            val intent = Intent(requireContext(), RegistrationActivity::class.java)
                             startActivity(intent)
                             requireActivity().finish()
                         }

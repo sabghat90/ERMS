@@ -42,6 +42,10 @@ class FeaturesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.shimmerLayout.stopShimmer()
+        binding.shimmerLayout.visibility = View.GONE
+
+        binding.rvFeatures.visibility = View.VISIBLE
 
         val features = mutableListOf<FeatureModel>()
 
@@ -56,7 +60,7 @@ class FeaturesFragment : Fragment() {
 
         adapter.features = features
 
-        val layout = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+        val layout = LinearLayoutManager(requireContext())
 
         binding.rvFeatures.layoutManager = layout
 
