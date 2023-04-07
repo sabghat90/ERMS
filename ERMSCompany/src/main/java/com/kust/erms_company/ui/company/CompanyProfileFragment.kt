@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.kust.erms_company.data.model.CompanyModel
 import com.kust.erms_company.databinding.FragmentCompanyProfileBinding
+import com.kust.erms_company.databinding.ViewProfileBinding
 import com.kust.erms_company.utils.UiState
 import com.kust.erms_company.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,8 +37,6 @@ class CompanyProfileFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentCompanyProfileBinding.inflate(inflater, container, false)
-
-
 
         return binding.root
     }
@@ -79,7 +78,7 @@ class CompanyProfileFragment : Fragment() {
 
     private fun updateUi() {
         companyObj = arguments?.getParcelable("company")!!
-        binding.apply {
+        binding.profileView.apply {
             companyName.text = companyObj.name
             tvEmail.text = companyObj.email
             tvPhone.text = companyObj.phone

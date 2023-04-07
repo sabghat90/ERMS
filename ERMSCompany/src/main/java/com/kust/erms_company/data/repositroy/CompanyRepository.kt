@@ -5,7 +5,6 @@ import com.kust.erms_company.utils.UiState
 
 interface CompanyRepository {
     fun getCompanyDetails(companyModel: CompanyModel, result: (UiState<List<CompanyModel>>) -> Unit)
-
     fun updateCompanyDetails(
         companyId: String,
         companyModel: CompanyModel,

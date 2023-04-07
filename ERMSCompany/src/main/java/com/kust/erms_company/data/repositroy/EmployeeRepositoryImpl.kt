@@ -22,7 +22,8 @@ class EmployeeRepositoryImpl(
         dbRef.update(
             "companyId", companyId,
             "department", employeeModel.department,
-            "salary", employeeModel.salary
+            "salary", employeeModel.salary,
+            "joiningDate", employeeModel.joiningDate
         )
             .addOnSuccessListener {
                 result.invoke(UiState.Success(Pair(employeeModel, "Employee added successfully")))

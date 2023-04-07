@@ -38,4 +38,5 @@
     <string name="manager">Manager</string>
     <string name="job_title">Job Title</string>
     <string name="joining_date">Joining Date</string>
+    <string name="welcome_message">Welcome Back Manager!</string>
 </resources>

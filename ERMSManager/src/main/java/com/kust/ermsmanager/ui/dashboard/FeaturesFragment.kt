@@ -15,7 +15,7 @@ import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.FeatureModel
 import com.kust.ermsmanager.databinding.FragmentFeatureBinding
 import com.kust.ermsmanager.ui.auth.AuthViewModel
-import com.kust.ermsmanager.ui.auth.RegistrationActivity
+import com.kust.ermsmanager.ui.auth.LoginActivity
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -57,7 +57,7 @@ class FeaturesFragment : Fragment() {
 
         adapter.features = features
 
-        val layout = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+        val layout = LinearLayoutManager(requireContext())
 
         binding.rvFeature.layoutManager = layout
 
@@ -71,13 +71,15 @@ class FeaturesFragment : Fragment() {
                     }
                     1 -> Toast.makeText(requireContext(), "Manage Employee", Toast.LENGTH_SHORT).show()
                     2 -> Toast.makeText(requireContext(), "Mark Attendance", Toast.LENGTH_SHORT).show()
-                    3 -> Toast.makeText(requireContext(), "Task", Toast.LENGTH_SHORT).show()
+                    3 -> {
+                        findNavController().navigate(R.id.action_featureFragment_to_taskListingFragment)
+                    }
                     4 -> Toast.makeText(requireContext(), "Events", Toast.LENGTH_SHORT).show()
                     5 -> Toast.makeText(requireContext(), "Setting", Toast.LENGTH_SHORT).show()
                     6 -> Toast.makeText(requireContext(), "Profile", Toast.LENGTH_SHORT).show()
                     7 -> {
                         authViewModel.logout() {
-                            val intent = Intent(requireContext(), RegistrationActivity::class.java)
+                            val intent = Intent(requireContext(), LoginActivity::class.java)
                             startActivity(intent)
                             requireActivity().finish()
                         }

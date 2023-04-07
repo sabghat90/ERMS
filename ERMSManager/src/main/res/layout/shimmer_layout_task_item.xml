@@ -7,49 +7,43 @@
     android:layout_margin="10dp"
     android:clickable="true"
     android:elevation="10dp"
-    app:cardCornerRadius="6dp"
     android:focusable="true"
-    android:padding="15dp">
+    android:padding="15dp"
+    app:cardCornerRadius="6dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/img_employee"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/avatar6" />
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_margin="10dp"
-            android:layout_toEndOf="@id/img_employee"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_employee_name"
+                android:id="@+id/tv_task_name"
                 style="@style/h1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/kust" />
+                android:background="@color/shimmer_effect" />
 
             <TextView
-                android:id="@+id/tv_department"
+                android:id="@+id/tv_task_description"
                 style="@style/body"
-                android:layout_width="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/department" />
+                android:background="@color/shimmer_effect" />
 
             <TextView
-                android:id="@+id/tv_status"
+                android:id="@+id/tv_task_status"
                 style="@style/body"
-                android:layout_width="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/manager" />
+                android:background="@color/shimmer_effect" />
 
         </LinearLayout>
 
