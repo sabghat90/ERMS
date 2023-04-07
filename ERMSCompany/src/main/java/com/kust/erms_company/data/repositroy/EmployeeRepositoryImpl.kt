@@ -7,36 +7,37 @@ import com.kust.erms_company.utils.FireStoreCollection
 import com.kust.erms_company.utils.UiState
 
 class EmployeeRepositoryImpl(
-    private val auth: FirebaseAuth,
+    auth: FirebaseAuth,
     private val database: FirebaseFirestore
 ) : EmployeeRepository {
-    override fun registerEmployee(
+
+    private val companyId = auth.currentUser?.uid
+
+    override fun addEmployee(
         email: String,
-        password: String,
         employeeModel: EmployeeModel,
-        result: (UiState<String>) -> Unit
+        result: (UiState<Pair<EmployeeModel, String>>) -> Unit
     ) {
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val id = employeeModel.email
-                val document = database.collection(FireStoreCollection.EMPLOYEE).document(id)
-                employeeModel.id = document.id
-                document.set(employeeModel).addOnSuccessListener {
-                    result.invoke(UiState.Success("Employee registered successfully"))
-                }.addOnFailureListener {
-                    result(UiState.Error(it.message.toString()))
-                }
+        val dbRef = database.collection(FireStoreCollection.EMPLOYEE).document(employeeModel.email)
+        dbRef.update(
+            "companyId", companyId,
+            "department", employeeModel.department,
+            "salary", employeeModel.salary
+        )
+            .addOnSuccessListener {
+                result.invoke(UiState.Success(Pair(employeeModel, "Employee added successfully")))
             }
-        }.addOnFailureListener {
-            result(UiState.Error(it.message.toString()))
-        }
+            .addOnFailureListener {
+                result.invoke(UiState.Error(it.message.toString()))
+            }
     }
 
     override fun updateEmployee(
         employeeModel: EmployeeModel,
         result: (UiState<Pair<EmployeeModel, String>>) -> Unit
     ) {
-        val document = database.collection(FireStoreCollection.EMPLOYEE).document(employeeModel.email)
+        val document =
+            database.collection(FireStoreCollection.EMPLOYEE).document(employeeModel.email)
         document.set(employeeModel).addOnSuccessListener {
             result.invoke(UiState.Success(Pair(employeeModel, "Employee updated successfully")))
         }.addOnFailureListener {
@@ -45,7 +46,8 @@ class EmployeeRepositoryImpl(
     }
 
     override fun deleteEmployee(employeeModel: EmployeeModel, result: (UiState<String>) -> Unit) {
-        val document = database.collection(FireStoreCollection.EMPLOYEE).document(employeeModel.email)
+        val document =
+            database.collection(FireStoreCollection.EMPLOYEE).document(employeeModel.email)
         document.delete().addOnSuccessListener {
             result.invoke(UiState.Success("Employee deleted successfully"))
         }.addOnFailureListener {
@@ -53,16 +55,23 @@ class EmployeeRepositoryImpl(
         }
     }
 
-    override fun getEmployeeList(employeeList: EmployeeModel?, result: (UiState<List<EmployeeModel>>) -> Unit) {
-        database.collection(FireStoreCollection.EMPLOYEE).get().addOnSuccessListener {
-            val list = arrayListOf<EmployeeModel>()
-            for (document in it) {
-                val employee = document.toObject(EmployeeModel::class.java)
-                list.add(employee)
+    override fun getEmployeeList(
+        employeeList: EmployeeModel?,
+        result: (UiState<List<EmployeeModel>>) -> Unit
+    ) {
+
+        database.collection(FireStoreCollection.EMPLOYEE)
+            .whereEqualTo("companyId", companyId)
+            .get()
+            .addOnSuccessListener {
+                val list = arrayListOf<EmployeeModel>()
+                for (document in it) {
+                    val employee = document.toObject(EmployeeModel::class.java)
+                    list.add(employee)
+                }
+                result.invoke(UiState.Success(list))
+            }.addOnFailureListener {
+                result(UiState.Error(it.message.toString()))
             }
-            result.invoke(UiState.Success(list))
-        }.addOnFailureListener {
-            result(UiState.Error(it.message.toString()))
-        }
     }
 }

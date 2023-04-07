@@ -14,9 +14,9 @@ class EmployeeViewModel @Inject constructor(
     private val employeeRepository: EmployeeRepository
 ) : ViewModel() {
 
-    private val _registerEmployee = MutableLiveData<UiState<String>>()
-    val registerEmployee : LiveData<UiState<String>>
-        get() = _registerEmployee
+    private val _addEmployee = MutableLiveData<UiState<Pair<EmployeeModel, String>>>()
+    val registerEmployee : LiveData<UiState<Pair<EmployeeModel, String>>>
+        get() = _addEmployee
 
     private val _updateEmployee = MutableLiveData<UiState<Pair<EmployeeModel, String>>>()
     val updateEmployee : LiveData<UiState<Pair<EmployeeModel, String>>>
@@ -34,10 +34,10 @@ class EmployeeViewModel @Inject constructor(
         getEmployee(EmployeeModel())
     }
 
-    fun registerEmployee(email : String, password: String, employeeModel: EmployeeModel) {
-        _registerEmployee.value = UiState.Loading
-        employeeRepository.registerEmployee(email, password, employeeModel) {
-            _registerEmployee.value = it
+    fun registerEmployee(email : String, employeeModel: EmployeeModel) {
+        _addEmployee.value = UiState.Loading
+        employeeRepository.addEmployee(email, employeeModel) {
+            _addEmployee.value = it
         }
     }
 

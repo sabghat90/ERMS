@@ -106,16 +106,18 @@ class FeaturesFragment : Fragment() {
             when (state) {
                 is UiState.Loading -> {
                     isMakeUiVisible(false)
-                    binding.progressBar.show()
+                    binding.shimmerLayout.startShimmer()
                 }
                 is UiState.Success -> {
                     isMakeUiVisible(true)
-                    binding.progressBar.hide()
+                    binding.shimmerLayout.stopShimmer()
+                    binding.shimmerLayout.visibility = View.GONE
+                    binding.rvFeatures.visibility = View.VISIBLE
                     companyObj = state.data[0]
                 }
                 is UiState.Error -> {
                     isMakeUiVisible(false)
-                    binding.progressBar.hide()
+                    binding.shimmerLayout.stopShimmer()
                     requireActivity().toast(state.error)
                 }
             }
