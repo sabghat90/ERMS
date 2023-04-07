@@ -62,7 +62,7 @@ class FeaturesFragment : Fragment() {
         features.add(FeatureModel("Logout", R.drawable.ic_logout))
 
         adapter.features = features
-        val layout = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+        val layout = LinearLayoutManager(requireContext())
         binding.rvFeatures.layoutManager = layout
         binding.rvFeatures.adapter = adapter
 

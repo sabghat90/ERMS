@@ -39,11 +39,11 @@ class FeaturesListingAdapter : RecyclerView.Adapter<FeaturesListingAdapter.ViewH
         RecyclerView.ViewHolder(binding.root) {
         fun bind(feature: FeatureModel, position: Int) {
             binding.featureImage.setImageResource(feature.image)
-            binding.btnFeature.text = feature.title
+            binding.featureName.text = feature.title
         }
 
         init {
-            binding.btnFeature.setOnClickListener {
+            binding.featureCard.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     listener.onItemClick(position)

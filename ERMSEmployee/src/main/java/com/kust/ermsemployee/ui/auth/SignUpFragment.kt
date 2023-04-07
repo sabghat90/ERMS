@@ -111,18 +111,23 @@ class SignUpFragment : Fragment() {
         return EmployeeModel(
             id = "",
             name = binding.editTextName.text.toString(),
+            employeeId = binding.editTextName.text.toString(),
             email = binding.editTextEmail.text.toString().trim(),
             phone = binding.editTextPhone.text.toString(),
+            gender = binding.editTextGender.text.toString(),
+            dob = "-",
             address = "-",
             city = "-",
+            state = "-",
             country = "-",
-            companyName = "-",
+            department = "-",
             companyId = "",
-            designation = "-",
+            jobTitle = "-",
             salary = "0.00",
+            joiningDate = "-",
             points = "0",
-            image = 0,
-            role = Role.EMPLOYEE
+            role = Role.EMPLOYEE,
+            profilePicture = ""
         )
     }
 

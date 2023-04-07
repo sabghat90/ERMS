@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_employee"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="130dp"
     android:layout_margin="10dp"
     android:clickable="true"
     android:elevation="10dp"
+    app:cardCornerRadius="6dp"
     android:focusable="true"
-    android:foreground="?attr/selectableItemBackground"
-    android:padding="10dp"
-    app:strokeColor="@color/md_theme_light_primary"
-    app:strokeWidth="2dp">
+    android:padding="15dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp">
 
-
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_employee"
             android:layout_width="120dp"
-            app:civ_border_width="1dp"
             android:layout_height="120dp"
             android:src="@drawable/avatar6" />
 
@@ -59,4 +55,4 @@
 
 
     </RelativeLayout>
-</com.google.android.material.card.MaterialCardView>
+</androidx.cardview.widget.CardView>

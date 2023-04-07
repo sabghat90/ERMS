@@ -12,21 +12,33 @@ class EmployeeRepositoryImpl @Inject constructor(
     private val database: FirebaseFirestore
 ) : EmployeeRepository {
     override fun getEmployeeList(
-        employeeModel: EmployeeModel?,
+        employeeList: EmployeeModel?,
         result: (UiState<List<EmployeeModel>>) -> Unit
     ) {
-        val docRef = database.collection(FireStoreCollection.EMPLOYEE)
-        docRef.get()
-            .addOnSuccessListener { documents ->
-                val employeeList = arrayListOf<EmployeeModel>()
-                for (document in documents) {
-                    val employee = document.toObject(EmployeeModel::class.java)
-                    employeeList.add(employee)
+        // get current employee from database and store in employeeList
+        val docRefEmployee = database.collection(FireStoreCollection.EMPLOYEE)
+            .document(auth.currentUser?.email.toString())
+        docRefEmployee.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val employeeList = document.toObject(EmployeeModel::class.java)
+
+                    // get employee list where company id is equal to employee list company id
+                    val docRef = database.collection(FireStoreCollection.EMPLOYEE)
+                        .whereEqualTo("companyId", employeeList?.companyId)
+                    docRef.get()
+                        .addOnSuccessListener { documents ->
+                            val employeeList = mutableListOf<EmployeeModel>()
+                            for (document in documents) {
+                                val employee = document.toObject(EmployeeModel::class.java)
+                                employeeList.add(employee)
+                            }
+                            result.invoke(UiState.Success(employeeList))
+                        }
+                        .addOnFailureListener { exception ->
+                            result.invoke(UiState.Error(exception.message.toString()))
+                        }
                 }
-                result(UiState.Success(employeeList))
-            }
-            .addOnFailureListener { exception ->
-                result.invoke(UiState.Error(exception.message.toString()))
             }
     }
 

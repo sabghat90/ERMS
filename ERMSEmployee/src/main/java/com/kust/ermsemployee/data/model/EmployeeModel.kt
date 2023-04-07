@@ -1,18 +1,23 @@
 package com.kust.ermsemployee.data.model
 
 data class EmployeeModel(
-    var id: String = "-",
-    val name: String = "-",
-    var email: String = "-",
-    val phone: String = "-",
-    val address: String = "-",
-    val city: String = "-",
-    val country: String = "-",
-    val companyName: String = "-",
-    var companyId: String = "-",
-    val designation: String = "-",
-    val salary: String = "-",
-    val points: String = "-",
-    val image: Int = 0,
-    var role: String = "-"
+    var id: String = "",
+    val name: String = "",
+    val employeeId : String = "",
+    val email: String = "",
+    val phone: String = "",
+    val gender: String = "",
+    val dob: String = "",
+    val address: String = "",
+    val city: String = "",
+    val state: String = "",
+    val country: String = "",
+    val department: String = "",
+    var companyId: String = "",
+    val jobTitle: String = "",
+    val salary: String = "",
+    val joiningDate: String = "",
+    val points: String = "",
+    var role: String = "",
+    val profilePicture: String = ""
 )

@@ -15,3 +15,9 @@ object Role {
     const val EMPLOYEE = "employee"
     const val MANAGER = "manager"
 }
+
+object TaskStatus {
+    const val PENDING = "pending"
+    const val IN_PROGRESS = "in_progress"
+    const val COMPLETED = "completed"
+}

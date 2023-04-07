@@ -39,6 +39,7 @@ class EmployeeProfileFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentEmployeeProfileBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -99,7 +100,7 @@ class EmployeeProfileFragment : Fragment() {
 
     private fun updateUi() {
         employeeObj = arguments?.getParcelable("employee")!!
-        binding.apply {
+        binding.profileView.apply {
             companyName.text = employeeObj.name
             tvEmail.text = employeeObj.email
             tvPhone.text = employeeObj.phone
@@ -111,7 +112,7 @@ class EmployeeProfileFragment : Fragment() {
     }
 
     private fun isMakeEnableUI(isDisable: Boolean = false) {
-        binding.apply {
+        binding.profileView.apply {
             if (isDisable) {
                 companyName.isEnabled = false
                 tvEmail.isEnabled = false
@@ -134,6 +135,7 @@ class EmployeeProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+
     }
 
 }

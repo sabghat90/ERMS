@@ -9,9 +9,9 @@ import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.databinding.ItemEmployeeBinding
 import com.kust.ermsmanager.utils.Role
 
-class EmployeeListingAdapter (
+class EmployeeListingAdapter(
     val onItemClicked: (Int, EmployeeModel) -> Unit
-        ) :
+) :
     ListAdapter<EmployeeModel, EmployeeListingAdapter.EmployeeViewHolder>(DiffUtilCallback()) {
 
     var employeeList: MutableList<EmployeeModel> = arrayListOf()

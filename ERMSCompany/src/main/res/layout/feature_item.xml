@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.google.android.material.card.MaterialCardView
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/feature_card"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="70dp"
+    android:layout_margin="15dp"
     android:elevation="5dp"
-    app:cardCornerRadius="5dp"
-    app:strokeColor="@color/transparent"
+    android:clickable="true"
+    android:backgroundTint="#F4F4F4"
+    app:cardCornerRadius="8dp"
     tools:ignore="MissingDefaultResource"
     android:focusable="true">
 
@@ -18,21 +20,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_feature"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+        <TextView
+            android:id="@+id/feature_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/feature_name"
-            app:cornerRadius="5dp"
             android:textStyle="bold"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/feature_image"
             app:layout_constraintTop_toTopOf="parent" />
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -40,12 +37,12 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/avatar4"
+            android:layout_margin="10dp"
             app:civ_border_color="@color/md_theme_light_primary"
             app:civ_border_width="3dp"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_feature"
-            app:layout_constraintEnd_toStartOf="@+id/btn_feature"
-            app:layout_constraintStart_toStartOf="@+id/btn_feature"
-            app:layout_constraintTop_toTopOf="@+id/btn_feature" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+</androidx.cardview.widget.CardView>

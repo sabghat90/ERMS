@@ -1,6 +1,5 @@
 package com.kust.erms_company.ui.employee
 
-import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

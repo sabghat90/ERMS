@@ -14,10 +14,6 @@ class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    private val _signUp = MutableLiveData<UiState<String>>()
-    val signUp: LiveData<UiState<String>>
-        get() = _signUp
-
     private val _login = MutableLiveData<UiState<String>>()
     val login: LiveData<UiState<String>>
         get() = _login
@@ -38,13 +34,9 @@ class AuthViewModel @Inject constructor(
         _isUserLoggedIn.value = authRepository.isUserLoggedIn()
     }
 
-    fun signUp(email: String, password: String, employeeModel: EmployeeModel) {
-        authRepository.signUp(email, password, employeeModel) {
-            _signUp.value = it
-        }
-    }
 
     fun login(email: String, password: String) {
+        _login.value = UiState.Loading
         authRepository.login(email, password) {
             _login.value = it
         }
@@ -52,12 +44,14 @@ class AuthViewModel @Inject constructor(
 
 
     fun forgotPassword(email: String) {
+        _forgotPassword.value = UiState.Loading
         authRepository.forgotPassword(email) {
             _forgotPassword.value = it
         }
     }
 
     fun logout(result: () -> Unit) {
+        _logout.value = UiState.Loading
         authRepository.logout(result)
         _login.value = UiState.Success("Logout Successful")
     }

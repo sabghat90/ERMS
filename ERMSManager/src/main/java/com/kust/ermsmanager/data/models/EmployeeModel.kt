@@ -21,6 +21,7 @@ data class EmployeeModel(
     var companyId: String = "",
     val jobTitle: String = "",
     val salary: String = "",
+    val joiningDate: String = "",
     val points: String = "",
     var role: String = "",
     val profilePicture: String = ""
