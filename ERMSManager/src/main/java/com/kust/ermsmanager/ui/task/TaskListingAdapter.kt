@@ -31,6 +31,7 @@ class TaskListingAdapter(
             binding.tvTaskName.text = task.name
             binding.tvTaskDescription.text = task.description
             binding.tvTaskStatus.text = task.status
+            binding.tvTaskCreatedDate.text = task.createdDate
             binding.cardTask.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {

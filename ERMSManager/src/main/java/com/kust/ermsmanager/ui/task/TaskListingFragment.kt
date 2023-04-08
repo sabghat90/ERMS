@@ -26,7 +26,9 @@ class TaskListingFragment : Fragment() {
     private val adapter by lazy {
         TaskListingAdapter(
             onItemClicked = { pos, task ->
-                toast("Clicked on ${task.name}")
+                findNavController().navigate(R.id.action_taskListingFragment_to_taskDetailFragment, Bundle().apply {
+                    putParcelable("task", task)
+                })
             })
     }
 
@@ -34,7 +36,7 @@ class TaskListingFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentTaskListingBinding.inflate(inflater, container, false)
         return binding.root
@@ -62,7 +64,7 @@ class TaskListingFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     binding.shimmerLayout.startShimmer()
-                    binding.shimmerLayout.hideShimmer()
+                    binding.shimmerLayout.visibility = View.GONE
                     adapter.taskList = it.data as MutableList<TaskModel>
                     binding.rvTaskListing.visibility = View.VISIBLE
                     adapter.submitList(it.data)

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_task"
     android:layout_width="match_parent"
-    android:layout_height="130dp"
+    android:layout_height="140dp"
     android:layout_margin="10dp"
     android:clickable="true"
     android:elevation="10dp"
@@ -44,6 +44,16 @@
                 android:text="In Progress"/>
 
         </LinearLayout>
+
+        <!--            date text view next to the pending text view-->
+        <TextView
+            android:id="@+id/tv_task_created_date"
+            style="@style/body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:text="Date"/>
 
 
     </RelativeLayout>

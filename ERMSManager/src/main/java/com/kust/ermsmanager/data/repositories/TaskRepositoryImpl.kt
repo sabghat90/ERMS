@@ -42,7 +42,7 @@ class TaskRepositoryImpl(
         result: (UiState<Pair<TaskModel, String>>) -> Unit
     ) {
         // create task to database
-        database.collection("tasks").document(task.id.toString()).set(task).await()
+        database.collection("tasks").document().set(task).await()
         result(UiState.Success(Pair(task, "Success")))
     }
 
