@@ -95,7 +95,7 @@ class CreateTaskFragment : Fragment() {
                     binding.btnCreateTask.text = getString(R.string.create_task)
                     binding.progressBar.hide()
                     it.data.let {
-                        toast("Task created")
+                        toast("Task created successfully")
                         findNavController().navigate(R.id.action_createTaskFragment_to_taskListingFragment)
                     }
                 }

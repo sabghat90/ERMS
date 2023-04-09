@@ -25,6 +25,12 @@ class TaskListingAdapter(
         return TaskViewHolder(binding)
     }
 
+    // receive event call from handler to update task list
+    fun updateTaskList(taskList: MutableList<TaskModel>) {
+        this.taskList = taskList
+        notifyDataSetChanged()
+    }
+
     inner class TaskViewHolder(private val binding: TaskItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(task: TaskModel, position: Int) {

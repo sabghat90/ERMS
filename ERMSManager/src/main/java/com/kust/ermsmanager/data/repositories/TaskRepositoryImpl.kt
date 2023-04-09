@@ -37,13 +37,18 @@ class TaskRepositoryImpl(
         }
     }
 
-    override suspend fun createTask(
+    override fun createTask(
         task: TaskModel,
         result: (UiState<Pair<TaskModel, String>>) -> Unit
     ) {
+        val documentReference = database.collection("tasks").document()
+        task.id = documentReference.id
         // create task to database
-        database.collection("tasks").document().set(task).await()
-        result(UiState.Success(Pair(task, "Success")))
+        documentReference.set(task).addOnSuccessListener {
+            result(UiState.Success(Pair(task, "Success")))
+        }.addOnFailureListener {
+            result(UiState.Error(it.message.toString()))
+        }
     }
 
     override suspend fun updateTask(
@@ -55,10 +60,22 @@ class TaskRepositoryImpl(
         result(UiState.Success(Pair(task, "Success")))
     }
 
-    override suspend fun deleteTask(id: Int, result: (UiState<Pair<TaskModel, String>>) -> Unit) {
-        // delete task from database
-        database.collection("tasks").document(id.toString()).delete().await()
-        result(UiState.Success(Pair(TaskModel(), "Success")))
+    override suspend fun deleteTask(
+        id: String,
+        result: (UiState<Pair<TaskModel, String>>) -> Unit
+    ) {
+        // hash map to store the task id and the task object to use it in the result function
+        val task = hashMapOf<String, TaskModel>()
+        // get task from database
+        val documentSnapshot = database.collection("tasks").document(id).get().await()
+        val taskModel = documentSnapshot.toObject(TaskModel::class.java)
+        taskModel?.let {
+            // add the task id and the task object to the hash map
+            task[id] = it
+            // delete task from database
+            database.collection("tasks").document(id).delete().await()
+            result(UiState.Success(Pair(taskModel, "Successfully deleted task !")))
+        }
     }
 
 }

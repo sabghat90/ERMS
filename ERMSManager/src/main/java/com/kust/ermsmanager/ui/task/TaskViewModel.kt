@@ -51,17 +51,21 @@ class TaskViewModel @Inject constructor(
         }
     }
 
-    suspend fun deleteTask(id: Int) {
-        _deleteTask.value = UiState.Loading
-        taskRepository.deleteTask(id) {
-            _deleteTask.value = it
+    suspend fun deleteTask(id: String) {
+        viewModelScope.launch {
+            _deleteTask.value = UiState.Loading
+            withContext(Dispatchers.Main) {
+                taskRepository.deleteTask(id) {
+                    _deleteTask.postValue(it)
+                }
+            }
         }
     }
 
     private fun getTask(taskModel: TaskModel) {
         viewModelScope.launch {
             _getTask.value = UiState.Loading
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
                 taskRepository.getTasks(taskModel) {
                     _getTask.postValue(it)
                 }

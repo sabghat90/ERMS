@@ -5,10 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.TaskModel
 import com.kust.ermsmanager.databinding.FragmentTaskDetailBinding
+import com.kust.ermsmanager.utils.UiState
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
+@AndroidEntryPoint
 class TaskDetailFragment : Fragment() {
 
     private var _binding: FragmentTaskDetailBinding? = null
@@ -16,6 +25,8 @@ class TaskDetailFragment : Fragment() {
 
     // task object
     private lateinit var task: TaskModel
+
+    private val taskViewModel: TaskViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +41,17 @@ class TaskDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         updateUI()
+        observer()
+    }
+
+    private fun observer() {
+        // observe the delete task result
+        taskViewModel.deleteTask.observe(viewLifecycleOwner) {
+            if (it is UiState.Success) {
+                // if success, pop the fragment
+                findNavController().navigate(R.id.action_taskDetailFragment_to_taskListingFragment)
+            }
+        }
     }
 
     private fun updateUI() {
@@ -41,7 +63,16 @@ class TaskDetailFragment : Fragment() {
         binding.tvCreatedDate.text = task.createdDate
         binding.tvDeadline.text = task.deadline
         binding.tvTaskStatus.text = task.status
+
+        // delete task and call the function from TaskViewModel with couroutine to delete the task
+        binding.btnDeleteTask.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch() {
+                taskViewModel.deleteTask(task.id)
+            }
+        }
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
