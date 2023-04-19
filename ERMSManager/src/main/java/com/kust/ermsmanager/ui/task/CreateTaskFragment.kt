@@ -2,10 +2,12 @@ package com.kust.ermsmanager.ui.task
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,7 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.util.*
-import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class CreateTaskFragment : Fragment() {
@@ -134,6 +136,12 @@ class CreateTaskFragment : Fragment() {
 
     // get due date and time from date picker using due date button
     private fun getDueDateAndTime(): String {
+
+        // hide keyboard
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+
+
         val calendar = Calendar.getInstance()
         val datePicker = DatePickerDialog(
             requireContext(),

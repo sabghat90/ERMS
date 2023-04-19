@@ -2,15 +2,14 @@ package com.kust.ermsmanager.ui.dashboard
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.FeatureModel
 import com.kust.ermsmanager.databinding.FragmentFeatureBinding
@@ -76,9 +75,11 @@ class FeaturesFragment : Fragment() {
                     }
                     4 -> Toast.makeText(requireContext(), "Events", Toast.LENGTH_SHORT).show()
                     5 -> Toast.makeText(requireContext(), "Setting", Toast.LENGTH_SHORT).show()
-                    6 -> Toast.makeText(requireContext(), "Profile", Toast.LENGTH_SHORT).show()
+                    6 -> {
+                        findNavController().navigate(R.id.action_featureFragment_to_managerProfileFragment)
+                    }
                     7 -> {
-                        authViewModel.logout() {
+                        authViewModel.logout {
                             val intent = Intent(requireContext(), LoginActivity::class.java)
                             startActivity(intent)
                             requireActivity().finish()

@@ -21,3 +21,8 @@ object TaskStatus {
     const val IN_PROGRESS = "in_progress"
     const val COMPLETED = "completed"
 }
+
+object SharedPreferencesConstants {
+    val LOCAL_SHARED_PREF = "local_shared_pref"
+    val USER_SESSION = "user_session"
+}

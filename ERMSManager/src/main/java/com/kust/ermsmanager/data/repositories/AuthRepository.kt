@@ -10,4 +10,6 @@ interface AuthRepository {
     fun logout(result : () -> Unit)
     fun validateUser(email : String) : Boolean
     fun isUserLoggedIn() : Boolean
+    fun storeUserSession(email: String, result: (EmployeeModel?) -> Unit)
+    fun getUserSession(result : (EmployeeModel?) -> Unit)
 }

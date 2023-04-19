@@ -54,4 +54,5 @@
     <string name="select_employee">Select Employee</string>
     <string name="task_name">Task Name</string>
     <string name="task_description">Task Description</string>
+    <string name="state">State</string>
 </resources>

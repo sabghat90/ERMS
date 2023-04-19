@@ -1,7 +1,9 @@
 package com.kust.ermsmanager.di
 
+import android.content.SharedPreferences
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 import com.kust.ermsmanager.data.repositories.*
 import dagger.Module
 import dagger.Provides
@@ -17,9 +19,11 @@ object RepositoryModule {
     @Singleton
     fun provideAuthRepository(
         auth: FirebaseAuth,
-        database: FirebaseFirestore
+        database: FirebaseFirestore,
+        sharedPreferences: SharedPreferences,
+        gson: Gson
     ) : AuthRepository {
-        return AuthRepositoryImpl(auth, database)
+        return AuthRepositoryImpl(auth, database, sharedPreferences, gson)
     }
 
     @Provides
