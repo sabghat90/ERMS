@@ -1,11 +1,14 @@
 package com.kust.ermsmanager.data.repositories
 
 import android.content.SharedPreferences
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.kust.ermsmanager.data.models.EmployeeModel
-import com.kust.ermsmanager.utils.FireStoreCollection
+import com.kust.ermsmanager.utils.FireStoreCollectionConstants
 import com.kust.ermsmanager.utils.Role
 import com.kust.ermsmanager.utils.SharedPreferencesConstants
 import com.kust.ermsmanager.utils.UiState
@@ -19,21 +22,41 @@ class AuthRepositoryImpl(
 
     override fun login(email: String, password: String, result: (UiState<String>) -> Unit) {
         // Sign in with email and password and store user session in shared preferences if successful login
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    storeUserSession(email) {
-                        result(UiState.Success("Login successful"))
-                    }
+        validateUser(email).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val isValid = task.result
+                if (isValid) {
+                    auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                storeUserSession(email) { employeeModel ->
+                                    if (employeeModel != null) {
+                                        result(UiState.Success("Login successful"))
+                                    } else {
+                                        result(UiState.Error("Failed to store user session"))
+                                    }
+                                }
+                                result(UiState.Success("Login successful"))
+                            } else {
+                                try {
+                                    throw task.exception ?: java.lang.Exception("Invalid authentication")
+                                } catch (e: FirebaseAuthInvalidUserException) {
+                                    result(UiState.Error("User does not exist"))
+                                } catch (e: FirebaseAuthInvalidCredentialsException) {
+                                    result(UiState.Error("Invalid email or password"))
+                                } catch (e: Exception) {
+                                    result(UiState.Error("Unknown error"))
+                                }
+                            }
+                        }
                 } else {
-                    // handle all the possible errors, in catch block handle all firebase exceptions
-                    try {
-                        throw task.exception ?: Exception("Unknown error")
-                    } catch (e: Exception) {
-                        result(UiState.Error(e.message.toString()))
-                    }
+                    // if the user is not a company, return error
+                    result(UiState.Error("User is not a Manager"))
                 }
+            } else {
+                result(UiState.Error("Failed to validate user"))
             }
+        }
     }
 
     override fun forgotPassword(email: String, result: (UiState<String>) -> Unit) {
@@ -54,38 +77,26 @@ class AuthRepositoryImpl(
         result()
     }
 
-    override fun validateUser(email: String): Boolean {
-        var isValid = true
-        val docRefEmployee = database.collection(FireStoreCollection.EMPLOYEE).document(email)
-        val docRefCompany = database.collection(FireStoreCollection.COMPANY).document(email)
-
-        docRefEmployee.get().addOnSuccessListener { document ->
+    override fun validateUser(email: String): Task<Boolean> {
+        val docRef = database.collection(FireStoreCollectionConstants.USER).document(email)
+        return docRef.get().continueWith { task ->
+            val document = task.result
             if (document != null) {
-                val employee = document.toObject(EmployeeModel::class.java)
-                if (employee?.role == Role.COMPANY) {
-                    isValid = false
-                }
+                val role = document.getString("role")
+                return@continueWith (role == Role.MANAGER)
+            } else {
+                return@continueWith false
             }
         }
-
-        docRefCompany.get().addOnSuccessListener { document ->
-            if (document != null) {
-                val employee = document.toObject(EmployeeModel::class.java)
-                if (employee?.role == Role.EMPLOYEE) {
-                    isValid = false
-                }
-            }
-        }
-
-        return isValid
     }
+
 
     override fun isUserLoggedIn(): Boolean {
         return auth.currentUser != null
     }
 
     override fun storeUserSession(email: String, result: (EmployeeModel?) -> Unit) {
-        val docRef = database.collection(FireStoreCollection.EMPLOYEE).document(email)
+        val docRef = database.collection(FireStoreCollectionConstants.USER).document(email)
         docRef.get().addOnSuccessListener { document ->
             if (document != null) {
                 val employee = document.toObject(EmployeeModel::class.java)

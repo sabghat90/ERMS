@@ -1,8 +1,9 @@
 package com.kust.ermsmanager.utils
 
-object FireStoreCollection {
+object FireStoreCollectionConstants {
     const val COMPANY = "company"
     const val EMPLOYEE = "employee"
+    const val USER = "user"
 }
 
 object FirebaseStorageConstants {

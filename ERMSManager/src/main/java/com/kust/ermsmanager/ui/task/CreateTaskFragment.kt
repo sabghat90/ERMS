@@ -8,12 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.kust.ermsmanager.R
+import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.data.models.TaskModel
 import com.kust.ermsmanager.databinding.FragmentCreateTaskBinding
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
@@ -40,6 +42,9 @@ class CreateTaskFragment : Fragment() {
     // employee list for spinner
     private val employeeList = mutableListOf<String>()
 
+    // employee object for storing selected employee from spinner not lateinit var
+    private var selectedEmployee = EmployeeModel()
+
 //    @Inject
 //    var auth = FirebaseAuth.getInstance()
 
@@ -59,6 +64,20 @@ class CreateTaskFragment : Fragment() {
 
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, employeeList)
         binding.ddmEmployeeList.setAdapter(arrayAdapter)
+
+        // q: how to store the selected employee from spinner to employee object?
+        binding.ddmEmployeeList.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val selectedItem = parent?.getItemAtPosition(position)
+                if (selectedItem is EmployeeModel) {
+                    selectedEmployee = selectedItem
+                    // Do something with the selected employee
+                    val id = selectedItem.id
+                    val email = selectedItem.email
+
+                    selectedEmployee = EmployeeModel(id, email)
+                }
+            }
 
 
         binding.taskDueDateButton.setOnClickListener { getDueDateAndTime() }
@@ -82,7 +101,9 @@ class CreateTaskFragment : Fragment() {
             deadline = binding.taskDueDateButton.text.toString(),
             createdDate = getCurrentDateAndTime(),
             createdBy = FirebaseAuth.getInstance().currentUser?.email.toString(),
-            assignedTo = "Someone"
+            assigneeName = binding.ddmEmployeeList.text.toString(),
+            assigneeEmail = selectedEmployee.email,
+            assigneeId = selectedEmployee.id
         )
     }
 

@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.kust.erms_company.data.model.CompanyModel
 import com.kust.erms_company.databinding.FragmentCompanyProfileBinding
-import com.kust.erms_company.databinding.ViewProfileBinding
 import com.kust.erms_company.utils.UiState
 import com.kust.erms_company.utils.toast
 import dagger.hilt.android.AndroidEntryPoint

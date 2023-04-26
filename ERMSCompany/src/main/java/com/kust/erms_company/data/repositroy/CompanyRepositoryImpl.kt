@@ -3,7 +3,7 @@ package com.kust.erms_company.data.repositroy
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kust.erms_company.data.model.CompanyModel
-import com.kust.erms_company.utils.FireStoreCollection
+import com.kust.erms_company.utils.FireStoreCollectionConstants
 import com.kust.erms_company.utils.UiState
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ class CompanyRepositoryImpl @Inject constructor(
         result: (UiState<List<CompanyModel>>) -> Unit
     ) {
         val email = auth.currentUser?.email
-        val document = database.collection(FireStoreCollection.COMPANY).document(email!!)
+        val document = database.collection(FireStoreCollectionConstants.USER).document(email!!)
         document.get().addOnSuccessListener {
             val company = it.toObject(CompanyModel::class.java)
             val list = arrayListOf<CompanyModel>()
@@ -32,7 +32,7 @@ class CompanyRepositoryImpl @Inject constructor(
         companyModel: CompanyModel,
         result: (UiState<Pair<CompanyModel, String>>) -> Unit
     ) {
-        val document = database.collection(FireStoreCollection.COMPANY).document(companyModel.email)
+        val document = database.collection(FireStoreCollectionConstants.USER).document(companyModel.email)
         document.set(companyModel).addOnSuccessListener {
             result.invoke(UiState.Success(Pair(companyModel, "Company updated successfully")))
         }.addOnFailureListener {

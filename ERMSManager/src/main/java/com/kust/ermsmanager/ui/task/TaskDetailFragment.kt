@@ -1,5 +1,6 @@
 package com.kust.ermsmanager.ui.task
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -47,9 +48,20 @@ class TaskDetailFragment : Fragment() {
     private fun observer() {
         // observe the delete task result
         taskViewModel.deleteTask.observe(viewLifecycleOwner) {
-            if (it is UiState.Success) {
-                // if success, pop the fragment
-                findNavController().navigate(R.id.action_taskDetailFragment_to_taskListingFragment)
+            when (it) {
+                is UiState.Loading -> {
+                    binding.btnDeleteTask.isEnabled = false
+                    binding.btnDeleteTask.text = "Delete Task"
+                }
+                is UiState.Success -> {
+                    binding.btnDeleteTask.isEnabled = true
+                    binding.btnDeleteTask.text = "Delete Task"
+                    findNavController().navigate(R.id.action_taskDetailFragment_to_taskListingFragment)
+                }
+                is UiState.Error -> {
+                    binding.btnDeleteTask.isEnabled = true
+                    binding.btnDeleteTask.text = "Delete Task"
+                }
             }
         }
     }
@@ -59,7 +71,7 @@ class TaskDetailFragment : Fragment() {
         task = arguments?.getParcelable<TaskModel>("task")!!
         binding.tvTaskName.text = task.name
         binding.tvTaskDescription.text = task.description
-        binding.tvAssignedTo.text = task.assignedTo
+        binding.tvAssignedTo.text = task.assigneeName
         binding.tvCreatedDate.text = task.createdDate
         binding.tvDeadline.text = task.deadline
         binding.tvTaskStatus.text = task.status

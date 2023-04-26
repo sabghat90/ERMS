@@ -12,5 +12,7 @@ data class TaskModel (
     var deadline: String = "",
     var createdDate: String = "",
     var createdBy: String = "",
-    var assignedTo: String = ""
+    var assigneeName: String = "",
+    var assigneeEmail: String = "",
+    var assigneeId: String = "",
 ) : Parcelable

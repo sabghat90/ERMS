@@ -1,5 +1,6 @@
 package com.kust.ermsemployee.data.repository
 
+import com.google.android.gms.tasks.Task
 import com.kust.ermsemployee.data.model.EmployeeModel
 import com.kust.ermsemployee.utils.UiState
 
@@ -9,8 +10,8 @@ interface AuthRepository {
     fun updateEmployeeInfo(employeeModel: EmployeeModel, result: (UiState<String>) -> Unit)
     fun forgotPassword(email : String, result : (UiState<String>) -> Unit)
     fun logout(result : () -> Unit)
-    fun validateUser(email : String) : Boolean
-//    fun isEmployeeLoggedIn(result: (UiState<String>) -> Unit)
-//    fun updateCompanyInformation(companyModel: CompanyModel, result : (UiState<String>) -> Unit)
+    fun validateUser(email: String): Task<Boolean>
     fun isUserLoggedIn() : Boolean
+    fun storeUserSession(email: String, result: (EmployeeModel?) -> Unit)
+    fun getUserSession(result : (EmployeeModel?) -> Unit)
 }

@@ -3,7 +3,7 @@ package com.kust.erms_company.data.repositroy
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kust.erms_company.data.model.EmployeeModel
-import com.kust.erms_company.utils.FireStoreCollection
+import com.kust.erms_company.utils.FireStoreCollectionConstants
 import com.kust.erms_company.utils.UiState
 
 class EmployeeRepositoryImpl(
@@ -18,7 +18,7 @@ class EmployeeRepositoryImpl(
         employeeModel: EmployeeModel,
         result: (UiState<Pair<EmployeeModel, String>>) -> Unit
     ) {
-        val dbRef = database.collection(FireStoreCollection.EMPLOYEE).document(employeeModel.email)
+        val dbRef = database.collection(FireStoreCollectionConstants.USER).document(employeeModel.email)
         dbRef.update(
             "companyId", companyId,
             "department", employeeModel.department,
@@ -38,7 +38,7 @@ class EmployeeRepositoryImpl(
         result: (UiState<Pair<EmployeeModel, String>>) -> Unit
     ) {
         val document =
-            database.collection(FireStoreCollection.EMPLOYEE).document(employeeModel.email)
+            database.collection(FireStoreCollectionConstants.USER).document(employeeModel.email)
         document.set(employeeModel).addOnSuccessListener {
             result.invoke(UiState.Success(Pair(employeeModel, "Employee updated successfully")))
         }.addOnFailureListener {
@@ -48,7 +48,7 @@ class EmployeeRepositoryImpl(
 
     override fun deleteEmployee(employeeModel: EmployeeModel, result: (UiState<String>) -> Unit) {
         val document =
-            database.collection(FireStoreCollection.EMPLOYEE).document(employeeModel.email)
+            database.collection(FireStoreCollectionConstants.USER).document(employeeModel.email)
         document.delete().addOnSuccessListener {
             result.invoke(UiState.Success("Employee deleted successfully"))
         }.addOnFailureListener {
@@ -61,7 +61,7 @@ class EmployeeRepositoryImpl(
         result: (UiState<List<EmployeeModel>>) -> Unit
     ) {
 
-        database.collection(FireStoreCollection.EMPLOYEE)
+        database.collection(FireStoreCollectionConstants.USER)
             .whereEqualTo("companyId", companyId)
             .get()
             .addOnSuccessListener {
