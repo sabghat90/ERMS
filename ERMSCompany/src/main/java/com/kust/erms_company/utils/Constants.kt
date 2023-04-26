@@ -1,8 +1,9 @@
 package com.kust.erms_company.utils
 
-object FireStoreCollection {
+object FireStoreCollectionConstants {
     const val COMPANY = "company"
     const val EMPLOYEE = "employee"
+    const val USER = "user"
 }
 
 object FirebaseStorageConstants {
@@ -14,4 +15,9 @@ object Role {
     const val COMPANY = "company"
     const val EMPLOYEE = "employee"
     const val MANAGER = "manager"
+}
+
+object SharedPreferencesConstants {
+    val LOCAL_SHARED_PREF = "local_shared_pref"
+    val USER_SESSION = "user_session"
 }

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.StorageReference
 import com.kust.erms_company.R
@@ -74,9 +75,8 @@ class CompanyRegistrationFragment : Fragment() {
                     binding.btnRegister.text = getString(R.string.register)
                     binding.progressBar.visibility = View.GONE
                     toast(state.data)
-                    val intent = Intent(requireContext(), DashBoardActivity::class.java)
-                    startActivity(intent)
-                    requireActivity().finish()
+                    findNavController().navigate(R.id.action_companyRegistrationFragment_to_companyLoginFragment)
+
                 }
                 is UiState.Error -> {
                     binding.progressBar.visibility = View.GONE

@@ -1,8 +1,9 @@
 package com.kust.ermsmanager.utils
 
-object FireStoreCollection {
+object FireStoreCollectionConstants {
     const val COMPANY = "company"
     const val EMPLOYEE = "employee"
+    const val USER = "user"
 }
 
 object FirebaseStorageConstants {
@@ -20,4 +21,9 @@ object TaskStatus {
     const val PENDING = "pending"
     const val IN_PROGRESS = "in_progress"
     const val COMPLETED = "completed"
+}
+
+object SharedPreferencesConstants {
+    val LOCAL_SHARED_PREF = "local_shared_pref"
+    val USER_SESSION = "user_session"
 }

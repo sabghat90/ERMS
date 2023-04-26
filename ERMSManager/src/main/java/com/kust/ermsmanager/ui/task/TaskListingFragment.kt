@@ -1,6 +1,8 @@
 package com.kust.ermsmanager.ui.task
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +28,9 @@ class TaskListingFragment : Fragment() {
     private val adapter by lazy {
         TaskListingAdapter(
             onItemClicked = { pos, task ->
-                toast("Clicked on ${task.name}")
+                findNavController().navigate(R.id.action_taskListingFragment_to_taskDetailFragment, Bundle().apply {
+                    putParcelable("task", task)
+                })
             })
     }
 
@@ -34,7 +38,7 @@ class TaskListingFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentTaskListingBinding.inflate(inflater, container, false)
         return binding.root
@@ -59,16 +63,27 @@ class TaskListingFragment : Fragment() {
             when (it) {
                 is UiState.Loading -> {
                     binding.shimmerLayout.startShimmer()
+                    binding.tvDataState.text = ""
                 }
                 is UiState.Success -> {
                     binding.shimmerLayout.startShimmer()
-                    binding.shimmerLayout.hideShimmer()
+                    binding.tvDataState.visibility = View.GONE
+                    binding.shimmerLayout.visibility = View.GONE
+                    if (it.data.isEmpty()) {
+                        binding.tvDataState.visibility = View.VISIBLE
+                        binding.tvDataState.text = "No task found"
+                    }
                     adapter.taskList = it.data as MutableList<TaskModel>
                     binding.rvTaskListing.visibility = View.VISIBLE
                     adapter.submitList(it.data)
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        adapter.updateTaskList(it.data)
+                    }, 1000)
                 }
                 is UiState.Error -> {
                     binding.shimmerLayout.stopShimmer()
+                    binding.shimmerLayout.visibility = View.GONE
+                    binding.tvDataState.visibility = View.VISIBLE
                     toast(it.error)
                 }
             }

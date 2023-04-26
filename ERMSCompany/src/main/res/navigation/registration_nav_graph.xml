@@ -18,5 +18,11 @@
         android:id="@+id/companyRegistrationFragment"
         android:name="com.kust.erms_company.ui.auth.CompanyRegistrationFragment"
         android:label="fragment_company_registration"
-        tools:layout="@layout/fragment_company_registration" />
+        tools:layout="@layout/fragment_company_registration" >
+        <action
+            android:id="@+id/action_companyRegistrationFragment_to_companyLoginFragment"
+            app:destination="@id/companyLoginFragment"
+            app:popUpTo="@id/companyLoginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

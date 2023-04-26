@@ -1,10 +1,15 @@
 package com.kust.ermsemployee.ui.auth
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kust.ermsemployee.R
@@ -15,6 +20,8 @@ import com.kust.ermsemployee.utils.Role
 import com.kust.ermsemployee.utils.UiState
 import com.kust.ermsemployee.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.DateFormat
+import java.util.Calendar
 
 @AndroidEntryPoint
 class SignUpFragment : Fragment() {
@@ -36,6 +43,18 @@ class SignUpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val spinnerData = resources.getStringArray(R.array.gender)
+        val arrayAdapter : ArrayAdapter<String> = ArrayAdapter<String>(
+            requireContext(),
+            R.layout.dropdown_menu_item,
+            spinnerData
+        )
+        binding.ddmGender.setAdapter(arrayAdapter)
+
+        binding.joiningDate.setOnClickListener {
+            getJoiningDate()
+        }
 
         observer()
 
@@ -98,9 +117,9 @@ class SignUpFragment : Fragment() {
                 editTextPhone.requestFocus()
                 isValid = false
             }
-            if (editTextGender.text.toString().isEmpty()) {
-                editTextGender.error = "Please Enter Gender"
-                editTextGender.requestFocus()
+            if (ddmGender.text.toString().isEmpty()) {
+                ddmGender.error = "Please Enter Gender"
+                ddmGender.requestFocus()
                 isValid = false
             }
         }
@@ -114,7 +133,7 @@ class SignUpFragment : Fragment() {
             employeeId = binding.editTextName.text.toString(),
             email = binding.editTextEmail.text.toString().trim(),
             phone = binding.editTextPhone.text.toString(),
-            gender = binding.editTextGender.text.toString(),
+            gender = binding.ddmGender.text.toString(),
             dob = "-",
             address = "-",
             city = "-",
@@ -129,6 +148,40 @@ class SignUpFragment : Fragment() {
             role = Role.EMPLOYEE,
             profilePicture = ""
         )
+    }
+
+    // get joining date from date picker, date picker should be onward from today date
+    private fun getJoiningDate() {
+        // hide keyboard
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+
+
+        val calendar = Calendar.getInstance()
+        val datePicker = DatePickerDialog(
+            requireContext(),
+            { _, year, month, dayOfMonth ->
+                calendar.set(Calendar.YEAR, year)
+                calendar.set(Calendar.MONTH, month)
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                val timePicker = TimePickerDialog(
+                    requireContext(),
+                    { _, hourOfDay, minute ->
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                        calendar.set(Calendar.MINUTE, minute)
+                        binding.joiningDate.hint = DateFormat.getDateTimeInstance().format(calendar.time)
+                    },
+                    calendar.get(Calendar.HOUR_OF_DAY),
+                    calendar.get(Calendar.MINUTE),
+                    false
+                )
+                timePicker.show()
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+        datePicker.show()
     }
 
     override fun onDestroy() {

@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/featureFragment"
         android:name="com.kust.ermsmanager.ui.dashboard.FeaturesFragment"
-        android:label="fragment_feature"
-        tools:layout="@layout/fragment_feature" >
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_feature">
         <action
             android:id="@+id/action_featureFragment_to_employeeListingFragment"
             app:destination="@id/employeeListingFragment"
@@ -23,21 +23,37 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_featureFragment_to_managerProfileFragment"
+            app:destination="@id/managerProfileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/employeeListingFragment"
         android:name="com.kust.ermsmanager.ui.employee.EmployeeListingFragment"
-        android:label="fragment_employee_listing"
+        android:label="Employees"
         tools:layout="@layout/fragment_employee_listing" />
     <fragment
         android:id="@+id/taskListingFragment"
         android:name="com.kust.ermsmanager.ui.task.TaskListingFragment"
-        android:label="fragment_task_listing"
-        tools:layout="@layout/fragment_task_listing" >
+        android:label="Tasks"
+        tools:layout="@layout/fragment_task_listing">
         <action
             android:id="@+id/action_taskListingFragment_to_createTaskFragment"
             app:destination="@id/createTaskFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_taskListingFragment_to_taskDetailFragment"
+            app:destination="@id/taskDetailFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -46,8 +62,8 @@
     <fragment
         android:id="@+id/createTaskFragment"
         android:name="com.kust.ermsmanager.ui.task.CreateTaskFragment"
-        android:label="fragment_create_task"
-        tools:layout="@layout/fragment_create_task" >
+        android:label="@string/create_task"
+        tools:layout="@layout/fragment_create_task">
         <action
             android:id="@+id/action_createTaskFragment_to_taskListingFragment"
             app:destination="@id/taskListingFragment"
@@ -55,6 +71,27 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/taskListingFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/taskDetailFragment"
+        android:name="com.kust.ermsmanager.ui.task.TaskDetailFragment"
+        android:label="fragment_task_detail"
+        tools:layout="@layout/fragment_task_detail" >
+        <action
+            android:id="@+id/action_taskDetailFragment_to_taskListingFragment"
+            app:destination="@id/taskListingFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/taskListingFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/managerProfileFragment"
+        android:name="com.kust.ermsmanager.ui.profile.ManagerProfileFragment"
+        android:label="fragment_manager_profile"
+        tools:layout="@layout/fragment_manager_profile" />
 </navigation>

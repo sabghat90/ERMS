@@ -1,3 +1,5 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/sabghat90/erms/badge)](https://www.codefactor.io/repository/github/sabghat90/erms)
+
 # Introduction
 
 <p align="justify">

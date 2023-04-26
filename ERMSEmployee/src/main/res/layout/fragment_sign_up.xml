@@ -109,29 +109,23 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout5"
+            android:id="@+id/textInputLayout4"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:hint="@string/gender"
-            app:counterEnabled="true"
-            app:counterMaxLength="20"
-            app:endIconMode="clear_text"
-            app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"
-            app:startIconDrawable="@drawable/ic_gender">
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text_gender"
+            <AutoCompleteTextView
+                android:id="@+id/ddm_gender"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/titillium_web"
-                android:inputType="text"
-                android:maxLength="20"
-                android:maxLines="1" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout6"
@@ -143,9 +137,9 @@
             app:counterMaxLength="11"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
-            app:layout_constraintEnd_toEndOf="@+id/textInputLayout5"
-            app:layout_constraintStart_toStartOf="@+id/textInputLayout5"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout4"
             app:startIconDrawable="@drawable/ic_phone">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -159,7 +153,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/joining_date"
+            android:id="@+id/joining_date_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -170,9 +164,10 @@
             app:startIconDrawable="@drawable/ic_calendar">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/joining_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="false" />
+                android:inputType="none"/>
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -185,7 +180,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/joining_date">
+            app:layout_constraintTop_toBottomOf="@+id/joining_date_layout">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_register"
