@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="provinces">
+        <item>Azad Jammu and Kashmir</item>
+        <item>Balochistan</item>
+        <item>Gilgit-Baltistan</item>
+        <item>Islamabad Capital Territory</item>
+        <item>Khyber Pakhtunkhwa</item>
+        <item>Punjab</item>
+        <item>Sindh</item>
+    </string-array>
+</resources>

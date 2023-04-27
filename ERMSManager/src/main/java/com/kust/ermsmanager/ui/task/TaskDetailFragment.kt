@@ -1,6 +1,5 @@
 package com.kust.ermsmanager.ui.task
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -68,7 +67,7 @@ class TaskDetailFragment : Fragment() {
 
     private fun updateUI() {
         // update the UI with task bundle data
-        task = arguments?.getParcelable<TaskModel>("task")!!
+        task = arguments?.getParcelable("task")!!
         binding.tvTaskName.text = task.name
         binding.tvTaskDescription.text = task.description
         binding.tvAssignedTo.text = task.assigneeName
@@ -78,13 +77,11 @@ class TaskDetailFragment : Fragment() {
 
         // delete task and call the function from TaskViewModel with couroutine to delete the task
         binding.btnDeleteTask.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch() {
+            CoroutineScope(Dispatchers.IO).launch {
                 taskViewModel.deleteTask(task.id)
             }
         }
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

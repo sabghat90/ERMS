@@ -3,12 +3,15 @@ package com.kust.ermsmanager.di
 import android.content.SharedPreferences
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
 import com.kust.ermsmanager.data.repositories.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -30,17 +33,19 @@ object RepositoryModule {
     @Singleton
     fun provideEmployeeRepository(
         auth: FirebaseAuth,
-        database: FirebaseFirestore
+        database: FirebaseFirestore,
+        @Named("employeeProfile")
+        firebaseStorage: StorageReference
     ) : EmployeeRepository {
-        return EmployeeRepositoryImpl(auth, database)
+        return EmployeeRepositoryImpl(auth, database, firebaseStorage)
     }
 
     @Provides
     @Singleton
     fun provideTaskRepository(
-        auth: FirebaseAuth,
-        database: FirebaseFirestore
+        database: FirebaseFirestore,
+        sharedPreferences: SharedPreferences
     ) : TaskRepository {
-        return TaskRepositoryImpl(auth, database)
+        return TaskRepositoryImpl(database, sharedPreferences)
     }
 }

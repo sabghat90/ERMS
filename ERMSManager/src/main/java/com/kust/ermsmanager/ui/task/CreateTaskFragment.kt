@@ -18,6 +18,7 @@ import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.data.models.TaskModel
 import com.kust.ermsmanager.databinding.FragmentCreateTaskBinding
+import com.kust.ermsmanager.ui.auth.AuthViewModel
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import com.kust.ermsmanager.utils.UiState
 import com.kust.ermsmanager.utils.toast
@@ -36,7 +37,7 @@ class CreateTaskFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val taskViewModel: TaskViewModel by viewModels()
-
+    private val authViewModel : AuthViewModel by viewModels()
     private val employeeViewModel: EmployeeViewModel by viewModels()
 
     // employee list for spinner
@@ -45,8 +46,8 @@ class CreateTaskFragment : Fragment() {
     // employee object for storing selected employee from spinner not lateinit var
     private var selectedEmployee = EmployeeModel()
 
-//    @Inject
-//    var auth = FirebaseAuth.getInstance()
+    // company id from auth view model getSession function not lateinit var
+    private lateinit var companyId : String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,6 +60,10 @@ class CreateTaskFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        authViewModel.getSession {
+            if (it != null) companyId = it.companyId
+        }
 
         observer()
 
@@ -103,7 +108,8 @@ class CreateTaskFragment : Fragment() {
             createdBy = FirebaseAuth.getInstance().currentUser?.email.toString(),
             assigneeName = binding.ddmEmployeeList.text.toString(),
             assigneeEmail = selectedEmployee.email,
-            assigneeId = selectedEmployee.id
+            assigneeId = selectedEmployee.id,
+            companyId = companyId
         )
     }
 
@@ -114,6 +120,7 @@ class CreateTaskFragment : Fragment() {
                     binding.progressBar.show()
                     binding.btnCreateTask.text = ""
                 }
+
                 is UiState.Success -> {
                     binding.btnCreateTask.text = getString(R.string.create_task)
                     binding.progressBar.hide()
@@ -122,6 +129,7 @@ class CreateTaskFragment : Fragment() {
                         findNavController().navigate(R.id.action_createTaskFragment_to_taskListingFragment)
                     }
                 }
+
                 is UiState.Error -> {
                     binding.btnCreateTask.text = getString(R.string.create_task)
                     binding.progressBar.hide()
@@ -134,6 +142,7 @@ class CreateTaskFragment : Fragment() {
             when (it) {
                 is UiState.Loading -> {
                 }
+
                 is UiState.Success -> {
                     it.data.let { employees ->
                         employees.forEach { employee ->
@@ -141,6 +150,7 @@ class CreateTaskFragment : Fragment() {
                         }
                     }
                 }
+
                 is UiState.Error -> {
                     toast(it.error)
                 }
@@ -159,7 +169,8 @@ class CreateTaskFragment : Fragment() {
     private fun getDueDateAndTime(): String {
 
         // hide keyboard
-        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(requireView().windowToken, 0)
 
 
@@ -175,7 +186,8 @@ class CreateTaskFragment : Fragment() {
                     { _, hourOfDay, minute ->
                         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                         calendar.set(Calendar.MINUTE, minute)
-                        binding.taskDueDateButton.text = DateFormat.getDateTimeInstance().format(calendar.time)
+                        binding.taskDueDateButton.text =
+                            DateFormat.getDateTimeInstance().format(calendar.time)
                     },
                     calendar.get(Calendar.HOUR_OF_DAY),
                     calendar.get(Calendar.MINUTE),

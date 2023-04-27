@@ -1,12 +1,15 @@
 package com.kust.ermsmanager.ui.employee
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.data.repositories.EmployeeRepository
 import com.kust.ermsmanager.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,10 +36,17 @@ class EmployeeViewModel @Inject constructor(
         }
     }
 
-    private fun updateEmployee(employeeModel: EmployeeModel) {
+    fun updateEmployee(employeeModel: EmployeeModel) {
         _updateEmployee.value = UiState.Loading
         employeeRepository.updateEmployee(employeeModel) {
             _updateEmployee.value = it
+        }
+    }
+
+    fun uploadImage(fileUris: Uri, result: (UiState<Uri>) -> Unit){
+        result.invoke(UiState.Loading)
+        viewModelScope.launch {
+            employeeRepository.uploadImage(fileUris,result)
         }
     }
 

@@ -1,5 +1,6 @@
 package com.kust.ermsmanager.data.repositories
 
+import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kust.ermsmanager.data.models.EmployeeModel
@@ -9,4 +10,5 @@ import javax.inject.Inject
 interface EmployeeRepository {
     fun getEmployeeList(employeeList : EmployeeModel?, result: (UiState<List<EmployeeModel>>) -> Unit)
     fun updateEmployee(employeeModel: EmployeeModel?, result : (UiState<Pair<EmployeeModel, String>>) -> Unit)
+    suspend fun uploadImage(imageUri : Uri, result : (UiState<Uri>) -> Unit)
 }

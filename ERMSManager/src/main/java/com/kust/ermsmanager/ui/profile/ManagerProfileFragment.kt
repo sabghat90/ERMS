@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.databinding.FragmentManagerProfileBinding
 import com.kust.ermsmanager.ui.auth.AuthViewModel
@@ -36,6 +38,11 @@ class ManagerProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observer()
+        updateUI()
+
+        binding.profileLayout.btnUpdateProfile.setOnClickListener {
+            findNavController().navigate(R.id.action_managerProfileFragment_to_updateProfileFragment)
+        }
     }
 
     private fun observer() {
@@ -48,11 +55,14 @@ class ManagerProfileFragment : Fragment() {
                 address = it?.address.toString()
                 role = it?.role.toString()
             }
-            binding.profileLayout.name.text = employeeModel.name
-            binding.profileLayout.tvEmail.text = employeeModel.email
-            binding.profileLayout.tvPhone.text = employeeModel.phone
-            binding.profileLayout.tvFullAddress.text = employeeModel.address
         }
+    }
+
+    private fun updateUI() {
+        binding.profileLayout.name.text = employeeModel.name
+        binding.profileLayout.tvEmail.text = employeeModel.email
+        binding.profileLayout.tvPhone.text = employeeModel.phone
+        binding.profileLayout.tvFullAddress.text = employeeModel.address
     }
 
     override fun onDestroy() {

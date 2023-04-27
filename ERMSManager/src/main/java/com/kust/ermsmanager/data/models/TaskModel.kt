@@ -6,13 +6,14 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class TaskModel (
     var id: String = "",
-    var name: String = "",
-    var description: String = "",
-    var status: String = "",
-    var deadline: String = "",
-    var createdDate: String = "",
-    var createdBy: String = "",
-    var assigneeName: String = "",
-    var assigneeEmail: String = "",
-    var assigneeId: String = "",
+    val name: String = "",
+    val description: String = "",
+    val status: String = "",
+    val deadline: String = "",
+    val createdDate: String = "",
+    val createdBy: String = "",
+    val assigneeName: String = "",
+    val assigneeEmail: String = "",
+    val assigneeId: String = "",
+    val companyId : String = "",
 ) : Parcelable

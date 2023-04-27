@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.databinding.ItemEmployeeBinding
-import com.kust.ermsmanager.utils.Role
 
 class EmployeeListingAdapter(
     val onItemClicked: (Int, EmployeeModel) -> Unit
@@ -34,12 +33,7 @@ class EmployeeListingAdapter(
 
             binding.tvEmployeeName.text = employee.name
             binding.tvDepartment.text = employee.department
-
-            if (employee.role == Role.MANAGER) {
-                binding.tvStatus.text = "Manager"
-            } else {
-                binding.tvStatus.text = "Employee"
-            }
+            binding.tvStatus.text = employee.role
 
             binding.cardEmployee.setOnClickListener {
                 val position = adapterPosition

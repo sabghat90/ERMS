@@ -11,11 +11,11 @@ data class EmployeeModel(
     val employeeId : String = "",
     var email: String = "",
     var phone: String = "",
-    val gender: String = "",
-    val dob: String = "",
+    var gender: String = "",
+    var dob: String = "",
     var address: String = "",
-    val city: String = "",
-    val state: String = "",
+    var city: String = "",
+    var state: String = "",
     val country: String = "",
     val department: String = "",
     var companyId: String = "",
@@ -24,5 +24,5 @@ data class EmployeeModel(
     val joiningDate: String = "",
     val points: String = "",
     var role: String = "",
-    val profilePicture: String = ""
+    var profilePicture: String = ""
 ) : Parcelable

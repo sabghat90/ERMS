@@ -78,7 +78,7 @@ class AuthRepositoryImpl(
     }
 
     override fun validateUser(email: String): Task<Boolean> {
-        val docRef = database.collection(FireStoreCollectionConstants.USER).document(email)
+        val docRef = database.collection(FireStoreCollectionConstants.USERS).document(email)
         return docRef.get().continueWith { task ->
             val document = task.result
             if (document != null) {
@@ -96,12 +96,12 @@ class AuthRepositoryImpl(
     }
 
     override fun storeUserSession(email: String, result: (EmployeeModel?) -> Unit) {
-        val docRef = database.collection(FireStoreCollectionConstants.USER).document(email)
+        val docRef = database.collection(FireStoreCollectionConstants.USERS).document(email)
         docRef.get().addOnSuccessListener { document ->
             if (document != null) {
                 val employee = document.toObject(EmployeeModel::class.java)
                 val editor = sharedPreferences.edit()
-                editor.putString(SharedPreferencesConstants.USER_SESSION, gson.toJson(employee))
+                editor.putString(SharedPreferencesConstants.MANAGER_SESSION, gson.toJson(employee))
                 editor.apply()
                 result.invoke(employee)
             } else {
@@ -113,7 +113,7 @@ class AuthRepositoryImpl(
     }
 
     override fun getUserSession(result: (EmployeeModel?) -> Unit) {
-        val user = sharedPreferences.getString(SharedPreferencesConstants.USER_SESSION, null)
+        val user = sharedPreferences.getString(SharedPreferencesConstants.MANAGER_SESSION, null)
         if (user != null) {
             val employee = gson.fromJson(user, EmployeeModel::class.java)
             result(employee)

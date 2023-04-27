@@ -29,9 +29,9 @@ class TaskViewModel @Inject constructor(
     val deleteTask : LiveData<UiState<Pair<TaskModel, String>>>
         get() = _deleteTask
 
-    private val _getTask = MutableLiveData<UiState<List<TaskModel>>>()
-    val getTask : LiveData<UiState<List<TaskModel>>>
-        get() = _getTask
+    private val _getTasks = MutableLiveData<UiState<List<TaskModel>>>()
+    val getTasks : LiveData<UiState<List<TaskModel>>>
+        get() = _getTasks
 
     suspend fun createTask(taskModel: TaskModel) {
         viewModelScope.launch {
@@ -62,18 +62,18 @@ class TaskViewModel @Inject constructor(
         }
     }
 
-    private fun getTask(taskModel: TaskModel) {
+    private fun getTasks(taskModel: TaskModel?) {
         viewModelScope.launch {
-            _getTask.value = UiState.Loading
+            _getTasks.value = UiState.Loading
             withContext(Dispatchers.IO) {
                 taskRepository.getTasks(taskModel) {
-                    _getTask.postValue(it)
+                    _getTasks.postValue(it)
                 }
             }
         }
     }
 
     init {
-        getTask(TaskModel())
+        getTasks(TaskModel())
     }
 }

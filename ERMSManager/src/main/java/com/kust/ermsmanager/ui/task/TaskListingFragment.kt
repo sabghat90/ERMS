@@ -59,19 +59,20 @@ class TaskListingFragment : Fragment() {
 
     // observer with UiState to handle the state of the data
     private fun observer() {
-        taskViewModel.getTask.observe(viewLifecycleOwner) {
+        taskViewModel.getTasks.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
                     binding.shimmerLayout.startShimmer()
                     binding.tvDataState.text = ""
                 }
                 is UiState.Success -> {
-                    binding.shimmerLayout.startShimmer()
+                    toast(it.data.toString())
+                    binding.shimmerLayout.stopShimmer()
                     binding.tvDataState.visibility = View.GONE
                     binding.shimmerLayout.visibility = View.GONE
                     if (it.data.isEmpty()) {
                         binding.tvDataState.visibility = View.VISIBLE
-                        binding.tvDataState.text = "No task found"
+                        binding.rvTaskListing.visibility = View.GONE
                     }
                     adapter.taskList = it.data as MutableList<TaskModel>
                     binding.rvTaskListing.visibility = View.VISIBLE
@@ -84,6 +85,7 @@ class TaskListingFragment : Fragment() {
                     binding.shimmerLayout.stopShimmer()
                     binding.shimmerLayout.visibility = View.GONE
                     binding.tvDataState.visibility = View.VISIBLE
+                    binding.tvDataState.text = getString(R.string.something_went_wrong)
                     toast(it.error)
                 }
             }

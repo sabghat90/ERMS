@@ -93,5 +93,28 @@
         android:id="@+id/managerProfileFragment"
         android:name="com.kust.ermsmanager.ui.profile.ManagerProfileFragment"
         android:label="fragment_manager_profile"
-        tools:layout="@layout/fragment_manager_profile" />
+        tools:layout="@layout/fragment_manager_profile" >
+        <action
+            android:id="@+id/action_managerProfileFragment_to_updateProfileFragment"
+            app:destination="@id/updateProfileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateProfileFragment"
+        android:name="com.kust.ermsmanager.ui.profile.UpdateProfileFragment"
+        android:label="fragment_update_profile"
+        tools:layout="@layout/fragment_update_profile" >
+        <action
+            android:id="@+id/action_updateProfileFragment_to_managerProfileFragment"
+            app:destination="@id/managerProfileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/managerProfileFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>
