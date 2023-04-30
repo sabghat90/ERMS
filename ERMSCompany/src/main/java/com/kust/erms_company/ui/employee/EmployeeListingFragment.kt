@@ -15,7 +15,6 @@ import com.kust.erms_company.utils.UiState
 import com.kust.erms_company.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
-@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class EmployeeListingFragment : Fragment() {
 

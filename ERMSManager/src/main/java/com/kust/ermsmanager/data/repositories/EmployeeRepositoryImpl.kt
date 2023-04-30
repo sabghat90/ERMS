@@ -45,25 +45,25 @@ class EmployeeRepositoryImpl @Inject constructor(
         result: (UiState<Pair<EmployeeModel, String>>) -> Unit
     ) {
         val docRef = database.collection(FireStoreCollectionConstants.USERS)
-            .document(employeeModel!!.email)
+            .document(auth.currentUser?.uid.toString())
         // update existing employee data
         val newEmployeeObj = hashMapOf(
-            "name" to employeeModel.name,
-            "phone" to employeeModel.phone,
-            "gender" to employeeModel.gender,
-            "dob" to employeeModel.dob,
-            "city" to employeeModel.city,
-            "state" to employeeModel.state,
-            "country" to employeeModel.country,
-            "profilePicture" to employeeModel.profilePicture
+            "name" to employeeModel?.name,
+            "phone" to employeeModel?.phone,
+            "gender" to employeeModel?.gender,
+            "dob" to employeeModel?.dob,
+            "city" to employeeModel?.city,
+            "state" to employeeModel?.state,
+            "country" to employeeModel?.country,
+            "profilePicture" to employeeModel?.profilePicture
         )
 
         docRef.update(newEmployeeObj as Map<String, Any>)
             .addOnSuccessListener {
-                result.invoke(UiState.Success(Pair(employeeModel, "Employee updated successfully")))
+                result.invoke(UiState.Success(Pair(employeeModel!!, "Employee updated successfully")))
             }
-            .addOnFailureListener {
-                result.invoke(UiState.Error(it.message.toString()))
+            .addOnFailureListener { exception ->
+                result.invoke(UiState.Error(exception.message.toString()))
             }
     }
 

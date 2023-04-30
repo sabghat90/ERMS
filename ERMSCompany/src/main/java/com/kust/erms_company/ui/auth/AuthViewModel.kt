@@ -68,4 +68,8 @@ class AuthViewModel @Inject constructor(
         authRepository.logoutCompany(result)
         _login.value = UiState.Success("Logout Successful")
     }
+
+    fun getSession(result: (CompanyModel?) -> Unit) {
+        authRepository.getUserSession(result)
+    }
 }

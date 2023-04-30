@@ -6,11 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.kust.erms_company.data.model.CompanyModel
 import com.kust.erms_company.databinding.FragmentCompanyProfileBinding
-import com.kust.erms_company.utils.UiState
-import com.kust.erms_company.utils.toast
+import com.kust.erms_company.ui.auth.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,9 +20,9 @@ class CompanyProfileFragment : Fragment() {
     private var _binding: FragmentCompanyProfileBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var companyObj: CompanyModel
+    private val authViewModel : AuthViewModel by viewModels()
 
-    private lateinit var viewModel: CompanyViewModel
+    private val companyModel = CompanyModel()
 
     private val progressDialog by lazy {
         ProgressDialog(requireContext())
@@ -43,46 +42,35 @@ class CompanyProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        viewModel = ViewModelProvider(this)[CompanyViewModel::class.java]
-
         progressDialog.setMessage("Loading...")
         progressDialog.setCancelable(false)
         progressDialog.setCanceledOnTouchOutside(false)
 
         observer()
-
         updateUi()
 
     }
 
     private fun observer() {
-        viewModel.getCompanyDetails.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Loading -> {
-                    progressDialog.show()
-                }
-                is UiState.Success -> {
-                    progressDialog.dismiss()
-                    companyObj = state.data[0]
-                    updateUi()
-                }
-                is UiState.Error -> {
-                    progressDialog.dismiss()
-                    toast(state.error)
-                }
+        authViewModel.getSession {
+            companyModel.apply {
+                id = it?.id.toString()
+                name = it?.name.toString()
+                email = it?.email.toString()
+                phone = it?.phone.toString()
+                website = it?.website.toString()
+                country = it?.country.toString()
             }
         }
     }
 
     private fun updateUi() {
-        companyObj = arguments?.getParcelable("company")!!
         binding.profileView.apply {
-            companyName.text = companyObj.name
-            tvEmail.text = companyObj.email
-            tvPhone.text = companyObj.phone
-            tvWebsite.text = companyObj.website
-            tvCountry.text = companyObj.country
+            companyName.text = companyModel.name
+            tvEmail.text = companyModel.email
+            tvPhone.text = companyModel.phone
+            tvWebsite.text = companyModel.website
+            tvCountry.text = companyModel.country
             tvState.text = "companyObj.state"
             tvFullAddress.text = "companyObj.fullAddress"
         }

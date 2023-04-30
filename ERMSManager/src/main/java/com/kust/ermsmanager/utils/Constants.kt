@@ -3,7 +3,7 @@ package com.kust.ermsmanager.utils
 object FireStoreCollectionConstants {
     const val COMPANY = "company"
     const val EMPLOYEE = "employee"
-    const val USERS = "user"
+    const val USERS = "users"
     const val TASKS = "tasks"
 }
 
@@ -26,5 +26,5 @@ object TaskStatus {
 
 object SharedPreferencesConstants {
     const val LOCAL_SHARED_PREF = "local_shared_pref"
-    const val MANAGER_SESSION = "manager_session"
+    const val USER_SESSION = "manager_session"
 }

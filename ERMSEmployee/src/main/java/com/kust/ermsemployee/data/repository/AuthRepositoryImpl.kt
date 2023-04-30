@@ -94,7 +94,7 @@ class AuthRepositoryImpl(
         employeeModel: EmployeeModel,
         result: (UiState<String>) -> Unit
     ) {
-        val dbRef = database.collection(FireStoreCollectionConstants.USER).document(employeeModel.email)
+        val dbRef = database.collection(FireStoreCollectionConstants.USERS).document(employeeModel.id)
 
         dbRef.set(employeeModel)
             .addOnSuccessListener {
@@ -148,7 +148,7 @@ class AuthRepositoryImpl(
     }
 
     override fun storeUserSession(email: String, result: (EmployeeModel?) -> Unit) {
-        val docRef = database.collection(FireStoreCollectionConstants.USER).document(email)
+        val docRef = database.collection(FireStoreCollectionConstants.USERS).document(email)
         docRef.get().addOnSuccessListener { document ->
             if (document != null) {
                 val employee = document.toObject(EmployeeModel::class.java)

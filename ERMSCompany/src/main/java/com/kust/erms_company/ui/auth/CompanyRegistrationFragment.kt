@@ -1,7 +1,5 @@
 package com.kust.erms_company.ui.auth
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,35 +7,22 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.storage.StorageReference
 import com.kust.erms_company.R
 import com.kust.erms_company.data.model.CompanyModel
 import com.kust.erms_company.databinding.FragmentCompanyRegistrationBinding
-import com.kust.erms_company.ui.dashboard.DashBoardActivity
 import com.kust.erms_company.utils.Role
 import com.kust.erms_company.utils.UiState
 import com.kust.erms_company.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class CompanyRegistrationFragment : Fragment() {
 
-    @Inject
-    lateinit var storageReference: StorageReference
-
-    @Inject
-    lateinit var auth: FirebaseAuth
-
     private var _binding: FragmentCompanyRegistrationBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: AuthViewModel by viewModels()
-
-    private lateinit var imageUri: Uri
-    private lateinit var uploadedImageUri: Uri
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,10 +38,6 @@ class CompanyRegistrationFragment : Fragment() {
 
         observer()
 
-//        binding.companyLogo.setOnClickListener {
-//            selectImage()
-//        }
-
         binding.btnRegister.setOnClickListener {
             if (validation()) {
                 val email = binding.editTextEmail.text.toString()
@@ -71,7 +52,6 @@ class CompanyRegistrationFragment : Fragment() {
         viewModel.register.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-//                    uploadImage()
                     binding.btnRegister.text = getString(R.string.register)
                     binding.progressBar.visibility = View.GONE
                     toast(state.data)
@@ -126,39 +106,4 @@ class CompanyRegistrationFragment : Fragment() {
         }
         return valid
     }
-
-//    private fun selectImage() {
-//        val intent = Intent(Intent.ACTION_GET_CONTENT)
-//        intent.type = "image/*"
-//        startActivityForResult(intent, 1)
-//    }
-//
-//    private fun uploadImage() {
-//        auth.uid?.let {
-//            storageReference.storage.getReference(FirebaseStorageConstants.COMPANY_PROFILE).child(
-//                it
-//            )
-//        }
-//        storageReference.putFile(imageUri)
-//            .addOnCompleteListener(requireActivity()) { task ->
-//                if (task.isSuccessful) {
-//                    storageReference.downloadUrl
-//                        .addOnSuccessListener {
-//                            uploadedImageUri = it
-//                        }
-//                }
-//            }
-//    }
-
-//    @Deprecated("Deprecated in Java")
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//
-//        if (data != null) {
-//            if (data.data != null) {
-//                binding.companyLogo.setImageURI(data.data)
-//                imageUri = data.data!!
-//            }
-//        }
-//    }
 }

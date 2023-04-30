@@ -18,19 +18,38 @@ class EmployeeRepositoryImpl(
         employeeModel: EmployeeModel,
         result: (UiState<Pair<EmployeeModel, String>>) -> Unit
     ) {
-        val dbRef = database.collection(FireStoreCollectionConstants.USER).document(employeeModel.email)
-        dbRef.update(
-            "companyId", companyId,
-            "department", employeeModel.department,
-            "salary", employeeModel.salary,
-            "joiningDate", employeeModel.joiningDate
-        )
-            .addOnSuccessListener {
-                result.invoke(UiState.Success(Pair(employeeModel, "Employee added successfully")))
+        val dbRef = database.collection(FireStoreCollectionConstants.USERS)
+            .whereEqualTo("email", email)
+
+        val employeeHashMap = hashMapOf<String, Any>()
+
+        employeeHashMap["companyId"] = companyId!!
+        employeeHashMap["department"] = employeeModel.department
+        employeeHashMap["salary"] = employeeModel.salary
+        employeeHashMap["joiningDate"] = employeeModel.joiningDate
+
+        dbRef.get().addOnSuccessListener {
+            if (it.isEmpty) {
+                result(UiState.Error("No user found with this email"))
+            } else {
+                val document = database.collection(FireStoreCollectionConstants.USERS)
+                    .document(it.documents[0].id)
+                document.update(employeeHashMap).addOnSuccessListener {
+                    result.invoke(
+                        UiState.Success(
+                            Pair(
+                                employeeModel,
+                                "Employee added successfully"
+                            )
+                        )
+                    )
+                }.addOnFailureListener {
+                    result(UiState.Error(it.message.toString()))
+                }
             }
-            .addOnFailureListener {
-                result.invoke(UiState.Error(it.message.toString()))
-            }
+        }.addOnFailureListener {
+            result(UiState.Error(it.message.toString()))
+        }
     }
 
     override fun updateEmployee(
@@ -38,7 +57,7 @@ class EmployeeRepositoryImpl(
         result: (UiState<Pair<EmployeeModel, String>>) -> Unit
     ) {
         val document =
-            database.collection(FireStoreCollectionConstants.USER).document(employeeModel.email)
+            database.collection(FireStoreCollectionConstants.USERS).document(employeeModel.id)
         document.set(employeeModel).addOnSuccessListener {
             result.invoke(UiState.Success(Pair(employeeModel, "Employee updated successfully")))
         }.addOnFailureListener {
@@ -48,7 +67,7 @@ class EmployeeRepositoryImpl(
 
     override fun deleteEmployee(employeeModel: EmployeeModel, result: (UiState<String>) -> Unit) {
         val document =
-            database.collection(FireStoreCollectionConstants.USER).document(employeeModel.email)
+            database.collection(FireStoreCollectionConstants.USERS).document(employeeModel.email)
         document.delete().addOnSuccessListener {
             result.invoke(UiState.Success("Employee deleted successfully"))
         }.addOnFailureListener {
@@ -61,7 +80,7 @@ class EmployeeRepositoryImpl(
         result: (UiState<List<EmployeeModel>>) -> Unit
     ) {
 
-        database.collection(FireStoreCollectionConstants.USER)
+        database.collection(FireStoreCollectionConstants.USERS)
             .whereEqualTo("companyId", companyId)
             .get()
             .addOnSuccessListener {

@@ -7,13 +7,13 @@ import android.os.Parcelable
 @Parcelize
 data class CompanyModel(
     var id: String = "",
-    val name: String = "",
+    var name: String = "",
     val address: String = "",
     val city: String = "",
-    val country: String = "",
-    val email: String = "",
-    val phone: String = "",
-    val website: String = "",
+    var country: String = "",
+    var email: String = "",
+    var phone: String = "",
+    var website: String = "",
     var role : String = "",
     val profilePicture : String = ""
 ) : Parcelable

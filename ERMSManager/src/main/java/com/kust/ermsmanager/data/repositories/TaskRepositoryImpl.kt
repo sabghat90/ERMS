@@ -19,7 +19,7 @@ class TaskRepositoryImpl(
         result: (UiState<List<TaskModel>>) -> Unit
     ) {
         // get company id from shared preferences object
-        val employeeJson = sharedPreferences.getString(SharedPreferencesConstants.MANAGER_SESSION, null)
+        val employeeJson = sharedPreferences.getString(SharedPreferencesConstants.USER_SESSION, null)
         val employee = Gson().fromJson(employeeJson, EmployeeModel::class.java)
         val companyId = employee.companyId
 

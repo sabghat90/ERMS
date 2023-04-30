@@ -9,8 +9,8 @@ interface AuthRepository {
     fun login(email : String, password : String, result : (UiState<String>) -> Unit)
     fun forgotPassword(email : String, result : (UiState<String>) -> Unit)
     fun logout(result : () -> Unit)
-    fun validateUser(email: String): Task<Boolean>
+    fun validateUser(id: String): Task<Boolean>
     fun isUserLoggedIn() : Boolean
-    fun storeUserSession(email: String, result: (EmployeeModel?) -> Unit)
+    fun storeUserSession(id: String, result: (EmployeeModel?) -> Unit)
     fun getUserSession(result : (EmployeeModel?) -> Unit)
 }

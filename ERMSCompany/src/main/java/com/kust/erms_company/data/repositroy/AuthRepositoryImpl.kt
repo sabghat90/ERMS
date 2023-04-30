@@ -54,47 +54,50 @@ class AuthRepositoryImpl(
     }
 
     override fun loginCompany(email: String, password: String, result: (UiState<String>) -> Unit) {
-        // check if the user is a company or not then login the user if the user is a company
-        validateUser(email).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val isValid = task.result
-                if (isValid) {
-                    auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener { task ->
+        // first login the user and then check if it is a company or not from validateUser function
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    task.result.user?.let {
+                        validateUser(it.uid).addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                // save the user information in shared preferences by calling storeUserSession method
-                                storeUserSession(email) { companyModel ->
-                                    if (companyModel != null) {
-                                        result(UiState.Success("Login successful"))
-                                    } else {
-                                        result(UiState.Error("Failed to store user session"))
+                                val isCompany = task.result
+                                if (isCompany != null && isCompany) {
+                                    storeUserSession(it.uid) { companyModel ->
+                                        if (companyModel != null) {
+                                            result(UiState.Success("Login successful"))
+                                        } else {
+                                            auth.signOut()
+                                            result(UiState.Error("Invalid user"))
+                                        }
                                     }
+                                } else {
+                                    auth.signOut()
+                                    result(UiState.Error("Invalid user"))
                                 }
-                                result(UiState.Success("Login successful"))
                             } else {
-                                try {
-                                    throw task.exception ?: java.lang.Exception("Invalid authentication")
-                                } catch (e: FirebaseAuthInvalidUserException) {
-                                    result(UiState.Error("User does not exist"))
-                                } catch (e: FirebaseAuthInvalidCredentialsException) {
-                                    result(UiState.Error("Invalid email or password"))
-                                } catch (e: Exception) {
-                                    result(UiState.Error("Unknown error"))
-                                }
+                                auth.signOut()
+                                result(UiState.Error("Invalid user"))
                             }
                         }
-                } else {
-                    // if the user is not a company, return error
-                    result(UiState.Error("User is not a company"))
+                    }
                 }
-            } else {
-                result(UiState.Error("Failed to validate user"))
+                else {
+                    try {
+                        throw task.exception ?: java.lang.Exception("Invalid authentication")
+                    } catch (e: FirebaseAuthInvalidUserException) {
+                        result(UiState.Error("User does not exist"))
+                    } catch (e: FirebaseAuthInvalidCredentialsException) {
+                        result(UiState.Error("Invalid email"))
+                    } catch (e: Exception) {
+                        result(UiState.Error("Unknown error"))
+                    }
+                }
             }
-        }
     }
 
-    override fun validateUser(email: String): Task<Boolean> {
-        val docRef = database.collection(FireStoreCollectionConstants.USER).document(email)
+    override fun validateUser(id: String): Task<Boolean> {
+        val docRef = database.collection(FireStoreCollectionConstants.USERS).document(id)
         return docRef.get().continueWith { task ->
             val document = task.result
             if (document != null) {
@@ -129,10 +132,13 @@ class AuthRepositoryImpl(
     override fun logoutCompany(result: () -> Unit) {
         auth.signOut()
         result()
+        // clear user session
+        val editor = sharedPreferences.edit()
+        editor.remove(SharedPreferencesConstants.USER_SESSION)
     }
 
     override fun updateCompanyInformation(companyModel: CompanyModel, result: (UiState<String>) -> Unit) {
-        val documentReference = database.collection(FireStoreCollectionConstants.USER).document(companyModel.email)
+        val documentReference = database.collection(FireStoreCollectionConstants.USERS).document(companyModel.id)
         documentReference
             .set(companyModel)
             .addOnSuccessListener {
@@ -147,8 +153,8 @@ class AuthRepositoryImpl(
         return auth.currentUser != null
     }
 
-    override fun storeUserSession(email: String, result: (CompanyModel?) -> Unit) {
-        val docRef = database.collection(FireStoreCollectionConstants.USER).document(email)
+    override fun storeUserSession(id: String, result: (CompanyModel?) -> Unit) {
+        val docRef = database.collection(FireStoreCollectionConstants.USERS).document(id)
         docRef.get().addOnSuccessListener { document ->
             if (document != null) {
                 val company = document.toObject(CompanyModel::class.java)

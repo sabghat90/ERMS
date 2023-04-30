@@ -1,7 +1,5 @@
 package com.kust.erms_company.ui.dashboard
 
-import android.app.Dialog
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kust.erms_company.R
 import com.kust.erms_company.data.model.CompanyModel
 import com.kust.erms_company.data.model.FeatureModel
@@ -20,8 +17,6 @@ import com.kust.erms_company.ui.auth.AuthViewModel
 import com.kust.erms_company.ui.auth.RegistrationActivity
 import com.kust.erms_company.ui.company.CompanyViewModel
 import com.kust.erms_company.utils.UiState
-import com.kust.erms_company.utils.hide
-import com.kust.erms_company.utils.show
 import com.kust.erms_company.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,8 +28,6 @@ class FeaturesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val authViewModel : AuthViewModel by viewModels()
-    private val companyViewModel : CompanyViewModel by viewModels()
-    private var companyObj : CompanyModel? = null
     private val adapter by lazy { FeaturesListingAdapter() }
 
 
@@ -50,8 +43,6 @@ class FeaturesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observer()
-
         val features = mutableListOf<FeatureModel>()
 
         features.add(FeatureModel("Add Employee", R.drawable.ic_add))
@@ -65,8 +56,6 @@ class FeaturesFragment : Fragment() {
         val layout = LinearLayoutManager(requireContext())
         binding.rvFeatures.layoutManager = layout
         binding.rvFeatures.adapter = adapter
-
-        companyViewModel.getCompanyDetails
 
         adapter.setOnItemClickListener(object : FeaturesListingAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
@@ -85,9 +74,7 @@ class FeaturesFragment : Fragment() {
                     }
                     4 -> {
 
-                        findNavController().navigate(R.id.action_featuresFragment_to_companyProfileFragment, Bundle().apply {
-                            putParcelable("company", companyObj)
-                        })
+                        findNavController().navigate(R.id.action_featuresFragment_to_companyProfileFragment)
                     }
                     5 -> {
                         authViewModel.logout {
@@ -99,37 +86,6 @@ class FeaturesFragment : Fragment() {
                 }
             }
         })
-    }
-
-    private fun observer () {
-        companyViewModel.getCompanyDetails.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Loading -> {
-                    isMakeUiVisible(false)
-                    binding.shimmerLayout.startShimmer()
-                }
-                is UiState.Success -> {
-                    isMakeUiVisible(true)
-                    binding.shimmerLayout.stopShimmer()
-                    binding.shimmerLayout.visibility = View.GONE
-                    binding.rvFeatures.visibility = View.VISIBLE
-                    companyObj = state.data[0]
-                }
-                is UiState.Error -> {
-                    isMakeUiVisible(false)
-                    binding.shimmerLayout.stopShimmer()
-                    requireActivity().toast(state.error)
-                }
-            }
-        }
-    }
-
-    private fun isMakeUiVisible(isDisable : Boolean) {
-        if (isDisable) {
-            binding.rvFeatures.visibility = View.VISIBLE
-        } else {
-            binding.rvFeatures.visibility = View.GONE
-        }
     }
 
     override fun onDestroyView() {

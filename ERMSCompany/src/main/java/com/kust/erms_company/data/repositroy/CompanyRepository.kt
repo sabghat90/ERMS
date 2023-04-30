@@ -10,6 +10,4 @@ interface CompanyRepository {
         companyModel: CompanyModel,
         result: (UiState<Pair<CompanyModel, String>>) -> Unit
     )
-
-
 }
