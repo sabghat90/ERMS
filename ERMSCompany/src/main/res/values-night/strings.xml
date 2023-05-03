@@ -39,4 +39,14 @@
     <string name="State">state</string>
     <string name="select_manager">Select Manager</string>
     <string name="loading">Loading...</string>
+    <string name="set_pin">Set PIN</string>
+    <string name="about">About</string>
+    <string name="biometric_login">Biometric Login</string>
+    <string name="message">Message</string>
+    <string name="authentication_succeeded">Authentication succeeded!</string>
+    <string name="authentication_failed">Authentication failed</string>
+    <string name="you_can_use_biometric">You can use biometric</string>
+    <string name="no_biometric_feature">No biometric features available on this device.</string>
+    <string name="biometric_features_are_currently_unavailable">Biometric features are currently unavailable.</string>
+    <string name="the_user_hasn_t_associated_any_biometric_credentials">The user hasn\'t associated any biometric credentials with their account.</string>
 </resources>

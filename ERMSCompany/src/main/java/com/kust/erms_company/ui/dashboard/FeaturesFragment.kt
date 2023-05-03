@@ -10,14 +10,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.erms_company.R
-import com.kust.erms_company.data.model.CompanyModel
 import com.kust.erms_company.data.model.FeatureModel
 import com.kust.erms_company.databinding.FragmentFeaturesBinding
 import com.kust.erms_company.ui.auth.AuthViewModel
 import com.kust.erms_company.ui.auth.RegistrationActivity
-import com.kust.erms_company.ui.company.CompanyViewModel
-import com.kust.erms_company.utils.UiState
-import com.kust.erms_company.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -47,7 +43,6 @@ class FeaturesFragment : Fragment() {
 
         features.add(FeatureModel("Add Employee", R.drawable.ic_add))
         features.add(FeatureModel("Manage Employee", R.drawable.ic_manage_emp))
-        features.add(FeatureModel("Select Manager", R.drawable.ic_select_emp))
         features.add(FeatureModel("Setting", R.drawable.ic_setting))
         features.add(FeatureModel("Profile", R.drawable.ic_profile))
         features.add(FeatureModel("Logout", R.drawable.ic_logout))
@@ -67,16 +62,12 @@ class FeaturesFragment : Fragment() {
                         findNavController().navigate(R.id.action_featuresFragment_to_manageEmployeeFragment)
                     }
                     2 -> {
-                        findNavController().navigate(R.id.action_featuresFragment_to_manageEmployeeFragment)
+                        findNavController().navigate(R.id.action_featuresFragment_to_settingFragment)
                     }
                     3 -> {
-
-                    }
-                    4 -> {
-
                         findNavController().navigate(R.id.action_featuresFragment_to_companyProfileFragment)
                     }
-                    5 -> {
+                    4 -> {
                         authViewModel.logout {
                             val intent = Intent(requireContext(), RegistrationActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dashboard_nav_graph"
-    app:startDestination="@id/featuresFragment">
+    app:startDestination="@id/biometricFragment">
     <fragment
         android:id="@+id/featuresFragment"
         android:name="com.kust.erms_company.ui.dashboard.FeaturesFragment"
@@ -26,6 +26,13 @@
         <action
             android:id="@+id/action_featuresFragment_to_companyProfileFragment"
             app:destination="@id/companyProfileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_featuresFragment_to_settingFragment"
+            app:destination="@id/settingFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -69,4 +76,17 @@
         android:name="com.kust.erms_company.ui.company.CompanyProfileFragment"
         android:label="Company Profile"
         tools:layout="@layout/fragment_company_profile" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.kust.erms_company.ui.setting.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/biometricFragment"
+        android:name="com.kust.erms_company.ui.setting.BiometricFragment"
+        tools:layout="@layout/fragment_biometric">
+        <action
+            android:id="@+id/action_biometricFragment_to_featuresFragment"
+            app:destination="@id/featuresFragment" />
+    </fragment>
 </navigation>

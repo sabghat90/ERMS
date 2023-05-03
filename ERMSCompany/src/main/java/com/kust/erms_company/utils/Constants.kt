@@ -20,4 +20,5 @@ object Role {
 object SharedPreferencesConstants {
     const val LOCAL_SHARED_PREF = "local_shared_pref"
     const val USER_SESSION = "company_session"
+    const val PIN_CODE = "pin_code"
 }
