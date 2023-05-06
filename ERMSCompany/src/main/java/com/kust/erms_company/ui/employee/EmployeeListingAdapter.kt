@@ -3,6 +3,7 @@ package com.kust.erms_company.ui.employee
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.bumptech.glide.Glide
 import com.kust.erms_company.R
 import com.kust.erms_company.data.model.EmployeeModel
@@ -55,7 +56,7 @@ class EmployeeListingAdapter (
                 .into(binding.imgEmployee)
 
             binding.tvEmployeeName.text = employee.name
-            binding.tvDepartment.text = employee.jobTitle
+            binding.tvDepartment.text = employee.department
 
             if (employee.role == "manager") {
                 binding.tvStatus.text = "Manager"

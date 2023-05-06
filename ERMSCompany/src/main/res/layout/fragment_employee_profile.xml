@@ -20,33 +20,40 @@
                 android:id="@+id/profile_view"
                 layout="@layout/view_profile" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_update"
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:id="@+id/btn_layout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
-                android:text="@string/update"
-                android:textAllCaps="true"
-                app:cornerRadius="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profile_view" />
+                app:layout_constraintTop_toBottomOf="@+id/profile_view">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_select_manager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/select_manager"
-                android:textAllCaps="true"
-                app:cornerRadius="5dp"
-                app:layout_constraintEnd_toEndOf="@+id/btn_update"
-                app:layout_constraintStart_toStartOf="@+id/btn_update"
-                app:layout_constraintTop_toBottomOf="@+id/btn_update" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_select_manager"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:text="@string/select_manager"
+                    android:textAllCaps="true"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="6dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:indeterminate="true"
+                    android:visibility="gone"
+                    app:indicatorColor="@color/md_theme_light_onPrimary" />
+
+            </RelativeLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

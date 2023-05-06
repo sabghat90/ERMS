@@ -28,23 +28,29 @@ class EmployeeRepositoryImpl(
         employeeHashMap["salary"] = employeeModel.salary
         employeeHashMap["joiningDate"] = employeeModel.joiningDate
 
-        dbRef.get().addOnSuccessListener {
+        dbRef.get().addOnSuccessListener { it ->
             if (it.isEmpty) {
                 result(UiState.Error("No user found with this email"))
             } else {
                 val document = database.collection(FireStoreCollectionConstants.USERS)
                     .document(it.documents[0].id)
-                document.update(employeeHashMap).addOnSuccessListener {
-                    result.invoke(
-                        UiState.Success(
-                            Pair(
-                                employeeModel,
-                                "Employee added successfully"
+                // check if employee already added or not by checking companyId field in employee document
+                if (it.documents[0].data?.get("companyId") != null) {
+                    result(UiState.Error("Employee already added"))
+                    return@addOnSuccessListener
+                } else {
+                    document.update(employeeHashMap).addOnSuccessListener {
+                        result.invoke(
+                            UiState.Success(
+                                Pair(
+                                    employeeModel,
+                                    "Employee added successfully"
+                                )
                             )
                         )
-                    )
-                }.addOnFailureListener {
-                    result(UiState.Error(it.message.toString()))
+                    }.addOnFailureListener {
+                        result(UiState.Error(it.message.toString()))
+                    }
                 }
             }
         }.addOnFailureListener {

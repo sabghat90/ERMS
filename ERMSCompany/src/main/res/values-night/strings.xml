@@ -52,4 +52,8 @@
     <string name="set_biometric">Enable Biomatric</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="project_proposal">Project Proposal</string>
+    <string name="success">Success</string>
+    <string name="successful_message">Successfully selected Manager!</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
 </resources>

@@ -1,12 +1,15 @@
 package com.kust.erms_company.ui.employee_profile
 
-import android.app.ProgressDialog
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import com.kust.erms_company.R
 import com.kust.erms_company.data.model.EmployeeModel
 import com.kust.erms_company.databinding.FragmentEmployeeProfileBinding
 import com.kust.erms_company.ui.employee.EmployeeViewModel
@@ -14,7 +17,6 @@ import com.kust.erms_company.utils.Role
 import com.kust.erms_company.utils.UiState
 import com.kust.erms_company.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class EmployeeProfileFragment : Fragment() {
@@ -24,14 +26,10 @@ class EmployeeProfileFragment : Fragment() {
     private var _binding: FragmentEmployeeProfileBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var employeeObj : EmployeeModel
+    private lateinit var employeeObj: EmployeeModel
 
-    private lateinit var viewModel: ProfileViewModel
-    private lateinit var employeeViewModel : EmployeeViewModel
+    private val employeeViewModel: EmployeeViewModel by viewModels()
 
-    private val progressDialog : ProgressDialog by lazy {
-        ProgressDialog(requireContext())
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,52 +44,59 @@ class EmployeeProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        progressDialog.setMessage("Loading...")
-        progressDialog.setCancelable(false)
-        progressDialog.setCanceledOnTouchOutside(false)
-
-        viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
-        employeeViewModel = ViewModelProvider(this)[EmployeeViewModel::class.java]
-
         updateUi()
         observer()
 
         binding.btnSelectManager.setOnClickListener {
-            employeeObj.role = Role.MANAGER
+            // check if employee is already a manager
+            if (employeeObj.role == Role.MANAGER) {
+                toast("Employee is already a manager")
+                return@setOnClickListener
 
-            employeeViewModel.updateEmployee(employeeObj)
+            } else {
+
+                val dialog = Dialog(requireContext())
+                dialog.setCancelable(false)
+                dialog.setContentView(R.layout.custom_dialog_layout)
+                dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog.window!!.setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+                dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+                val btnYes = dialog.findViewById<View>(R.id.btn_yes)
+                val btnNo = dialog.findViewById<View>(R.id.btn_cancel)
+                dialog.show()
+
+                btnYes.setOnClickListener {
+                    dialog.dismiss()
+                    employeeObj.role = Role.MANAGER
+                    employeeViewModel.updateEmployee(employeeObj)
+                }
+
+                btnNo.setOnClickListener {
+                    dialog.dismiss()
+                }
+            }
+
         }
     }
 
     private fun observer() {
-        employeeViewModel.getEmployeeList.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Loading -> {
-                    progressDialog.show()
-                }
-                is UiState.Success -> {
-                    progressDialog.dismiss()
-                    employeeObj = state.data[0]
-                    isMakeEnableUI(false)
-                }
-                is UiState.Error -> {
-                    progressDialog.dismiss()
-                    toast(state.error)
-                }
-            }
-        }
 
         employeeViewModel.updateEmployee.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
-                    progressDialog.show()
+                    binding.progressBar.visibility = View.VISIBLE
                 }
+
                 is UiState.Success -> {
-                    progressDialog.dismiss()
+                    binding.progressBar.visibility = View.GONE
                     toast("Update successfully")
                 }
+
                 is UiState.Error -> {
-                    progressDialog.dismiss()
+                    binding.progressBar.visibility = View.GONE
                     toast(state.error)
                 }
             }
@@ -107,29 +112,7 @@ class EmployeeProfileFragment : Fragment() {
             tvCountry.text = employeeObj.country
             tvState.text = employeeObj.state
             tvFullAddress.text = employeeObj.address
-            isMakeEnableUI(false)
         }
-    }
-
-    private fun isMakeEnableUI(isDisable: Boolean = false) {
-        binding.profileView.apply {
-            if (isDisable) {
-                companyName.isEnabled = false
-                tvEmail.isEnabled = false
-                tvPhone.isEnabled = false
-                tvCountry.isEnabled = false
-                tvState.isEnabled = false
-                tvFullAddress.isEnabled = false
-            } else {
-                companyName.isEnabled = true
-                tvEmail.isEnabled = true
-                tvPhone.isEnabled = true
-                tvCountry.isEnabled = true
-                tvState.isEnabled = true
-                tvFullAddress.isEnabled = true
-            }
-        }
-
     }
 
     override fun onDestroyView() {
@@ -137,5 +120,4 @@ class EmployeeProfileFragment : Fragment() {
         _binding = null
 
     }
-
 }
