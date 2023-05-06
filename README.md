@@ -26,8 +26,8 @@ Now the Rewarding System. As we know in organizations, there are multiple employ
 2. Bonusly (Smartly Inc. (dba Bonusly)[2]
 	- History: Bonusly is founded in 2012 by Raphael Crawford-Marks. Bonusly is very good and popular recognition system for employees, but we plan to make a user-		friendly app to keep track employees’ performance and managements records.
 	- How it works:
-		1. Users can give small bonuses to their peers, direct reports, and managers to recognize their contributions in real time.
-		3. User can add and delete any peer.
+        1. Users can give small bonuses to their peers, direct reports, and managers to recognize their contributions in real time.
+        2. User can add and delete any peer.
 	- Issues:
 		1. In Bonusly there is no attendance system.
 		2. There is no salary slip system.
@@ -96,7 +96,7 @@ For business owners and managers, it might seem like a lot of extra effort to im
 3. Development: After completing design phase we have to start Development phase.
 4. Testing: All the units developed in the implementation phase are integrated into a system we have to test each unit.
 5. Deployment: Once the functional and non-functional testing is done; the product is deployed in the customer environment or released into the market.
-5. Maintenance:  There will be some issues in the app. To fix those issues, patches are released. Maintenance is done to deliver these changes in the app environment.
+6. Maintenance:  There will be some issues in the app. To fix those issues, patches are released. Maintenance is done to deliver these changes in the app environment.
 
  
 # Tools and Techniques

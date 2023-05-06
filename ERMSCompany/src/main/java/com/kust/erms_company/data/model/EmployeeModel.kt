@@ -1,9 +1,7 @@
 package com.kust.erms_company.data.model
 
-import kotlinx.parcelize.Parcelize
 import android.os.Parcelable
-import com.google.firebase.firestore.ServerTimestamp
-import java.util.Date
+import kotlinx.parcelize.Parcelize
 
 
 @Parcelize

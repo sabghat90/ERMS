@@ -18,7 +18,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class EmployeeListingFragment : Fragment() {
 
-    private val TAG = "EmployeeListingFragment"
     private var _binding : FragmentEmployeeListingBinding? = null
     private val binding get() = _binding!!
 

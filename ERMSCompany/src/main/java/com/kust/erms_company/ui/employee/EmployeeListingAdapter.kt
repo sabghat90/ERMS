@@ -3,7 +3,6 @@ package com.kust.erms_company.ui.employee
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.bumptech.glide.Glide
 import com.kust.erms_company.R
 import com.kust.erms_company.data.model.EmployeeModel

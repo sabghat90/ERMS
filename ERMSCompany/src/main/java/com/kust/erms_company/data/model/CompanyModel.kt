@@ -1,8 +1,8 @@
 package com.kust.erms_company.data.model
 
 
-import kotlinx.parcelize.Parcelize
 import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class CompanyModel(

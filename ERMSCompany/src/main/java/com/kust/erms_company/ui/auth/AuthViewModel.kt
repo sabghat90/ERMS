@@ -3,8 +3,8 @@ package com.kust.erms_company.ui.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kust.erms_company.data.repositroy.AuthRepository
 import com.kust.erms_company.data.model.CompanyModel
+import com.kust.erms_company.data.repositroy.AuthRepository
 import com.kust.erms_company.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

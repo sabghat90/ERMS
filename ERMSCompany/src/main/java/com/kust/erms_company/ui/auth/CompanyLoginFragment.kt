@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.kust.erms_company.ui.setting.BiometricActivity
 import com.kust.erms_company.R
 import com.kust.erms_company.databinding.FragmentCompanyLoginBinding
 import com.kust.erms_company.ui.dashboard.DashBoardActivity
+import com.kust.erms_company.ui.setting.BiometricActivity
 import com.kust.erms_company.utils.UiState
 import com.kust.erms_company.utils.toast
 import dagger.hilt.android.AndroidEntryPoint

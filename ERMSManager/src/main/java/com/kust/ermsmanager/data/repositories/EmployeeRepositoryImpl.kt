@@ -4,7 +4,6 @@ import android.net.Uri
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.utils.FireStoreCollectionConstants

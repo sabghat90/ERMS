@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kust.erms_company.data.model.CompanyModel
-import com.kust.erms_company.data.model.EmployeeModel
 import com.kust.erms_company.data.repositroy.CompanyRepository
 import com.kust.erms_company.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel

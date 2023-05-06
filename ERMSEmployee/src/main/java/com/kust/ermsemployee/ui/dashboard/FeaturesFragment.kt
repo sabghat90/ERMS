@@ -9,8 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.facebook.shimmer.ShimmerFrameLayout
 import com.kust.ermsemployee.R
 import com.kust.ermsemployee.data.model.FeatureModel
 import com.kust.ermsemployee.databinding.FragmentFeatureBinding

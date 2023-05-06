@@ -14,7 +14,7 @@ class PrivacyPolicyFragment : Fragment() {
     private var _binding: FragmentPrivacyPolicyBinding? = null
     private val binding get() = _binding!!
 
-    private val FILE_NAME = "privacy_policy.html"
+    private val FILENAME = "privacy_policy.html"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +24,7 @@ class PrivacyPolicyFragment : Fragment() {
         _binding= FragmentPrivacyPolicyBinding.inflate(inflater, container, false)
 
         // load html file
-        binding.privacyPolicyWebView.loadUrl("file:///android_asset/$FILE_NAME")
+        binding.privacyPolicyWebView.loadUrl("file:///android_asset/$FILENAME")
 
         return binding.root
     }

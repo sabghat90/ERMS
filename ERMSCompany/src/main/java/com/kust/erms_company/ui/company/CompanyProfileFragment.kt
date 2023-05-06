@@ -15,8 +15,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CompanyProfileFragment : Fragment() {
 
-    private val TAG = "CompanyProfileFragment"
-
     private var _binding: FragmentCompanyProfileBinding? = null
     private val binding get() = _binding!!
 

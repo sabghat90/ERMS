@@ -1,11 +1,8 @@
 package com.kust.ermsmanager.data.repositories
 
 import android.net.Uri
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.utils.UiState
-import javax.inject.Inject
 
 interface EmployeeRepository {
     fun getEmployeeList(employeeList : EmployeeModel?, result: (UiState<List<EmployeeModel>>) -> Unit)
