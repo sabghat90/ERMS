@@ -20,7 +20,7 @@ class DashBoardActivity : AppCompatActivity() {
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.dashboard_nav_host) as NavHostFragment
         navHostFragment.findNavController().run {
             binding.toolbar.setupWithNavController(this, AppBarConfiguration(graph))
         }

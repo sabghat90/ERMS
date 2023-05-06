@@ -51,4 +51,7 @@
     <string name="no_biometric_feature">No biometric features available on this device.</string>
     <string name="biometric_features_are_currently_unavailable">Biometric features are currently unavailable.</string>
     <string name="the_user_hasn_t_associated_any_biometric_credentials">The user hasn\'t associated any biometric credentials with their account.</string>
+    <string name="set_biometric">Enable Biomatric</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="project_proposal">Project Proposal</string>
 </resources>

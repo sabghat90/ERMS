@@ -1,8 +1,8 @@
 package com.kust.erms_company.di
 
 import android.content.SharedPreferences
-import com.kust.erms_company.data.repositroy.PinCodeRepository
-import com.kust.erms_company.data.repositroy.PinCodeRepositoryImpl
+import com.kust.erms_company.data.repositroy.BiometricRepository
+import com.kust.erms_company.data.repositroy.BiometricRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +15,7 @@ object ProvidePinCodeRepository {
     @Provides
     fun providePinCodeRepository(
         sharedPreferences: SharedPreferences
-    ): PinCodeRepository {
-        return PinCodeRepositoryImpl(sharedPreferences)
+    ): BiometricRepository {
+        return BiometricRepositoryImpl(sharedPreferences)
     }
 }

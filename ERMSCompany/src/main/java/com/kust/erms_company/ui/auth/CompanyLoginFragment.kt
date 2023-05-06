@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.kust.erms_company.ui.setting.BiometricActivity
 import com.kust.erms_company.R
 import com.kust.erms_company.databinding.FragmentCompanyLoginBinding
 import com.kust.erms_company.ui.dashboard.DashBoardActivity
@@ -32,8 +33,8 @@ class CompanyLoginFragment : Fragment() {
         _binding = FragmentCompanyLoginBinding.inflate(inflater, container, false)
 
         if (viewModel.isUserLoggedIn.value == true) {
-            val intent = Intent(requireContext(), DashBoardActivity::class.java)
-            startActivity(intent)
+            val loadBiometricActivity = Intent(requireContext(), BiometricActivity::class.java)
+            startActivity(loadBiometricActivity)
             requireActivity().finish()
         }
 

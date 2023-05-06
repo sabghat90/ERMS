@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dashboard_nav_graph"
-    app:startDestination="@id/biometricFragment">
+    app:startDestination="@id/featuresFragment">
     <fragment
         android:id="@+id/featuresFragment"
         android:name="com.kust.erms_company.ui.dashboard.FeaturesFragment"
@@ -15,28 +15,32 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_featuresFragment_to_manageEmployeeFragment"
             app:destination="@id/manageEmployeeFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_featuresFragment_to_companyProfileFragment"
             app:destination="@id/companyProfileFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_featuresFragment_to_settingFragment"
             app:destination="@id/settingFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/addEmployeeFragment"
@@ -74,19 +78,36 @@
     <fragment
         android:id="@+id/companyProfileFragment"
         android:name="com.kust.erms_company.ui.company.CompanyProfileFragment"
-        android:label="Company Profile"
+        android:label="Profile"
         tools:layout="@layout/fragment_company_profile" />
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.kust.erms_company.ui.setting.SettingFragment"
-        android:label="fragment_setting"
-        tools:layout="@layout/fragment_setting" />
-    <fragment
-        android:id="@+id/biometricFragment"
-        android:name="com.kust.erms_company.ui.setting.BiometricFragment"
-        tools:layout="@layout/fragment_biometric">
+        android:label="Settings"
+        tools:layout="@layout/fragment_setting" >
         <action
-            android:id="@+id/action_biometricFragment_to_featuresFragment"
-            app:destination="@id/featuresFragment" />
+            android:id="@+id/action_settingFragment_to_privacyPolicyFragment"
+            app:destination="@id/privacyPolicyFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_settingFragment_to_projectProposalFragment"
+            app:destination="@id/projectProposalFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/privacyPolicyFragment"
+        android:name="com.kust.erms_company.ui.setting.PrivacyPolicyFragment"
+        android:label="@string/privacy_policy"
+        tools:layout="@layout/fragment_privacy_policy" />
+    <fragment
+        android:id="@+id/projectProposalFragment"
+        android:name="com.kust.erms_company.ui.setting.ProjectProposalFragment"
+        android:label="@string/project_proposal"
+        tools:layout="@layout/fragment_project_proposal" />
 </navigation>
