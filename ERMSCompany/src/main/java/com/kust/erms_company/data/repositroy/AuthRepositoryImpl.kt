@@ -183,4 +183,22 @@ class AuthRepositoryImpl(
             result.invoke(null)
         }
     }
+
+    override fun changePassword(newPassword: String, result: (UiState<String>) -> Unit) {
+        val user = auth.currentUser
+        user?.updatePassword(newPassword)
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    result(UiState.Success("Password changed successfully"))
+                } else {
+                    try {
+                        throw task.exception ?: java.lang.Exception("Invalid authentication")
+                    } catch (e: FirebaseAuthWeakPasswordException) {
+                        result(UiState.Error("Weak password"))
+                    } catch (e: Exception) {
+                        result(UiState.Error("Unknown error"))
+                    }
+                }
+            }
+    }
 }

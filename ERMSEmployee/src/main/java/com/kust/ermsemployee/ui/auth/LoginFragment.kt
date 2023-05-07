@@ -68,12 +68,12 @@ class LoginFragment : Fragment() {
                     binding.progressBar.show()
                 }
                 is UiState.Error -> {
-                    binding.btnLogin.text = "Login"
+                    binding.btnLogin.text = getString(R.string.login)
                     binding.progressBar.hide()
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    binding.btnLogin.text = "Login"
+                    binding.btnLogin.text = getString(R.string.login)
                     binding.progressBar.hide()
                     toast(state.data)
                     val intent = Intent(requireContext(), DashboardActivity::class.java)

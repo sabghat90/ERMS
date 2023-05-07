@@ -50,6 +50,10 @@ class SettingFragment : Fragment() {
             findNavController().navigate(R.id.action_settingFragment_to_projectProposalFragment)
         }
 
+        binding.changePasswordLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_settingFragment_to_changePasswordFragment)
+        }
+
         getVersionCodeAndName()
     }
 

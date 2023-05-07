@@ -48,7 +48,6 @@ class FeaturesFragment : Fragment() {
         val features = mutableListOf<FeatureModel>()
 
         features.add(FeatureModel("View Employees", R.drawable.avatar2))
-        features.add(FeatureModel("Manage Employee", R.drawable.avatar2))
         features.add(FeatureModel("Mark Attendance", R.drawable.avatar2))
         features.add(FeatureModel("Task", R.drawable.avatar2))
         features.add(FeatureModel("Events", R.drawable.avatar2))
@@ -72,26 +71,22 @@ class FeaturesFragment : Fragment() {
                             .show()
                     }
                     1 -> {
-                        Toast.makeText(requireContext(), "Manage Employee", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    2 -> {
                         Toast.makeText(requireContext(), "Mark Attendance", Toast.LENGTH_SHORT)
                             .show()
                     }
-                    3 -> {
+                    2 -> {
                         Toast.makeText(requireContext(), "Task", Toast.LENGTH_SHORT).show()
                     }
-                    4 -> {
+                    3 -> {
                         Toast.makeText(requireContext(), "Events", Toast.LENGTH_SHORT).show()
                     }
-                    5 -> {
+                    4 -> {
                         Toast.makeText(requireContext(), "Setting", Toast.LENGTH_SHORT).show()
                     }
-                    6 -> {
+                    5 -> {
                         Toast.makeText(requireContext(), "Profile", Toast.LENGTH_SHORT).show()
                     }
-                    7 -> {
+                    6 -> {
                         Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()
                         // Logout
                         authViewModel.logout {

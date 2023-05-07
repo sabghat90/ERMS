@@ -15,4 +15,5 @@ interface AuthRepository {
 
     fun storeUserSession(id: String, result: (CompanyModel?) -> Unit)
     fun getUserSession(result : (CompanyModel?) -> Unit)
+    fun changePassword(newPassword: String, result: (UiState<String>) -> Unit)
 }

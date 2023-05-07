@@ -9,14 +9,5 @@
         android:id="@+id/featureFragment"
         android:name="com.kust.ermsemployee.ui.dashboard.FeaturesFragment"
         android:label="fragment_feature"
-        tools:layout="@layout/fragment_feature" >
-        <action
-            android:id="@+id/action_featureFragment_to_loginActivity"
-            app:destination="@id/loginActivity" />
-    </fragment>
-    <activity
-        android:id="@+id/loginActivity"
-        android:name="com.kust.ermsemployee.ui.auth.LoginActivity"
-        android:label="activity_login"
-        tools:layout="@layout/activity_login" />
+        tools:layout="@layout/fragment_feature" />
 </navigation>

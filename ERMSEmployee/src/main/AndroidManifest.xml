@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -20,7 +21,9 @@
         android:theme="@style/Theme.Base.ERMS">
         <activity
             android:name=".ui.auth.AuthActivity"
-            android:exported="true" >
+            android:screenOrientation="portrait"
+            android:exported="true"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,12 +33,9 @@
         </activity>
         <activity
             android:name=".ui.dashboard.DashboardActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.auth.AuthActivity"
-            android:exported="true">
-
-        </activity>
+            android:screenOrientation="portrait"
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

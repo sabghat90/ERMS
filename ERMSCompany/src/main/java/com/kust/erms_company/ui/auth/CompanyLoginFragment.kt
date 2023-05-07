@@ -56,6 +56,9 @@ class CompanyLoginFragment : Fragment() {
         binding.btnRegister.setOnClickListener {
             findNavController().navigate(R.id.action_companyLoginFragment_to_companyRegistrationFragment)
         }
+        binding.btnForgetPassword.setOnClickListener {
+            findNavController().navigate(R.id.action_companyLoginFragment_to_forgotPasswordFragment)
+        }
     }
 
     private fun observer() {
