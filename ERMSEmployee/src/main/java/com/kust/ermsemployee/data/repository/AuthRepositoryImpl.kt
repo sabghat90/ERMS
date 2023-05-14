@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.kust.ermsemployee.data.model.EmployeeModel
 import com.kust.ermsemployee.utils.FireStoreCollectionConstants
@@ -15,39 +16,50 @@ class AuthRepositoryImpl(
     private val auth: FirebaseAuth,
     private val database: FirebaseFirestore,
     private val sharedPreferences: SharedPreferences,
-    private val gson: Gson
+    private val gson: Gson,
+    private val firebaseMessaging: FirebaseMessaging
 ) : AuthRepository {
 
     override fun login(email: String, password: String, result: (UiState<String>) -> Unit) {
 
-        validateUser(email).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val isValid = task.result
-                if (isValid) {
-                    auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener { task ->
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    task.result.user?.let {
+                        validateUser(it.uid).addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                result(UiState.Success("Login successful"))
-                            } else {
-                                try {
-                                    throw task.exception ?: java.lang.Exception("Invalid authentication")
-                                } catch (e: FirebaseAuthInvalidUserException) {
-                                    result(UiState.Error("User does not exist"))
-                                } catch (e: FirebaseAuthInvalidCredentialsException) {
-                                    result(UiState.Error("Invalid email or password"))
-                                } catch (e: Exception) {
-                                    result(UiState.Error("Unknown error"))
+                                val isEmployee = task.result
+                                if (isEmployee != null && isEmployee) {
+                                    storeUserSession(it.uid) { employeeModel ->
+                                        if (employeeModel != null) {
+                                            result(UiState.Success("Login successful"))
+                                        } else {
+                                            auth.signOut()
+                                            result(UiState.Error("Invalid user"))
+                                        }
+                                    }
+                                } else {
+                                    auth.signOut()
+                                    result(UiState.Error("Invalid user"))
                                 }
+                            } else {
+                                auth.signOut()
+                                result(UiState.Error("Invalid user"))
                             }
                         }
+                    }
                 } else {
-                    // if the user is not a company, return error
-                    result(UiState.Error("User is not a employee"))
+                    try {
+                        throw task.exception ?: java.lang.Exception("Invalid authentication")
+                    } catch (e: FirebaseAuthInvalidUserException) {
+                        result(UiState.Error("User does not exist"))
+                    } catch (e: FirebaseAuthInvalidCredentialsException) {
+                        result(UiState.Error("Invalid email"))
+                    } catch (e: Exception) {
+                        result(UiState.Error("Unknown error"))
+                    }
                 }
-            } else {
-                result(UiState.Error("Failed to validate user"))
             }
-        }
     }
 
     override fun signUp(
@@ -57,26 +69,35 @@ class AuthRepositoryImpl(
         result: (UiState<String>) -> Unit
     ) {
         auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    employeeModel.id = it.result.user?.uid ?: ""
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    employeeModel.id = task.result.user?.uid ?: ""
                     employeeModel.role = Role.EMPLOYEE
-                    updateEmployeeInfo(employeeModel) {uiState ->
+                    updateEmployeeInfo(employeeModel) { uiState ->
                         when (uiState) {
                             is UiState.Error -> {
                                 result.invoke(UiState.Error(uiState.error))
                             }
+
                             UiState.Loading -> {
                                 result.invoke(UiState.Loading)
                             }
+
                             is UiState.Success -> {
-                                result.invoke(UiState.Success(uiState.data))
+                                firebaseMessaging.token.addOnCompleteListener {
+                                    if (it.isSuccessful) {
+                                        employeeModel.fcmToken = it.result
+                                        storeUserSession(employeeModel.id) {
+                                            result.invoke(UiState.Success("Employee created"))
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                 } else {
                     try {
-                        throw it.exception ?: java.lang.Exception("Invalid authentication")
+                        throw task.exception ?: java.lang.Exception("Invalid authentication")
                     } catch (e: FirebaseAuthWeakPasswordException) {
                         result(UiState.Error("Weak password"))
                     } catch (e: FirebaseAuthInvalidCredentialsException) {
@@ -94,7 +115,8 @@ class AuthRepositoryImpl(
         employeeModel: EmployeeModel,
         result: (UiState<String>) -> Unit
     ) {
-        val dbRef = database.collection(FireStoreCollectionConstants.USERS).document(employeeModel.id)
+        val dbRef =
+            database.collection(FireStoreCollectionConstants.USERS).document(employeeModel.id)
 
         dbRef.set(employeeModel)
             .addOnSuccessListener {
@@ -105,8 +127,8 @@ class AuthRepositoryImpl(
             }
     }
 
-    override fun validateUser(email: String): Task<Boolean> {
-        val docRef = database.collection(FireStoreCollectionConstants.COMPANY).document(email)
+    override fun validateUser(id: String): Task<Boolean> {
+        val docRef = database.collection(FireStoreCollectionConstants.USERS).document(id)
         return docRef.get().continueWith { task ->
             val document = task.result
             if (document != null) {
@@ -144,7 +166,9 @@ class AuthRepositoryImpl(
     }
 
     override fun isUserLoggedIn(): Boolean {
-        return auth.currentUser != null
+        // check if user is logged in by checking if the user session is stored
+        val user = sharedPreferences.getString(SharedPreferencesConstants.USER_SESSION, null)
+        return user != null
     }
 
     override fun storeUserSession(email: String, result: (EmployeeModel?) -> Unit) {
@@ -172,5 +196,23 @@ class AuthRepositoryImpl(
         } else {
             result.invoke(null)
         }
+    }
+
+    override fun changePassword(newPassword: String, result: (UiState<String>) -> Unit) {
+        val user = auth.currentUser
+        user?.updatePassword(newPassword)
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    result(UiState.Success("Password changed successfully"))
+                } else {
+                    try {
+                        throw task.exception ?: java.lang.Exception("Invalid authentication")
+                    } catch (e: FirebaseAuthWeakPasswordException) {
+                        result(UiState.Error("Weak password"))
+                    } catch (e: Exception) {
+                        result(UiState.Error("Unknown error"))
+                    }
+                }
+            }
     }
 }

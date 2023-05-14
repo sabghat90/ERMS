@@ -13,4 +13,5 @@ interface AuthRepository {
     fun isUserLoggedIn() : Boolean
     fun storeUserSession(id: String, result: (EmployeeModel?) -> Unit)
     fun getUserSession(result : (EmployeeModel?) -> Unit)
+    fun changePassword(newPassword: String, result: (UiState<String>) -> Unit)
 }

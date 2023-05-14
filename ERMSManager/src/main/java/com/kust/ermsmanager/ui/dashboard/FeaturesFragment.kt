@@ -15,7 +15,6 @@ import com.kust.ermsmanager.data.models.FeatureModel
 import com.kust.ermsmanager.databinding.FragmentFeatureBinding
 import com.kust.ermsmanager.ui.auth.AuthViewModel
 import com.kust.ermsmanager.ui.auth.LoginActivity
-import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -25,7 +24,6 @@ class FeaturesFragment : Fragment() {
     private var _binding: FragmentFeatureBinding? = null
     private val binding get() = _binding!!
 
-    private val employeeViewModel : EmployeeViewModel by viewModels()
     private val authViewModel : AuthViewModel by viewModels()
 
     private val adapter by lazy { FeaturesListingAdapter() }
@@ -69,12 +67,16 @@ class FeaturesFragment : Fragment() {
                         findNavController().navigate(R.id.action_featureFragment_to_employeeListingFragment)
                     }
                     1 -> Toast.makeText(requireContext(), "Manage Employee", Toast.LENGTH_SHORT).show()
-                    2 -> Toast.makeText(requireContext(), "Mark Attendance", Toast.LENGTH_SHORT).show()
+                    2 -> {
+                        findNavController().navigate(R.id.action_featureFragment_to_employeeListForAttendanceFragment)
+                    }
                     3 -> {
                         findNavController().navigate(R.id.action_featureFragment_to_taskListingFragment)
                     }
                     4 -> Toast.makeText(requireContext(), "Events", Toast.LENGTH_SHORT).show()
-                    5 -> Toast.makeText(requireContext(), "Setting", Toast.LENGTH_SHORT).show()
+                    5 -> {
+                        findNavController().navigate(R.id.action_featureFragment_to_settingFragment)
+                    }
                     6 -> {
                         findNavController().navigate(R.id.action_featureFragment_to_managerProfileFragment)
                     }

@@ -3,6 +3,7 @@ package com.kust.ermsemployee.di
 import android.content.SharedPreferences
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.kust.ermsemployee.data.repository.AuthRepository
 import com.kust.ermsemployee.data.repository.AuthRepositoryImpl
@@ -23,8 +24,9 @@ object RepositoryModule {
         auth: FirebaseAuth,
         database : FirebaseFirestore,
         sharedPreferences: SharedPreferences,
-        gson: Gson
+        gson: Gson,
+        firebaseMessaging: FirebaseMessaging
     ) : AuthRepository {
-        return AuthRepositoryImpl(auth, database, sharedPreferences, gson)
+        return AuthRepositoryImpl(auth, database, sharedPreferences, gson, firebaseMessaging)
     }
 }

@@ -24,5 +24,6 @@ data class EmployeeModel(
     val joiningDate: String = "",
     val points: String = "",
     var role: String = "",
-    var profilePicture: String = ""
+    var profilePicture: String = "",
+    var fcmToken : String = ""
 ) : Parcelable

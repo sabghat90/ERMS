@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.kust.erms_company.data.model.CompanyModel
 import com.kust.erms_company.utils.FireStoreCollectionConstants
@@ -19,7 +20,8 @@ class AuthRepositoryImpl(
     private val auth: FirebaseAuth,
     private val database: FirebaseFirestore,
     private val sharedPreferences: SharedPreferences,
-    private val gson: Gson
+    private val gson: Gson,
+    private val firebaseMessaging: FirebaseMessaging
 ) : AuthRepository {
 
     override fun registerCompany(
@@ -35,13 +37,12 @@ class AuthRepositoryImpl(
                     companyModel.role = Role.COMPANY
                     updateCompanyInformation(companyModel) { uiState ->
                         when (uiState) {
-                            is UiState.Success -> result(UiState.Success(uiState.data))
+                            is UiState.Success -> result(UiState.Success("Registration successful"))
                             is UiState.Error -> result(UiState.Error(uiState.error))
                             is UiState.Loading -> result(UiState.Loading)
                         }
                     }
-                }
-                else {
+                } else {
                     try {
                         throw task.exception ?: java.lang.Exception("Invalid authentication")
                     } catch (e: FirebaseAuthWeakPasswordException) {
@@ -85,8 +86,7 @@ class AuthRepositoryImpl(
                             }
                         }
                     }
-                }
-                else {
+                } else {
                     try {
                         throw task.exception ?: java.lang.Exception("Invalid authentication")
                     } catch (e: FirebaseAuthInvalidUserException) {
@@ -118,8 +118,7 @@ class AuthRepositoryImpl(
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     result(UiState.Success("Email sent"))
-                }
-                else {
+                } else {
                     try {
                         throw task.exception ?: java.lang.Exception("Invalid authentication")
                     } catch (e: FirebaseAuthInvalidUserException) {
@@ -139,10 +138,15 @@ class AuthRepositoryImpl(
         // clear user session
         val editor = sharedPreferences.edit()
         editor.remove(SharedPreferencesConstants.USER_SESSION)
+        editor.apply()
     }
 
-    override fun updateCompanyInformation(companyModel: CompanyModel, result: (UiState<String>) -> Unit) {
-        val documentReference = database.collection(FireStoreCollectionConstants.USERS).document(companyModel.id)
+    override fun updateCompanyInformation(
+        companyModel: CompanyModel,
+        result: (UiState<String>) -> Unit
+    ) {
+        val documentReference =
+            database.collection(FireStoreCollectionConstants.USERS).document(companyModel.id)
         documentReference
             .set(companyModel)
             .addOnSuccessListener {
@@ -154,7 +158,9 @@ class AuthRepositoryImpl(
     }
 
     override fun isUserLoggedIn(): Boolean {
-        return auth.currentUser != null
+        // check if user is logged in or not from shared preferences
+        val user = sharedPreferences.getString(SharedPreferencesConstants.USER_SESSION, null)
+        return user != null
     }
 
     override fun storeUserSession(id: String, result: (CompanyModel?) -> Unit) {

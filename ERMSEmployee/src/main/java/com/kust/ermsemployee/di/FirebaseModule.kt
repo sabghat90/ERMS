@@ -2,6 +2,7 @@ package com.kust.ermsemployee.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.kust.ermsemployee.utils.FirebaseStorageConstants
@@ -31,6 +32,12 @@ object FirebaseModule {
     @Singleton
     fun provideFirebaseStorage() : StorageReference {
         return FirebaseStorage.getInstance().getReference(FirebaseStorageConstants.COMPANY_PROFILE)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFCMToken() : FirebaseMessaging {
+        return FirebaseMessaging.getInstance()
     }
 
 }

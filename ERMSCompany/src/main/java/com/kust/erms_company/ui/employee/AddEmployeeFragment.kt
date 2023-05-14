@@ -100,7 +100,7 @@ class AddEmployeeFragment : Fragment() {
         return EmployeeModel(
             email = binding.etEmail.text.toString(),
             department = binding.etDepartment.text.toString(),
-            salary = binding.etBasicPay.text.toString(),
+            salary = binding.etBasicPay.text.toString().toDouble(),
             joiningDate = binding.tvJoiningDate.text.toString()
         )
     }

@@ -5,7 +5,9 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.utils.FireStoreCollectionConstants
@@ -17,7 +19,8 @@ class AuthRepositoryImpl(
     private val auth: FirebaseAuth,
     private val database: FirebaseFirestore,
     private val sharedPreferences: SharedPreferences,
-    private val gson: Gson
+    private val gson: Gson,
+    private val firebaseMessaging: FirebaseMessaging
 ) : AuthRepository {
 
     override fun login(email: String, password: String, result: (UiState<String>) -> Unit) {
@@ -95,7 +98,9 @@ class AuthRepositoryImpl(
 
 
     override fun isUserLoggedIn(): Boolean {
-        return auth.currentUser != null
+        // check if the user is logged in or not by checking the shared preferences
+        val user = sharedPreferences.getString(SharedPreferencesConstants.USER_SESSION, null)
+        return user != null
     }
 
     override fun storeUserSession(id: String, result: (EmployeeModel?) -> Unit) {
@@ -123,5 +128,23 @@ class AuthRepositoryImpl(
         } else {
             result.invoke(null)
         }
+    }
+
+    override fun changePassword(newPassword: String, result: (UiState<String>) -> Unit) {
+        val user = auth.currentUser
+        user?.updatePassword(newPassword)
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    result(UiState.Success("Password changed successfully"))
+                } else {
+                    try {
+                        throw task.exception ?: java.lang.Exception("Invalid authentication")
+                    } catch (e: FirebaseAuthWeakPasswordException) {
+                        result(UiState.Error("Weak password"))
+                    } catch (e: Exception) {
+                        result(UiState.Error("Unknown error"))
+                    }
+                }
+            }
     }
 }

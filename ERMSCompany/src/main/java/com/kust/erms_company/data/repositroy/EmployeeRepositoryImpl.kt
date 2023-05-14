@@ -34,8 +34,11 @@ class EmployeeRepositoryImpl(
             } else {
                 val document = database.collection(FireStoreCollectionConstants.USERS)
                     .document(it.documents[0].id)
+
                 // check if employee already added or not by checking companyId field in employee document
-                if (it.documents[0].data?.get("companyId") != null) {
+                val existingCompanyId = it.documents[0].data?.get("companyId") as? String
+
+                if (existingCompanyId != null && existingCompanyId != companyId) {
                     result(UiState.Error("Employee already added"))
                     return@addOnSuccessListener
                 } else {

@@ -30,6 +30,10 @@ class AuthViewModel @Inject constructor(
     val isUserLoggedIn: LiveData<Boolean>
         get() = _isUserLoggedIn
 
+    private val _changePassword = MutableLiveData<UiState<String>>()
+    val changePassword : LiveData<UiState<String>>
+        get() = _changePassword
+
     init {
         _isUserLoggedIn.value = repository.isUserLoggedIn()
     }
@@ -55,7 +59,7 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    private fun forgotPassword(
+    fun forgotPassword(
         email: String
     ) {
         _forgotPassword.value = UiState.Loading
@@ -67,5 +71,12 @@ class AuthViewModel @Inject constructor(
     fun logout (result : () -> Unit) {
         repository.logout(result)
         _login.value = UiState.Success("Logout Successful")
+    }
+
+    fun changePassword(newPassword: String) {
+        _changePassword.value = UiState.Loading
+        repository.changePassword(newPassword) {
+            _changePassword.value = it
+        }
     }
 }

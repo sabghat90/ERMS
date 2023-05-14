@@ -30,6 +30,10 @@ class AuthViewModel @Inject constructor(
     val isUserLoggedIn: LiveData<Boolean>
         get() = _isUserLoggedIn
 
+    private val _changePassword = MutableLiveData<UiState<String>>()
+    val changePassword : LiveData<UiState<String>>
+        get() = _changePassword
+
     init {
         _isUserLoggedIn.value = authRepository.isUserLoggedIn()
     }
@@ -58,5 +62,12 @@ class AuthViewModel @Inject constructor(
 
     fun getSession(result: (EmployeeModel?) -> Unit) {
         authRepository.getUserSession(result)
+    }
+
+    fun changePassword(newPassword: String) {
+        _changePassword.value = UiState.Loading
+        authRepository.changePassword(newPassword) {
+            _changePassword.value = it
+        }
     }
 }

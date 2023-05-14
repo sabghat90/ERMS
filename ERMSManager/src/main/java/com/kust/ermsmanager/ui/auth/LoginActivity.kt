@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.databinding.ActivityLoginBinding
 import com.kust.ermsmanager.ui.dashboard.DashboardActivity
+import com.kust.ermsmanager.ui.setting.BiometricActivity
 import com.kust.ermsmanager.utils.UiState
 import com.kust.ermsmanager.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +27,7 @@ class LoginActivity : AppCompatActivity() {
         observer()
 
         if (authViewModel.isUserLoggedIn.value == true) {
-            val intent = Intent(this, DashboardActivity::class.java)
+            val intent = Intent(this, BiometricActivity::class.java)
             startActivity(intent)
             finish()
         }

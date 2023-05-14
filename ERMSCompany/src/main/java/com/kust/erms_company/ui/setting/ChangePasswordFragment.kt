@@ -12,8 +12,9 @@ import com.kust.erms_company.databinding.FragmentChangePasswordBinding
 import com.kust.erms_company.ui.auth.AuthViewModel
 import com.kust.erms_company.utils.UiState
 import com.kust.erms_company.utils.toast
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class ChangePasswordFragment : Fragment() {
 
     private var _binding : FragmentChangePasswordBinding? = null
@@ -24,7 +25,7 @@ class ChangePasswordFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding  = FragmentChangePasswordBinding.inflate(inflater, container, false)
         return binding.root

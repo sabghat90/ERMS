@@ -15,5 +15,6 @@ data class CompanyModel(
     var phone: String = "",
     var website: String = "",
     var role : String = "",
-    val profilePicture : String = ""
+    val profilePicture : String = "",
+    var fcmToken : String = ""
 ) : Parcelable

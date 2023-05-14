@@ -27,4 +27,5 @@ object TaskStatus {
 object SharedPreferencesConstants {
     const val LOCAL_SHARED_PREF = "local_shared_pref"
     const val USER_SESSION = "manager_session"
+    const val BIOMETRIC = "biometric"
 }

@@ -11,12 +11,27 @@
         android:label="fragment_manager_login"
         tools:layout="@layout/fragment_manager_login" >
         <action
-            android:id="@+id/action_managerLoginFragment_to_managerSignUpFragment"
-            app:destination="@id/managerSignUpFragment" />
+            android:id="@+id/action_managerLoginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
-        android:id="@+id/managerSignUpFragment"
-        android:name="com.kust.ermsmanager.ui.auth.ManagerSignUpFragment"
-        android:label="fragment_manager_sign_up"
-        tools:layout="@layout/fragment_manager_sign_up" />
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.kust.ermsmanager.ui.auth.ForgotPasswordFragment"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" >
+        <action
+            android:id="@+id/action_forgotPasswordFragment_to_managerLoginFragment"
+            app:destination="@id/managerLoginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/managerLoginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>
