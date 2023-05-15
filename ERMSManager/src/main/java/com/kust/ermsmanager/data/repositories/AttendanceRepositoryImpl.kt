@@ -13,17 +13,14 @@ class AttendanceRepositoryImpl (
         attendanceModel: AttendanceModel,
         result: (UiState<String>) -> Unit
     ) {
-        val attendanceRef = database.getReference("attendance")
-        val attendanceId = attendanceRef.push().key
-        attendanceId?.let {
-            attendanceRef.child(it).setValue(attendanceModel)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        result(UiState.Success("Attendance marked successfully"))
-                    } else {
-                        result(UiState.Error(task.exception?.message ?: "Error marking attendance"))
-                    }
-                }
+        val attendanceRef = database.getReference("attendance").child(attendanceModel.date).child(attendanceModel.employeeId)
+
+        attendanceRef.setValue(attendanceModel).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                result(UiState.Success("Attendance marked successfully"))
+            } else {
+                result(UiState.Error(task.exception?.message.toString()))
+            }
         }
     }
 

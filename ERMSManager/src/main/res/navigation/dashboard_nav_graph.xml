@@ -91,8 +91,8 @@
     <fragment
         android:id="@+id/taskDetailFragment"
         android:name="com.kust.ermsmanager.ui.task.TaskDetailFragment"
-        android:label="fragment_task_detail"
-        tools:layout="@layout/fragment_task_detail" >
+        android:label="@string/task_details"
+        tools:layout="@layout/fragment_task_detail">
         <action
             android:id="@+id/action_taskDetailFragment_to_taskListingFragment"
             app:destination="@id/taskListingFragment"
@@ -106,8 +106,8 @@
     <fragment
         android:id="@+id/managerProfileFragment"
         android:name="com.kust.ermsmanager.ui.profile.ManagerProfileFragment"
-        android:label="fragment_manager_profile"
-        tools:layout="@layout/fragment_manager_profile" >
+        android:label="Profile"
+        tools:layout="@layout/fragment_manager_profile">
         <action
             android:id="@+id/action_managerProfileFragment_to_updateProfileFragment"
             app:destination="@id/updateProfileFragment"
@@ -119,8 +119,8 @@
     <fragment
         android:id="@+id/updateProfileFragment"
         android:name="com.kust.ermsmanager.ui.profile.UpdateProfileFragment"
-        android:label="fragment_update_profile"
-        tools:layout="@layout/fragment_update_profile" >
+        android:label="@string/update_profile"
+        tools:layout="@layout/fragment_update_profile">
         <action
             android:id="@+id/action_updateProfileFragment_to_managerProfileFragment"
             app:destination="@id/managerProfileFragment"
@@ -185,8 +185,8 @@
     <fragment
         android:id="@+id/employeeListForAttendanceFragment"
         android:name="com.kust.ermsmanager.ui.attendance.EmployeeListForAttendanceFragment"
-        android:label="fragment_employee_list_for_attendance"
-        tools:layout="@layout/fragment_employee_list_for_attendance" >
+        android:label="Attendance"
+        tools:layout="@layout/fragment_employee_list_for_attendance">
         <action
             android:id="@+id/action_employeeListForAttendanceFragment_to_attendanceSheetFragment"
             app:destination="@id/attendanceSheetFragment"
@@ -198,8 +198,8 @@
     <fragment
         android:id="@+id/attendanceSheetFragment"
         android:name="com.kust.ermsmanager.ui.attendance.AttendanceSheetFragment"
-        android:label="fragment_attendance_sheet"
-        tools:layout="@layout/fragment_attendance_sheet" >
+        android:label="Mark Attendance"
+        tools:layout="@layout/fragment_attendance_sheet">
         <action
             android:id="@+id/action_attendanceSheetFragment_to_employeeListForAttendanceFragment"
             app:destination="@id/employeeListForAttendanceFragment"

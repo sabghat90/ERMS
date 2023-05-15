@@ -98,4 +98,5 @@
     <string name="employee_image">Employee Image</string>
     <string name="day">Day</string>
     <string name="_09_may_2023">09 May 2023</string>
+    <string name="task_details">Task Details</string>
 </resources>

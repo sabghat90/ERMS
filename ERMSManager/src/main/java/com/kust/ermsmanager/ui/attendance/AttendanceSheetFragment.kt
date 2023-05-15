@@ -1,17 +1,23 @@
 package com.kust.ermsmanager.ui.attendance
 
+import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.kust.ermsmanager.R
+import com.kust.ermsmanager.data.models.AttendanceModel
 import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.databinding.FragmentAttendanceSheetBinding
+import com.kust.ermsmanager.utils.UiState
+import com.kust.ermsmanager.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 @AndroidEntryPoint
@@ -20,29 +26,90 @@ class AttendanceSheetFragment : Fragment() {
     private var _binding: FragmentAttendanceSheetBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var employeeObj : EmployeeModel
+    private lateinit var employeeObj: EmployeeModel
+    private val attendanceViewModel: AttendanceViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentAttendanceSheetBinding.inflate(inflater, container, false)
-
-        updateUI()
-
         return binding.root
     }
 
-    private fun updateUI() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        updateUI()
+        observer()
+
+        binding.btnSubmitAttendance.setOnClickListener {
+            attendanceViewModel.markAttendance(getAttendanceObj())
+        }
+
+        binding.datePickerLayout.setOnClickListener {
+            selectDateFromDatePicker()
+        }
+    }
+
+    private fun selectDateFromDatePicker() {
+        // Get the current date
         val calendar = Calendar.getInstance()
-        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-        val dayName = DateFormatSymbols().shortWeekdays[dayOfWeek]
+        val currentYear = calendar.get(Calendar.YEAR)
+        val currentMonth = calendar.get(Calendar.MONTH)
+        val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
-        val date = dateFormat.format(calendar.time)
+        // Create a date picker dialog
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            { _, year, month, dayOfMonth ->
+                // Handle the selected date
+                val selectedDate = Calendar.getInstance()
+                selectedDate.set(year, month, dayOfMonth)
 
+                binding.tvDayName.text = SimpleDateFormat("EEEE", Locale.getDefault()).format(selectedDate.time)
+                binding.tvDate.text = SimpleDateFormat("MMM d, y", Locale.getDefault()).format(selectedDate.time)
 
+            },
+            currentYear,
+            currentMonth,
+            currentDay
+        )
+
+        // Set the maximum date to today
+        datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
+
+        // Show the date picker dialog
+        datePickerDialog.show()
+
+    }
+
+    private fun observer() {
+        attendanceViewModel.markAttendance.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UiState.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.btnSubmitAttendance.text = ""
+                }
+
+                is UiState.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    toast(state.data)
+                    binding.btnSubmitAttendance.text = getString(R.string.submit_attendance)
+                    findNavController().navigate(R.id.action_attendanceSheetFragment_to_employeeListForAttendanceFragment)
+                }
+
+                is UiState.Error -> {
+                    toast(state.error)
+                    binding.progressBar.visibility = View.GONE
+                    binding.btnSubmitAttendance.text = getString(R.string.submit_attendance)
+                }
+            }
+        }
+    }
+
+    private fun updateUI() {
 
         employeeObj = arguments?.getParcelable("employeeObj")!!
 
@@ -50,8 +117,71 @@ class AttendanceSheetFragment : Fragment() {
             tvEmployeeName.text = employeeObj.name
             tvDepartment.text = employeeObj.department
             tvEmployeeId.text = employeeObj.employeeId
-            tvDayName.text = dayName
-            tvDate.text = date
+            tvDayName.text = binding.tvDayName.text.toString()
+            tvDate.text = binding.tvDate.text.toString()
+        }
+    }
+
+    private fun getAttendanceObj(): AttendanceModel {
+        val time = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(Date())
+
+        val extraBonus = {
+            if (binding.etExtraBonus.text.toString().isEmpty()) {
+                0.0
+            } else {
+                binding.etExtraBonus.text.toString().toDouble()
+            }
+        }
+
+        val advanceOrLoan = {
+            if (binding.etAdvanceLoan.text.toString().isEmpty()) {
+                0.0
+            } else {
+                binding.etAdvanceLoan.text.toString().toDouble()
+            }
+        }
+
+        return AttendanceModel(
+            employeeId = employeeObj.id,
+            date = binding.tvDate.text.toString(),
+            status = attendanceStatus(),
+            time = time,
+            extraBonus = extraBonus(),
+            advanceOrLoan = advanceOrLoan()
+        )
+    }
+
+    private fun attendanceStatus(): String {
+        with(binding) {
+            when {
+                rbtnPresent.isChecked -> {
+                    return AttendanceModel.STATUS_PRESENT
+                }
+
+                rbtnAbsent.isChecked -> {
+                    return AttendanceModel.STATUS_ABSENT
+                }
+
+                rbtnLeave.isChecked -> {
+                    return AttendanceModel.STATUS_LEAVE
+                }
+
+                rbtnHoliday.isChecked -> {
+                    return AttendanceModel.STATUS_HOLIDAY
+                }
+
+                rbtnHalfDay.isChecked -> {
+                    return AttendanceModel.STATUS_HALF_DAY
+                }
+
+                rbtnOvertime.isChecked -> {
+                    return AttendanceModel.STATUS_OVERTIME
+                }
+
+                else -> {
+                    return ""
+                }
+            }
         }
     }
 

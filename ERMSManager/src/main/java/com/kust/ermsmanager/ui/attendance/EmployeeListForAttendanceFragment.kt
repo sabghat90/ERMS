@@ -10,9 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.ermsmanager.R
+import com.kust.ermsmanager.data.models.AttendanceModel
 import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.databinding.FragmentEmployeeListForAttendanceBinding
-import com.kust.ermsmanager.ui.employee.EmployeeListingAdapter
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import com.kust.ermsmanager.utils.UiState
 import com.kust.ermsmanager.utils.toast
@@ -25,10 +25,11 @@ class EmployeeListForAttendanceFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val employeeViewModel: EmployeeViewModel by viewModels()
+    private val attendanceViewModel: AttendanceViewModel by viewModels()
 
     private val adapter by lazy {
-        EmployeeListingAdapter(
-            onItemClicked = { pos, employee ->
+        AttendanceListingAdapter(
+            onItemClicked = { _, employee ->
                 findNavController().navigate(R.id.action_employeeListForAttendanceFragment_to_attendanceSheetFragment, Bundle().apply {
                     putParcelable("employeeObj", employee)
                 })
@@ -75,6 +76,21 @@ class EmployeeListForAttendanceFragment : Fragment() {
                     adapter.employeeList = it.data as MutableList<EmployeeModel>
                     adapter.submitList(it.data)
 
+                }
+                is UiState.Error -> {
+                    dialog.dismiss()
+                    toast(it.error)
+                }
+            }
+        }
+
+        attendanceViewModel.getAttendance.observe(viewLifecycleOwner) {
+            when (it) {
+                is UiState.Loading -> {
+                    dialog.show()
+                }
+                is UiState.Success -> {
+                    dialog.dismiss()
                 }
                 is UiState.Error -> {
                     dialog.dismiss()
