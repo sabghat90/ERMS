@@ -30,12 +30,23 @@ class AuthRepositoryImpl(
                             if (task.isSuccessful) {
                                 val isEmployee = task.result
                                 if (isEmployee != null && isEmployee) {
-                                    storeUserSession(it.uid) { employeeModel ->
-                                        if (employeeModel != null) {
-                                            result(UiState.Success("Login successful"))
-                                        } else {
-                                            auth.signOut()
-                                            result(UiState.Error("Invalid user"))
+                                    // store FCM token by calling storeFCMToken
+                                    storeFCMToken(it.uid) { uiState ->
+                                        when (uiState) {
+                                            is UiState.Error -> {
+                                                result.invoke(UiState.Error(uiState.error))
+                                            }
+
+                                            UiState.Loading -> {
+                                                result.invoke(UiState.Loading)
+                                            }
+
+                                            is UiState.Success -> {
+                                                // store user session by calling storeUserSession
+                                                storeUserSession(it.uid) {
+                                                    result.invoke(UiState.Success("Employee logged in"))
+                                                }
+                                            }
                                         }
                                     }
                                 } else {
@@ -62,6 +73,24 @@ class AuthRepositoryImpl(
             }
     }
 
+    override fun storeFCMToken(id: String, result: (UiState<String>) -> Unit) {
+        firebaseMessaging.token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val docRef = database.collection(FireStoreCollectionConstants.USERS)
+                    .document(id)
+                docRef.update("fcmToken", task.result)
+                    .addOnSuccessListener {
+                        result(UiState.Success("Successfully stored the token"))
+                    }
+                    .addOnFailureListener {
+                        result(UiState.Error("Error to store the token"))
+                    }
+            } else {
+                result(UiState.Error("Error to store the token"))
+            }
+        }
+    }
+
     override fun signUp(
         email: String,
         password: String,
@@ -84,13 +113,8 @@ class AuthRepositoryImpl(
                             }
 
                             is UiState.Success -> {
-                                firebaseMessaging.token.addOnCompleteListener {
-                                    if (it.isSuccessful) {
-                                        employeeModel.fcmToken = it.result
-                                        storeUserSession(employeeModel.id) {
-                                            result.invoke(UiState.Success("Employee created"))
-                                        }
-                                    }
+                                storeUserSession(employeeModel.id) {
+                                    result.invoke(UiState.Success("Employee created"))
                                 }
                             }
                         }
@@ -162,6 +186,10 @@ class AuthRepositoryImpl(
 
     override fun logout(result: () -> Unit) {
         auth.signOut()
+        // clear user session
+        val editor = sharedPreferences.edit()
+        editor.remove(SharedPreferencesConstants.USER_SESSION)
+        editor.apply()
         result()
     }
 

@@ -7,6 +7,7 @@ import com.kust.erms_company.utils.UiState
 interface AuthRepository {
     fun registerCompany(email : String, password : String, companyModel: CompanyModel, result : (UiState<String>) -> Unit)
     fun loginCompany(email : String, password : String, result : (UiState<String>) -> Unit)
+    fun storeFCMToken(id : String, result : (UiState<String>) -> Unit)
     fun validateUser(id: String): Task<Boolean>
     fun forgotPassword(email : String, result : (UiState<String>) -> Unit)
     fun logoutCompany(result : () -> Unit)

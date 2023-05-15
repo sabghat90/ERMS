@@ -11,6 +11,9 @@ import androidx.navigation.fragment.findNavController
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.AttendanceModel
 import com.kust.ermsmanager.data.models.EmployeeModel
+import com.kust.ermsmanager.data.models.NotificationModel
+import com.kust.ermsmanager.data.models.PushNotification
+import com.kust.ermsmanager.services.NotificationService
 import com.kust.ermsmanager.databinding.FragmentAttendanceSheetBinding
 import com.kust.ermsmanager.utils.UiState
 import com.kust.ermsmanager.utils.toast
@@ -28,6 +31,9 @@ class AttendanceSheetFragment : Fragment() {
 
     private lateinit var employeeObj: EmployeeModel
     private val attendanceViewModel: AttendanceViewModel by viewModels()
+
+    // notification service instance
+    private val notificationService = NotificationService()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,10 +73,8 @@ class AttendanceSheetFragment : Fragment() {
                 // Handle the selected date
                 val selectedDate = Calendar.getInstance()
                 selectedDate.set(year, month, dayOfMonth)
-
                 binding.tvDayName.text = SimpleDateFormat("EEEE", Locale.getDefault()).format(selectedDate.time)
                 binding.tvDate.text = SimpleDateFormat("MMM d, y", Locale.getDefault()).format(selectedDate.time)
-
             },
             currentYear,
             currentMonth,
@@ -97,6 +101,7 @@ class AttendanceSheetFragment : Fragment() {
                     binding.progressBar.visibility = View.GONE
                     toast(state.data)
                     binding.btnSubmitAttendance.text = getString(R.string.submit_attendance)
+                    sendNotification()
                     findNavController().navigate(R.id.action_attendanceSheetFragment_to_employeeListForAttendanceFragment)
                 }
 
@@ -182,6 +187,18 @@ class AttendanceSheetFragment : Fragment() {
                     return ""
                 }
             }
+        }
+    }
+
+    private fun sendNotification() {
+        PushNotification(
+            NotificationModel(
+                title = "Attendance Marked",
+                body = "Your attendance has been marked for ${binding.tvDate.text}"
+            ),
+            to = employeeObj.fcmToken
+        ).also {
+            notificationService.sendNotification(it)
         }
     }
 

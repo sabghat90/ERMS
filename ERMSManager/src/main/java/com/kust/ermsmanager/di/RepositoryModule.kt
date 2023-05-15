@@ -8,6 +8,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
 import com.kust.ermsmanager.data.repositories.*
+import com.kust.ermsmanager.services.NotificationService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -58,5 +59,11 @@ object RepositoryModule {
         auth : FirebaseAuth
     ) : AttendanceRepository {
         return AttendanceRepositoryImpl(database, auth)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotificationRepository(): NotificationService {
+        return NotificationService()
     }
 }

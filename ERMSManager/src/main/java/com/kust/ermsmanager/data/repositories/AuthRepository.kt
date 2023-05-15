@@ -7,6 +7,7 @@ import com.kust.ermsmanager.utils.UiState
 interface AuthRepository {
     /// Login with email and password
     fun login(email : String, password : String, result : (UiState<String>) -> Unit)
+    fun storeFCMToken(id : String, result : (UiState<String>) -> Unit)
     fun forgotPassword(email : String, result : (UiState<String>) -> Unit)
     fun logout(result : () -> Unit)
     fun validateUser(id: String): Task<Boolean>

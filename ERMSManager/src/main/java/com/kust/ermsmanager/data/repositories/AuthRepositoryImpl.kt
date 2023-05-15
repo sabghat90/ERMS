@@ -32,10 +32,17 @@ class AuthRepositoryImpl(
                     validateUser(auth.currentUser!!.uid).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             if (task.result!!) {
-                                // store the user session
-                                storeUserSession(auth.currentUser!!.uid) { employee ->
-                                    if (employee != null) {
-                                        result(UiState.Success(employee.role))
+                                // store FCM token in the database by calling the storeFCMToken function
+                                storeFCMToken(auth.currentUser!!.uid) { state ->
+                                    if (state is UiState.Success) {
+                                        // store the user session
+                                        storeUserSession(auth.currentUser!!.uid) { employee ->
+                                            if (employee != null) {
+                                                result(UiState.Success("Successfully logged in"))
+                                            } else {
+                                                result(UiState.Error("Error"))
+                                            }
+                                        }
                                     } else {
                                         result(UiState.Error("Error"))
                                     }
@@ -63,6 +70,24 @@ class AuthRepositoryImpl(
                     }
                 }
             }
+    }
+
+    override fun storeFCMToken(id: String, result: (UiState<String>) -> Unit) {
+        firebaseMessaging.token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val docRef = database.collection(FireStoreCollectionConstants.USERS)
+                    .document(id)
+                docRef.update("fcmToken", task.result)
+                    .addOnSuccessListener {
+                        result(UiState.Success("Successfully stored the token"))
+                    }
+                    .addOnFailureListener {
+                        result(UiState.Error("Error to store the token"))
+                    }
+            } else {
+                result(UiState.Error("Error to store the token"))
+            }
+        }
     }
 
     override fun forgotPassword(email: String, result: (UiState<String>) -> Unit) {

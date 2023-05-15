@@ -68,12 +68,23 @@ class AuthRepositoryImpl(
                             if (task.isSuccessful) {
                                 val isCompany = task.result
                                 if (isCompany != null && isCompany) {
-                                    storeUserSession(it.uid) { companyModel ->
-                                        if (companyModel != null) {
-                                            result(UiState.Success("Login successful"))
-                                        } else {
-                                            auth.signOut()
-                                            result(UiState.Error("Invalid user"))
+                                    // store FCM token by calling storeFCMToken function
+                                    storeFCMToken(it.uid) { uiState ->
+                                        when (uiState) {
+                                            is UiState.Success -> {
+                                                // store user session by calling storeUserSession function
+                                                storeUserSession(it.uid) { companyModel ->
+                                                    if (companyModel != null) {
+                                                        result(UiState.Success("Login successful"))
+                                                    } else {
+                                                        auth.signOut()
+                                                        result(UiState.Error("Invalid user"))
+                                                    }
+                                                }
+                                            }
+
+                                            is UiState.Error -> result(UiState.Error(uiState.error))
+                                            is UiState.Loading -> result(UiState.Loading)
                                         }
                                     }
                                 } else {
@@ -98,6 +109,24 @@ class AuthRepositoryImpl(
                     }
                 }
             }
+    }
+
+    override fun storeFCMToken(id: String, result: (UiState<String>) -> Unit) {
+        firebaseMessaging.token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val docRef = database.collection(FireStoreCollectionConstants.USERS)
+                    .document(id)
+                docRef.update("fcmToken", task.result)
+                    .addOnSuccessListener {
+                        result(UiState.Success("Successfully stored the token"))
+                    }
+                    .addOnFailureListener {
+                        result(UiState.Error("Error to store the token"))
+                    }
+            } else {
+                result(UiState.Error("Error to store the token"))
+            }
+        }
     }
 
     override fun validateUser(id: String): Task<Boolean> {

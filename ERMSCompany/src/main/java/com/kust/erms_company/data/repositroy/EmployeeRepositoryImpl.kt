@@ -38,7 +38,7 @@ class EmployeeRepositoryImpl(
                 // check if employee already added or not by checking companyId field in employee document
                 val existingCompanyId = it.documents[0].data?.get("companyId") as? String
 
-                if (existingCompanyId != null && existingCompanyId != companyId) {
+                if (!(existingCompanyId != null && existingCompanyId != companyId)) {
                     result(UiState.Error("Employee already added"))
                     return@addOnSuccessListener
                 } else {

@@ -6,6 +6,7 @@ import com.kust.ermsemployee.utils.UiState
 
 interface AuthRepository {
     fun login(email : String, password : String, result : (UiState<String>) -> Unit)
+    fun storeFCMToken(id : String, result : (UiState<String>) -> Unit)
     fun signUp(email: String, password: String, employeeModel: EmployeeModel, result: (UiState<String>) -> Unit)
     fun updateEmployeeInfo(employeeModel: EmployeeModel, result: (UiState<String>) -> Unit)
     fun forgotPassword(email : String, result : (UiState<String>) -> Unit)
