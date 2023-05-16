@@ -8,6 +8,8 @@
 # BlueJ files
 *.ctxt
 
+FCMApiKey.kt
+
 # firebase files
 google-services.json
 

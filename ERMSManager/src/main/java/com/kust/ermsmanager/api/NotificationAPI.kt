@@ -1,8 +1,8 @@
 package com.kust.ermsmanager.api
 
+import com.kust.ermsmanager.api.FCMApiKey.SERVER_KEY
 import com.kust.ermsmanager.data.models.PushNotification
 import com.kust.ermsmanager.utils.ServerConstants.CONTENT_TYPE
-import com.kust.ermsmanager.utils.ServerConstants.SERVER_KEY
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body

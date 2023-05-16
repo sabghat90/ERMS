@@ -10,6 +10,7 @@
 
 # firebase files
 google-services.json
+FCMApiKey.kt
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/

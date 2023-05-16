@@ -74,6 +74,8 @@ proguard/
 # Android Studio captures folder
 captures/
 
+FCMApiKey.kt
+
 # IntelliJ
 .idea/workspace.xml
 .idea/tasks.xml
