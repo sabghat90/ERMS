@@ -1,6 +1,6 @@
-package com.kust.ermsmanager.api
+package com.kust.ermsemployee.api
 
-import com.kust.ermsmanager.utils.ServerConstants.BASE_URL
+import com.kust.ermsemployee.utils.ServerConstants.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

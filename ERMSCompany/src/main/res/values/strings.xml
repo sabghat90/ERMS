@@ -66,4 +66,5 @@
     <string name="submit">Submit</string>
     <string name="required">Password Required</string>
     <string name="password_not_match">Password Not Match</string>
+    <string name="remove">Remove</string>
 </resources>

@@ -52,10 +52,6 @@ class SignUpFragment : Fragment() {
         )
         binding.ddmGender.setAdapter(arrayAdapter)
 
-        binding.joiningDate.setOnClickListener {
-            getJoiningDate()
-        }
-
         observer()
 
         binding.btnRegister.setOnClickListener {
@@ -128,60 +124,13 @@ class SignUpFragment : Fragment() {
 
     private fun getEmployeeObj(): EmployeeModel {
         return EmployeeModel(
-            id = "",
             name = binding.editTextName.text.toString(),
             employeeId = binding.editTextName.text.toString(),
             email = binding.editTextEmail.text.toString().trim(),
             phone = binding.editTextPhone.text.toString(),
             gender = binding.ddmGender.text.toString(),
-            dob = "",
-            address = "",
-            city = "",
-            state = "",
-            country = "",
-            department = "",
-            companyId = "",
-            jobTitle = "",
-            salary = 0.00,
-            joiningDate = "",
-            points = "0",
             role = Role.EMPLOYEE,
-            profilePicture = ""
         )
-    }
-
-    // get joining date from date picker, date picker should be onward from today date
-    private fun getJoiningDate() {
-        // hide keyboard
-        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(requireView().windowToken, 0)
-
-
-        val calendar = Calendar.getInstance()
-        val datePicker = DatePickerDialog(
-            requireContext(),
-            { _, year, month, dayOfMonth ->
-                calendar.set(Calendar.YEAR, year)
-                calendar.set(Calendar.MONTH, month)
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                val timePicker = TimePickerDialog(
-                    requireContext(),
-                    { _, hourOfDay, minute ->
-                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                        calendar.set(Calendar.MINUTE, minute)
-                        binding.joiningDate.hint = DateFormat.getDateTimeInstance().format(calendar.time)
-                    },
-                    calendar.get(Calendar.HOUR_OF_DAY),
-                    calendar.get(Calendar.MINUTE),
-                    false
-                )
-                timePicker.show()
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-        datePicker.show()
     }
 
     override fun onDestroy() {

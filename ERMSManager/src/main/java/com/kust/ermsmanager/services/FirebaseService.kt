@@ -41,7 +41,7 @@ class FirebaseService : FirebaseMessagingService() {
         )
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(message.data["title"])
-            .setContentText(message.data["message"])
+            .setContentText(message.data["body"])
             .setSmallIcon(R.mipmap.ic_launcher_round)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
@@ -60,5 +60,4 @@ class FirebaseService : FirebaseMessagingService() {
         }
         notificationManager.createNotificationChannel(channel)
     }
-
 }

@@ -22,9 +22,9 @@ class EmployeeViewModel @Inject constructor(
     val updateEmployee : LiveData<UiState<Pair<EmployeeModel, String>>>
         get() = _updateEmployee
 
-    private val _deleteEmployee = MutableLiveData<UiState<String>>()
-    val deleteEmployee : LiveData<UiState<String>>
-        get() = _deleteEmployee
+    private val _removeEmployee = MutableLiveData<UiState<String>>()
+    val removeEmployee : LiveData<UiState<String>>
+        get() = _removeEmployee
 
     private val _getEmployeeList = MutableLiveData<UiState<List<EmployeeModel>>>()
     val getEmployeeList : LiveData<UiState<List<EmployeeModel>>>
@@ -48,10 +48,10 @@ class EmployeeViewModel @Inject constructor(
         }
     }
 
-    fun deleteEmployee(employeeModel: EmployeeModel) {
-        _deleteEmployee.value = UiState.Loading
-        employeeRepository.deleteEmployee(employeeModel) {
-            _deleteEmployee.value = it
+    fun removeEmployee(employeeModel: EmployeeModel) {
+        _removeEmployee.value = UiState.Loading
+        employeeRepository.removeEmployee(employeeModel) {
+            _removeEmployee.value = it
         }
     }
 

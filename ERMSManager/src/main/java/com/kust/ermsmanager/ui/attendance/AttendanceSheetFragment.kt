@@ -122,8 +122,8 @@ class AttendanceSheetFragment : Fragment() {
             tvEmployeeName.text = employeeObj.name
             tvDepartment.text = employeeObj.department
             tvEmployeeId.text = employeeObj.employeeId
-            tvDayName.text = binding.tvDayName.text.toString()
-            tvDate.text = binding.tvDate.text.toString()
+            tvDayName.text = SimpleDateFormat("EEEE", Locale.getDefault()).format(Date())
+            tvDate.text = SimpleDateFormat("MMM d, y", Locale.getDefault()).format(Date())
         }
     }
 

@@ -37,6 +37,7 @@
             android:id="@+id/textInputLayout9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:hint="@string/email"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
@@ -54,78 +55,6 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout12"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/basic_pay"
-            app:endIconMode="clear_text"
-            app:errorEnabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout9"
-            app:startIconDrawable="@drawable/ic_money">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_basic_pay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/titillium_web"
-                android:inputType="number"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout13"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="@string/department"
-            app:counterEnabled="true"
-            app:counterMaxLength="5"
-            app:endIconMode="clear_text"
-            app:errorEnabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout12"
-            app:startIconDrawable="@drawable/ic_gender">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_department"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/titillium_web"
-                android:inputType="text"
-                android:maxLength="5"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/tv_joining_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            style="@style/h2"
-            android:text="@string/joining_date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout13" />
-
-        <Button
-            android:id="@+id/btn_date_picker"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:minHeight="65dp"
-            android:text="@string/joining_date"
-            android:textAllCaps="false"
-            app:icon="@drawable/ic_calendar"
-            app:iconGravity="textStart"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_joining_date" />
-
 
         <RelativeLayout
             android:id="@+id/btn_layout"
@@ -136,7 +65,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_date_picker">
+            app:layout_constraintTop_toBottomOf="@id/textInputLayout9">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_register"

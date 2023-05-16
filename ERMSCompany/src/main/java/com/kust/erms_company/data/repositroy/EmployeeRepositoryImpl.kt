@@ -24,9 +24,6 @@ class EmployeeRepositoryImpl(
         val employeeHashMap = hashMapOf<String, Any>()
 
         employeeHashMap["companyId"] = companyId!!
-        employeeHashMap["department"] = employeeModel.department
-        employeeHashMap["salary"] = employeeModel.salary
-        employeeHashMap["joiningDate"] = employeeModel.joiningDate
 
         dbRef.get().addOnSuccessListener { it ->
             if (it.isEmpty) {
@@ -74,11 +71,14 @@ class EmployeeRepositoryImpl(
         }
     }
 
-    override fun deleteEmployee(employeeModel: EmployeeModel, result: (UiState<String>) -> Unit) {
+    override fun removeEmployee(employeeModel: EmployeeModel, result: (UiState<String>) -> Unit) {
+        // remove employee by setting companyId field to null
+        val employeeHashMap = hashMapOf<String, Any>()
+        employeeHashMap["companyId"] = ""
         val document =
-            database.collection(FireStoreCollectionConstants.USERS).document(employeeModel.email)
-        document.delete().addOnSuccessListener {
-            result.invoke(UiState.Success("Employee deleted successfully"))
+            database.collection(FireStoreCollectionConstants.USERS).document(employeeModel.id)
+        document.update(employeeHashMap).addOnSuccessListener {
+            result.invoke(UiState.Success("Employee removed successfully"))
         }.addOnFailureListener {
             result(UiState.Error(it.message.toString()))
         }

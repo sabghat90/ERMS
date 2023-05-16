@@ -1,8 +1,8 @@
-package com.kust.ermsmanager.services
+package com.kust.erms_company.services
 
 import android.util.Log
-import com.kust.ermsmanager.api.RetrofitInstance
-import com.kust.ermsmanager.data.models.PushNotification
+import com.kust.erms_company.api.RetrofitInstance
+import com.kust.erms_company.data.model.PushNotification
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

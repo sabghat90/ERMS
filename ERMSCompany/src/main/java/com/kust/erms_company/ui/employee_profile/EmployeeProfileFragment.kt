@@ -11,7 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kust.erms_company.R
 import com.kust.erms_company.data.model.EmployeeModel
+import com.kust.erms_company.data.model.NotificationModel
+import com.kust.erms_company.data.model.PushNotification
 import com.kust.erms_company.databinding.FragmentEmployeeProfileBinding
+import com.kust.erms_company.services.NotificationService
 import com.kust.erms_company.ui.employee.EmployeeViewModel
 import com.kust.erms_company.utils.Role
 import com.kust.erms_company.utils.UiState
@@ -27,6 +30,9 @@ class EmployeeProfileFragment : Fragment() {
     private lateinit var employeeObj: EmployeeModel
 
     private val employeeViewModel: EmployeeViewModel by viewModels()
+
+    // notification service object
+    private val notificationService = NotificationService()
 
 
     override fun onCreateView(
@@ -78,6 +84,30 @@ class EmployeeProfileFragment : Fragment() {
             }
 
         }
+
+        binding.btnRemoveEmployee.setOnClickListener {
+            val dialog = Dialog(requireContext())
+            dialog.setCancelable(false)
+            dialog.setContentView(R.layout.custom_dialog_layout)
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window!!.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+            val btnYes = dialog.findViewById<View>(R.id.btn_yes)
+            val btnNo = dialog.findViewById<View>(R.id.btn_cancel)
+            dialog.show()
+
+            btnYes.setOnClickListener {
+                dialog.dismiss()
+                employeeViewModel.removeEmployee(employeeObj)
+            }
+
+            btnNo.setOnClickListener {
+                dialog.dismiss()
+            }
+        }
     }
 
     private fun observer() {
@@ -85,19 +115,52 @@ class EmployeeProfileFragment : Fragment() {
         employeeViewModel.updateEmployee.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
+                    binding.progressBar1.visibility = View.VISIBLE
                 }
 
                 is UiState.Success -> {
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBar1.visibility = View.GONE
+                    sendNotification()
                     toast("Update successfully")
                 }
 
                 is UiState.Error -> {
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBar1.visibility = View.GONE
                     toast(state.error)
                 }
             }
+        }
+
+        employeeViewModel.removeEmployee.observe(viewLifecycleOwner) {
+            when (it) {
+                is UiState.Loading -> {
+                    binding.progressBar2.visibility = View.VISIBLE
+                    binding.btnRemoveEmployee.text = ""
+                }
+
+                is UiState.Success -> {
+                    binding.progressBar2.visibility = View.GONE
+                    binding.btnRemoveEmployee.text = getString(R.string.remove)
+                    toast("Employee removed successfully")
+                }
+
+                is UiState.Error -> {
+                    binding.progressBar2.visibility = View.GONE
+                    toast(it.error)
+                }
+            }
+        }
+    }
+
+    private fun sendNotification() {
+        PushNotification(
+            NotificationModel(
+                title = "Manager Update",
+                body = "Mr ${employeeObj.name} You are now a manager"
+            ),
+            to = employeeObj.fcmToken
+        ).also {
+            notificationService.sendNotification(it)
         }
     }
 
