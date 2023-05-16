@@ -13,7 +13,10 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# firebase api key
 google-services.json
+
 
 /build### Java template
 # Compiled class file
@@ -73,8 +76,6 @@ proguard/
 
 # Android Studio captures folder
 captures/
-
-FCMApiKey.kt
 
 # IntelliJ
 .idea/workspace.xml
