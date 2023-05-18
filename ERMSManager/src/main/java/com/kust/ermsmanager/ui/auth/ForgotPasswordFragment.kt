@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ForgotPasswordFragment : Fragment() {
-    private val TAG = "ForgotPasswordFragment"
+    private val TAG by lazy { "ForgotPasswordFragment" }
     private var _binding: FragmentForgotPasswordBinding? = null
     private val binding get() = _binding!!
 
@@ -42,7 +42,7 @@ class ForgotPasswordFragment : Fragment() {
             }
         }
         binding.btnLoginAgain.setOnClickListener {
-            findNavController().navigate(R.id.action_forgotPasswordFragment_to_managerLoginFragment)
+            findNavController().navigate(R.id.action_forgotPasswordFragment_to_loginFragment)
         }
     }
 

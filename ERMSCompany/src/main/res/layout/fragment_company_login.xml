@@ -64,7 +64,6 @@
                 android:id="@+id/edit_text_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/titillium_web"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 tools:ignore="TouchTargetSizeCheck" />

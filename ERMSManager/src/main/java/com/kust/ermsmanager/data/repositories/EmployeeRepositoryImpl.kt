@@ -19,20 +19,20 @@ class EmployeeRepositoryImpl @Inject constructor(
     private val firebaseStorage: StorageReference
 ) : EmployeeRepository {
     override fun getEmployeeList(
-        employeeList: EmployeeModel?,
+        employee: EmployeeModel?,
         result: (UiState<List<EmployeeModel>>) -> Unit
     ) {
         // get employee list where company id is equal to employee list company id
         val docRef = database.collection(FireStoreCollectionConstants.USERS)
-            .whereEqualTo("companyId", employeeList?.companyId)
+            .whereEqualTo("companyId", employee?.companyId)
         docRef.get()
             .addOnSuccessListener { documents ->
-                val employeeList = mutableListOf<EmployeeModel>()
+                val list = mutableListOf<EmployeeModel>()
                 for (document in documents) {
                     val employee = document.toObject(EmployeeModel::class.java)
-                    employeeList.add(employee)
+                    list.add(employee)
                 }
-                result.invoke(UiState.Success(employeeList))
+                result.invoke(UiState.Success(list))
             }
             .addOnFailureListener { exception ->
                 result.invoke(UiState.Error(exception.message.toString()))

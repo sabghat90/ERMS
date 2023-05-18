@@ -88,4 +88,15 @@
     <string name="day">Day</string>
     <string name="_09_may_2023">09 May 2023</string>
     <string name="task_details">Task Details</string>
+    <string name="create_an_event">Create an Event</string>
+    <string name="event_title">Event Title</string>
+    <string name="event_description">Description</string>
+    <string name="location">Location</string>
+    <string name="type_of_event">Type of Event</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="event_date">Event Date:</string>
+    <string name="date_created">Date Created:</string>
+    <string name="event_type">Event Type</string>
+    <string name="event_name">Event Name</string>
 </resources>

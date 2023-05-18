@@ -28,7 +28,7 @@ class FeatureListingAdapter : RecyclerView.Adapter<FeatureListingAdapter.Feature
 
     override fun onBindViewHolder(holder: FeatureListingViewHolder, position: Int) {
         val feature = features[position]
-        holder.bind(feature, position)
+        holder.bind(feature)
     }
 
     override fun getItemCount(): Int {
@@ -36,7 +36,7 @@ class FeatureListingAdapter : RecyclerView.Adapter<FeatureListingAdapter.Feature
     }
 
     inner class FeatureListingViewHolder(private val binding: FeatureItemBinding, listener : OnItemClickListener) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(feature: FeatureModel, position: Int) {
+        fun bind(feature: FeatureModel) {
             binding.featureImage.setImageResource(feature.image)
             binding.featureName.text = feature.title
         }

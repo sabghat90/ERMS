@@ -32,7 +32,7 @@ class EmployeeListingAdapter (
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val employee = employees[position]
-        holder.bind(employee, position)
+        holder.bind(employee)
     }
 
     fun updateList(newList: MutableList<EmployeeModel>) {
@@ -46,7 +46,7 @@ class EmployeeListingAdapter (
 
     inner class ViewHolder(private val binding: ItemEmployeeBinding, /* listener : OnItemClickListener*/ ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(employee: EmployeeModel, position: Int) {
+        fun bind(employee: EmployeeModel) {
 
             Glide.with(binding.root.context)
                 .load(employee.profilePicture)

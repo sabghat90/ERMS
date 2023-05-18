@@ -66,4 +66,13 @@ object RepositoryModule {
     fun provideNotificationRepository(): NotificationService {
         return NotificationService()
     }
+
+    @Provides
+    @Singleton
+    fun provideEventRepository(
+        database: FirebaseFirestore,
+        sharedPreferences: SharedPreferences
+    ) : EventRepository {
+        return EventRepositoryImpl(database, sharedPreferences)
+    }
 }

@@ -24,12 +24,18 @@ class EmployeeListingAdapter(
 
     override fun onBindViewHolder(holder: EmployeeViewHolder, position: Int) {
         val employee = employeeList[position]
-        holder.bind(employee, position)
+        holder.bind(employee)
+    }
+
+    // notifies the adapter that the data set has changed
+    fun updateList(employeeList: MutableList<EmployeeModel>) {
+        this.employeeList = employeeList
+        notifyDataSetChanged()
     }
 
     inner class EmployeeViewHolder(private val binding: ItemEmployeeBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(employee: EmployeeModel, position: Int) {
+        fun bind(employee: EmployeeModel) {
 
             binding.tvEmployeeName.text = employee.name
             binding.tvDepartment.text = employee.department

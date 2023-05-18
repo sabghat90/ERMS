@@ -17,7 +17,7 @@ class TaskListingAdapter(
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val task = taskList[position]
-        holder.bind(task, position)
+        holder.bind(task)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
@@ -33,7 +33,7 @@ class TaskListingAdapter(
 
     inner class TaskViewHolder(private val binding: TaskItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(task: TaskModel, position: Int) {
+        fun bind(task: TaskModel) {
             binding.tvTaskName.text = task.name
             binding.tvTaskDescription.text = task.description
             binding.tvTaskStatus.text = task.status

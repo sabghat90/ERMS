@@ -24,7 +24,7 @@ class EmployeeListingFragment : Fragment() {
     private val viewModel : EmployeeViewModel by viewModels()
 
     private val adapter by lazy { EmployeeListingAdapter(
-        onItemClicked = {pos, employee ->
+        onItemClicked = { _, employee ->
             findNavController().navigate(R.id.action_manageEmployeeFragment_to_profileFragment, Bundle().apply {
                 putParcelable("employee", employee)
             })

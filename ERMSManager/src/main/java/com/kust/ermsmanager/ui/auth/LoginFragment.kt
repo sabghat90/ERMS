@@ -2,34 +2,45 @@ package com.kust.ermsmanager.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.kust.ermsmanager.R
-import com.kust.ermsmanager.databinding.ActivityLoginBinding
-import com.kust.ermsmanager.ui.dashboard.DashboardActivity
+import com.kust.ermsmanager.databinding.FragmentLoginBinding
 import com.kust.ermsmanager.ui.setting.BiometricActivity
 import com.kust.ermsmanager.utils.UiState
 import com.kust.ermsmanager.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class LoginActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityLoginBinding
+@AndroidEntryPoint
+class LoginFragment : Fragment() {
+    // create binding
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
+
     private val authViewModel: AuthViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Inflate the layout for this fragment
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         observer()
 
         if (authViewModel.isUserLoggedIn.value == true) {
-            val intent = Intent(this, BiometricActivity::class.java)
+            val intent = Intent(requireContext(), BiometricActivity::class.java)
             startActivity(intent)
-            finish()
+            requireActivity().finish()
         }
 
         binding.btnLogin.setOnClickListener {
@@ -43,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun observer() {
-        authViewModel.login.observe(this) {uiState ->
+        authViewModel.login.observe(viewLifecycleOwner) {uiState ->
             when (uiState) {
                 is UiState.Error -> {
                     binding.progressBar.hide()
@@ -58,9 +69,9 @@ class LoginActivity : AppCompatActivity() {
                     binding.progressBar.hide()
                     binding.btnLogin.text = getString(R.string.login)
                     toast(uiState.data)
-                    val intent = Intent(this, DashboardActivity::class.java)
+                    val intent = Intent(requireContext(), BiometricActivity::class.java)
                     startActivity(intent)
-                    finish()
+                    requireActivity().finish()
                 }
             }
         }
@@ -78,5 +89,10 @@ class LoginActivity : AppCompatActivity() {
             return false
         }
         return true
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

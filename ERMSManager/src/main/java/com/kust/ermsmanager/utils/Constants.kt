@@ -5,6 +5,7 @@ object FireStoreCollectionConstants {
     const val EMPLOYEE = "employee"
     const val USERS = "users"
     const val TASKS = "tasks"
+    const val EVENTS = "events"
 }
 
 object FirebaseStorageConstants {

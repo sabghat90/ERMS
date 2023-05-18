@@ -3,35 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/reg_nav_graph"
-    app:startDestination="@id/managerLoginFragment">
+    app:startDestination="@id/loginFragment">
 
-    <fragment
-        android:id="@+id/managerLoginFragment"
-        android:name="com.kust.ermsmanager.ui.auth.ManagerLoginFragment"
-        android:label="fragment_manager_login"
-        tools:layout="@layout/fragment_manager_login" >
-        <action
-            android:id="@+id/action_managerLoginFragment_to_forgotPasswordFragment"
-            app:destination="@id/forgotPasswordFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
-    </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
         android:name="com.kust.ermsmanager.ui.auth.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" >
         <action
-            android:id="@+id/action_forgotPasswordFragment_to_managerLoginFragment"
-            app:destination="@id/managerLoginFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/managerLoginFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_forgotPasswordFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.kust.ermsmanager.ui.auth.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
     </fragment>
 </navigation>

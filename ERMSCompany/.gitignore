@@ -10,7 +10,7 @@
 
 # firebase files
 google-services.json
-.src/main/java/com/kust/erms_company/api/FCMApiKey.kt
+src/main/java/com/kust/erms_company/api/FCMApiKey.kt
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/

@@ -24,7 +24,7 @@ class EmployeeListingFragment : Fragment() {
 
     private val adapter by lazy {
         EmployeeListingAdapter(
-            onItemClicked = { pos, employee ->
+            onItemClicked = { _, employee ->
                 toast("Clicked on ${employee.name}")
             }
         )
@@ -67,7 +67,7 @@ class EmployeeListingFragment : Fragment() {
                     dialog.dismiss()
                     adapter.employeeList = it.data as MutableList<EmployeeModel>
                     adapter.submitList(it.data)
-
+                    adapter.updateList(it.data)
                 }
                 is UiState.Error -> {
                     dialog.dismiss()

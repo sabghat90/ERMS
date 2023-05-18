@@ -52,7 +52,6 @@
                 android:id="@+id/edit_text_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/titillium_web"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:textColorHint="#8D6E63" />
@@ -102,7 +101,6 @@
                 android:id="@+id/edit_text_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/titillium_web"
                 android:inputType="text"
                 android:maxLength="30"
                 android:maxLines="1" />
@@ -146,7 +144,6 @@
                 android:id="@+id/edit_text_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/titillium_web"
                 android:inputType="phone"
                 android:maxLength="11"
                 android:maxLines="1" />
@@ -168,7 +165,6 @@
                 android:id="@+id/btn_register"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
-                android:fontFamily="@font/titillium_web_bold"
                 android:text="@string/register"
                 android:textAllCaps="true"
                 android:textSize="20sp"

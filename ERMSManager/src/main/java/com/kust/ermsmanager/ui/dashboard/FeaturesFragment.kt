@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.FeatureModel
 import com.kust.ermsmanager.databinding.FragmentFeatureBinding
+import com.kust.ermsmanager.ui.auth.AuthActivity
 import com.kust.ermsmanager.ui.auth.AuthViewModel
-import com.kust.ermsmanager.ui.auth.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -73,7 +73,9 @@ class FeaturesFragment : Fragment() {
                     3 -> {
                         findNavController().navigate(R.id.action_featureFragment_to_taskListingFragment)
                     }
-                    4 -> Toast.makeText(requireContext(), "Events", Toast.LENGTH_SHORT).show()
+                    4 -> {
+                        findNavController().navigate(R.id.action_featureFragment_to_eventListingFragment)
+                    }
                     5 -> {
                         findNavController().navigate(R.id.action_featureFragment_to_settingFragment)
                     }
@@ -82,7 +84,7 @@ class FeaturesFragment : Fragment() {
                     }
                     7 -> {
                         authViewModel.logout {
-                            val intent = Intent(requireContext(), LoginActivity::class.java)
+                            val intent = Intent(requireContext(), AuthActivity::class.java)
                             startActivity(intent)
                             requireActivity().finish()
                         }

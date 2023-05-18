@@ -1,8 +1,9 @@
-package com.kust.ermsmanager.ui.task
+package com.kust.ermsmanager.ui.event
 
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,36 +12,36 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.ermsmanager.R
-import com.kust.ermsmanager.data.models.TaskModel
-import com.kust.ermsmanager.databinding.FragmentTaskListingBinding
+import com.kust.ermsmanager.data.models.EventModel
+import com.kust.ermsmanager.databinding.FragmentEventListingBinding
 import com.kust.ermsmanager.utils.UiState
 import com.kust.ermsmanager.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TaskListingFragment : Fragment() {
+class EventListingFragment : Fragment() {
 
-    private var _binding : FragmentTaskListingBinding? = null
+    private var _binding: FragmentEventListingBinding? = null
     private val binding get() = _binding!!
 
-    private val taskViewModel : TaskViewModel by viewModels()
+    private val eventViewModel: EventViewModel by viewModels()
+
 
     private val adapter by lazy {
-        TaskListingAdapter(
-            onItemClicked = { _, task ->
-                findNavController().navigate(R.id.action_taskListingFragment_to_taskDetailFragment, Bundle().apply {
-                    putParcelable("task", task)
-                })
-            })
+        EventListingAdapter(
+            onItemClicked = { _, event ->
+                toast("Clicked on ${event.title}")
+            }
+        )
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentTaskListingBinding.inflate(inflater, container, false)
+        _binding =
+            FragmentEventListingBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -49,43 +50,35 @@ class TaskListingFragment : Fragment() {
 
         observer()
 
-        binding.rvTaskListing.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvTaskListing.adapter = adapter
+        binding.rvEvents.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvEvents.adapter = adapter
 
-        binding.fabAddTask.setOnClickListener {
-            findNavController().navigate(R.id.action_taskListingFragment_to_createTaskFragment)
+        binding.fabCreateEvent.setOnClickListener {
+            findNavController().navigate(R.id.action_eventListingFragment_to_createEventFragment)
         }
     }
 
-    // observer with UiState to handle the state of the data
     private fun observer() {
-        taskViewModel.getTasks.observe(viewLifecycleOwner) {
+        eventViewModel.getEventList.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
                     binding.shimmerLayout.startShimmer()
-                    binding.tvDataState.text = ""
                 }
                 is UiState.Success -> {
-                    toast(it.data.toString())
                     binding.shimmerLayout.stopShimmer()
-                    binding.tvDataState.visibility = View.GONE
                     binding.shimmerLayout.visibility = View.GONE
-                    if (it.data.isEmpty()) {
-                        binding.tvDataState.visibility = View.VISIBLE
-                        binding.rvTaskListing.visibility = View.GONE
-                    }
-                    adapter.taskList = it.data as MutableList<TaskModel>
-                    binding.rvTaskListing.visibility = View.VISIBLE
+                    binding.rvEvents.visibility = View.VISIBLE
+
+                    Log.d("EventListingFragment", "observer: ${it.data}")
+
                     adapter.submitList(it.data)
                     Handler(Looper.getMainLooper()).postDelayed({
-                        adapter.updateTaskList(it.data)
+                        adapter.updateTaskList(it.data as MutableList<EventModel>)
                     }, 1000)
                 }
                 is UiState.Error -> {
                     binding.shimmerLayout.stopShimmer()
                     binding.shimmerLayout.visibility = View.GONE
-                    binding.tvDataState.visibility = View.VISIBLE
-                    binding.tvDataState.text = getString(R.string.something_went_wrong)
                     toast(it.error)
                 }
             }
@@ -96,4 +89,5 @@ class TaskListingFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

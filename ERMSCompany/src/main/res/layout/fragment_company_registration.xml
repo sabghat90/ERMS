@@ -29,7 +29,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/nunito_sans_semibold"
             android:text="@string/provide_your_company_information_to_get_started"
             app:layout_constraintStart_toStartOf="@+id/text_view_heading"
             app:layout_constraintTop_toBottomOf="@+id/text_view_heading" />
@@ -54,7 +53,6 @@
                 android:id="@+id/edit_text_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/titillium_web"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:textColorHint="#8D6E63" />
@@ -81,7 +79,6 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:fontFamily="@font/titillium_web"
                 android:textColorHint="#8D6E63" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -106,7 +103,6 @@
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:maxLength="30"
-                android:fontFamily="@font/titillium_web"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -127,7 +123,6 @@
                 android:id="@+id/edit_text_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/titillium_web"
                 android:inputType="text"
                 android:maxLength="20"
                 android:maxLines="1" />
@@ -152,7 +147,6 @@
                 android:id="@+id/edit_text_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/titillium_web"
                 android:inputType="phone"
                 android:maxLength="11"
                 android:maxLines="1" />
@@ -173,7 +167,6 @@
                 android:id="@+id/btn_register"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
-                android:fontFamily="@font/titillium_web_bold"
                 android:text="@string/register"
                 android:textAllCaps="true"
                 android:textSize="20sp"
