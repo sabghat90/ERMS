@@ -30,7 +30,12 @@ class EventListingFragment : Fragment() {
     private val adapter by lazy {
         EventListingAdapter(
             onItemClicked = { _, event ->
-                toast("Clicked on ${event.title}")
+                val bundle = Bundle()
+                bundle.putParcelable("event", event)
+                findNavController().navigate(
+                    R.id.action_eventListingFragment_to_eventDetailFragment,
+                    bundle
+                )
             }
         )
     }
@@ -68,12 +73,11 @@ class EventListingFragment : Fragment() {
                     binding.shimmerLayout.stopShimmer()
                     binding.shimmerLayout.visibility = View.GONE
                     binding.rvEvents.visibility = View.VISIBLE
-
-                    Log.d("EventListingFragment", "observer: ${it.data}")
-
+                    adapter.eventList = it.data as MutableList<EventModel>
                     adapter.submitList(it.data)
                     Handler(Looper.getMainLooper()).postDelayed({
-                        adapter.updateTaskList(it.data as MutableList<EventModel>)
+                        adapter.updateTaskList(it.data)
+                        adapter.notifyDataSetChanged()
                     }, 1000)
                 }
                 is UiState.Error -> {

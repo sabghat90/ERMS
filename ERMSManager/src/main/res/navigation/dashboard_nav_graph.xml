@@ -220,8 +220,8 @@
     <fragment
         android:id="@+id/createEventFragment"
         android:name="com.kust.ermsmanager.ui.event.CreateEventFragment"
-        android:label="fragment_create_event"
-        tools:layout="@layout/fragment_create_event" >
+        android:label="@string/create_an_event"
+        tools:layout="@layout/fragment_create_event">
         <action
             android:id="@+id/action_createEventFragment_to_eventListingFragment"
             app:destination="@id/eventListingFragment"
@@ -231,8 +231,8 @@
     <fragment
         android:id="@+id/eventListingFragment"
         android:name="com.kust.ermsmanager.ui.event.EventListingFragment"
-        android:label="fragment_event_listing"
-        tools:layout="@layout/fragment_event_listing" >
+        android:label="Event List"
+        tools:layout="@layout/fragment_event_listing">
         <action
             android:id="@+id/action_eventListingFragment_to_createEventFragment"
             app:destination="@id/createEventFragment"
@@ -240,5 +240,17 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_eventListingFragment_to_eventDetailFragment"
+            app:destination="@id/eventDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/eventDetailFragment"
+        android:name="com.kust.ermsmanager.ui.event.EventDetailFragment"
+        android:label="Event Detail"
+        tools:layout="@layout/fragment_event_detail" />
 </navigation>

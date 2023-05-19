@@ -10,15 +10,14 @@ import com.kust.ermsmanager.utils.UiState
 
 class EventRepositoryImpl(
     private val database: FirebaseFirestore,
-    sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences
 ) : EventRepository {
 
-    // get companyId from shared preferences and store it in a variable
-    private val employeeJson = sharedPreferences.getString(SharedPreferencesConstants.USER_SESSION, null)
-    private val employee = Gson().fromJson(employeeJson, EmployeeModel::class.java)
-    private val companyId = employee.companyId
-
     override fun getEventList(eventModel: EventModel?, result: (UiState<List<EventModel>>) -> Unit) {
+        // get company id from shared preferences object
+        val employeeJson = sharedPreferences.getString(SharedPreferencesConstants.USER_SESSION, null)
+        val employee = Gson().fromJson(employeeJson, EmployeeModel::class.java)
+        val companyId = employee.companyId
         // get event list from firebase where companyId is equal to eventModel.companyId
         val documentReference = database.collection("events")
         documentReference.whereEqualTo("companyId", companyId)
@@ -40,6 +39,10 @@ class EventRepositoryImpl(
         eventModel: EventModel?,
         result: (UiState<Pair<EventModel, String>>) -> Unit
     ) {
+        // get company id from shared preferences object
+        val employeeJson = sharedPreferences.getString(SharedPreferencesConstants.USER_SESSION, null)
+        val employee = Gson().fromJson(employeeJson, EmployeeModel::class.java)
+        val companyId = employee.companyId
         // create event in firebase
         val documentReference = database.collection("events").document()
         if (eventModel != null) {

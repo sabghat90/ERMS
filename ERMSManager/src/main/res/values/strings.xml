@@ -110,4 +110,7 @@
     <string name="date_created">Date Created:</string>
     <string name="event_type">Event Type</string>
     <string name="event_name">Event Name</string>
+    <string name="delete">Delete</string>
+    <string name="update">Update</string>
+    <string name="date_and_time_created">Date and Time Created:</string>
 </resources>

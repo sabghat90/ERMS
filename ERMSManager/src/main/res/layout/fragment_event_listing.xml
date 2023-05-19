@@ -29,9 +29,6 @@
             <include layout="@layout/event_item_shimmer_layout" />
 
             <include layout="@layout/event_item_shimmer_layout" />
-
-            <include layout="@layout/event_item_shimmer_layout" />
-
         </LinearLayout>
 
     </com.facebook.shimmer.ShimmerFrameLayout>
@@ -40,9 +37,9 @@
         android:id="@+id/rv_events"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,11 +48,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
-        android:focusable="true"
         android:layout_marginBottom="24dp"
         android:clickable="true"
-        android:src="@drawable/ic_add"
         android:contentDescription="@string/create_an_event"
+        android:focusable="true"
+        android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,23 +14,22 @@ class EventListingAdapter(
 
     var eventList: MutableList<EventModel> = arrayListOf()
 
-    override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        val event = eventList[position]
-        holder.bind(event)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val binding =
             EventItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return EventViewHolder(binding)
     }
 
+    override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
+        holder.bind(eventList[position])
+    }
+
     fun updateTaskList(list: MutableList<EventModel>) {
-        this.eventList = list
+        eventList = list
         notifyDataSetChanged()
     }
 
-    inner class EventViewHolder(private val binding: EventItemBinding) :
+    inner class EventViewHolder(private val binding: EventItemBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(event: EventModel) {
 
