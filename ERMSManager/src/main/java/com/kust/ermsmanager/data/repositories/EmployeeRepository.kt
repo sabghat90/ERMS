@@ -5,7 +5,7 @@ import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.utils.UiState
 
 interface EmployeeRepository {
-    fun getEmployeeList(employee : EmployeeModel?, result: (UiState<List<EmployeeModel>>) -> Unit)
+    fun getEmployeeList(employeeModel : EmployeeModel?, result: (UiState<List<EmployeeModel>>) -> Unit)
     fun updateEmployee(employeeModel: EmployeeModel?, result : (UiState<Pair<EmployeeModel, String>>) -> Unit)
     suspend fun uploadImage(imageUri : Uri, result : (UiState<Uri>) -> Unit)
 }

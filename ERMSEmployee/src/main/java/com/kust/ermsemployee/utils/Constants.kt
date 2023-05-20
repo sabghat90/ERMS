@@ -6,6 +6,10 @@ object FireStoreCollectionConstants {
     const val USERS = "users"
 }
 
+object FirebaseRealtimeDatabaseConstants {
+    const val ATTENDANCE = "attendance"
+}
+
 object FirebaseStorageConstants {
     const val COMPANY_PROFILE = "company_profile"
     const val EMPLOYEE_PROFILE = "employee_profile"

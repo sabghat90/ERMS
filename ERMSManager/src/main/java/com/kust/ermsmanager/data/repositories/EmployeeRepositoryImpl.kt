@@ -1,12 +1,17 @@
 package com.kust.ermsmanager.data.repositories
 
+import android.content.SharedPreferences
 import android.net.Uri
+import android.util.Log
+import android.widget.Toast
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
+import com.google.gson.Gson
 import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.utils.FireStoreCollectionConstants
+import com.kust.ermsmanager.utils.SharedPreferencesConstants
 import com.kust.ermsmanager.utils.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -16,15 +21,24 @@ import javax.inject.Inject
 class EmployeeRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
     private val database: FirebaseFirestore,
-    private val firebaseStorage: StorageReference
+    private val firebaseStorage: StorageReference,
+    private val sharedPreferences: SharedPreferences,
+    private val gson: Gson
 ) : EmployeeRepository {
     override fun getEmployeeList(
-        employee: EmployeeModel?,
+        employeeModel: EmployeeModel?,
         result: (UiState<List<EmployeeModel>>) -> Unit
     ) {
+        // get company id from shared preference
+        val employeeJson =
+            sharedPreferences.getString(SharedPreferencesConstants.USER_SESSION, null)
+        val employeeObj = gson.fromJson(employeeJson, EmployeeModel::class.java)
+        val companyId = employeeObj.companyId
+
+
         // get employee list where company id is equal to employee list company id
         val docRef = database.collection(FireStoreCollectionConstants.USERS)
-            .whereEqualTo("companyId", employee?.companyId)
+            .whereEqualTo("companyId", companyId)
         docRef.get()
             .addOnSuccessListener { documents ->
                 val list = mutableListOf<EmployeeModel>()
@@ -59,7 +73,14 @@ class EmployeeRepositoryImpl @Inject constructor(
 
         docRef.update(newEmployeeObj as Map<String, Any>)
             .addOnSuccessListener {
-                result.invoke(UiState.Success(Pair(employeeModel!!, "Employee updated successfully")))
+                result.invoke(
+                    UiState.Success(
+                        Pair(
+                            employeeModel!!,
+                            "Employee updated successfully"
+                        )
+                    )
+                )
             }
             .addOnFailureListener { exception ->
                 result.invoke(UiState.Error(exception.message.toString()))

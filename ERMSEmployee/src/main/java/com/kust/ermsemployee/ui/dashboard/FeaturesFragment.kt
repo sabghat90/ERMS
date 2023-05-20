@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.ermsemployee.R
 import com.kust.ermsemployee.data.model.FeatureModel
@@ -40,15 +41,12 @@ class FeaturesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.shimmerLayout.stopShimmer()
-        binding.shimmerLayout.visibility = View.GONE
-
         binding.rvFeatures.visibility = View.VISIBLE
 
         val features = mutableListOf<FeatureModel>()
 
         features.add(FeatureModel("View Employees", R.drawable.avatar2))
-        features.add(FeatureModel("Mark Attendance", R.drawable.avatar2))
+        features.add(FeatureModel("View Attendance", R.drawable.avatar2))
         features.add(FeatureModel("Task", R.drawable.avatar2))
         features.add(FeatureModel("Events", R.drawable.avatar2))
         features.add(FeatureModel("Setting", R.drawable.avatar2))
@@ -71,8 +69,7 @@ class FeaturesFragment : Fragment() {
                             .show()
                     }
                     1 -> {
-                        Toast.makeText(requireContext(), "Mark Attendance", Toast.LENGTH_SHORT)
-                            .show()
+                        findNavController().navigate(R.id.action_featureFragment_to_viewAttendanceFragment)
                     }
                     2 -> {
                         Toast.makeText(requireContext(), "Task", Toast.LENGTH_SHORT).show()
@@ -81,10 +78,10 @@ class FeaturesFragment : Fragment() {
                         Toast.makeText(requireContext(), "Events", Toast.LENGTH_SHORT).show()
                     }
                     4 -> {
-                        Toast.makeText(requireContext(), "Setting", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_featureFragment_to_settingFragment)
                     }
                     5 -> {
-                        Toast.makeText(requireContext(), "Profile", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_featureFragment_to_profileFragment)
                     }
                     6 -> {
                         Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()

@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.ermsmanager.R
-import com.kust.ermsmanager.data.models.AttendanceModel
 import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.databinding.FragmentEmployeeListForAttendanceBinding
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
@@ -75,7 +74,6 @@ class EmployeeListForAttendanceFragment : Fragment() {
                     dialog.dismiss()
                     adapter.employeeList = it.data as MutableList<EmployeeModel>
                     adapter.submitList(it.data)
-
                 }
                 is UiState.Error -> {
                     dialog.dismiss()

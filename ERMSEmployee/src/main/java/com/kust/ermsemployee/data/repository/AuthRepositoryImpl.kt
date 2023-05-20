@@ -113,9 +113,7 @@ class AuthRepositoryImpl(
                             }
 
                             is UiState.Success -> {
-                                storeUserSession(employeeModel.id) {
-                                    result.invoke(UiState.Success("Employee created"))
-                                }
+                                result.invoke(UiState.Success("Employee created"))
                             }
                         }
                     }
@@ -187,9 +185,7 @@ class AuthRepositoryImpl(
     override fun logout(result: () -> Unit) {
         auth.signOut()
         // clear user session
-        val editor = sharedPreferences.edit()
-        editor.remove(SharedPreferencesConstants.USER_SESSION)
-        editor.apply()
+        sharedPreferences.edit().clear().apply()
         result()
     }
 

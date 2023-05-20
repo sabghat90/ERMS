@@ -89,13 +89,17 @@ class AuthRepositoryImpl(
                                     }
                                 } else {
                                     auth.signOut()
-                                    result(UiState.Error("Invalid user"))
+                                    result(UiState.Error("FCM Token Failed!"))
                                 }
                             } else {
                                 auth.signOut()
                                 result(UiState.Error("Invalid user"))
                             }
                         }
+                            .addOnFailureListener {
+                                auth.signOut()
+                                result(UiState.Error("You are not a manager"))
+                            }
                     }
                 } else {
                     try {
@@ -105,7 +109,7 @@ class AuthRepositoryImpl(
                     } catch (e: FirebaseAuthInvalidCredentialsException) {
                         result(UiState.Error("Invalid email"))
                     } catch (e: Exception) {
-                        result(UiState.Error("Unknown error"))
+                        result(UiState.Error("Error: ${e.message}"))
                     }
                 }
             }
@@ -163,11 +167,8 @@ class AuthRepositoryImpl(
 
     override fun logoutCompany(result: () -> Unit) {
         auth.signOut()
+        sharedPreferences.edit().clear().apply()
         result()
-        // clear user session
-        val editor = sharedPreferences.edit()
-        editor.remove(SharedPreferencesConstants.USER_SESSION)
-        editor.apply()
     }
 
     override fun updateCompanyInformation(

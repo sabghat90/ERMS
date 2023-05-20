@@ -73,6 +73,10 @@ class AuthViewModel @Inject constructor(
         _login.value = UiState.Success("Logout Successful")
     }
 
+    fun getSession(result: (EmployeeModel?) -> Unit) {
+        repository.getUserSession(result)
+    }
+
     fun changePassword(newPassword: String) {
         _changePassword.value = UiState.Loading
         repository.changePassword(newPassword) {

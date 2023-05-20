@@ -20,7 +20,7 @@ class CompanyProfileFragment : Fragment() {
 
     private val authViewModel : AuthViewModel by viewModels()
 
-    private val companyModel = CompanyModel()
+    private var companyModel = CompanyModel()
 
     private val progressDialog by lazy {
         ProgressDialog(requireContext())
@@ -51,13 +51,8 @@ class CompanyProfileFragment : Fragment() {
 
     private fun observer() {
         authViewModel.getSession {
-            companyModel.apply {
-                id = it?.id.toString()
-                name = it?.name.toString()
-                email = it?.email.toString()
-                phone = it?.phone.toString()
-                website = it?.website.toString()
-                country = it?.country.toString()
+            if (it != null) {
+                companyModel = it
             }
         }
     }

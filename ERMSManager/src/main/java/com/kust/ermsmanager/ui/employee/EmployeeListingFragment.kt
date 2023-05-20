@@ -67,7 +67,6 @@ class EmployeeListingFragment : Fragment() {
                     dialog.dismiss()
                     adapter.employeeList = it.data as MutableList<EmployeeModel>
                     adapter.submitList(it.data)
-                    adapter.updateList(it.data)
                 }
                 is UiState.Error -> {
                     dialog.dismiss()

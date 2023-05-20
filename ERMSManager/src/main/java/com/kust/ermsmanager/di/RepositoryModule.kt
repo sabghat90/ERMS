@@ -38,9 +38,11 @@ object RepositoryModule {
         auth: FirebaseAuth,
         database: FirebaseFirestore,
         @Named("employeeProfile")
-        firebaseStorage: StorageReference
+        firebaseStorage: StorageReference,
+        sharedPreferences: SharedPreferences,
+        gson: Gson
     ) : EmployeeRepository {
-        return EmployeeRepositoryImpl(auth, database, firebaseStorage)
+        return EmployeeRepositoryImpl(auth, database, firebaseStorage, sharedPreferences, gson)
     }
 
     @Provides

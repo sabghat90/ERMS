@@ -55,6 +55,7 @@ class CompanyRegistrationFragment : Fragment() {
                     binding.btnRegister.text = getString(R.string.register)
                     binding.progressBar.visibility = View.GONE
                     toast(state.data)
+                    findNavController().navigate(R.id.action_companyRegistrationFragment_to_companyLoginFragment)
 
                 }
                 is UiState.Error -> {
@@ -74,12 +75,12 @@ class CompanyRegistrationFragment : Fragment() {
         return CompanyModel(
             id = "",
             name = binding.editTextCompanyName.text.toString(),
-            address = "-",
-            city = "-",
+            address = "",
+            city = "",
             country = "",
             email = binding.editTextEmail.text.toString(),
             phone = binding.editTextPhone.text.toString(),
-            website = "-",
+            website = "",
             role = Role.COMPANY,
             profilePicture = ""
         )

@@ -1,6 +1,7 @@
 package com.kust.ermsemployee.di
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
@@ -24,7 +25,7 @@ object FirebaseModule {
 
     @Provides
     @Singleton
-    fun provideFirebaseDatabase() : FirebaseFirestore {
+    fun provideFirebaseFirestore() : FirebaseFirestore {
         return FirebaseFirestore.getInstance()
     }
 
@@ -38,6 +39,12 @@ object FirebaseModule {
     @Singleton
     fun provideFCMToken() : FirebaseMessaging {
         return FirebaseMessaging.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseDatabase() : FirebaseDatabase {
+        return FirebaseDatabase.getInstance()
     }
 
 }

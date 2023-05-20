@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.databinding.FragmentLoginBinding
 import com.kust.ermsmanager.ui.setting.BiometricActivity
@@ -50,6 +51,10 @@ class LoginFragment : Fragment() {
                     password = binding.editTextPassword.text.toString()
                 )
             }
+        }
+
+        binding.btnForgetPassword.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
         }
     }
 

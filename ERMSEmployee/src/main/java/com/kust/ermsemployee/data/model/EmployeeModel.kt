@@ -19,6 +19,7 @@ data class EmployeeModel(
     val joiningDate: String = "",
     val points: String = "",
     var role: String = "",
+    var website: String = "",
     val profilePicture: String = "",
     var fcmToken: String = ""
 )

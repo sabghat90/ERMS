@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.kust.ermsemployee.R
 import com.kust.ermsemployee.data.model.EmployeeModel
 import com.kust.ermsemployee.databinding.FragmentSignUpBinding
@@ -81,9 +82,7 @@ class SignUpFragment : Fragment() {
                     binding.progressBar.visibility = View.GONE
                     binding.btnRegister.text = getString(R.string.register)
                     toast(uiState.data)
-                    val intent = Intent (requireContext(), DashboardActivity::class.java)
-                    startActivity(intent)
-                    activity?.finish()
+                    findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
                 }
             }
         }
