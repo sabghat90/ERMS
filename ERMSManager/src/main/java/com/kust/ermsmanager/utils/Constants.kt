@@ -13,6 +13,10 @@ object FirebaseStorageConstants {
     const val EMPLOYEE_PROFILE = "employee_profile"
 }
 
+object FirebaseRealtimeDatabaseConstants {
+    const val ATTENDANCE = "attendance"
+}
+
 object Role {
     const val COMPANY = "company"
     const val EMPLOYEE = "employee"

@@ -63,13 +63,13 @@ class EventDetailFragment : Fragment() {
     }
 
     private fun updateUi() {
-        event = arguments?.getParcelable<EventModel>("event")!!
+        event = arguments?.getParcelable("event")!!
 
         with(binding) {
             tvEventName.text = event.title
             tvEventDescription.text = event.description
-            tvCreatedDateTime.text = event.dateCreated + " " + event.timeCreated
-            tvEventDateTime.text = event.date + " " + event.time
+            tvCreatedDateTime.text = event.dateCreated
+            tvEventDateTime.text = event.eventDate
             tvLocation.text = event.location
             tvEventType.text = event.type
         }

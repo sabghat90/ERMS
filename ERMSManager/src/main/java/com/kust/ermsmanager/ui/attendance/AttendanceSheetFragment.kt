@@ -35,6 +35,8 @@ class AttendanceSheetFragment : Fragment() {
     // notification service instance
     private val notificationService = NotificationService()
 
+    private lateinit var day : String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -75,6 +77,7 @@ class AttendanceSheetFragment : Fragment() {
                 selectedDate.set(year, month, dayOfMonth)
                 binding.tvDayName.text = SimpleDateFormat("EEEE", Locale.getDefault()).format(selectedDate.time)
                 binding.tvDate.text = SimpleDateFormat("MMM d, y", Locale.getDefault()).format(selectedDate.time)
+                day = SimpleDateFormat("d", Locale.getDefault()).format(selectedDate.time)
             },
             currentYear,
             currentMonth,
@@ -129,6 +132,8 @@ class AttendanceSheetFragment : Fragment() {
 
     private fun getAttendanceObj(): AttendanceModel {
         val time = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(Date())
+        val year = SimpleDateFormat("yyyy", Locale.getDefault()).format(Date())
+        val month = SimpleDateFormat("MMM", Locale.getDefault()).format(Date())
 
         val extraBonus = {
             if (binding.etExtraBonus.text.toString().isEmpty()) {
@@ -152,7 +157,10 @@ class AttendanceSheetFragment : Fragment() {
             status = attendanceStatus(),
             time = time,
             extraBonus = extraBonus(),
-            advanceOrLoan = advanceOrLoan()
+            advanceOrLoan = advanceOrLoan(),
+            year = year,
+            month = month,
+            day = day
         )
     }
 

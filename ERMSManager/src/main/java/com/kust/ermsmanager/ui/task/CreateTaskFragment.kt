@@ -72,7 +72,7 @@ class CreateTaskFragment : Fragment() {
 
         // q: how to store the selected employee from spinner to employee object?
         binding.ddmEmployeeList.onItemClickListener =
-            AdapterView.OnItemClickListener { parent, view, position, id ->
+            AdapterView.OnItemClickListener { parent, _, position, _ ->
                 val selectedItem = parent?.getItemAtPosition(position)
                 if (selectedItem is EmployeeModel) {
                     selectedEmployee = selectedItem

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.firebase.Timestamp
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.data.models.EventModel
@@ -38,6 +39,8 @@ class CreateEventFragment : Fragment() {
 
     private val notificationService = NotificationService()
 
+    private var selectedDateTimestamp: Date? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,57 +62,56 @@ class CreateEventFragment : Fragment() {
         }
 
         binding.btnDate.setOnClickListener {
-            selectDateFromDatePicker()
-        }
-
-        binding.btnTime.setOnClickListener {
-            selectTimeFromTimePicker()
+            showDateTimePicker()
         }
 
     }
 
-    private fun selectTimeFromTimePicker() {
-        val timePickerDialog = TimePickerDialog(
-            requireContext(),
-            { _, hourOfDay, minute ->
-                val selectedTime = Calendar.getInstance()
-                selectedTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                selectedTime.set(Calendar.MINUTE, minute)
-                binding.btnTime.text = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(selectedTime.time)
-            },
-            12,
-            0,
-            false
-        )
-        timePickerDialog.show()
-    }
-
-    private fun selectDateFromDatePicker() {
+    private fun showDateTimePicker() {
+        // Get the current date and time
         val calendar = Calendar.getInstance()
         val currentYear = calendar.get(Calendar.YEAR)
         val currentMonth = calendar.get(Calendar.MONTH)
         val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        val currentMinute = calendar.get(Calendar.MINUTE)
 
-        // Create a date picker dialog
-        val datePickerDialog = DatePickerDialog(
-            requireContext(),
-            { _, year, month, dayOfMonth ->
-                // Handle the selected date
-                val selectedDate = Calendar.getInstance()
-                selectedDate.set(year, month, dayOfMonth)
-                binding.btnDate.text = SimpleDateFormat("MMM d, y", Locale.getDefault()).format(selectedDate.time)
-            },
-            currentYear,
-            currentMonth,
-            currentDay
-        )
+        // Create a DatePickerDialog to pick the date
+        val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, day ->
+            // Create a TimePickerDialog to pick the time
+            val timePickerDialog = TimePickerDialog(context, { _, hourOfDay, minute ->
+                // Create the Date object using the selected date and time
+                val selectedCalendar = Calendar.getInstance().apply {
+                    set(Calendar.YEAR, year)
+                    set(Calendar.MONTH, month)
+                    set(Calendar.DAY_OF_MONTH, day)
+                    set(Calendar.HOUR_OF_DAY, hourOfDay)
+                    set(Calendar.MINUTE, minute)
+                    set(Calendar.SECOND, 0)
+                }
+                val selectedDate = selectedCalendar.time
 
-        // Set the maximum date to today
-        datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+                // Format the date and time using SimpleDateFormat
+                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val timeFormat = SimpleDateFormat("HH:mm a", Locale.getDefault())
 
-        // Show the date picker dialog
+                val formattedDate = dateFormat.format(selectedDate)
+                val formattedTime = timeFormat.format(selectedDate)
+
+                binding.btnDate.text = formattedDate
+                binding.btnTime.text = formattedTime
+
+                selectedDateTimestamp = Timestamp(selectedDate).toDate()
+
+            }, currentHour, currentMinute, false)
+
+            timePickerDialog.show()
+        }, currentYear, currentMonth, currentDay)
+
+        datePickerDialog.datePicker.maxDate = Date().time
         datePickerDialog.show()
     }
+
 
     private fun observer() {
         eventViewModel.createEvent.observe(viewLifecycleOwner) {
@@ -168,20 +170,16 @@ class CreateEventFragment : Fragment() {
     private fun getEventObj(): EventModel {
         val title = binding.etEventTitle.text.toString()
         val description = binding.etEventDescription.text.toString()
-        val dateCreated = SimpleDateFormat("MMM d, y", Locale.getDefault()).format(Date())
-        val timeCreated = SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date())
-        val date = binding.btnDate.text.toString()
-        val time = binding.btnTime.text.toString()
+        val dateCreated = Timestamp.now().toDate()
+        val eventDate = selectedDateTimestamp
         val location = binding.etEventLocation.text.toString()
         val type = binding.etEventType.text.toString()
         return EventModel(
             id = "",
             title = title,
             description = description,
-            dateCreated = dateCreated,
-            timeCreated = timeCreated,
-            date = date,
-            time = time,
+            dateCreated = dateCreated.toString(),
+            eventDate = eventDate.toString(),
             location = location,
             type = type,
         )

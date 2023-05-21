@@ -46,7 +46,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun updateUi() {
-        binding.profileView.apply {
+        binding.profile.apply {
             name.text = employeeObj.name
             tvEmail.text = employeeObj.email
             tvPhone.text = employeeObj.phone

@@ -12,6 +12,8 @@ import com.kust.ermsemployee.databinding.FragmentViewAttendaceBinding
 import com.kust.ermsemployee.utils.UiState
 import com.kust.ermsemployee.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @AndroidEntryPoint
 class ViewAttendanceFragment : Fragment() {
@@ -21,6 +23,8 @@ class ViewAttendanceFragment : Fragment() {
     private val attendanceViewModel: AttendanceViewModel by viewModels()
 
     private val adapter = AttendanceListingAdapter()
+
+    private var attendanceList: ArrayList<AttendanceModel> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,9 +39,23 @@ class ViewAttendanceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observer()
+        setForToday()
 
         binding.rvAttendance.layoutManager = LinearLayoutManager(requireContext())
         binding.rvAttendance.adapter = adapter
+
+    }
+
+    private fun setForToday() {
+        val day = SimpleDateFormat("dd").format(Date())
+        if (attendanceList.isNotEmpty()) {
+            if (attendanceList[0].day == day) {
+                binding.tvStatus.text = attendanceList[0].status
+                binding.tvSubmissionTime.text = attendanceList[0].time
+            }
+        } else {
+            toast("No attendance found for today")
+        }
     }
 
     private fun observer() {
@@ -47,8 +65,23 @@ class ViewAttendanceFragment : Fragment() {
 
                 }
                 is UiState.Success -> {
+                    toast("Success ${it.data}")
                     adapter.attendanceList = it.data as ArrayList<AttendanceModel>
                     adapter.submitList(it.data)
+                }
+                is UiState.Error -> {
+                    toast(it.error)
+                }
+            }
+        }
+        attendanceViewModel.getAttendanceForToday.observe(viewLifecycleOwner) {
+            when (it) {
+                is UiState.Loading -> {
+
+                }
+                is UiState.Success -> {
+                    attendanceList = it.data as ArrayList<AttendanceModel>
+                    setForToday()
                 }
                 is UiState.Error -> {
                     toast(it.error)

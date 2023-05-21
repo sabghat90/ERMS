@@ -77,7 +77,6 @@ class EventListingFragment : Fragment() {
                     adapter.submitList(it.data)
                     Handler(Looper.getMainLooper()).postDelayed({
                         adapter.updateTaskList(it.data)
-                        adapter.notifyDataSetChanged()
                     }, 1000)
                 }
                 is UiState.Error -> {

@@ -12,6 +12,9 @@ data class AttendanceModel(
     val status: String = "",
     val extraBonus: Double = 0.00,
     val advanceOrLoan: Double = 0.00,
+    val year: String = "",
+    val month: String = "",
+    val day: String = ""
 ) {
 
     companion object {

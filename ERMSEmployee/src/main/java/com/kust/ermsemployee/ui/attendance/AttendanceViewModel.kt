@@ -18,14 +18,29 @@ class AttendanceViewModel @Inject constructor(
     val getAttendanceList: LiveData<UiState<List<AttendanceModel>>>
         get() = _getAttendanceList
 
+    private val _getAttendanceForToday = MutableLiveData<UiState<List<AttendanceModel>>>()
+    val getAttendanceForToday: LiveData<UiState<List<AttendanceModel>>>
+        get() = _getAttendanceForToday
+
     init {
         getAttendanceList(AttendanceModel())
+    }
+
+    init {
+        getAttendanceForToday()
     }
 
     private fun getAttendanceList(attendanceModel: AttendanceModel) {
         _getAttendanceList.value = UiState.Loading
         attendanceRepository.getAttendance(attendanceModel) {
             _getAttendanceList.value = it
+        }
+    }
+
+    private fun getAttendanceForToday() {
+        _getAttendanceForToday.value = UiState.Loading
+        attendanceRepository.getAttendanceForToday {
+            _getAttendanceForToday.value = it
         }
     }
 }

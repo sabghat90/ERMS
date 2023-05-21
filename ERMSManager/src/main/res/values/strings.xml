@@ -113,4 +113,9 @@
     <string name="delete">Delete</string>
     <string name="update">Update</string>
     <string name="date_and_time_created">Date and Time Created:</string>
+    <string name="cover_image">Cover Image</string>
+    <string name="State">State</string>
+    <string name="full_address">Full Address</string>
+    <string name="professional_information">Professional Information</string>
+    <string name="salary">Salary</string>
 </resources>

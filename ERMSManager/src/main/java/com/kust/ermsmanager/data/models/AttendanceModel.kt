@@ -1,8 +1,5 @@
 package com.kust.ermsmanager.data.models
 
-import com.google.firebase.firestore.ServerTimestamp
-import java.util.Date
-
 data class AttendanceModel(
     // attendance model for an employee
     val id: String = "",
@@ -12,6 +9,9 @@ data class AttendanceModel(
     val status: String = "",
     val extraBonus: Double = 0.00,
     val advanceOrLoan: Double = 0.00,
+    val year: String = "",
+    val month: String = "",
+    val day: String = ""
 ) {
 
     companion object {

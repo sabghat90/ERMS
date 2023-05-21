@@ -3,6 +3,7 @@ package com.kust.ermsmanager.data.repositories
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.kust.ermsmanager.data.models.AttendanceModel
+import com.kust.ermsmanager.utils.FirebaseRealtimeDatabaseConstants
 import com.kust.ermsmanager.utils.UiState
 
 class AttendanceRepositoryImpl (
@@ -13,7 +14,11 @@ class AttendanceRepositoryImpl (
         attendanceModel: AttendanceModel,
         result: (UiState<String>) -> Unit
     ) {
-        val attendanceRef = database.getReference("attendance").child(attendanceModel.date).child(attendanceModel.employeeId)
+        val attendanceRef = database.getReference(FirebaseRealtimeDatabaseConstants.ATTENDANCE)
+            .child(attendanceModel.year)
+            .child(attendanceModel.month)
+            .child(attendanceModel.day)
+            .child(attendanceModel.employeeId)
 
         attendanceRef.setValue(attendanceModel).addOnCompleteListener { task ->
             if (task.isSuccessful) {

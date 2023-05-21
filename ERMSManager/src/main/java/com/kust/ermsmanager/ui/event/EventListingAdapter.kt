@@ -5,8 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.Timestamp
 import com.kust.ermsmanager.data.models.EventModel
 import com.kust.ermsmanager.databinding.EventItemBinding
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class EventListingAdapter(
     val onItemClicked: (Int, EventModel) -> Unit
@@ -26,17 +31,50 @@ class EventListingAdapter(
 
     fun updateTaskList(list: MutableList<EventModel>) {
         eventList = list
-        notifyDataSetChanged()
     }
 
     inner class EventViewHolder(private val binding: EventItemBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(event: EventModel) {
 
+            val eventDate = event.eventDate
+            val format = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.getDefault())
+            try {
+                val date = format.parse(eventDate)
+                val currentDate = Timestamp.now().toDate()
+
+                if (date != null) {
+                    if (date.before(currentDate)) {
+                        binding.tvEventStatus.text = "Expired"
+                        binding.tvEventStatus.setTextColor(binding.root.context.getColor(android.R.color.holo_red_dark))
+                    } else {
+                        binding.tvEventStatus.text = "Upcoming"
+                        // change status color to green
+                        binding.tvEventStatus.setTextColor(binding.root.context.getColor(android.R.color.holo_green_dark))
+                    }
+                } else {
+                    // Handle invalid date format
+                }
+            } catch (e: ParseException) {
+                e.printStackTrace()
+                // Handle date parsing error
+            }
+
+            val creationDate = event.dateCreated
+            val parseCreationDate = Timestamp(Date(creationDate))
+            val parseEventDate = Timestamp(Date(event.eventDate))
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+            val timeFormat = SimpleDateFormat("hh:mm a")
+            val creationDateFormatted = dateFormat.format(parseCreationDate.toDate())
+            val creationTimeFormatted = timeFormat.format(parseCreationDate.toDate())
+            val eventDateFormatted = dateFormat.format(parseEventDate.toDate())
+            val eventTimeFormatted = timeFormat.format(parseEventDate.toDate())
+
+
             binding.eventName.text = event.title
-            binding.tvDateCreated.text = event.dateCreated
+            binding.tvDateCreated.text = """$creationDateFormatted at $creationTimeFormatted"""
             binding.eventType.text = event.type
-            binding.tvEventDate.text = event.date
+            binding.tvEventDate.text = """$eventDateFormatted at $eventTimeFormatted"""
 
             binding.eventCard.setOnClickListener {
                 val position = adapterPosition

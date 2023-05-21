@@ -39,10 +39,6 @@ class ManagerProfileFragment : Fragment() {
 
         observer()
         updateUI()
-
-        binding.profileLayout.btnUpdateProfile.setOnClickListener {
-            findNavController().navigate(R.id.action_managerProfileFragment_to_updateProfileFragment)
-        }
     }
 
     private fun observer() {
