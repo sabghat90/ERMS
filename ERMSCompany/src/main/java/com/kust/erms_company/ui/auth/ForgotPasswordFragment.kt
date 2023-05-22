@@ -15,7 +15,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ForgotPasswordFragment : Fragment() {
-    private val TAG = "ForgotPasswordFragment"
     private var _binding: FragmentForgotPasswordBinding? = null
     private val binding get() = _binding!!
 
@@ -56,14 +55,14 @@ class ForgotPasswordFragment : Fragment() {
 
                 is UiState.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    binding.btnContinue.text = "Continue"
+                    binding.btnContinue.text = getString(R.string.continue_)
                     toast(it.data)
                     findNavController().navigate(R.id.action_forgotPasswordFragment_to_companyLoginFragment)
                 }
 
                 is UiState.Error -> {
                     binding.progressBar.visibility = View.GONE
-                    binding.btnContinue.text = "Continue"
+                    binding.btnContinue.text = getString(R.string.continue_)
                     toast(it.error)
                 }
             }

@@ -15,6 +15,8 @@ import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.EventModel
 import com.kust.ermsmanager.databinding.FragmentEventListingBinding
 import com.kust.ermsmanager.utils.UiState
+import com.kust.ermsmanager.utils.hide
+import com.kust.ermsmanager.utils.show
 import com.kust.ermsmanager.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,6 +31,7 @@ class EventListingFragment : Fragment() {
 
     private val adapter by lazy {
         EventListingAdapter(
+            context = requireContext(),
             onItemClicked = { _, event ->
                 val bundle = Bundle()
                 bundle.putParcelable("event", event)
@@ -71,17 +74,25 @@ class EventListingFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     binding.shimmerLayout.stopShimmer()
-                    binding.shimmerLayout.visibility = View.GONE
-                    binding.rvEvents.visibility = View.VISIBLE
-                    adapter.eventList = it.data as MutableList<EventModel>
-                    adapter.submitList(it.data)
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        adapter.updateTaskList(it.data)
-                    }, 1000)
+                    binding.shimmerLayout.hide()
+                    if (it.data.isEmpty()) {
+                        binding.tvEventListStatus.show()
+                        binding.rvEvents.hide()
+                    } else {
+                        binding.rvEvents.show()
+                        adapter.eventList = it.data as MutableList<EventModel>
+                        adapter.submitList(it.data)
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            adapter.updateEventList(it.data)
+                        }, 1000)
+                    }
                 }
                 is UiState.Error -> {
                     binding.shimmerLayout.stopShimmer()
-                    binding.shimmerLayout.visibility = View.GONE
+                    binding.shimmerLayout.hide()
+                    binding.rvEvents.hide()
+                    binding.tvEventListStatus.show()
+                    binding.tvEventListStatus.text = getString(R.string.something_went_wrong)
                     toast(it.error)
                 }
             }

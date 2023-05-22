@@ -15,7 +15,6 @@ class TaskRepositoryImpl(
     private val sharedPreferences: SharedPreferences
 ) : TaskRepository {
     override fun getTasks(
-        taskModel: TaskModel?,
         result: (UiState<List<TaskModel>>) -> Unit
     ) {
         // get company id from shared preferences object

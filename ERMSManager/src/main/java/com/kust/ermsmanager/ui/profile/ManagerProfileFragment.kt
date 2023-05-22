@@ -55,10 +55,12 @@ class ManagerProfileFragment : Fragment() {
     }
 
     private fun updateUI() {
-        binding.profileLayout.name.text = employeeModel.name
-        binding.profileLayout.tvEmail.text = employeeModel.email
-        binding.profileLayout.tvPhone.text = employeeModel.phone
-        binding.profileLayout.tvFullAddress.text = employeeModel.address
+        binding.profile.apply {
+            name.text = employeeModel.name
+            tvEmail.text = employeeModel.email
+            tvPhone.text = employeeModel.phone
+            tvFullAddress.text = employeeModel.address
+        }
     }
 
     override fun onDestroy() {

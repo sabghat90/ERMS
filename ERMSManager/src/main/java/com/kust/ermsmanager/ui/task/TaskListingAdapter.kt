@@ -1,15 +1,24 @@
 package com.kust.ermsmanager.ui.task
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.Timestamp
+import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.TaskModel
 import com.kust.ermsmanager.databinding.TaskItemBinding
+import com.kust.ermsmanager.utils.ConvertDateAndTimeFormat
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 // task adapter using list adapter
 class TaskListingAdapter(
+    val context: Context,
     val onItemClicked: (Int, TaskModel) -> Unit
 ) : ListAdapter<TaskModel, TaskListingAdapter.TaskViewHolder>(DiffUtilCallback()) {
 
@@ -34,10 +43,44 @@ class TaskListingAdapter(
     inner class TaskViewHolder(private val binding: TaskItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(task: TaskModel) {
+
+            val taskDueDate = task.deadline
+            val format = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.getDefault())
+            try {
+                val date = format.parse(taskDueDate)
+                val currentDate = Timestamp.now().toDate()
+
+                if (date != null) {
+                    if (date.before(currentDate)) {
+                        binding.tvTaskDeadlineStatus.text = context.getString(R.string.expired)
+                        binding.tvTaskDeadlineStatus.setTextColor(binding.root.context.getColor(android.R.color.holo_red_dark))
+                    } else {
+                        binding.tvTaskDeadlineStatus.text = context.getString(R.string.upcoming)
+                        // change status color to green
+                        binding.tvTaskDeadlineStatus.setTextColor(binding.root.context.getColor(android.R.color.holo_green_dark))
+                    }
+                } else {
+                    // Handle invalid date format
+                }
+            } catch (e: ParseException) {
+                e.printStackTrace()
+                // Handle date parsing error
+            }
+
+            val taskCreationDate = task.createdDate
+
+            Log.d("TaskListingAdapter", "taskCreationDate: $taskCreationDate")
+
+            val creationDateFormatted = ConvertDateAndTimeFormat().formatDate(taskCreationDate)
+            val creationTimeFormatted = ConvertDateAndTimeFormat().formatTime(taskCreationDate)
+
+            val taskDeadLineDateFormatted = ConvertDateAndTimeFormat().formatDate(taskDueDate)
+            val taskDeadLineTimeFormatted = ConvertDateAndTimeFormat().formatTime(taskDueDate)
+
             binding.tvTaskName.text = task.name
             binding.tvTaskDescription.text = task.description
             binding.tvTaskStatus.text = task.status
-            binding.tvTaskCreatedDate.text = task.createdDate
+            binding.tvTaskCreatedDate.text = context.getString(R.string.date_time, creationDateFormatted, creationTimeFormatted)
             binding.cardTask.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {

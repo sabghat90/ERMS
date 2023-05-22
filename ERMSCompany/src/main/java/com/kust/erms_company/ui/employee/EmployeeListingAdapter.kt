@@ -7,22 +7,13 @@ import com.bumptech.glide.Glide
 import com.kust.erms_company.R
 import com.kust.erms_company.data.model.EmployeeModel
 import com.kust.erms_company.databinding.ItemEmployeeBinding
+import com.kust.erms_company.utils.Role
 
 class EmployeeListingAdapter (
     val onItemClicked: (Int, EmployeeModel) -> Unit
         ) : RecyclerView.Adapter<EmployeeListingAdapter.ViewHolder>() {
 
     var employees: MutableList<EmployeeModel> = arrayListOf()
-
-//    private lateinit var listener: OnItemClickListener
-//
-//    interface OnItemClickListener {
-//        fun onItemClick(position: Int)
-//    }
-
-//    fun setOnItemClickListener(listener: OnItemClickListener) {
-//        this.listener = listener
-//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView =
@@ -58,9 +49,9 @@ class EmployeeListingAdapter (
             binding.tvDepartment.text = employee.department
 
             if (employee.role == "manager") {
-                binding.tvStatus.text = "Manager"
+                binding.tvStatus.text = Role.MANAGER
             } else {
-                binding.tvStatus.text = "Employee"
+                binding.tvStatus.text = Role.EMPLOYEE
             }
 
             binding.cardEmployee.setOnClickListener {
@@ -70,14 +61,5 @@ class EmployeeListingAdapter (
                 }
             }
         }
-
-//        init {
-//            binding.cardEmployee.setOnClickListener {
-//                val position = adapterPosition
-//                if (position != RecyclerView.NO_POSITION) {
-//                    listener.onItemClick(position)
-//                }
-//            }
-//        }
     }
 }

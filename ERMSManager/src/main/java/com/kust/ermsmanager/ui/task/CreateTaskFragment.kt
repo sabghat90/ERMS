@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.EmployeeModel
@@ -20,14 +21,17 @@ import com.kust.ermsmanager.data.models.TaskModel
 import com.kust.ermsmanager.databinding.FragmentCreateTaskBinding
 import com.kust.ermsmanager.ui.auth.AuthViewModel
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
+import com.kust.ermsmanager.utils.TaskStatus
 import com.kust.ermsmanager.utils.UiState
 import com.kust.ermsmanager.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.DateFormat
-import java.util.*
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 
 @AndroidEntryPoint
@@ -37,7 +41,7 @@ class CreateTaskFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val taskViewModel: TaskViewModel by viewModels()
-    private val authViewModel : AuthViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
     private val employeeViewModel: EmployeeViewModel by viewModels()
 
     // employee list for spinner
@@ -47,7 +51,9 @@ class CreateTaskFragment : Fragment() {
     private var selectedEmployee = EmployeeModel()
 
     // company id from auth view model getSession function not lateinit var
-    private lateinit var companyId : String
+    private lateinit var companyId: String
+
+    private var selectedDateTimestamp: Date? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -102,9 +108,9 @@ class CreateTaskFragment : Fragment() {
         return TaskModel(
             name = binding.taskNameInput.text.toString(),
             description = binding.taskDescriptionInput.text.toString(),
-            status = "Pending",
-            deadline = binding.taskDueDateButton.text.toString(),
-            createdDate = getCurrentDateAndTime(),
+            status = TaskStatus.PENDING,
+            deadline = selectedDateTimestamp.toString(),
+            createdDate = Timestamp.now().toDate().toString(),
             createdBy = FirebaseAuth.getInstance().currentUser?.email.toString(),
             assigneeName = binding.ddmEmployeeList.text.toString(),
             assigneeEmail = selectedEmployee.email,
@@ -124,10 +130,8 @@ class CreateTaskFragment : Fragment() {
                 is UiState.Success -> {
                     binding.btnCreateTask.text = getString(R.string.create_task)
                     binding.progressBar.hide()
-                    it.data.let {
-                        toast("Task created successfully")
-                        findNavController().navigate(R.id.action_createTaskFragment_to_taskListingFragment)
-                    }
+                    toast("Task created successfully")
+                    findNavController().navigate(R.id.action_createTaskFragment_to_taskListingFragment)
                 }
 
                 is UiState.Error -> {
@@ -140,9 +144,6 @@ class CreateTaskFragment : Fragment() {
 
         employeeViewModel.getEmployeeList.observe(viewLifecycleOwner) {
             when (it) {
-                is UiState.Loading -> {
-                }
-
                 is UiState.Success -> {
                     it.data.let { employees ->
                         employees.forEach { employee ->
@@ -150,57 +151,60 @@ class CreateTaskFragment : Fragment() {
                         }
                     }
                 }
-
-                is UiState.Error -> {
-                    toast(it.error)
+                else -> {
+                    toast("Error fetching employee list")
                 }
             }
         }
     }
 
-    private fun getCurrentDateAndTime(): String {
-        val calendar = Calendar.getInstance()
-        val currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.time)
-        val currentTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar.time)
-        return "$currentDate $currentTime"
-    }
-
-    // get due date and time from date picker using due date button
-    private fun getDueDateAndTime(): String {
-
-        // hide keyboard
-        val imm =
-            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    private fun getDueDateAndTime() {
+        // hide the keyboard
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(requireView().windowToken, 0)
 
-
+        // Get the current date and time
         val calendar = Calendar.getInstance()
-        val datePicker = DatePickerDialog(
-            requireContext(),
-            { _, year, month, dayOfMonth ->
-                calendar.set(Calendar.YEAR, year)
-                calendar.set(Calendar.MONTH, month)
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                val timePicker = TimePickerDialog(
-                    requireContext(),
-                    { _, hourOfDay, minute ->
-                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                        calendar.set(Calendar.MINUTE, minute)
-                        binding.taskDueDateButton.text =
-                            DateFormat.getDateTimeInstance().format(calendar.time)
-                    },
-                    calendar.get(Calendar.HOUR_OF_DAY),
-                    calendar.get(Calendar.MINUTE),
-                    false
-                )
-                timePicker.show()
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-        datePicker.show()
-        return DateFormat.getDateTimeInstance().format(calendar.time)
+        val currentYear = calendar.get(Calendar.YEAR)
+        val currentMonth = calendar.get(Calendar.MONTH)
+        val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        val currentMinute = calendar.get(Calendar.MINUTE)
+
+        // Create a DatePickerDialog to pick the date
+        val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, day ->
+            // Create a TimePickerDialog to pick the time
+            val timePickerDialog = TimePickerDialog(context, { _, hourOfDay, minute ->
+                // Create the Date object using the selected date and time
+                val selectedCalendar = Calendar.getInstance().apply {
+                    set(Calendar.YEAR, year)
+                    set(Calendar.MONTH, month)
+                    set(Calendar.DAY_OF_MONTH, day)
+                    set(Calendar.HOUR_OF_DAY, hourOfDay)
+                    set(Calendar.MINUTE, minute)
+                    set(Calendar.SECOND, 0)
+                }
+                val selectedDate = selectedCalendar.time
+
+                // Format the date and time using SimpleDateFormat
+                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val timeFormat = SimpleDateFormat("HH:mm a", Locale.getDefault())
+
+                val formattedDate = dateFormat.format(selectedDate)
+                val formattedTime = timeFormat.format(selectedDate)
+
+                binding.taskDueDateButton.text =
+                    getString(R.string.date_time, formattedDate, formattedTime)
+
+                selectedDateTimestamp = Timestamp(selectedDate).toDate()
+
+            }, currentHour, currentMinute, false)
+
+            timePickerDialog.show()
+        }, currentYear, currentMonth, currentDay)
+
+        datePickerDialog.datePicker.minDate = Date().time
+        datePickerDialog.show()
     }
 
     private fun validateInput(): Boolean {

@@ -64,8 +64,8 @@ class CompanyProfileFragment : Fragment() {
             tvPhone.text = companyModel.phone
             tvWebsite.text = companyModel.website
             tvCountry.text = companyModel.country
-            tvState.text = "companyObj.state"
-            tvFullAddress.text = "companyObj.fullAddress"
+            tvState.text = companyModel.state
+            tvFullAddress.text = companyModel.fullAddress
         }
     }
 

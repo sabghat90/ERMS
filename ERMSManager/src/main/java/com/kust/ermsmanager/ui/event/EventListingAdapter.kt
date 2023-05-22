@@ -1,19 +1,23 @@
 package com.kust.ermsmanager.ui.event
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Timestamp
+import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.EventModel
 import com.kust.ermsmanager.databinding.EventItemBinding
+import com.kust.ermsmanager.utils.ConvertDateAndTimeFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 class EventListingAdapter(
+    val context: Context,
     val onItemClicked: (Int, EventModel) -> Unit
 ) : ListAdapter<EventModel, EventListingAdapter.EventViewHolder>(DiffUtilCallback()) {
 
@@ -29,8 +33,10 @@ class EventListingAdapter(
         holder.bind(eventList[position])
     }
 
-    fun updateTaskList(list: MutableList<EventModel>) {
-        eventList = list
+    // receive event call from handler to update event list
+    fun updateEventList(eventList: MutableList<EventModel>) {
+        this.eventList = eventList
+        notifyDataSetChanged()
     }
 
     inner class EventViewHolder(private val binding: EventItemBinding):
@@ -45,10 +51,10 @@ class EventListingAdapter(
 
                 if (date != null) {
                     if (date.before(currentDate)) {
-                        binding.tvEventStatus.text = "Expired"
+                        binding.tvEventStatus.text = context.getString(R.string.expired)
                         binding.tvEventStatus.setTextColor(binding.root.context.getColor(android.R.color.holo_red_dark))
                     } else {
-                        binding.tvEventStatus.text = "Upcoming"
+                        binding.tvEventStatus.text = context.getString(R.string.upcoming)
                         // change status color to green
                         binding.tvEventStatus.setTextColor(binding.root.context.getColor(android.R.color.holo_green_dark))
                     }
@@ -61,20 +67,17 @@ class EventListingAdapter(
             }
 
             val creationDate = event.dateCreated
-            val parseCreationDate = Timestamp(Date(creationDate))
-            val parseEventDate = Timestamp(Date(event.eventDate))
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-            val timeFormat = SimpleDateFormat("hh:mm a")
-            val creationDateFormatted = dateFormat.format(parseCreationDate.toDate())
-            val creationTimeFormatted = timeFormat.format(parseCreationDate.toDate())
-            val eventDateFormatted = dateFormat.format(parseEventDate.toDate())
-            val eventTimeFormatted = timeFormat.format(parseEventDate.toDate())
+
+            val eventDateFormatted = ConvertDateAndTimeFormat().formatDate(eventDate)
+            val eventTimeFormatted = ConvertDateAndTimeFormat().formatTime(eventDate)
+            val creationDateFormatted = ConvertDateAndTimeFormat().formatDate(creationDate)
+            val creationTimeFormatted = ConvertDateAndTimeFormat().formatTime(creationDate)
 
 
             binding.eventName.text = event.title
-            binding.tvDateCreated.text = """$creationDateFormatted at $creationTimeFormatted"""
+            binding.tvDateCreated.text = context.getString(R.string.date_time, creationDateFormatted, creationTimeFormatted)
             binding.eventType.text = event.type
-            binding.tvEventDate.text = """$eventDateFormatted at $eventTimeFormatted"""
+            binding.tvEventDate.text = context.getString(R.string.date_time, eventDateFormatted, eventTimeFormatted)
 
             binding.eventCard.setOnClickListener {
                 val position = adapterPosition

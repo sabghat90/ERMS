@@ -13,19 +13,19 @@ fun Activity.toast(message: String?) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
-fun View.hide(){
+fun View.hide() {
     visibility = View.GONE
 }
 
-fun View.show(){
+fun View.show() {
     visibility = View.VISIBLE
 }
 
-fun View.disable(){
+fun View.disable() {
     isEnabled = false
 }
 
-fun View.enabled(){
+fun View.enabled() {
     isEnabled = true
 }
 

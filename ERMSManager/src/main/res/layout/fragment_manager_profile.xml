@@ -6,7 +6,7 @@
     tools:context=".ui.profile.ManagerProfileFragment">
 
     <include
-        android:id="@+id/profile_layout"
+        android:id="@+id/profile"
         layout="@layout/profile_layout" />
 
 </FrameLayout>

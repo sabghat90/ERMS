@@ -30,12 +30,12 @@ class EventViewModel @Inject constructor(
         get() = _deleteEvent
 
     init {
-        getEventList(EventModel())
+        getEventList()
     }
 
-    private fun getEventList(eventModel: EventModel) {
+    private fun getEventList() {
         _getEventList.value = UiState.Loading
-        eventRepository.getEventList(eventModel) {
+        eventRepository.getEventList() {
             _getEventList.value = it
         }
     }

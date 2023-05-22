@@ -2,12 +2,15 @@ package com.kust.ermsmanager.ui.event
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.Timestamp
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.EmployeeModel
@@ -68,6 +71,11 @@ class CreateEventFragment : Fragment() {
     }
 
     private fun showDateTimePicker() {
+        // hide the keyboard
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+
         // Get the current date and time
         val calendar = Calendar.getInstance()
         val currentYear = calendar.get(Calendar.YEAR)
@@ -98,8 +106,7 @@ class CreateEventFragment : Fragment() {
                 val formattedDate = dateFormat.format(selectedDate)
                 val formattedTime = timeFormat.format(selectedDate)
 
-                binding.btnDate.text = formattedDate
-                binding.btnTime.text = formattedTime
+                binding.btnDate.text = getString(R.string.date_time, formattedDate, formattedTime)
 
                 selectedDateTimestamp = Timestamp(selectedDate).toDate()
 
@@ -108,7 +115,7 @@ class CreateEventFragment : Fragment() {
             timePickerDialog.show()
         }, currentYear, currentMonth, currentDay)
 
-        datePickerDialog.datePicker.maxDate = Date().time
+        datePickerDialog.datePicker.minDate = Date().time
         datePickerDialog.show()
     }
 
@@ -125,6 +132,7 @@ class CreateEventFragment : Fragment() {
                     binding.progressBar.visibility = View.GONE
                     toast("Event created successfully")
                     sendNotification()
+                    findNavController().navigate(R.id.action_createEventFragment_to_eventListingFragment)
                 }
                 is UiState.Error -> {
                     binding.btnCreateEvent.text = getString(R.string.create_an_event)
@@ -189,7 +197,6 @@ class CreateEventFragment : Fragment() {
         val title = binding.etEventTitle.text.toString()
         val description = binding.etEventDescription.text.toString()
         val date = binding.btnDate.text.toString()
-        val time = binding.btnTime.text.toString()
         val location = binding.etEventLocation.text.toString()
         val type = binding.etEventType.text.toString()
         return when {
@@ -206,11 +213,6 @@ class CreateEventFragment : Fragment() {
             date.isEmpty() -> {
                 binding.btnDate.error = "Date is required"
                 binding.btnDate.requestFocus()
-                false
-            }
-            time.isEmpty() -> {
-                binding.btnTime.error = "Time is required"
-                binding.btnTime.requestFocus()
                 false
             }
             location.isEmpty() -> {

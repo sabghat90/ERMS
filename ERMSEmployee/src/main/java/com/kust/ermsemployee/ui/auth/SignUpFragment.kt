@@ -1,14 +1,9 @@
 package com.kust.ermsemployee.ui.auth
 
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,13 +11,10 @@ import androidx.navigation.fragment.findNavController
 import com.kust.ermsemployee.R
 import com.kust.ermsemployee.data.model.EmployeeModel
 import com.kust.ermsemployee.databinding.FragmentSignUpBinding
-import com.kust.ermsemployee.ui.dashboard.DashboardActivity
 import com.kust.ermsemployee.utils.Role
 import com.kust.ermsemployee.utils.UiState
 import com.kust.ermsemployee.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.DateFormat
-import java.util.Calendar
 
 @AndroidEntryPoint
 class SignUpFragment : Fragment() {

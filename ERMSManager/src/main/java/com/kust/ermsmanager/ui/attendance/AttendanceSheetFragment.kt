@@ -153,6 +153,7 @@ class AttendanceSheetFragment : Fragment() {
 
         return AttendanceModel(
             employeeId = employeeObj.id,
+            employeeName = employeeObj.name,
             date = binding.tvDate.text.toString(),
             status = attendanceStatus(),
             time = time,

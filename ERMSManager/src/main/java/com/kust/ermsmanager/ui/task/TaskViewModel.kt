@@ -62,11 +62,11 @@ class TaskViewModel @Inject constructor(
         }
     }
 
-    private fun getTasks(taskModel: TaskModel?) {
+    private fun getTasks() {
         viewModelScope.launch {
             _getTasks.value = UiState.Loading
             withContext(Dispatchers.IO) {
-                taskRepository.getTasks(taskModel) {
+                taskRepository.getTasks {
                     _getTasks.postValue(it)
                 }
             }
@@ -74,6 +74,6 @@ class TaskViewModel @Inject constructor(
     }
 
     init {
-        getTasks(TaskModel())
+        getTasks()
     }
 }

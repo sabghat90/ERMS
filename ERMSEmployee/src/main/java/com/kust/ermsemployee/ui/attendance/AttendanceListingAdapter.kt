@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kust.ermsemployee.data.model.AttendanceModel
 import com.kust.ermsemployee.databinding.AttendanceItemBinding
 
-class AttendanceListingAdapter() :
+class AttendanceListingAdapter :
     ListAdapter<AttendanceModel, AttendanceListingAdapter.AttendanceViewHolder>(DiffUtilCallback()) {
 
     var attendanceList: MutableList<AttendanceModel> = arrayListOf()
@@ -34,6 +34,7 @@ class AttendanceListingAdapter() :
     RecyclerView.ViewHolder(binding.root){
         fun bind(attendance: AttendanceModel){
             with(binding) {
+                tvEmployeeName.text = attendance.employeeName
                 tvDate.text = attendance.date
                 tvStatus.text = attendance.status
                 tvTime.text = attendance.time

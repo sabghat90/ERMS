@@ -115,7 +115,7 @@
             android:layout_height="wrap_content"
             android:drawablePadding="16dp"
             android:padding="16dp"
-            android:text="@string/date"
+            android:text="@string/date_amp_time"
             android:textAllCaps="true"
             android:textStyle="bold"
             app:cornerRadius="8dp"
@@ -125,34 +125,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout14" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_time"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:drawablePadding="16dp"
-            android:padding="16dp"
-            android:text="@string/time"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            app:cornerRadius="8dp"
-            app:icon="@drawable/ic_time"
-            app:iconSize="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_date" />
-
         <RelativeLayout
             android:id="@+id/btn_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:layout_marginBottom="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_time">
+            app:layout_constraintTop_toBottomOf="@+id/btn_date">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_create_event"

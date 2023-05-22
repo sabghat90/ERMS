@@ -36,7 +36,7 @@
     <string name="enter_your_credential">Please Enter Your Credential To Get Started</string>
     <string name="joining_date">Joining Date</string>
     <string name="gender">Gender</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <string name="set_pin">Set PIN</string>
     <string name="about">About</string>
     <string name="biometric_login">Biometric Login</string>
@@ -69,6 +69,13 @@
     <string name="professional_information">Professional Information</string>
     <string name="full_address">Full Address</string>
     <string name="cover_image">cover image</string>
+    <string name="continue_">Continue</string>
+    <string name="please_check_your_internet_connection">Please Check Your Internet Connection</string>
+    <string name="oops">OOPS!</string>
+    <string name="oops">OOPS!</string>
+    <string name="no_internet_connection">No Internet Connection</string>
+    <string name="please_check_your_internet_connection">Please Check Your Internet Connection</string>
+    <string name="retry">Retry</string>
 
     <string-array name="gender">
         <item>Male</item>

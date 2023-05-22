@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.kust.ermsemployee.R
 import com.kust.ermsemployee.data.model.EmployeeModel
 import com.kust.ermsemployee.databinding.FragmentProfileBinding
 import com.kust.ermsemployee.ui.auth.AuthViewModel
@@ -46,7 +45,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun updateUi() {
-        binding.profile.apply {
+        binding.profileView.apply {
             name.text = employeeObj.name
             tvEmail.text = employeeObj.email
             tvPhone.text = employeeObj.phone

@@ -153,10 +153,19 @@ class EmployeeProfileFragment : Fragment() {
     }
 
     private fun sendNotification() {
+        val title = "Manager Update"
+        val body = let {
+            if (employeeObj.gender == "Male") {
+                "Mr ${employeeObj.name} You are now a manager"
+            } else {
+                "Ms ${employeeObj.name} You are now a manager"
+            }
+        }
+
         PushNotification(
             NotificationModel(
-                title = "Manager Update",
-                body = "Mr ${employeeObj.name} You are now a manager"
+                title = title,
+                body = body,
             ),
             to = employeeObj.fcmToken
         ).also {

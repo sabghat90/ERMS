@@ -27,6 +27,7 @@ class TaskListingFragment : Fragment() {
 
     private val adapter by lazy {
         TaskListingAdapter(
+            context = requireContext(),
             onItemClicked = { _, task ->
                 findNavController().navigate(R.id.action_taskListingFragment_to_taskDetailFragment, Bundle().apply {
                     putParcelable("task", task)
@@ -63,23 +64,21 @@ class TaskListingFragment : Fragment() {
             when (it) {
                 is UiState.Loading -> {
                     binding.shimmerLayout.startShimmer()
-                    binding.tvDataState.text = ""
                 }
                 is UiState.Success -> {
-                    toast(it.data.toString())
                     binding.shimmerLayout.stopShimmer()
-                    binding.tvDataState.visibility = View.GONE
                     binding.shimmerLayout.visibility = View.GONE
                     if (it.data.isEmpty()) {
                         binding.tvDataState.visibility = View.VISIBLE
                         binding.rvTaskListing.visibility = View.GONE
+                    } else {
+                        binding.rvTaskListing.visibility = View.VISIBLE
+                        adapter.taskList = it.data as MutableList<TaskModel>
+                        adapter.submitList(it.data)
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            adapter.updateTaskList(it.data)
+                        }, 1000)
                     }
-                    adapter.taskList = it.data as MutableList<TaskModel>
-                    binding.rvTaskListing.visibility = View.VISIBLE
-                    adapter.submitList(it.data)
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        adapter.updateTaskList(it.data)
-                    }, 1000)
                 }
                 is UiState.Error -> {
                     binding.shimmerLayout.stopShimmer()

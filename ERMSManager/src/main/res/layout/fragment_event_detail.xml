@@ -142,18 +142,26 @@
             app:layout_constraintStart_toEndOf="@+id/textView21"
             app:layout_constraintTop_toTopOf="@+id/textView21" />
 
+        <TextView
+            android:id="@+id/tv_status_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="TextView"
+            app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
         <RelativeLayout
             android:id="@+id/btn_layout_update"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/btn_layout_delete_event"
-            app:layout_constraintTop_toBottomOf="@+id/tv_created_date_time">
+            app:layout_constraintTop_toBottomOf="@+id/tv_status_message">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_update_event"
@@ -183,14 +191,14 @@
             android:id="@+id/btn_layout_delete_event"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_layout_update"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView20">
+            app:layout_constraintTop_toBottomOf="@+id/tv_status_message">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_delete_event"
@@ -215,5 +223,6 @@
                 app:indicatorColor="@color/md_theme_light_onPrimary" />
 
         </RelativeLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.data.models.EventModel
+import com.kust.ermsmanager.utils.FireStoreCollectionConstants
 import com.kust.ermsmanager.utils.SharedPreferencesConstants
 import com.kust.ermsmanager.utils.UiState
 
@@ -13,7 +14,7 @@ class EventRepositoryImpl(
     private val sharedPreferences: SharedPreferences
 ) : EventRepository {
 
-    override fun getEventList(eventModel: EventModel?, result: (UiState<List<EventModel>>) -> Unit) {
+    override fun getEventList(result: (UiState<List<EventModel>>) -> Unit) {
         // get company id from shared preferences object
         val employeeJson = sharedPreferences.getString(SharedPreferencesConstants.USER_SESSION, null)
         val employee = Gson().fromJson(employeeJson, EmployeeModel::class.java)
@@ -44,7 +45,7 @@ class EventRepositoryImpl(
         val employee = Gson().fromJson(employeeJson, EmployeeModel::class.java)
         val companyId = employee.companyId
         // create event in firebase
-        val documentReference = database.collection("events").document()
+        val documentReference = database.collection(FireStoreCollectionConstants.EVENTS).document()
         if (eventModel != null) {
             eventModel.companyId = companyId
         }
@@ -67,7 +68,7 @@ class EventRepositoryImpl(
         result: (UiState<Pair<EventModel, String>>) -> Unit
     ) {
         // update event in firebase
-        val documentReference = eventModel?.let { database.collection("events").document(it.id) }
+        val documentReference = eventModel?.let { database.collection(FireStoreCollectionConstants.EVENTS).document(it.id) }
         if (eventModel != null) {
             documentReference?.set(eventModel)?.addOnSuccessListener {
                 result(UiState.Success(Pair(eventModel, "Event updated successfully")))
@@ -82,7 +83,7 @@ class EventRepositoryImpl(
         result: (UiState<Pair<EventModel, String>>) -> Unit
     ) {
         // delete event from firebase
-        val documentReference = database.collection("events").document(eventModel.id)
+        val documentReference = database.collection(FireStoreCollectionConstants.EVENTS).document(eventModel.id)
         documentReference.delete()
             .addOnSuccessListener {
                 result(UiState.Success(Pair(eventModel, "Event deleted successfully")))

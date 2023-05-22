@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.TaskModel
 import com.kust.ermsmanager.databinding.FragmentTaskDetailBinding
+import com.kust.ermsmanager.utils.ConvertDateAndTimeFormat
 import com.kust.ermsmanager.utils.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -50,16 +51,15 @@ class TaskDetailFragment : Fragment() {
             when (it) {
                 is UiState.Loading -> {
                     binding.btnDeleteTask.isEnabled = false
-                    binding.btnDeleteTask.text = "Delete Task"
                 }
                 is UiState.Success -> {
                     binding.btnDeleteTask.isEnabled = true
-                    binding.btnDeleteTask.text = "Delete Task"
+                    binding.btnDeleteTask.text = getString(R.string.delete_task)
                     findNavController().navigate(R.id.action_taskDetailFragment_to_taskListingFragment)
                 }
                 is UiState.Error -> {
                     binding.btnDeleteTask.isEnabled = true
-                    binding.btnDeleteTask.text = "Delete Task"
+                    binding.btnDeleteTask.text = getString(R.string.delete_task)
                 }
             }
         }
@@ -68,14 +68,21 @@ class TaskDetailFragment : Fragment() {
     private fun updateUI() {
         // update the UI with task bundle data
         task = arguments?.getParcelable("task")!!
+
+        val taskCreateDateFormatted = ConvertDateAndTimeFormat().formatDate(task.createdDate)
+        val taskCreateTimeFormatted = ConvertDateAndTimeFormat().formatTime(task.createdDate)
+
+        val taskDueDateFormatted = ConvertDateAndTimeFormat().formatDate(task.deadline)
+        val taskDueTimeFormatted = ConvertDateAndTimeFormat().formatTime(task.deadline)
+
         binding.tvTaskName.text = task.name
         binding.tvTaskDescription.text = task.description
         binding.tvAssignedTo.text = task.assigneeName
-        binding.tvCreatedDate.text = task.createdDate
-        binding.tvDeadline.text = task.deadline
+        binding.tvCreatedDate.text = getString(R.string.date_time, taskCreateDateFormatted, taskCreateTimeFormatted)
+        binding.tvDeadline.text = getString(R.string.date_time, taskDueDateFormatted, taskDueTimeFormatted)
         binding.tvTaskStatus.text = task.status
 
-        // delete task and call the function from TaskViewModel with couroutine to delete the task
+        // delete task and call the function from TaskViewModel with coroutine to delete the task
         binding.btnDeleteTask.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 taskViewModel.deleteTask(task.id)

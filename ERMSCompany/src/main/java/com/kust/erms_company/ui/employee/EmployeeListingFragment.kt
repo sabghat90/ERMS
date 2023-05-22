@@ -48,13 +48,6 @@ class EmployeeListingFragment : Fragment() {
 
         binding.rvEmployee.layoutManager = LinearLayoutManager(requireContext())
         binding.rvEmployee.adapter = adapter
-
-//        adapter.setOnItemClickListener(object : EmployeeListingAdapter.OnItemClickListener {
-//            override fun onItemClick(position: Int) {
-//                toast(adapter.employees[position].toString())
-//            }
-//        })
-
     }
 
     private fun observer() {

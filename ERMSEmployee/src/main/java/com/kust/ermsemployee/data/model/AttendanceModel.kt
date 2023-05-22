@@ -7,6 +7,7 @@ data class AttendanceModel(
     // attendance model for an employee
     val id: String = "",
     val employeeId: String = "",
+    val employeeName: String = "",
     val date: String = "",
     val time: String = "",
     val status: String = "",
