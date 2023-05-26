@@ -42,7 +42,7 @@ class AttendanceViewModel @Inject constructor(
 
     fun getAttendance(attendanceModel: AttendanceModel) {
         _getAttendance.value = UiState.Loading
-        attendanceRepository.getAttendance(attendanceModel) {
+        attendanceRepository.getAttendance() {
             _getAttendance.value = it
         }
     }

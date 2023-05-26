@@ -7,8 +7,7 @@ import android.content.Intent
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.Button
-import com.google.android.material.button.MaterialButton
-import com.kust.ermsmanager.R
+import com.kust.ermsemployee.R
 
 class NetworkChangeListener : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -24,7 +23,7 @@ class NetworkChangeListener : BroadcastReceiver() {
             alertDialog.show()
             alertDialog.setCancelable(false)
 
-            alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            alertDialog.window?.setBackgroundDrawableResource(R.color.transparent)
             alertDialog.window?.setGravity(Gravity.CENTER)
 
             btnRetry.setOnClickListener {

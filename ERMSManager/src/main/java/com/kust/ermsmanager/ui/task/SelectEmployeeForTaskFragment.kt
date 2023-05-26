@@ -1,57 +1,45 @@
-package com.kust.ermsmanager.ui.attendance
+package com.kust.ermsmanager.ui.task
 
-import android.app.Dialog
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.ermsmanager.R
-import com.kust.ermsmanager.data.models.EmployeeModel
-import com.kust.ermsmanager.databinding.FragmentEmployeeListForAttendanceBinding
+import com.kust.ermsmanager.databinding.FragmentSelectEmployeeForTaskBinding
+import com.kust.ermsmanager.ui.employee.EmployeeListingAdapter
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import com.kust.ermsmanager.utils.UiState
 import com.kust.ermsmanager.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class EmployeeListForAttendanceFragment : Fragment() {
+class SelectEmployeeForTaskFragment : Fragment() {
 
-    private var _binding: FragmentEmployeeListForAttendanceBinding? = null
+    private var _binding : FragmentSelectEmployeeForTaskBinding? = null
     private val binding get() = _binding!!
 
     private val employeeViewModel: EmployeeViewModel by viewModels()
 
-    private lateinit var progressDialog: Dialog
-
     private val adapter by lazy {
-        AttendanceListingAdapter(
+        EmployeeListingAdapter(
             onItemClicked = { _, employee ->
-                findNavController().navigate(R.id.action_employeeListForAttendanceFragment_to_attendanceSheetFragment, Bundle().apply {
-                    putParcelable("employeeObj", employee)
+                findNavController().navigate(R.id.action_selectEmployeeForTaskFragment_to_createTaskFragment, Bundle().apply {
+                    putParcelable("employee", employee)
                 })
             }
         )
     }
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding =
-            FragmentEmployeeListForAttendanceBinding.inflate(inflater, container, false)
-        progressDialog = Dialog(requireContext())
-        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        progressDialog.setCancelable(false)
-        progressDialog.setContentView(R.layout.custom_progress_dialog)
-
+        _binding = FragmentSelectEmployeeForTaskBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -68,15 +56,13 @@ class EmployeeListForAttendanceFragment : Fragment() {
         employeeViewModel.getEmployeeList.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
-                    progressDialog.show()
+
                 }
                 is UiState.Success -> {
-                    progressDialog.hide()
-                    adapter.employeeList = it.data as MutableList<EmployeeModel>
+                    adapter.employeeList = it.data as ArrayList
                     adapter.submitList(it.data)
                 }
                 is UiState.Error -> {
-                    progressDialog.hide()
                     toast(it.error)
                 }
             }

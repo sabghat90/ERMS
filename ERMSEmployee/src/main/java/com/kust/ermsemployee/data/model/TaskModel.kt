@@ -11,9 +11,11 @@ data class TaskModel (
     val status: String = "",
     val deadline: String = "",
     val createdDate: String = "",
-    val createdBy: String = "",
     val assigneeName: String = "",
     val assigneeEmail: String = "",
     val assigneeId: String = "",
     val companyId : String = "",
+    val managerId : String = "",
+    val managerName : String = "",
+    val managerFCMToken : String = ""
 ) : Parcelable

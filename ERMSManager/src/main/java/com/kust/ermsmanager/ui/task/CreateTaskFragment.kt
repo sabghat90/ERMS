@@ -8,8 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -17,10 +15,12 @@ import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.EmployeeModel
+import com.kust.ermsmanager.data.models.NotificationModel
+import com.kust.ermsmanager.data.models.PushNotification
 import com.kust.ermsmanager.data.models.TaskModel
 import com.kust.ermsmanager.databinding.FragmentCreateTaskBinding
+import com.kust.ermsmanager.services.NotificationService
 import com.kust.ermsmanager.ui.auth.AuthViewModel
-import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import com.kust.ermsmanager.utils.TaskStatus
 import com.kust.ermsmanager.utils.UiState
 import com.kust.ermsmanager.utils.toast
@@ -41,19 +41,13 @@ class CreateTaskFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val taskViewModel: TaskViewModel by viewModels()
-    private val authViewModel: AuthViewModel by viewModels()
-    private val employeeViewModel: EmployeeViewModel by viewModels()
-
-    // employee list for spinner
-    private val employeeList = mutableListOf<String>()
-
-    // employee object for storing selected employee from spinner not lateinit var
-    private var selectedEmployee = EmployeeModel()
-
-    // company id from auth view model getSession function not lateinit var
-    private lateinit var companyId: String
-
+    private val employeeObj by lazy {
+        arguments?.getParcelable<EmployeeModel>("employee")
+    }
     private var selectedDateTimestamp: Date? = null
+    private val notificationService = NotificationService()
+    private lateinit var employeeModel: EmployeeModel
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,29 +61,14 @@ class CreateTaskFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // get employee from shared preferences
         authViewModel.getSession {
-            if (it != null) companyId = it.companyId
-        }
-
-        observer()
-
-        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, employeeList)
-        binding.ddmEmployeeList.setAdapter(arrayAdapter)
-
-        // q: how to store the selected employee from spinner to employee object?
-        binding.ddmEmployeeList.onItemClickListener =
-            AdapterView.OnItemClickListener { parent, _, position, _ ->
-                val selectedItem = parent?.getItemAtPosition(position)
-                if (selectedItem is EmployeeModel) {
-                    selectedEmployee = selectedItem
-                    // Do something with the selected employee
-                    val id = selectedItem.id
-                    val email = selectedItem.email
-
-                    selectedEmployee = EmployeeModel(id, email)
-                }
+            if (it != null) {
+                employeeModel = it
             }
-
+        }
+        observer()
+        updateUi()
 
         binding.taskDueDateButton.setOnClickListener { getDueDateAndTime() }
 
@@ -103,6 +82,12 @@ class CreateTaskFragment : Fragment() {
         }
     }
 
+    private fun updateUi() {
+        employeeObj.apply {
+            binding.tvEmployeeInfo.text = getString(R.string.employee_info, this!!.name)
+        }
+    }
+
     private fun taskObj(): TaskModel {
 
         return TaskModel(
@@ -111,11 +96,13 @@ class CreateTaskFragment : Fragment() {
             status = TaskStatus.PENDING,
             deadline = selectedDateTimestamp.toString(),
             createdDate = Timestamp.now().toDate().toString(),
-            createdBy = FirebaseAuth.getInstance().currentUser?.email.toString(),
-            assigneeName = binding.ddmEmployeeList.text.toString(),
-            assigneeEmail = selectedEmployee.email,
-            assigneeId = selectedEmployee.id,
-            companyId = companyId
+            assigneeName = employeeObj!!.name,
+            assigneeEmail = employeeObj!!.email,
+            assigneeId = employeeObj!!.id,
+            companyId = employeeObj!!.companyId,
+            managerId = FirebaseAuth.getInstance().currentUser!!.uid,
+            managerName = employeeModel.name,
+            managerFCMToken = employeeModel.fcmToken
         )
     }
 
@@ -130,6 +117,7 @@ class CreateTaskFragment : Fragment() {
                 is UiState.Success -> {
                     binding.btnCreateTask.text = getString(R.string.create_task)
                     binding.progressBar.hide()
+                    sendNotification(employeeObj!!.fcmToken)
                     toast("Task created successfully")
                     findNavController().navigate(R.id.action_createTaskFragment_to_taskListingFragment)
                 }
@@ -141,26 +129,27 @@ class CreateTaskFragment : Fragment() {
                 }
             }
         }
+    }
 
-        employeeViewModel.getEmployeeList.observe(viewLifecycleOwner) {
-            when (it) {
-                is UiState.Success -> {
-                    it.data.let { employees ->
-                        employees.forEach { employee ->
-                            employeeList.add(employee.name)
-                        }
-                    }
-                }
-                else -> {
-                    toast("Error fetching employee list")
-                }
+    private fun sendNotification(token: String) {
+        val title = "New Task"
+        val message = "Dear ${employeeObj!!.name}, you have a new task"
+        PushNotification(
+            NotificationModel(
+                title,
+                message
+            ),
+            to = token
+        )
+            .also {
+                notificationService.sendNotification(it)
             }
-        }
     }
 
     private fun getDueDateAndTime() {
         // hide the keyboard
-        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(requireView().windowToken, 0)
 
         // Get the current date and time

@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_task"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="120dp"
     android:clickable="true"
     android:elevation="10dp"
-    android:layout_margin="10dp"
     app:cardCornerRadius="6dp"
+    android:layout_margin="10dp"
     android:focusable="true"
     android:padding="15dp">
 
@@ -36,23 +36,13 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_task_name" />
 
         <TextView
-            android:id="@+id/tv_task_status"
-            style="@style/body"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="In Progress"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_task_description" />
-
-        <TextView
             android:id="@+id/tv_task_created_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Date"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_task_status" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_task_description" />
 
         <TextView
             android:id="@+id/tv_task_deadline_status"
@@ -61,8 +51,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <ImageView
-            android:id="@+id/img_task_status"
+            android:id="@+id/img_status"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginTop="8dp"

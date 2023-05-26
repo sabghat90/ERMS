@@ -1,4 +1,4 @@
-package com.kust.ermsmanager.ui.task
+package com.kust.ermsemployee.ui.task
 
 import android.os.Bundle
 import android.os.Handler
@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kust.ermsmanager.R
-import com.kust.ermsmanager.data.models.TaskModel
-import com.kust.ermsmanager.databinding.FragmentTaskListingBinding
-import com.kust.ermsmanager.utils.UiState
-import com.kust.ermsmanager.utils.toast
+import com.kust.ermsemployee.R
+import com.kust.ermsemployee.data.model.TaskModel
+import com.kust.ermsemployee.databinding.FragmentTaskListingBinding
+import com.kust.ermsemployee.utils.UiState
+import com.kust.ermsemployee.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,10 +52,6 @@ class TaskListingFragment : Fragment() {
 
         binding.rvTaskListing.layoutManager = LinearLayoutManager(requireContext())
         binding.rvTaskListing.adapter = adapter
-
-        binding.fabAddTask.setOnClickListener {
-            findNavController().navigate(R.id.action_taskListingFragment_to_selectEmployeeForTaskFragment)
-        }
     }
 
     // observer with UiState to handle the state of the data

@@ -47,7 +47,7 @@
     <string name="no_biometric_feature">No biometric features available on this device.</string>
     <string name="biometric_features_are_currently_unavailable">Biometric features are currently unavailable.</string>
     <string name="the_user_hasn_t_associated_any_biometric_credentials">The user hasn\'t associated any biometric credentials with their account.</string>
-    <string name="set_biometric">Enable Biomatric</string>
+    <string name="set_biometric">Enable Biometric</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="project_proposal">Project Proposal</string>
     <string name="success">Success</string>
@@ -72,10 +72,34 @@
     <string name="continue_">Continue</string>
     <string name="please_check_your_internet_connection">Please Check Your Internet Connection</string>
     <string name="oops">OOPS!</string>
-    <string name="oops">OOPS!</string>
     <string name="no_internet_connection">No Internet Connection</string>
-    <string name="please_check_your_internet_connection">Please Check Your Internet Connection</string>
     <string name="retry">Retry</string>
+    <string name="task_details">Task Details</string>
+    <string name="create_an_event">Create an Event</string>
+    <string name="event_title">Event Title</string>
+    <string name="event_description">Description</string>
+    <string name="location">Location</string>
+    <string name="type_of_event">Type of Event</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="event_date">Event Date:</string>
+    <string name="date_created">Date Created:</string>
+    <string name="event_type">Event Type</string>
+    <string name="event_name">Event Name</string>
+    <string name="delete">Delete</string>
+    <string name="update">Update</string>
+    <string name="date_and_time_created">Date and Time Created:</string>
+    <string name="date_amp_time"><![CDATA[Date & Time]]></string>
+    <string name="no_task_found">No Task Found</string>
+    <string name="no_events_found">No Events Found</string>
+    <string name="date_time">%1$s at %2$s</string>
+    <string name="expired">Expired</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="delete_task">Delete Task</string>
+    <string name="something_went_wrong">Something went wrong!</string>
+    <string name="task_description">Description</string>
+    <string name="task_name">Task Name</string>
+    <string name="task_completed">Task Completed</string>
 
     <string-array name="gender">
         <item>Male</item>

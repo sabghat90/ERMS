@@ -72,7 +72,7 @@ class FeaturesFragment : Fragment() {
                         findNavController().navigate(R.id.action_featureFragment_to_viewAttendanceFragment)
                     }
                     2 -> {
-                        Toast.makeText(requireContext(), "Task", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_featureFragment_to_taskListingFragment)
                     }
                     3 -> {
                         Toast.makeText(requireContext(), "Events", Toast.LENGTH_SHORT).show()

@@ -9,7 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.kust.erms_company.R
 import com.kust.erms_company.data.model.EmployeeModel
+import com.kust.erms_company.data.model.NotificationModel
+import com.kust.erms_company.data.model.PushNotification
 import com.kust.erms_company.databinding.FragmentAddEmployeeBinding
+import com.kust.erms_company.services.NotificationService
 import com.kust.erms_company.utils.UiState
 import com.kust.erms_company.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,6 +24,8 @@ class AddEmployeeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: EmployeeViewModel by viewModels()
+
+    private val notificationService = NotificationService()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,18 +56,35 @@ class AddEmployeeFragment : Fragment() {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.btnRegister.text = ""
                 }
+
                 is UiState.Success -> {
+                    sendNotification(it.data)
                     binding.progressBar.visibility = View.GONE
                     binding.btnRegister.text = getString(R.string.register)
                     toast(it.data.toString())
                     findNavController().navigate(R.id.action_addEmployeeFragment_to_featuresFragment)
                 }
+
                 is UiState.Error -> {
                     binding.progressBar.visibility = View.GONE
                     binding.btnRegister.text = getString(R.string.register)
                     toast(it.error)
                 }
             }
+        }
+    }
+
+    private fun sendNotification(data: Pair<EmployeeModel, String>) {
+        val title = "New Employee"
+        val message = "New employee ${data.first.email} has been registered"
+        PushNotification(
+            NotificationModel(
+                title,
+                message
+            ),
+            to = data.first.fcmToken
+        ).also {
+            notificationService.sendNotification(it)
         }
     }
 

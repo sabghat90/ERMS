@@ -1,10 +1,12 @@
 package com.kust.ermsmanager.ui.attendance
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.kust.ermsmanager.data.models.AttendanceModel
 import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.databinding.EmployeeItemForAttendanceBinding
 

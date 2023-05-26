@@ -4,6 +4,12 @@ object FireStoreCollectionConstants {
     const val COMPANY = "company"
     const val EMPLOYEE = "employee"
     const val USERS = "users"
+    const val TASKS = "tasks"
+}
+
+object TASKSTATUS {
+    const val PENDING = "Pending"
+    const val COMPLETED = "completed"
 }
 
 object FirebaseRealtimeDatabaseConstants {

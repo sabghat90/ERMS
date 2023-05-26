@@ -11,14 +11,25 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp">
 
+        <TextView
+            android:id="@+id/tv_employee_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            style="@style/h1"
+            android:text="@string/employee_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <!-- create a layout in which manager can put in the task name, description, and due date using material 3 design-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/task_name_input_layout"
             style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="Task Name"
+            android:layout_marginTop="32dp"
+            android:hint="@string/task_name"
             app:counterEnabled="true"
             app:counterMaxLength="40"
             app:endIconMode="clear_text"
@@ -31,7 +42,7 @@
             app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/tv_employee_info">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/task_name_input"
@@ -46,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Task Description"
+            android:hint="@string/task_description"
             app:counterEnabled="true"
             app:counterMaxLength="100"
             app:endIconMode="clear_text"
@@ -64,7 +75,9 @@
                 android:id="@+id/task_description_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapSentences" />
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:lines="5"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,8 +91,7 @@
             android:layout_marginBottom="16dp"
             android:drawablePadding="16dp"
             android:padding="16dp"
-            android:text="Due Date"
-            android:textAllCaps="true"
+            android:text="@string/due_date"
             android:textStyle="bold"
             app:cornerRadius="8dp"
             app:icon="@drawable/ic_calendar"
@@ -88,24 +100,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/task_description_input_layout" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:id="@+id/textInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="@string/select_employee"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/task_due_date_button">
-
-            <AutoCompleteTextView
-                android:id="@+id/ddm_employee_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="none"
-                android:layout_weight="1" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
             android:id="@+id/btn_layout"
@@ -116,7 +110,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+            app:layout_constraintTop_toBottomOf="@+id/task_due_date_button">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_create_task"

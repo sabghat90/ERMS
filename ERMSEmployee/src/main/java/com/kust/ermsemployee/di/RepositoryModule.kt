@@ -11,6 +11,8 @@ import com.kust.ermsemployee.data.repository.AttendanceRepository
 import com.kust.ermsemployee.data.repository.AttendanceRepositoryImpl
 import com.kust.ermsemployee.data.repository.AuthRepository
 import com.kust.ermsemployee.data.repository.AuthRepositoryImpl
+import com.kust.ermsemployee.data.repository.TaskRepository
+import com.kust.ermsemployee.data.repository.TaskRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,5 +43,15 @@ object RepositoryModule {
         auth: FirebaseAuth
     ) : AttendanceRepository {
         return AttendanceRepositoryImpl(firebaseDatabase, auth)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTaskRepository(
+        database: FirebaseFirestore,
+        firebaseAuth: FirebaseAuth,
+        sharedPreferences: SharedPreferences
+    ) : TaskRepository {
+        return TaskRepositoryImpl(database,firebaseAuth, sharedPreferences)
     }
 }

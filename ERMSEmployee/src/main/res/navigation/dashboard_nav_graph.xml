@@ -27,6 +27,13 @@
         <action
             android:id="@+id/action_featureFragment_to_viewAttendanceFragment"
             app:destination="@id/viewAttendanceFragment" />
+        <action
+            android:id="@+id/action_featureFragment_to_taskListingFragment"
+            app:destination="@id/taskListingFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
@@ -86,4 +93,22 @@
         android:name="com.kust.ermsemployee.ui.attendance.ViewAttendanceFragment"
         android:label="fragment_view_attendace"
         tools:layout="@layout/fragment_view_attendace" />
+    <fragment
+        android:id="@+id/taskListingFragment"
+        android:name="com.kust.ermsemployee.ui.task.TaskListingFragment"
+        android:label="fragment_task_listing"
+        tools:layout="@layout/fragment_task_listing" >
+        <action
+            android:id="@+id/action_taskListingFragment_to_taskDetailFragment"
+            app:destination="@id/taskDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/taskDetailFragment"
+        android:name="com.kust.ermsemployee.ui.task.TaskDetailFragment"
+        android:label="fragment_task_detail"
+        tools:layout="@layout/fragment_task_detail" />
 </navigation>
