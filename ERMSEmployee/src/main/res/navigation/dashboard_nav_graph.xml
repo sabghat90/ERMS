@@ -34,6 +34,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_featureFragment_to_eventListingFragment"
+            app:destination="@id/eventListingFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
@@ -111,4 +118,18 @@
         android:name="com.kust.ermsemployee.ui.task.TaskDetailFragment"
         android:label="fragment_task_detail"
         tools:layout="@layout/fragment_task_detail" />
+    <fragment
+        android:id="@+id/eventListingFragment"
+        android:name="com.kust.ermsemployee.ui.event.EventListingFragment"
+        android:label="fragment_event_listing"
+        tools:layout="@layout/fragment_event_listing" >
+        <action
+            android:id="@+id/action_eventListingFragment_to_eventDetailFragment"
+            app:destination="@id/eventDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventDetailFragment"
+        android:name="com.kust.ermsemployee.ui.event.EventDetailFragment"
+        android:label="fragment_event_detail"
+        tools:layout="@layout/fragment_event_detail" />
 </navigation>

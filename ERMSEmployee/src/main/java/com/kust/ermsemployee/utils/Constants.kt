@@ -5,11 +5,17 @@ object FireStoreCollectionConstants {
     const val EMPLOYEE = "employee"
     const val USERS = "users"
     const val TASKS = "tasks"
+    const val EVENTS = "events"
 }
 
-object TASKSTATUS {
-    const val PENDING = "Pending"
+object TaskStatus {
+    const val PENDING = "pending"
+    const val IN_PROGRESS = "in_progress"
     const val COMPLETED = "completed"
+    const val SUBMITTED = "submitted"
+    const val APPROVED = "approved"
+    const val REJECTED = "rejected"
+    const val RESUBMITTED = "resubmitted"
 }
 
 object FirebaseRealtimeDatabaseConstants {

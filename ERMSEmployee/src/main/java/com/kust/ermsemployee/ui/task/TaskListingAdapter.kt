@@ -11,7 +11,7 @@ import com.kust.ermsemployee.R
 import com.kust.ermsemployee.data.model.TaskModel
 import com.kust.ermsemployee.databinding.TaskItemBinding
 import com.kust.ermsemployee.utils.ConvertDateAndTimeFormat
-import com.kust.ermsemployee.utils.TASKSTATUS
+import com.kust.ermsemployee.utils.TaskStatus
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -44,7 +44,7 @@ class TaskListingAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(task: TaskModel) {
 
-            if (task.status == TASKSTATUS.COMPLETED) {
+            if (task.status == TaskStatus.APPROVED) {
                 binding.imgStatus.visibility = RecyclerView.VISIBLE
             } else {
                 val taskDueDate = task.deadline

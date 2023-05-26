@@ -36,7 +36,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_task_name" />
 
         <TextView
-            android:id="@+id/tv_task_status"
+            android:id="@+id/task_status"
             style="@style/body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
             android:layout_marginTop="8dp"
             android:text="Date"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_task_status" />
+            app:layout_constraintTop_toBottomOf="@+id/task_status" />
 
         <TextView
             android:id="@+id/tv_task_deadline_status"

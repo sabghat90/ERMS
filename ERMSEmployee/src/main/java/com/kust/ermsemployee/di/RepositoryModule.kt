@@ -5,12 +5,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
 import com.kust.ermsemployee.data.repository.AttendanceRepository
 import com.kust.ermsemployee.data.repository.AttendanceRepositoryImpl
 import com.kust.ermsemployee.data.repository.AuthRepository
 import com.kust.ermsemployee.data.repository.AuthRepositoryImpl
+import com.kust.ermsemployee.data.repository.EventRepository
+import com.kust.ermsemployee.data.repository.EventRepositoryImpl
 import com.kust.ermsemployee.data.repository.TaskRepository
 import com.kust.ermsemployee.data.repository.TaskRepositoryImpl
 import dagger.Module
@@ -53,5 +54,14 @@ object RepositoryModule {
         sharedPreferences: SharedPreferences
     ) : TaskRepository {
         return TaskRepositoryImpl(database,firebaseAuth, sharedPreferences)
+    }
+
+    @Provides
+    @Singleton
+    fun provideEventRepository(
+        database: FirebaseFirestore,
+        sharedPreferences: SharedPreferences
+    ) : EventRepository {
+        return EventRepositoryImpl(database, sharedPreferences)
     }
 }

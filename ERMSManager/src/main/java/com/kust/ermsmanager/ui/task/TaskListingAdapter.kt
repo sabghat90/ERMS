@@ -90,12 +90,9 @@ class TaskListingAdapter(
             val creationDateFormatted = ConvertDateAndTimeFormat().formatDate(taskCreationDate)
             val creationTimeFormatted = ConvertDateAndTimeFormat().formatTime(taskCreationDate)
 
-            val taskDeadLineDateFormatted = ConvertDateAndTimeFormat().formatDate(taskDueDate)
-            val taskDeadLineTimeFormatted = ConvertDateAndTimeFormat().formatTime(taskDueDate)
-
             binding.tvTaskName.text = task.name
             binding.tvTaskDescription.text = task.description
-            binding.tvTaskStatus.text = task.status
+            binding.taskStatus.text = task.status
             binding.tvTaskCreatedDate.text =
                 context.getString(R.string.date_time, creationDateFormatted, creationTimeFormatted)
             binding.cardTask.setOnClickListener {

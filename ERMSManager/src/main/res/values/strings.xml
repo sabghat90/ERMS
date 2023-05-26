@@ -131,4 +131,8 @@
     <string name="retry">Retry</string>
     <string name="due_date">Due Date</string>
     <string name="employee_info">Assign Task to %1$s.</string>
+    <string name="edit">Edit</string>
+    <string name="created_by">Created By:</string>
+    <string name="resubmit">Resubmit</string>
+    <string name="approve">Approve</string>
 </resources>

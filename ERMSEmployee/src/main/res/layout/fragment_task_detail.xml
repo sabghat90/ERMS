@@ -164,20 +164,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_delete_task"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginTop="24dp"
-            android:text="Delete Task"
-            android:textAllCaps="true"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:cornerRadius="6dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_submit_task" />
-
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"
             android:layout_width="wrap_content"

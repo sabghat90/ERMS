@@ -38,7 +38,7 @@
                 android:background="@color/shimmer_effect" />
 
             <TextView
-                android:id="@+id/tv_task_status"
+                android:id="@+id/task_status"
                 style="@style/body"
                 android:layout_marginTop="5dp"
                 android:layout_width="match_parent"

@@ -9,14 +9,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
-
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/tv_task_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/task_name"
             android:textSize="24sp"
@@ -52,13 +51,22 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_task_description" />
 
         <TextView
-            android:id="@+id/tv_assigned_to"
+            android:id="@+id/assigned_to"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="Assign To"
             app:layout_constraintStart_toStartOf="@+id/tv_task_description"
             app:layout_constraintTop_toBottomOf="@+id/tv_task_description" />
+
+        <TextView
+            android:id="@+id/tv_assign_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/assigned_to"
+            app:layout_constraintStart_toEndOf="@+id/assigned_to"
+            app:layout_constraintTop_toTopOf="@+id/assigned_to" />
 
         <TextView
             android:id="@+id/tv_created_date"
@@ -78,7 +86,7 @@
             android:text="Created:"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/tv_assigned_to" />
+            app:layout_constraintTop_toBottomOf="@+id/assigned_to" />
 
         <TextView
             android:id="@+id/textView7"
@@ -100,67 +108,81 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_created_date" />
 
         <TextView
-            android:id="@+id/tv_task_status"
+            android:id="@+id/task_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Task Status"
-            app:layout_constraintStart_toStartOf="@+id/tv_assigned_to"
+            android:text="Status"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/assigned_to"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+        <TextView
+            android:id="@+id/tv_task_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/task_status"
+            app:layout_constraintStart_toEndOf="@+id/task_status"
+            app:layout_constraintTop_toTopOf="@+id/task_status" />
 
         <TextView
             android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Created By:"
-            app:layout_constraintStart_toStartOf="@+id/tv_task_status"
-            app:layout_constraintTop_toBottomOf="@+id/tv_task_status" />
+            android:text="@string/created_by"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/task_status"
+            app:layout_constraintTop_toBottomOf="@+id/task_status" />
 
         <TextView
             android:id="@+id/tv_created_by"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Employee"
+            android:text="@string/name"
             app:layout_constraintBottom_toBottomOf="@+id/textView10"
             app:layout_constraintStart_toEndOf="@+id/textView10"
             app:layout_constraintTop_toTopOf="@+id/textView10" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_edit_task"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginTop="32dp"
-            android:text="edit Task"
-            android:textAllCaps="true"
-            android:textSize="20sp"
+            android:id="@+id/btn_resubmit_task"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/resubmit"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:cornerRadius="6dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_approve_task"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_created_by" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_delete_task"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginTop="24dp"
-            android:text="Delete Task"
-            android:textAllCaps="true"
-            android:textSize="20sp"
+            android:id="@+id/btn_approve_task"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/approve"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:cornerRadius="6dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_edit_task" />
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btn_resubmit_task"
+            app:layout_constraintTop_toBottomOf="@+id/tv_created_by" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="175dp" />
+            app:layout_constraintGuide_begin="144dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

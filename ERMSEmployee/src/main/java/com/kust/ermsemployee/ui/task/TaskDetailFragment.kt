@@ -13,7 +13,7 @@ import com.kust.ermsemployee.data.model.TaskModel
 import com.kust.ermsemployee.databinding.FragmentTaskDetailBinding
 import com.kust.ermsemployee.services.NotificationService
 import com.kust.ermsemployee.utils.ConvertDateAndTimeFormat
-import com.kust.ermsemployee.utils.TASKSTATUS
+import com.kust.ermsemployee.utils.TaskStatus
 import com.kust.ermsemployee.utils.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -51,6 +51,7 @@ class TaskDetailFragment : Fragment() {
 
         binding.btnSubmitTask.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
+                task.status = TaskStatus.SUBMITTED
                 taskViewModel.updateTask(task)
             }
         }
@@ -111,7 +112,7 @@ class TaskDetailFragment : Fragment() {
         binding.tvTaskStatus.text = task.status
         binding.tvCreatedBy.text = task.managerName
 
-        if (task.status == TASKSTATUS.COMPLETED) {
+        if (task.status == TaskStatus.APPROVED) {
             binding.btnSubmitTask.visibility = View.GONE
             binding.btnSubmitTask.text = getString(R.string.task_completed)
         }

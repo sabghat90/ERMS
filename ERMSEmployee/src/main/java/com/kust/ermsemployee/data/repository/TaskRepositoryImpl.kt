@@ -5,7 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kust.ermsemployee.data.model.TaskModel
 import com.kust.ermsemployee.utils.FireStoreCollectionConstants
-import com.kust.ermsemployee.utils.TASKSTATUS
+import com.kust.ermsemployee.utils.TaskStatus
 import com.kust.ermsemployee.utils.UiState
 
 class TaskRepositoryImpl(
@@ -40,7 +40,7 @@ class TaskRepositoryImpl(
         // update the task status field in database and update UiState with result or error message
         database.collection(FireStoreCollectionConstants.TASKS)
             .document(task.id)
-            .update("status", TASKSTATUS.COMPLETED)
+            .set(task)
             .addOnSuccessListener {
                 result(UiState.Success(Pair(task, "Task updated successfully")))
             }.addOnFailureListener {

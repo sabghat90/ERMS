@@ -118,4 +118,8 @@
     <string name="please_check_your_internet_connection">Please check your internet connection</string>
     <string name="retry">Retry</string>
     <string name="due_date">Due Date</string>
+    <string name="edit">Edit</string>
+    <string name="created_by">Created By:</string>
+    <string name="resubmit">Resubmit</string>
+    <string name="approve">Approve</string>
 </resources>

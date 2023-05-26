@@ -45,9 +45,11 @@ class TaskViewModel @Inject constructor(
     }
 
     suspend fun updateTask(taskModel: TaskModel) {
-        _updateTask.value = UiState.Loading
-        taskRepository.updateTask(taskModel) {
-            _updateTask.value = it
+        viewModelScope.launch {
+            _updateTask.value = UiState.Loading
+            taskRepository.updateTask(taskModel) {
+                _updateTask.value = it
+            }
         }
     }
 

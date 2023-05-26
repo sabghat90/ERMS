@@ -8,7 +8,7 @@ data class TaskModel (
     var id: String = "",
     val name: String = "",
     val description: String = "",
-    val status: String = "",
+    var status: String = "",
     val deadline: String = "",
     val createdDate: String = "",
     val assigneeName: String = "",

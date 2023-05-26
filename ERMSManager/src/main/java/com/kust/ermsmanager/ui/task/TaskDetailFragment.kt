@@ -2,6 +2,9 @@ package com.kust.ermsmanager.ui.task
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -11,7 +14,9 @@ import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.TaskModel
 import com.kust.ermsmanager.databinding.FragmentTaskDetailBinding
 import com.kust.ermsmanager.utils.ConvertDateAndTimeFormat
+import com.kust.ermsmanager.utils.TaskStatus
 import com.kust.ermsmanager.utils.UiState
+import com.kust.ermsmanager.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,6 +46,8 @@ class TaskDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setHasOptionsMenu(true)
+
         updateUI()
         observer()
     }
@@ -50,16 +57,16 @@ class TaskDetailFragment : Fragment() {
         taskViewModel.deleteTask.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
-                    binding.btnDeleteTask.isEnabled = false
+
                 }
+
                 is UiState.Success -> {
-                    binding.btnDeleteTask.isEnabled = true
-                    binding.btnDeleteTask.text = getString(R.string.delete_task)
+                    toast(it.data.toString())
                     findNavController().navigate(R.id.action_taskDetailFragment_to_taskListingFragment)
                 }
+
                 is UiState.Error -> {
-                    binding.btnDeleteTask.isEnabled = true
-                    binding.btnDeleteTask.text = getString(R.string.delete_task)
+                    toast(it.error)
                 }
             }
         }
@@ -77,17 +84,47 @@ class TaskDetailFragment : Fragment() {
 
         binding.tvTaskName.text = task.name
         binding.tvTaskDescription.text = task.description
-        binding.tvAssignedTo.text = task.assigneeName
-        binding.tvCreatedDate.text = getString(R.string.date_time, taskCreateDateFormatted, taskCreateTimeFormatted)
-        binding.tvDeadline.text = getString(R.string.date_time, taskDueDateFormatted, taskDueTimeFormatted)
+        binding.tvAssignTo.text = task.assigneeName
+        binding.tvCreatedDate.text =
+            getString(R.string.date_time, taskCreateDateFormatted, taskCreateTimeFormatted)
+        binding.tvDeadline.text =
+            getString(R.string.date_time, taskDueDateFormatted, taskDueTimeFormatted)
         binding.tvTaskStatus.text = task.status
 
-        // delete task and call the function from TaskViewModel with coroutine to delete the task
-        binding.btnDeleteTask.setOnClickListener {
+        if (task.status == TaskStatus.APPROVED) {
+            binding.btnApproveTask.visibility = View.GONE
+        }
+
+        binding.btnResubmitTask.setOnClickListener {
+            task.status = TaskStatus.PENDING
             CoroutineScope(Dispatchers.IO).launch {
-                taskViewModel.deleteTask(task.id)
+                taskViewModel.updateTask(task)
             }
         }
+
+        binding.btnApproveTask.setOnClickListener {
+            task.status = TaskStatus.APPROVED
+            CoroutineScope(Dispatchers.IO).launch {
+                taskViewModel.updateTask(task)
+            }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.delete -> {
+                CoroutineScope(Dispatchers.IO).launch {
+                    taskViewModel.deleteTask(task.id)
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.task_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onDestroyView() {

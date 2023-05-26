@@ -27,6 +27,10 @@ object TaskStatus {
     const val PENDING = "pending"
     const val IN_PROGRESS = "in_progress"
     const val COMPLETED = "completed"
+    const val SUBMITTED = "submitted"
+    const val APPROVED = "approved"
+    const val REJECTED = "rejected"
+    const val RESUBMITTED = "resubmitted"
 }
 
 object SharedPreferencesConstants {
