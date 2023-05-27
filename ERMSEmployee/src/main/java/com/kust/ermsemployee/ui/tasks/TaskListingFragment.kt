@@ -1,4 +1,4 @@
-package com.kust.ermsemployee.ui.task
+package com.kust.ermsemployee.ui.tasks
 
 import android.os.Bundle
 import android.os.Handler

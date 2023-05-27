@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.task.TaskListingFragment">
+    tools:context=".ui.tasks.TaskListingFragment">
 
 <!--    include shimmer layout-->
     <com.facebook.shimmer.ShimmerFrameLayout

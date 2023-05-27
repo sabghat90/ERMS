@@ -101,6 +101,9 @@
     <string name="task_name">Task Name</string>
     <string name="task_completed">Task Completed</string>
     <string name="role">Role</string>
+    <string name="complaint_title">Complaint Title</string>
+    <string name="status">Status</string>
+    <string name="add_complaint">Add Complaint</string>
 
     <string-array name="gender">
         <item>Male</item>

@@ -1,4 +1,4 @@
-package com.kust.ermsemployee.ui.event
+package com.kust.ermsemployee.ui.events
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

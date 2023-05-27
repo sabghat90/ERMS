@@ -15,7 +15,6 @@ import com.kust.ermsemployee.data.model.FeatureModel
 import com.kust.ermsemployee.databinding.FragmentFeatureBinding
 import com.kust.ermsemployee.ui.auth.AuthActivity
 import com.kust.ermsemployee.ui.auth.AuthViewModel
-import com.kust.ermsemployee.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -52,6 +51,7 @@ class FeaturesFragment : Fragment() {
         features.add(FeatureModel("Task", R.drawable.avatar2))
         features.add(FeatureModel("Events", R.drawable.avatar2))
         features.add(FeatureModel("Setting", R.drawable.avatar2))
+        features.add(FeatureModel("Complaints", R.drawable.avatar2))
         features.add(FeatureModel("Profile", R.drawable.avatar2))
         features.add(FeatureModel("Logout", R.drawable.avatar2))
 
@@ -86,9 +86,12 @@ class FeaturesFragment : Fragment() {
                         findNavController().navigate(R.id.action_featureFragment_to_settingFragment)
                     }
                     6 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_profileFragment)
+                        findNavController().navigate(R.id.action_featureFragment_to_complaintListingFragment)
                     }
                     7 -> {
+                        findNavController().navigate(R.id.action_featureFragment_to_profileFragment)
+                    }
+                    8 -> {
                         Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()
                         // Logout
                         authViewModel.logout {

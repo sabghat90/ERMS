@@ -11,6 +11,8 @@ import com.kust.ermsemployee.data.repository.AttendanceRepository
 import com.kust.ermsemployee.data.repository.AttendanceRepositoryImpl
 import com.kust.ermsemployee.data.repository.AuthRepository
 import com.kust.ermsemployee.data.repository.AuthRepositoryImpl
+import com.kust.ermsemployee.data.repository.ComplaintRepository
+import com.kust.ermsemployee.data.repository.ComplaintRepositoryImpl
 import com.kust.ermsemployee.data.repository.EmployeeRepository
 import com.kust.ermsemployee.data.repository.EmployeeRepositoryImpl
 import com.kust.ermsemployee.data.repository.EventRepository
@@ -80,5 +82,14 @@ object RepositoryModule {
         gson: Gson
     ) : EmployeeRepository {
         return EmployeeRepositoryImpl(auth, database, firebaseStorage, sharedPreferences, gson)
+    }
+
+    @Provides
+    @Singleton
+    fun provideComplaintRepository(
+        database: FirebaseFirestore,
+        auth: FirebaseAuth
+    ) : ComplaintRepository {
+        return ComplaintRepositoryImpl(database, auth)
     }
 }

@@ -1,4 +1,4 @@
-package com.kust.ermsemployee.ui.event
+package com.kust.ermsemployee.ui.events
 
 import android.os.Bundle
 import android.os.Handler

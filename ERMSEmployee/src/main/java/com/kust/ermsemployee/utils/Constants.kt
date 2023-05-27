@@ -1,11 +1,10 @@
 package com.kust.ermsemployee.utils
 
 object FireStoreCollectionConstants {
-    const val COMPANY = "company"
-    const val EMPLOYEE = "employee"
     const val USERS = "users"
     const val TASKS = "tasks"
     const val EVENTS = "events"
+    const val COMPLAINTS = "complaints"
 }
 
 object TaskStatus {
