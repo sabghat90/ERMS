@@ -71,7 +71,7 @@ class FeaturesFragment : Fragment() {
                             .show()
                     }
                     1 -> {
-                        toast("Employee Ranking")
+                        findNavController().navigate(R.id.action_featureFragment_to_employeeRankListingFragment)
                     }
                     2 -> {
                         findNavController().navigate(R.id.action_featureFragment_to_viewAttendanceFragment)

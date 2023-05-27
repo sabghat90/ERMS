@@ -41,6 +41,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_featureFragment_to_employeeRankListingFragment"
+            app:destination="@id/employeeRankListingFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
@@ -132,4 +135,9 @@
         android:name="com.kust.ermsemployee.ui.event.EventDetailFragment"
         android:label="fragment_event_detail"
         tools:layout="@layout/fragment_event_detail" />
+    <fragment
+        android:id="@+id/employeeRankListingFragment"
+        android:name="com.kust.ermsemployee.ui.ranking.EmployeeRankListingFragment"
+        android:label="fragment_employee_rank_listing"
+        tools:layout="@layout/fragment_employee_rank_listing" />
 </navigation>

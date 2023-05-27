@@ -100,6 +100,7 @@
     <string name="task_description">Description</string>
     <string name="task_name">Task Name</string>
     <string name="task_completed">Task Completed</string>
+    <string name="role">Role</string>
 
     <string-array name="gender">
         <item>Male</item>
