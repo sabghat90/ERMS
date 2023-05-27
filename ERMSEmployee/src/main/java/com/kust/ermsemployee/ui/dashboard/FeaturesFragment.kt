@@ -15,6 +15,7 @@ import com.kust.ermsemployee.data.model.FeatureModel
 import com.kust.ermsemployee.databinding.FragmentFeatureBinding
 import com.kust.ermsemployee.ui.auth.AuthActivity
 import com.kust.ermsemployee.ui.auth.AuthViewModel
+import com.kust.ermsemployee.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -46,6 +47,7 @@ class FeaturesFragment : Fragment() {
         val features = mutableListOf<FeatureModel>()
 
         features.add(FeatureModel("View Employees", R.drawable.avatar2))
+        features.add(FeatureModel("Employee Ranking", R.drawable.avatar2))
         features.add(FeatureModel("View Attendance", R.drawable.avatar2))
         features.add(FeatureModel("Task", R.drawable.avatar2))
         features.add(FeatureModel("Events", R.drawable.avatar2))
@@ -69,21 +71,24 @@ class FeaturesFragment : Fragment() {
                             .show()
                     }
                     1 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_viewAttendanceFragment)
+                        toast("Employee Ranking")
                     }
                     2 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_taskListingFragment)
+                        findNavController().navigate(R.id.action_featureFragment_to_viewAttendanceFragment)
                     }
                     3 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_eventListingFragment)
+                        findNavController().navigate(R.id.action_featureFragment_to_taskListingFragment)
                     }
                     4 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_settingFragment)
+                        findNavController().navigate(R.id.action_featureFragment_to_eventListingFragment)
                     }
                     5 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_profileFragment)
+                        findNavController().navigate(R.id.action_featureFragment_to_settingFragment)
                     }
                     6 -> {
+                        findNavController().navigate(R.id.action_featureFragment_to_profileFragment)
+                    }
+                    7 -> {
                         Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()
                         // Logout
                         authViewModel.logout {

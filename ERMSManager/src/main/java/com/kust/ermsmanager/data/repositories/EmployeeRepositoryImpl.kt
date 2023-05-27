@@ -2,8 +2,6 @@ package com.kust.ermsmanager.data.repositories
 
 import android.content.SharedPreferences
 import android.net.Uri
-import android.util.Log
-import android.widget.Toast
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -17,6 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class EmployeeRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
@@ -103,6 +103,30 @@ class EmployeeRepositoryImpl @Inject constructor(
             result.invoke(UiState.Error(e.message))
         } catch (e: Exception) {
             result.invoke(UiState.Error(e.message))
+        }
+    }
+
+    override suspend fun addPoints(id: String): UiState<String> {
+        val userRef = database.collection(FireStoreCollectionConstants.USERS).document(id)
+
+        return try {
+            val result = suspendCoroutine { continuation ->
+                database.runTransaction { transaction ->
+                    val documentSnapshot = transaction.get(userRef)
+                    val points = documentSnapshot.getDouble("points") ?: 0.0
+
+                    // Increment the points by 5
+                    val newPoints = points + 5
+                    transaction.update(userRef, "points", newPoints)
+                }.addOnSuccessListener {
+                    continuation.resume(UiState.Success("Successfully added points!"))
+                }.addOnFailureListener { exception ->
+                    continuation.resume(UiState.Error(exception.message.toString()))
+                }
+            }
+            result
+        } catch (exception: Exception) {
+            UiState.Error(exception.message.toString())
         }
     }
 }

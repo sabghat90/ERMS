@@ -9,10 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.TaskModel
 import com.kust.ermsmanager.databinding.FragmentTaskDetailBinding
+import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import com.kust.ermsmanager.utils.ConvertDateAndTimeFormat
 import com.kust.ermsmanager.utils.TaskStatus
 import com.kust.ermsmanager.utils.UiState
@@ -33,6 +35,7 @@ class TaskDetailFragment : Fragment() {
     private lateinit var task: TaskModel
 
     private val taskViewModel: TaskViewModel by viewModels()
+    private val employeeViewModel: EmployeeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,6 +65,21 @@ class TaskDetailFragment : Fragment() {
 
                 is UiState.Success -> {
                     toast(it.data.toString())
+                }
+
+                is UiState.Error -> {
+                    toast(it.error)
+                }
+            }
+        }
+        employeeViewModel.addPoints.observe(viewLifecycleOwner) {
+            when (it) {
+                is UiState.Loading -> {
+
+                }
+
+                is UiState.Success -> {
+                    toast(it.data)
                     findNavController().navigate(R.id.action_taskDetailFragment_to_taskListingFragment)
                 }
 
@@ -97,15 +115,15 @@ class TaskDetailFragment : Fragment() {
 
         binding.btnResubmitTask.setOnClickListener {
             task.status = TaskStatus.PENDING
-            CoroutineScope(Dispatchers.IO).launch {
-                taskViewModel.updateTask(task)
-            }
+
+            taskViewModel.updateTask(task)
         }
 
         binding.btnApproveTask.setOnClickListener {
             task.status = TaskStatus.APPROVED
-            CoroutineScope(Dispatchers.IO).launch {
-                taskViewModel.updateTask(task)
+            taskViewModel.updateTask(task)
+            lifecycleScope.launch {
+                employeeViewModel.addPoints(task.assigneeId)
             }
         }
     }
@@ -118,6 +136,7 @@ class TaskDetailFragment : Fragment() {
                 }
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

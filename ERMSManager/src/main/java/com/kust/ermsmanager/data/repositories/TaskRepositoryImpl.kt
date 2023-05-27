@@ -51,13 +51,18 @@ class TaskRepositoryImpl(
         }
     }
 
-    override suspend fun updateTask(
+    override fun updateTask(
         task: TaskModel,
         result: (UiState<Pair<TaskModel, String>>) -> Unit
     ) {
         // update task to database
-        database.collection(FireStoreCollectionConstants.TASKS).document(task.id).set(task).await()
-        result(UiState.Success(Pair(task, "Success")))
+        database.collection(FireStoreCollectionConstants.TASKS).document(task.id).set(task)
+            .addOnSuccessListener {
+                result(UiState.Success(Pair(task, "Success")))
+            }
+            .addOnFailureListener {
+                result(UiState.Error("Failed to Update Task"))
+            }
     }
 
     override suspend fun deleteTask(
@@ -77,5 +82,4 @@ class TaskRepositoryImpl(
             result(UiState.Success(Pair(taskModel, "Successfully deleted task !")))
         }
     }
-
 }

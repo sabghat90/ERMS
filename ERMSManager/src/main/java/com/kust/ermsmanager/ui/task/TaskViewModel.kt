@@ -16,21 +16,21 @@ import javax.inject.Inject
 @HiltViewModel
 class TaskViewModel @Inject constructor(
     private val taskRepository: TaskRepository
-): ViewModel() {
+) : ViewModel() {
     private val _createTask = MutableLiveData<UiState<Pair<TaskModel, String>>>()
-    val createTask : LiveData<UiState<Pair<TaskModel, String>>>
+    val createTask: LiveData<UiState<Pair<TaskModel, String>>>
         get() = _createTask
 
     private val _updateTask = MutableLiveData<UiState<Pair<TaskModel, String>>>()
-    val updateTask : LiveData<UiState<Pair<TaskModel, String>>>
+    val updateTask: LiveData<UiState<Pair<TaskModel, String>>>
         get() = _updateTask
 
     private val _deleteTask = MutableLiveData<UiState<Pair<TaskModel, String>>>()
-    val deleteTask : LiveData<UiState<Pair<TaskModel, String>>>
+    val deleteTask: LiveData<UiState<Pair<TaskModel, String>>>
         get() = _deleteTask
 
     private val _getTasks = MutableLiveData<UiState<List<TaskModel>>>()
-    val getTasks : LiveData<UiState<List<TaskModel>>>
+    val getTasks: LiveData<UiState<List<TaskModel>>>
         get() = _getTasks
 
     suspend fun createTask(taskModel: TaskModel) {
@@ -44,12 +44,10 @@ class TaskViewModel @Inject constructor(
         }
     }
 
-    suspend fun updateTask(taskModel: TaskModel) {
-        viewModelScope.launch {
-            _updateTask.value = UiState.Loading
-            taskRepository.updateTask(taskModel) {
-                _updateTask.value = it
-            }
+    fun updateTask(taskModel: TaskModel) {
+        _updateTask.value = UiState.Loading
+        taskRepository.updateTask(taskModel) {
+            _updateTask.value = it
         }
     }
 

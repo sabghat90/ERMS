@@ -18,12 +18,16 @@ class EmployeeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _getEmployeeList = MutableLiveData<UiState<List<EmployeeModel>>>()
-    val getEmployeeList : LiveData<UiState<List<EmployeeModel>>>
+    val getEmployeeList: LiveData<UiState<List<EmployeeModel>>>
         get() = _getEmployeeList
 
     private val _updateEmployee = MutableLiveData<UiState<Pair<EmployeeModel, String>>>()
-    val updateEmployee : LiveData<UiState<Pair<EmployeeModel, String>>>
+    val updateEmployee: LiveData<UiState<Pair<EmployeeModel, String>>>
         get() = _updateEmployee
+
+    private val _addPoints = MutableLiveData<UiState<String>>()
+    val addPoints: LiveData<UiState<String>>
+        get() = _addPoints
 
     init {
         getEmployeeList(EmployeeModel())
@@ -43,11 +47,17 @@ class EmployeeViewModel @Inject constructor(
         }
     }
 
-    fun uploadImage(fileUris: Uri, result: (UiState<Uri>) -> Unit){
+    fun uploadImage(fileUris: Uri, result: (UiState<Uri>) -> Unit) {
         result.invoke(UiState.Loading)
         viewModelScope.launch {
-            employeeRepository.uploadImage(fileUris,result)
+            employeeRepository.uploadImage(fileUris, result)
         }
     }
 
+    fun addPoints(id: String) {
+        _addPoints.value = UiState.Loading
+        viewModelScope.launch {
+            _addPoints.value = employeeRepository.addPoints(id)
+        }
+    }
 }
