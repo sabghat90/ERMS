@@ -7,14 +7,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.Timestamp
+import com.kust.ermsemployee.data.model.ComplaintHistoryModel
 import com.kust.ermsemployee.data.model.ComplaintModel
 import com.kust.ermsemployee.data.model.EmployeeModel
 import com.kust.ermsemployee.databinding.FragmentCreateComplaintBinding
 import com.kust.ermsemployee.ui.auth.AuthViewModel
 import com.kust.ermsemployee.utils.UiState
 import com.kust.ermsemployee.utils.toast
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class CreateComplaintFragment : Fragment() {
     private var _binding: FragmentCreateComplaintBinding? = null
     private val binding get() = _binding!!
@@ -42,7 +46,7 @@ class CreateComplaintFragment : Fragment() {
 
         binding.btnCreateComplaint.setOnClickListener {
             lifecycleScope.launch {
-                complaintViewModel.createComplaint(getComplaintObj())
+                complaintViewModel.createComplaint(getComplaintObj(), getComplaintHistoryObj())
             }
         }
     }
@@ -51,6 +55,7 @@ class CreateComplaintFragment : Fragment() {
         complaintViewModel.createComplaint.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
+                    binding.btnCreateComplaint.text = ""
                     binding.progressBar.visibility = View.VISIBLE
                 }
 
@@ -73,10 +78,19 @@ class CreateComplaintFragment : Fragment() {
             title = binding.etComplaintTitle.text.toString(),
             description = binding.etComplaintDescription.text.toString(),
             status = "Pending",
+            dateCreated = Timestamp.now().toDate().toString(),
             companyId = employee.companyId,
             employeeId = employee.id,
             employeeName = employee.name,
             employeeFCMToken = employee.fcmToken
+        )
+    }
+
+    private fun getComplaintHistoryObj(): ComplaintHistoryModel {
+        val message = "Complaint created, forward to company for review"
+        return ComplaintHistoryModel(
+            message = message,
+            date = Timestamp.now().toDate().toString()
         )
     }
 

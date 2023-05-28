@@ -6,13 +6,13 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ComplaintModel(
-    val id: String = "",
+    var id: String = "",
     val title: String = "",
     val description: String = "",
     val status: String = "",
-    val dateCreated: Timestamp = Timestamp.now(),
-    val dateUpdated: Timestamp = Timestamp.now(),
-    val dateClosed: Timestamp = Timestamp.now(),
+    val dateCreated: String = "",
+    val dateUpdated: String = "",
+    val dateClosed: String = "",
     val companyId: String = "",
     val employeeId : String = "",
     val employeeFCMToken : String = "",

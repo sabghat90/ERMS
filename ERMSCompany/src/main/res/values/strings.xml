@@ -76,4 +76,6 @@
     <string name="biometric_not_supported">Biometric Not Supported</string>
     <string name="biometric_status_unknown">Sorry, Status Unknown</string>
     <string name="authentication_error">Authentication Error: %1$s</string>
+    <string name="complaint_title">Complaint Title</string>
+    <string name="status">Status</string>
 </resources>

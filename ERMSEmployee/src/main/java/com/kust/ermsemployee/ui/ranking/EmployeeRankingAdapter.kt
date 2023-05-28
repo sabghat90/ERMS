@@ -35,6 +35,20 @@ class EmployeeRankingAdapter(
         notifyDataSetChanged()
     }
 
+    /**
+    Binds the employee data to the views in the item layout.
+    Sets the employee name, role, and points to the respective TextViews.
+    Determines the ranking image to be displayed based on the adapter position:
+
+        If the adapter position is 0, sets the first place ranking image.
+
+        If the adapter position is 1, sets the second place ranking image.
+
+        If the adapter position is 2, sets the third place ranking image.
+
+    Sets the visibility and image resource of the ranking image view accordingly.
+        **/
+
     inner class EmployeeViewHolder(private val binding: EmployeeRankItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(employee: EmployeeModel) {

@@ -27,7 +27,9 @@ class ComplaintListingFragment : Fragment() {
 
     private val adapter by lazy {
         ComplaintListingAdapter(requireContext()) { position, complaint ->
-            findNavController().navigate(R.id.action_complaintListingFragment_to_createComplaintFragment)
+            findNavController().navigate(R.id.action_complaintListingFragment_to_complaintDetailFragment, Bundle().apply {
+                putParcelable("complaint", complaint)
+            })
         }
     }
 

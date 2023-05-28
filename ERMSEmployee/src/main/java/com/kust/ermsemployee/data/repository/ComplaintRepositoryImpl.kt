@@ -2,6 +2,7 @@ package com.kust.ermsemployee.data.repository
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.kust.ermsemployee.data.model.ComplaintHistoryModel
 import com.kust.ermsemployee.data.model.ComplaintModel
 import com.kust.ermsemployee.utils.FireStoreCollectionConstants
 import com.kust.ermsemployee.utils.UiState
@@ -13,15 +14,27 @@ class ComplaintRepositoryImpl(
 ) : ComplaintRepository {
     override suspend fun createComplaint(
         complaintModel: ComplaintModel,
+        complaintHistoryModel: ComplaintHistoryModel,
         result: (UiState<String>) -> Unit
     ) {
         // use coroutines to create complaint
         return try {
             // create complaint
-            database.collection(FireStoreCollectionConstants.COMPLAINTS)
+            val docRef = database.collection(FireStoreCollectionConstants.COMPLAINTS)
                 .document()
-                .set(complaintModel)
-                .await()
+            val complaintId = docRef.id
+            complaintModel.id = complaintId
+            docRef.set(complaintModel).await()
+
+            val historyRef = database
+                .collection(FireStoreCollectionConstants.COMPLAINTS)
+                .document(complaintId)
+                .collection(FireStoreCollectionConstants.COMPLAINT_HISTORY)
+                .document()
+            val historyId = historyRef.id
+            complaintHistoryModel.id = historyId
+            historyRef.set(complaintHistoryModel).await()
+
             // return success
             result(UiState.Success("Complaint created successfully"))
         } catch (e: Exception) {
@@ -57,5 +70,22 @@ class ComplaintRepositoryImpl(
         result: (UiState<String>) -> Unit
     ) {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun getComplaintHistory(
+        id: String,
+        result: (UiState<List<ComplaintHistoryModel>>) -> Unit
+    ) {
+        return try {
+            val historyList = database.collection(FireStoreCollectionConstants.COMPLAINTS)
+                .document(id)
+                .collection(FireStoreCollectionConstants.COMPLAINT_HISTORY)
+                .get()
+                .await()
+                .toObjects(ComplaintHistoryModel::class.java)
+            result(UiState.Success(historyList))
+        } catch (e: Exception) {
+            result(UiState.Error("Error to load history"))
+        }
     }
 }

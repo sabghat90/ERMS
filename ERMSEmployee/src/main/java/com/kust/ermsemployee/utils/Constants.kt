@@ -5,6 +5,7 @@ object FireStoreCollectionConstants {
     const val TASKS = "tasks"
     const val EVENTS = "events"
     const val COMPLAINTS = "complaints"
+    const val COMPLAINT_HISTORY = "complaint_history"
 }
 
 object TaskStatus {
