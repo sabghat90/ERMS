@@ -1,4 +1,4 @@
-package com.kust.ermsemployee.ui.complaints
+package com.kust.erms_company.ui.complaints
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,11 +9,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kust.ermsemployee.R
-import com.kust.ermsemployee.data.model.ComplaintModel
-import com.kust.ermsemployee.databinding.FragmentComplaintListingBinding
-import com.kust.ermsemployee.utils.UiState
-import com.kust.ermsemployee.utils.toast
+import com.kust.erms_company.R
+import com.kust.erms_company.data.model.ComplaintModel
+import com.kust.erms_company.databinding.FragmentComplaintListingBinding
+import com.kust.erms_company.utils.UiState
+import com.kust.erms_company.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -53,9 +53,6 @@ class ComplaintListingFragment : Fragment() {
         binding.rvComplaints.layoutManager = LinearLayoutManager(requireContext())
         binding.rvComplaints.adapter = adapter
 
-        binding.createComplaintFab.setOnClickListener {
-            findNavController().navigate(R.id.action_complaintListingFragment_to_createComplaintFragment)
-        }
     }
 
     private fun observer() {

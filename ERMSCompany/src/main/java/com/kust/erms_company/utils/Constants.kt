@@ -4,6 +4,8 @@ object FireStoreCollectionConstants {
     const val COMPANY = "company"
     const val EMPLOYEE = "employee"
     const val USERS = "users"
+    const val COMPLAINTS = "complaints"
+    const val COMPLAINT_HISTORY = "complaint_history"
 }
 
 object FirebaseStorageConstants {

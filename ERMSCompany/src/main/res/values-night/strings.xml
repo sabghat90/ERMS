@@ -76,4 +76,7 @@
     <string name="authentication_error">Authentication Error: %1$s</string>
     <string name="complaint_title">Complaint Title</string>
     <string name="status">Status</string>
+    <string name="event_description">Desicription</string>
+    <string name="date_amp_time"><![CDATA[Date & Time]]></string>
+    <string name="add_complaint">Add Complaint</string>
 </resources>

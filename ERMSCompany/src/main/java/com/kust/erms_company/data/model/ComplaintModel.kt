@@ -1,4 +1,4 @@
-package com.kust.ermsemployee.data.model
+package com.kust.erms_company.data.model
 
 import android.os.Parcelable
 import com.google.firebase.Timestamp

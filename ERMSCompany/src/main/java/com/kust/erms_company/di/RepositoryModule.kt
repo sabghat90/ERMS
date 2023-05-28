@@ -45,4 +45,13 @@ object RepositoryModule {
     ): CompanyRepository {
         return CompanyRepositoryImpl(auth, database)
     }
+
+    @Provides
+    @Singleton
+    fun provideComplaintRepository(
+        database: FirebaseFirestore,
+        auth: FirebaseAuth
+    ) : ComplaintRepository {
+        return ComplaintRepositoryImpl(database, auth)
+    }
 }
