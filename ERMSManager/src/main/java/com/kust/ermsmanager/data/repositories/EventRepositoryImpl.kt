@@ -47,6 +47,9 @@ class EventRepositoryImpl(
         // create event in firebase
         val documentReference = database.collection(FireStoreCollectionConstants.EVENTS).document()
         if (eventModel != null) {
+            eventModel.id = documentReference.id
+        }
+        if (eventModel != null) {
             eventModel.companyId = companyId
         }
         if (eventModel != null) {

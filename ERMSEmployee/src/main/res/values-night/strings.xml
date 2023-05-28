@@ -102,4 +102,6 @@
     <string name="complaint_title">Complaint Title</string>
     <string name="status">Status</string>
     <string name="add_complaint">Add Complaint</string>
+    <string name="accept">Accept</string>
+    <string name="reject">Reject</string>
 </resources>

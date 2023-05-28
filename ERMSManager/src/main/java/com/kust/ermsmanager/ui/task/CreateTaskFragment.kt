@@ -41,12 +41,12 @@ class CreateTaskFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val taskViewModel: TaskViewModel by viewModels()
-    private val employeeObj by lazy {
+    private val employee by lazy {
         arguments?.getParcelable<EmployeeModel>("employee")
     }
     private var selectedDateTimestamp: Date? = null
     private val notificationService = NotificationService()
-    private lateinit var employeeModel: EmployeeModel
+    private lateinit var manager: EmployeeModel
     private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
@@ -64,7 +64,7 @@ class CreateTaskFragment : Fragment() {
         // get employee from shared preferences
         authViewModel.getSession {
             if (it != null) {
-                employeeModel = it
+                manager = it
             }
         }
         observer()
@@ -83,7 +83,7 @@ class CreateTaskFragment : Fragment() {
     }
 
     private fun updateUi() {
-        employeeObj.apply {
+        employee.apply {
             binding.tvEmployeeInfo.text = getString(R.string.employee_info, this!!.name)
         }
     }
@@ -96,13 +96,14 @@ class CreateTaskFragment : Fragment() {
             status = TaskStatus.PENDING,
             deadline = selectedDateTimestamp.toString(),
             createdDate = Timestamp.now().toDate().toString(),
-            assigneeName = employeeObj!!.name,
-            assigneeEmail = employeeObj!!.email,
-            assigneeId = employeeObj!!.id,
-            companyId = employeeObj!!.companyId,
+            assigneeName = employee!!.name,
+            assigneeEmail = employee!!.email,
+            assigneeId = employee!!.id,
+            companyId = manager.companyId,
             managerId = FirebaseAuth.getInstance().currentUser!!.uid,
-            managerName = employeeModel.name,
-            managerFCMToken = employeeModel.fcmToken
+            managerName = manager.name,
+            managerFCMToken = manager.fcmToken,
+            assigneeFCMToken = employee!!.fcmToken
         )
     }
 
@@ -117,7 +118,7 @@ class CreateTaskFragment : Fragment() {
                 is UiState.Success -> {
                     binding.btnCreateTask.text = getString(R.string.create_task)
                     binding.progressBar.hide()
-                    sendNotification(employeeObj!!.fcmToken)
+                    sendNotification(employee!!.fcmToken)
                     toast("Task created successfully")
                     findNavController().navigate(R.id.action_createTaskFragment_to_taskListingFragment)
                 }
@@ -133,7 +134,7 @@ class CreateTaskFragment : Fragment() {
 
     private fun sendNotification(token: String) {
         val title = "New Task"
-        val message = "Dear ${employeeObj!!.name}, you have a new task"
+        val message = "Dear ${employee!!.name}, you have a new task"
         PushNotification(
             NotificationModel(
                 title,

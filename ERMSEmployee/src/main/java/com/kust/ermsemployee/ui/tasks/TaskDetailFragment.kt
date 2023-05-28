@@ -48,30 +48,26 @@ class TaskDetailFragment : Fragment() {
 
         updateUI()
         observer()
-
-        binding.btnSubmitTask.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                task.status = TaskStatus.SUBMITTED
-                taskViewModel.updateTask(task)
-            }
-        }
     }
 
     private fun observer() {
         taskViewModel.updateTask.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
-                    binding.btnSubmitTask.visibility = View.GONE
+                    binding.btnAcceptTask.text = ""
+                    binding.progressBarAccept.visibility = View.VISIBLE
                 }
 
                 is UiState.Success -> {
                     sendNotification()
-                    binding.btnSubmitTask.visibility = View.VISIBLE
+                    binding.btnAcceptTask.text = getString(R.string.accept)
+                    binding.progressBarAccept.visibility = View.GONE
                     binding.tvTaskStatus.text = task.status
                 }
 
                 is UiState.Error -> {
-                    binding.btnSubmitTask.visibility = View.VISIBLE
+                    binding.btnAcceptTask.text = getString(R.string.accept)
+                    binding.progressBarAccept.visibility = View.GONE
                 }
             }
         }
@@ -112,9 +108,42 @@ class TaskDetailFragment : Fragment() {
         binding.tvTaskStatus.text = task.status
         binding.tvCreatedBy.text = task.managerName
 
-        if (task.status == TaskStatus.APPROVED) {
-            binding.btnSubmitTask.visibility = View.GONE
-            binding.btnSubmitTask.text = getString(R.string.task_completed)
+        when (task.status) {
+            TaskStatus.PENDING -> {
+                binding.btnAcceptTask.setOnClickListener {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        task.status = TaskStatus.IN_PROGRESS
+                        taskViewModel.updateTask(task)
+                    }
+                }
+            }
+            TaskStatus.IN_PROGRESS -> {
+                binding.btnAcceptTask.text = getString(R.string.submit)
+                binding.btnAcceptTask.setOnClickListener {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        task.status = TaskStatus.SUBMITTED
+                        taskViewModel.updateTask(task)
+                    }
+                }
+            }
+            TaskStatus.COMPLETED -> {
+                binding.btnAcceptTask.visibility = View.GONE
+            }
+            TaskStatus.REJECTED -> {
+                binding.btnAcceptTask.visibility = View.GONE
+            }
+            TaskStatus.RESUBMITTED -> {
+                binding.btnAcceptTask.text = getString(R.string.submit)
+                binding.btnAcceptTask.setOnClickListener {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        task.status = TaskStatus.SUBMITTED
+                        taskViewModel.updateTask(task)
+                    }
+                }
+            }
+            else -> {
+                binding.btnAcceptTask.visibility = View.VISIBLE
+            }
         }
     }
 

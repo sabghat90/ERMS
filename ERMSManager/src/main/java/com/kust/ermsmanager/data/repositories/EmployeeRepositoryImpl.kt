@@ -129,4 +129,28 @@ class EmployeeRepositoryImpl @Inject constructor(
             UiState.Error(exception.message.toString())
         }
     }
+
+    override suspend fun removePoints(id: String): UiState<String> {
+        val userRef = database.collection(FireStoreCollectionConstants.USERS).document(id)
+
+        return try {
+            val result = suspendCoroutine { continuation ->
+                database.runTransaction { transaction ->
+                    val documentSnapshot = transaction.get(userRef)
+                    val points = documentSnapshot.getDouble("points") ?: 0.0
+
+                    // Decrement the points by 5
+                    val newPoints = points - 5
+                    transaction.update(userRef, "points", newPoints)
+                }.addOnSuccessListener {
+                    continuation.resume(UiState.Success("Successfully removed points!"))
+                }.addOnFailureListener { exception ->
+                    continuation.resume(UiState.Error(exception.message.toString()))
+                }
+            }
+            result
+        } catch (exception: Exception) {
+            UiState.Error(exception.message.toString())
+        }
+    }
 }

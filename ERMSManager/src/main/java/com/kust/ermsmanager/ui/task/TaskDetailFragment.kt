@@ -12,8 +12,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.kust.ermsmanager.R
+import com.kust.ermsmanager.data.models.NotificationModel
+import com.kust.ermsmanager.data.models.PushNotification
 import com.kust.ermsmanager.data.models.TaskModel
 import com.kust.ermsmanager.databinding.FragmentTaskDetailBinding
+import com.kust.ermsmanager.services.NotificationService
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import com.kust.ermsmanager.utils.ConvertDateAndTimeFormat
 import com.kust.ermsmanager.utils.TaskStatus
@@ -37,6 +40,8 @@ class TaskDetailFragment : Fragment() {
     private val taskViewModel: TaskViewModel by viewModels()
     private val employeeViewModel: EmployeeViewModel by viewModels()
 
+    private val notificationService = NotificationService()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,9 +53,7 @@ class TaskDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setHasOptionsMenu(true)
-
         updateUI()
         observer()
     }
@@ -79,12 +82,60 @@ class TaskDetailFragment : Fragment() {
                 }
 
                 is UiState.Success -> {
+                    sendNotification(TaskStatus.APPROVED)
+                    toast(it.data)
+                }
+
+                is UiState.Error -> {
+                    toast(it.error)
+                }
+            }
+        }
+        employeeViewModel.removePoints.observe(viewLifecycleOwner) {
+            when (it) {
+                is UiState.Loading -> {
+
+                }
+
+                is UiState.Success -> {
+                    sendNotification(TaskStatus.RESUBMITTED)
                     toast(it.data)
                     findNavController().navigate(R.id.action_taskDetailFragment_to_taskListingFragment)
                 }
 
                 is UiState.Error -> {
                     toast(it.error)
+                }
+            }
+        }
+    }
+
+    private fun sendNotification(state: String) {
+        when (state) {
+            TaskStatus.RESUBMITTED -> {
+                val title = "Task Resubmitted"
+                val message = "Your task has been resubmitted by your manager"
+                PushNotification(
+                    NotificationModel(
+                        title = title,
+                        body = message,
+                    ),
+                    to = task.assigneeFCMToken
+                ).also {
+                    notificationService.sendNotification(it)
+                }
+            }
+            TaskStatus.APPROVED -> {
+                val title = "Task Approved"
+                val message = "Your task has been approved by your manager"
+                PushNotification(
+                    NotificationModel(
+                        title = title,
+                        body = message,
+                    ),
+                    to = task.assigneeFCMToken
+                ).also {
+                    notificationService.sendNotification(it)
                 }
             }
         }
@@ -113,21 +164,45 @@ class TaskDetailFragment : Fragment() {
             binding.btnApproveTask.visibility = View.GONE
         }
 
-        binding.btnResubmitTask.setOnClickListener {
-            task.status = TaskStatus.PENDING
-
-            taskViewModel.updateTask(task)
-        }
-
-        binding.btnApproveTask.setOnClickListener {
-            task.status = TaskStatus.APPROVED
-            taskViewModel.updateTask(task)
-            lifecycleScope.launch {
-                employeeViewModel.addPoints(task.assigneeId)
+        when (task.status) {
+            TaskStatus.PENDING -> {
+                binding.btnApproveTask.visibility = View.GONE
+                binding.btnResubmitTask.visibility = View.GONE
+            }
+            TaskStatus.RESUBMITTED -> {
+                binding.btnApproveTask.visibility = View.VISIBLE
+                binding.btnResubmitTask.visibility = View.VISIBLE
+            }
+            TaskStatus.APPROVED -> {
+                binding.btnApproveTask.visibility = View.GONE
+                binding.btnResubmitTask.visibility = View.VISIBLE
+                binding.btnResubmitTask.setOnClickListener {
+                    task.status = TaskStatus.RESUBMITTED
+                    taskViewModel.updateTask(task)
+                    lifecycleScope.launch {
+                        employeeViewModel.removePoints(task.assigneeId)
+                    }
+                }
+            }
+            TaskStatus.IN_PROGRESS -> {
+                binding.btnApproveTask.visibility = View.GONE
+                binding.btnResubmitTask.visibility = View.GONE
+            }
+            TaskStatus.SUBMITTED -> {
+                binding.btnApproveTask.visibility = View.VISIBLE
+                binding.btnResubmitTask.visibility = View.VISIBLE
+                binding.btnApproveTask.setOnClickListener {
+                    task.status = TaskStatus.APPROVED
+                    taskViewModel.updateTask(task)
+                    lifecycleScope.launch {
+                        employeeViewModel.addPoints(task.assigneeId)
+                    }
+                }
             }
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.delete -> {
@@ -136,11 +211,11 @@ class TaskDetailFragment : Fragment() {
                 }
                 true
             }
-
             else -> super.onOptionsItemSelected(item)
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.task_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)

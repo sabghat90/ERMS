@@ -10,4 +10,5 @@ interface EmployeeRepository {
     fun updateEmployee(employeeModel: EmployeeModel?, result : (UiState<Pair<EmployeeModel, String>>) -> Unit)
     suspend fun uploadImage(imageUri : Uri, result : (UiState<Uri>) -> Unit)
     suspend fun addPoints(id: String): UiState<String>
+    suspend fun removePoints(id: String): UiState<String>
 }

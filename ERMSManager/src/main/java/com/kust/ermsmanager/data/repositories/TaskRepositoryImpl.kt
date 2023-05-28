@@ -23,7 +23,7 @@ class TaskRepositoryImpl(
         val companyId = employee.companyId
 
         // get tasks from database and update UiState with result or error message
-        database.collection(FireStoreCollectionConstants.TASKS)
+        val dbRef = database.collection(FireStoreCollectionConstants.TASKS)
             .whereEqualTo("companyId", companyId)
             .get().addOnSuccessListener { documents ->
             val tasks = mutableListOf<TaskModel>()

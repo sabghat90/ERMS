@@ -24,13 +24,13 @@ object Role {
 }
 
 object TaskStatus {
-    const val PENDING = "pending"
-    const val IN_PROGRESS = "in_progress"
-    const val COMPLETED = "completed"
-    const val SUBMITTED = "submitted"
-    const val APPROVED = "approved"
-    const val REJECTED = "rejected"
-    const val RESUBMITTED = "resubmitted"
+    const val PENDING = "Pending"
+    const val IN_PROGRESS = "In Progress"
+    const val COMPLETED = "Completed"
+    const val SUBMITTED = "Submitted"
+    const val APPROVED = "Approved"
+    const val REJECTED = "Rejected"
+    const val RESUBMITTED = "Resubmitted"
 }
 
 object SharedPreferencesConstants {

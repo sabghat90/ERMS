@@ -29,6 +29,10 @@ class EmployeeViewModel @Inject constructor(
     val addPoints: LiveData<UiState<String>>
         get() = _addPoints
 
+    private val _removePoints = MutableLiveData<UiState<String>>()
+    val removePoints: LiveData<UiState<String>>
+        get() = _removePoints
+
     init {
         getEmployeeList(EmployeeModel())
     }
@@ -58,6 +62,13 @@ class EmployeeViewModel @Inject constructor(
         _addPoints.value = UiState.Loading
         viewModelScope.launch {
             _addPoints.value = employeeRepository.addPoints(id)
+        }
+    }
+
+    fun removePoints(id: String) {
+        _removePoints.value = UiState.Loading
+        viewModelScope.launch {
+            _removePoints.value = employeeRepository.removePoints(id)
         }
     }
 }

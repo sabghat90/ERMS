@@ -17,5 +17,6 @@ data class TaskModel (
     val companyId : String = "",
     val managerId : String = "",
     val managerName : String = "",
-    val managerFCMToken : String = ""
+    val managerFCMToken : String = "",
+    val assigneeFCMToken : String = "",
 ) : Parcelable
