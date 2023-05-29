@@ -21,8 +21,8 @@ class ComplaintViewModel @Inject constructor(
     val getComplaints : LiveData<UiState<List<ComplaintModel>>>
         get() = _getComplaints
 
-    private val _updateComplaint = MutableLiveData<UiState<Pair<ComplaintModel,String>>>()
-    val updateComplaint : LiveData<UiState<Pair<ComplaintModel,String>>>
+    private val _updateComplaint = MutableLiveData<UiState<String>>()
+    val updateComplaint : LiveData<UiState<String>>
         get() = _updateComplaint
 
     private val _deleteComplaint = MutableLiveData<UiState<String>>()
@@ -42,10 +42,10 @@ class ComplaintViewModel @Inject constructor(
         }
     }
 
-    suspend fun updateComplaint(complaintModel: ComplaintModel) {
+    suspend fun updateComplaint(complaintModel: ComplaintModel, updateComplaintHistory: ComplaintHistoryModel) {
         _updateComplaint.value = UiState.Loading
         viewModelScope.launch {
-            complaintRepository.updateComplaint(complaintModel) {
+            complaintRepository.updateComplaint(complaintModel, updateComplaintHistory) {
                 _updateComplaint.value = it
             }
         }

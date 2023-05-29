@@ -1,12 +1,15 @@
 package com.kust.ermsemployee.ui.ranking
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kust.ermsemployee.R
 import com.kust.ermsemployee.databinding.FragmentEmployeeRankListingBinding
 import com.kust.ermsemployee.utils.UiState
 import com.kust.ermsemployee.utils.toast
@@ -18,6 +21,7 @@ class EmployeeRankListingFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val employeeViewModel : EmployeeViewModel by viewModels()
+    private lateinit var progressDialog: Dialog
 
     private val adapter by lazy {
         EmployeeRankingAdapter { _, _ -> }
@@ -34,6 +38,12 @@ class EmployeeRankListingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        progressDialog = Dialog(requireContext())
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        progressDialog.setCancelable(false)
+        progressDialog.setCanceledOnTouchOutside(false)
+        progressDialog.setContentView(R.layout.custom_progress_dialog)
+
         observer()
 
         employeeViewModel.getEmployeeRank()
@@ -46,13 +56,15 @@ class EmployeeRankListingFragment : Fragment() {
         employeeViewModel.getEmployeeRank.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
-
+                    progressDialog.show()
                 }
                 is UiState.Success -> {
+                    progressDialog.dismiss()
                     adapter.employeeList = it.data.toMutableList()
                     adapter.submitList(it.data)
                 }
                 is UiState.Error -> {
+                    progressDialog.dismiss()
                     toast(it.error)
                 }
             }

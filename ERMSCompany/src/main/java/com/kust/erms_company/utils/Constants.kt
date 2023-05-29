@@ -8,6 +8,14 @@ object FireStoreCollectionConstants {
     const val COMPLAINT_HISTORY = "complaint_history"
 }
 
+object ComplaintStatus {
+    const val PENDING = "Pending"
+    const val IN_PROGRESS = "In Progress"
+    const val RESOLVED = "Resolved"
+    const val REJECTED = "Rejected"
+    const val CLOSED = "Closed"
+}
+
 object FirebaseStorageConstants {
     const val COMPANY_PROFILE = "company_profile"
     const val EMPLOYEE_PROFILE = "employee_profile"

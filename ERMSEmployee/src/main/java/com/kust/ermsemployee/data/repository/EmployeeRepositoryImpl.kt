@@ -52,7 +52,7 @@ class EmployeeRepositoryImpl @Inject constructor(
                 result.invoke(UiState.Success(list))
             }
             .addOnFailureListener { exception ->
-                result.invoke(UiState.Error(exception.message.toString()))
+                result.invoke(UiState.Error(exception.localizedMessage ?: "Error"))
             }
     }
 
@@ -86,7 +86,7 @@ class EmployeeRepositoryImpl @Inject constructor(
                 )
             }
             .addOnFailureListener { exception ->
-                result.invoke(UiState.Error(exception.message.toString()))
+                result.invoke(UiState.Error(exception.localizedMessage ?: "Error"))
             }
     }
 
@@ -109,32 +109,9 @@ class EmployeeRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addPoints(id: String): UiState<String> {
-        val userRef = database.collection(FireStoreCollectionConstants.USERS).document(id)
-
-        return try {
-            val result = suspendCoroutine { continuation ->
-                database.runTransaction { transaction ->
-                    val documentSnapshot = transaction.get(userRef)
-                    val points = documentSnapshot.getDouble("points") ?: 0.0
-
-                    // Increment the points by 5
-                    val newPoints = points + 5
-                    transaction.update(userRef, "points", newPoints)
-                }.addOnSuccessListener {
-                    continuation.resume(UiState.Success("Successfully added points!"))
-                }.addOnFailureListener { exception ->
-                    continuation.resume(UiState.Error(exception.message.toString()))
-                }
-            }
-            result
-        } catch (exception: Exception) {
-            UiState.Error(exception.message.toString())
-        }
-    }
-
     override suspend fun getEmployeeRank(result: (UiState<List<EmployeeModel>>) -> Unit) {
         // use await to get the result of the query
+
         val querySnapshot = database.collection(FireStoreCollectionConstants.USERS)
             .whereEqualTo("role", Role.EMPLOYEE)
             .orderBy("points", Query.Direction.DESCENDING)

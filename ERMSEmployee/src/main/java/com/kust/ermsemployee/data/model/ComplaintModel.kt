@@ -19,4 +19,5 @@ data class ComplaintModel(
     val employeeName: String = "",
     val ManagerFCMToken: String = "",
     val isReferToManager: Boolean = false,
+    var feedBack : String = "",
 ) : Parcelable

@@ -1,6 +1,7 @@
 package com.kust.ermsemployee.ui.complaints
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.kust.ermsemployee.data.model.ComplaintModel
 import com.kust.ermsemployee.data.model.EmployeeModel
 import com.kust.ermsemployee.databinding.FragmentCreateComplaintBinding
 import com.kust.ermsemployee.ui.auth.AuthViewModel
+import com.kust.ermsemployee.utils.ComplaintStatus
 import com.kust.ermsemployee.utils.UiState
 import com.kust.ermsemployee.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,6 +44,7 @@ class CreateComplaintFragment : Fragment() {
         authViewModel.getSession {
             employee = it!!
         }
+
         observer()
 
         binding.btnCreateComplaint.setOnClickListener {
@@ -77,7 +80,7 @@ class CreateComplaintFragment : Fragment() {
         return ComplaintModel(
             title = binding.etComplaintTitle.text.toString(),
             description = binding.etComplaintDescription.text.toString(),
-            status = "Pending",
+            status = ComplaintStatus.PENDING,
             dateCreated = Timestamp.now().toDate().toString(),
             companyId = employee.companyId,
             employeeId = employee.id,

@@ -31,9 +31,25 @@ class ComplaintRepositoryImpl(
 
     override suspend fun updateComplaint(
         complaintModel: ComplaintModel,
-        result: (UiState<Pair<ComplaintModel,String>>) -> Unit
+        historyModel: ComplaintHistoryModel,
+        result: (UiState<String>) -> Unit
     ) {
-        TODO("Not yet implemented")
+        database.collection(FireStoreCollectionConstants.COMPLAINTS)
+            .document(complaintModel.id)
+            .set(complaintModel)
+            .await()
+
+        val historyRef = database.collection(FireStoreCollectionConstants.COMPLAINTS)
+            .document(complaintModel.id)
+            .collection(FireStoreCollectionConstants.COMPLAINT_HISTORY)
+            .document()
+
+        historyModel.id = historyRef.id
+
+        historyRef.set(historyModel).await()
+
+        result(UiState.Success("Complaint updated"))
+
     }
 
     override suspend fun deleteComplaint(

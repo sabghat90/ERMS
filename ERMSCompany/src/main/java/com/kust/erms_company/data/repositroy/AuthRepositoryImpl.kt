@@ -1,6 +1,7 @@
 package com.kust.erms_company.data.repositroy
 
 import android.content.SharedPreferences
+import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -52,7 +53,7 @@ class AuthRepositoryImpl(
                     } catch (e: FirebaseAuthUserCollisionException) {
                         result(UiState.Error("User already exists"))
                     } catch (e: Exception) {
-                        result(UiState.Error("Unknown error"))
+                        result(UiState.Error(e.localizedMessage ?: "Invalid authentication"))
                     }
                 }
             }
@@ -109,7 +110,7 @@ class AuthRepositoryImpl(
                     } catch (e: FirebaseAuthInvalidCredentialsException) {
                         result(UiState.Error("Invalid email"))
                     } catch (e: Exception) {
-                        result(UiState.Error("Error: ${e.message}"))
+                        result(UiState.Error("Error: ${e.localizedMessage}"))
                     }
                 }
             }
@@ -159,7 +160,7 @@ class AuthRepositoryImpl(
                     } catch (e: FirebaseAuthInvalidCredentialsException) {
                         result(UiState.Error("Invalid email"))
                     } catch (e: Exception) {
-                        result(UiState.Error("Unknown error"))
+                        result(UiState.Error(e.localizedMessage ?: "Unknown error"))
                     }
                 }
             }
@@ -183,7 +184,7 @@ class AuthRepositoryImpl(
                 result.invoke(UiState.Success("CompanyModel updated successfully"))
             }
             .addOnFailureListener {
-                result.invoke(UiState.Error("Error updating companyModel"))
+                result.invoke(UiState.Error("Error to update company information"))
             }
     }
 
@@ -232,7 +233,7 @@ class AuthRepositoryImpl(
                     } catch (e: FirebaseAuthWeakPasswordException) {
                         result(UiState.Error("Weak password"))
                     } catch (e: Exception) {
-                        result(UiState.Error("Unknown error"))
+                        result(UiState.Error(e.localizedMessage ?: "Unknown error"))
                     }
                 }
             }

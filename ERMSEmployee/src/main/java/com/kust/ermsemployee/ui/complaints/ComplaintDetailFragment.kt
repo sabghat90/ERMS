@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.ermsemployee.data.model.ComplaintHistoryModel
 import com.kust.ermsemployee.data.model.ComplaintModel
 import com.kust.ermsemployee.databinding.FragmentComplaintDetailBinding
+import com.kust.ermsemployee.utils.ComplaintStatus
 import com.kust.ermsemployee.utils.UiState
 import com.kust.ermsemployee.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,8 +23,7 @@ class ComplaintDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val complaintViewModel: ComplaintViewModel by viewModels()
-    private lateinit var complaint : ComplaintModel
-
+    private lateinit var complaint: ComplaintModel
     private val historyAdapter by lazy { ComplaintHistoryAdapter() }
 
     override fun onCreateView(
@@ -31,13 +31,12 @@ class ComplaintDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentComplaintDetailBinding.inflate(layoutInflater,container,false)
+        _binding = FragmentComplaintDetailBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         complaint = arguments?.getParcelable("complaint")!!
 
         updateUi()
@@ -47,7 +46,6 @@ class ComplaintDetailFragment : Fragment() {
             toast(complaint.id)
             complaintViewModel.getComplaintHistory(complaint.id)
         }
-
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = historyAdapter
     }
@@ -74,10 +72,26 @@ class ComplaintDetailFragment : Fragment() {
 
     private fun updateUi() {
         // get from bundle
-        with (binding) {
+        with(binding) {
             tvComplaintTitle.text = complaint.title
             tvComplaintDescription.text = complaint.description
             tvDateCreated.text = complaint.dateCreated
+        }
+
+        when {
+            complaint.status == ComplaintStatus.CLOSED -> {
+                binding.btnFeedback.visibility = View.VISIBLE
+                binding.btnFeedback.visibility = View.VISIBLE
+                complaint.feedBack = binding.etFeedback.text.toString()
+                lifecycleScope.launch {
+                    complaintViewModel.updateComplaint(complaint)
+                }
+            }
+
+            complaint.feedBack.isNotEmpty() -> {
+                binding.etFeedback.visibility = View.GONE
+                binding.btnFeedback.visibility = View.GONE
+            }
         }
     }
 

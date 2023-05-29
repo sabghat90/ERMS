@@ -32,7 +32,7 @@ class EventRepositoryImpl(
                 result(UiState.Success(eventList))
             }
             .addOnFailureListener { exception ->
-                result(UiState.Error(exception.message.toString()))
+                result(UiState.Error(exception.localizedMessage?.toString() ?: "Error"))
             }
     }
 
@@ -58,7 +58,7 @@ class EventRepositoryImpl(
                     result(UiState.Success(Pair(eventModel, "Event created successfully")))
                 }
                 .addOnFailureListener { exception ->
-                    result(UiState.Error(exception.message.toString()))
+                    result(UiState.Error(exception.localizedMessage?.toString() ?: "Error"))
                 }
         }
     }
@@ -73,7 +73,7 @@ class EventRepositoryImpl(
             documentReference?.set(eventModel)?.addOnSuccessListener {
                 result(UiState.Success(Pair(eventModel, "Event updated successfully")))
             }?.addOnFailureListener { exception ->
-                result(UiState.Error(exception.message.toString()))
+                result(UiState.Error(exception.localizedMessage?.toString() ?: "Error"))
             }
         }
     }
@@ -89,7 +89,7 @@ class EventRepositoryImpl(
                 result(UiState.Success(Pair(eventModel, "Event deleted successfully")))
             }
             .addOnFailureListener { exception ->
-                result(UiState.Error(exception.message.toString()))
+                result(UiState.Error(exception.localizedMessage?.toString() ?: "Error"))
             }
     }
 }

@@ -66,13 +66,13 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_date_created" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_feedback"
+            android:id="@+id/btn_forward"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="24dp"
-            android:text="Feed back"
+            android:text="Forward to Management"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recyclerView" />

@@ -67,7 +67,7 @@ class AuthRepositoryImpl(
                     } catch (e: FirebaseAuthInvalidCredentialsException) {
                         result(UiState.Error("Invalid email"))
                     } catch (e: Exception) {
-                        result(UiState.Error("Unknown error"))
+                        result(UiState.Error(e.localizedMessage ?: "Unknown error"))
                     }
                 }
             }
@@ -83,10 +83,10 @@ class AuthRepositoryImpl(
                         result(UiState.Success("Successfully stored the token"))
                     }
                     .addOnFailureListener {
-                        result(UiState.Error("Error to store the token"))
+                        result(UiState.Error(it.localizedMessage ?: "Error to store the token"))
                     }
             } else {
-                result(UiState.Error("Error to store the token"))
+                result(UiState.Error("Error to get the token"))
             }
         }
     }
@@ -127,7 +127,7 @@ class AuthRepositoryImpl(
                     } catch (e: FirebaseAuthUserCollisionException) {
                         result(UiState.Error("User already exists"))
                     } catch (e: Exception) {
-                        result(UiState.Error("Unknown error"))
+                        result(UiState.Error(e.localizedMessage ?: "Unknown error"))
                     }
                 }
             }
@@ -176,7 +176,7 @@ class AuthRepositoryImpl(
                     } catch (e: FirebaseAuthInvalidCredentialsException) {
                         result(UiState.Error("Invalid email"))
                     } catch (e: Exception) {
-                        result(UiState.Error("Unknown error"))
+                        result(UiState.Error(e.localizedMessage ?: "Unknown error"))
                     }
                 }
             }
@@ -234,7 +234,7 @@ class AuthRepositoryImpl(
                     } catch (e: FirebaseAuthWeakPasswordException) {
                         result(UiState.Error("Weak password"))
                     } catch (e: Exception) {
-                        result(UiState.Error("Unknown error"))
+                        result(UiState.Error(e.localizedMessage ?: "Unknown error"))
                     }
                 }
             }

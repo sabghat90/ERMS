@@ -9,7 +9,7 @@
         android:id="@+id/view8"
         android:layout_width="1dp"
         android:layout_height="0dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:background="@color/md_theme_dark_primaryContainer"
         app:layout_constraintBottom_toTopOf="@+id/imageView3"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,12 +39,13 @@
 
     <TextView
         android:id="@+id/tv_msg"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="@string/message"
         android:gravity="center_vertical"
+        android:text="@string/message"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView3"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

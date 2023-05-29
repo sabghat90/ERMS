@@ -47,9 +47,11 @@ class EmployeeListForAttendanceFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding =
             FragmentEmployeeListForAttendanceBinding.inflate(inflater, container, false)
+
         progressDialog = Dialog(requireContext())
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         progressDialog.setCancelable(false)
+        progressDialog.setCanceledOnTouchOutside(false)
         progressDialog.setContentView(R.layout.custom_progress_dialog)
 
         return binding.root
@@ -71,12 +73,12 @@ class EmployeeListForAttendanceFragment : Fragment() {
                     progressDialog.show()
                 }
                 is UiState.Success -> {
-                    progressDialog.hide()
+                    progressDialog.dismiss()
                     adapter.employeeList = it.data as MutableList<EmployeeModel>
                     adapter.submitList(it.data)
                 }
                 is UiState.Error -> {
-                    progressDialog.hide()
+                    progressDialog.dismiss()
                     toast(it.error)
                 }
             }

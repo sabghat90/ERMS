@@ -9,7 +9,7 @@ data class ComplaintModel(
     var id: String = "",
     val title: String = "",
     val description: String = "",
-    val status: String = "",
+    var status: String = "",
     val dateCreated: String = "",
     val dateUpdated: String = "",
     val dateClosed: String = "",
@@ -18,5 +18,6 @@ data class ComplaintModel(
     val employeeFCMToken: String = "",
     val employeeName: String = "",
     val ManagerFCMToken: String = "",
-    val isReferToManager: Boolean = false,
+    var isReferToManager: Boolean = false,
+    val feedBack : String = "",
 ) : Parcelable

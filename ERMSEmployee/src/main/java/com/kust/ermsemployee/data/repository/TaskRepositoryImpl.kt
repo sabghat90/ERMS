@@ -29,7 +29,7 @@ class TaskRepositoryImpl(
             }
             result(UiState.Success(tasks))
         }.addOnFailureListener {
-            result(UiState.Error(it.message.toString()))
+            result(UiState.Error(it.localizedMessage ?: "Error occurred"))
         }
     }
 
@@ -44,7 +44,7 @@ class TaskRepositoryImpl(
             .addOnSuccessListener {
                 result(UiState.Success(Pair(task, "Task updated successfully")))
             }.addOnFailureListener {
-                result(UiState.Error(it.message.toString()))
+                result(UiState.Error(it.localizedMessage ?: "Error occurred"))
             }
     }
 

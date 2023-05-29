@@ -1,13 +1,16 @@
 package com.kust.ermsmanager.ui.employee
 
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.databinding.FragmentEmployeeListingBinding
 import com.kust.ermsmanager.utils.UiState
@@ -30,9 +33,7 @@ class EmployeeListingFragment : Fragment() {
         )
     }
 
-    private val dialog: ProgressDialog by lazy {
-        ProgressDialog(requireContext())
-    }
+    private lateinit var progressDialog: Dialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,9 +42,11 @@ class EmployeeListingFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentEmployeeListingBinding.inflate(inflater, container, false)
 
-        dialog.setMessage("Loading...")
-        dialog.setCancelable(false)
-        dialog.setCanceledOnTouchOutside(false)
+        progressDialog = Dialog(requireContext())
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        progressDialog.setCancelable(false)
+        progressDialog.setCanceledOnTouchOutside(false)
+        progressDialog.setContentView(R.layout.custom_progress_dialog)
 
         return binding.root
     }
@@ -61,15 +64,15 @@ class EmployeeListingFragment : Fragment() {
         employeeViewModel.getEmployeeList.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
-                    dialog.show()
+                    progressDialog.show()
                 }
                 is UiState.Success -> {
-                    dialog.dismiss()
+                    progressDialog.dismiss()
                     adapter.employeeList = it.data as MutableList<EmployeeModel>
                     adapter.submitList(it.data)
                 }
                 is UiState.Error -> {
-                    dialog.dismiss()
+                    progressDialog.dismiss()
                     toast(it.error)
                 }
             }

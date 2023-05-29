@@ -106,6 +106,7 @@
     <string name="add_complaint">Add Complaint</string>
     <string name="accept">Accept</string>
     <string name="reject">Reject</string>
+    <string name="feedback">Feedback</string>
 
     <string-array name="gender">
         <item>Male</item>

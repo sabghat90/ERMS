@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+ <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/feature_nav_graph"
@@ -104,13 +104,13 @@
     <fragment
         android:id="@+id/viewAttendanceFragment"
         android:name="com.kust.ermsemployee.ui.attendance.ViewAttendanceFragment"
-        android:label="fragment_view_attendace"
+        android:label="View Attendance"
         tools:layout="@layout/fragment_view_attendace" />
     <fragment
         android:id="@+id/taskListingFragment"
         android:name="com.kust.ermsemployee.ui.tasks.TaskListingFragment"
-        android:label="fragment_task_listing"
-        tools:layout="@layout/fragment_task_listing" >
+        android:label="Tasks"
+        tools:layout="@layout/fragment_task_listing">
         <action
             android:id="@+id/action_taskListingFragment_to_taskDetailFragment"
             app:destination="@id/taskDetailFragment"
@@ -122,13 +122,13 @@
     <fragment
         android:id="@+id/taskDetailFragment"
         android:name="com.kust.ermsemployee.ui.tasks.TaskDetailFragment"
-        android:label="fragment_task_detail"
+        android:label="@string/task_details"
         tools:layout="@layout/fragment_task_detail" />
     <fragment
         android:id="@+id/eventListingFragment"
         android:name="com.kust.ermsemployee.ui.events.EventListingFragment"
-        android:label="fragment_event_listing"
-        tools:layout="@layout/fragment_event_listing" >
+        android:label="Events"
+        tools:layout="@layout/fragment_event_listing">
         <action
             android:id="@+id/action_eventListingFragment_to_eventDetailFragment"
             app:destination="@id/eventDetailFragment" />
@@ -136,18 +136,18 @@
     <fragment
         android:id="@+id/eventDetailFragment"
         android:name="com.kust.ermsemployee.ui.events.EventDetailFragment"
-        android:label="fragment_event_detail"
+        android:label="Event Details"
         tools:layout="@layout/fragment_event_detail" />
     <fragment
         android:id="@+id/employeeRankListingFragment"
         android:name="com.kust.ermsemployee.ui.ranking.EmployeeRankListingFragment"
-        android:label="fragment_employee_rank_listing"
+        android:label="Ranking"
         tools:layout="@layout/fragment_employee_rank_listing" />
     <fragment
         android:id="@+id/complaintListingFragment"
         android:name="com.kust.ermsemployee.ui.complaints.ComplaintListingFragment"
-        android:label="fragment_complaint_listing"
-        tools:layout="@layout/fragment_complaint_listing" >
+        android:label="Complaints"
+        tools:layout="@layout/fragment_complaint_listing">
         <action
             android:id="@+id/action_complaintListingFragment_to_complaintDetailFragment"
             app:destination="@id/complaintDetailFragment" />
@@ -158,11 +158,11 @@
     <fragment
         android:id="@+id/complaintDetailFragment"
         android:name="com.kust.ermsemployee.ui.complaints.ComplaintDetailFragment"
-        android:label="fragment_complaint_detail"
+        android:label="Complaint Detail"
         tools:layout="@layout/fragment_complaint_detail" />
     <fragment
         android:id="@+id/createComplaintFragment"
         android:name="com.kust.ermsemployee.ui.complaints.CreateComplaintFragment"
-        android:label="fragment_create_complaint"
+        android:label="Create Complaint"
         tools:layout="@layout/fragment_create_complaint" />
 </navigation>

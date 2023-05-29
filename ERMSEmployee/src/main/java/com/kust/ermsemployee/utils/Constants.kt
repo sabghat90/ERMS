@@ -18,6 +18,14 @@ object TaskStatus {
     const val RESUBMITTED = "Resubmitted"
 }
 
+object ComplaintStatus {
+    const val PENDING = "Pending"
+    const val IN_PROGRESS = "In Progress"
+    const val RESOLVED = "Resolved"
+    const val REJECTED = "Rejected"
+    const val CLOSED = "Closed"
+}
+
 object FirebaseRealtimeDatabaseConstants {
     const val ATTENDANCE = "attendance"
 }

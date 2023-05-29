@@ -1,10 +1,12 @@
 package com.kust.erms_company.ui.complaints
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -24,6 +26,8 @@ class ComplaintListingFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val complaintViewModel: ComplaintViewModel by viewModels()
+
+    private lateinit var progressDialog: Dialog
 
     private val adapter by lazy {
         ComplaintListingAdapter(requireContext()) { _, complaint ->
@@ -45,6 +49,12 @@ class ComplaintListingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        progressDialog = Dialog(requireContext())
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        progressDialog.setCancelable(false)
+        progressDialog.setCanceledOnTouchOutside(false)
+        progressDialog.setContentView(R.layout.custom_progress_dialog)
+
         observer()
         lifecycleScope.launch {
             complaintViewModel.getComplaints()
@@ -59,13 +69,15 @@ class ComplaintListingFragment : Fragment() {
         complaintViewModel.getComplaints.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
-
+                    progressDialog.show()
                 }
                 is UiState.Success -> {
+                    progressDialog.hide()
                     adapter.complaintList = it.data as MutableList<ComplaintModel>
                     adapter.submitList(it.data)
                 }
                 is UiState.Error -> {
+                    progressDialog.hide()
                     toast(it.error)
                 }
             }

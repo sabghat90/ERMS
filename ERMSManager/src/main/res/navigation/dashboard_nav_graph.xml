@@ -249,8 +249,8 @@
     <fragment
         android:id="@+id/selectEmployeeForTaskFragment"
         android:name="com.kust.ermsmanager.ui.task.SelectEmployeeForTaskFragment"
-        android:label="fragment_select_employee_for_task"
-        tools:layout="@layout/fragment_select_employee_for_task" >
+        android:label="@string/select_employee"
+        tools:layout="@layout/fragment_select_employee_for_task">
         <action
             android:id="@+id/action_selectEmployeeForTaskFragment_to_createTaskFragment"
             app:destination="@id/createTaskFragment" />

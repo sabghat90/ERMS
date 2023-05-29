@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.kust.erms_company.R
 import com.kust.erms_company.databinding.FragmentChangePasswordBinding
 import com.kust.erms_company.ui.auth.AuthViewModel

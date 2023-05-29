@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.erms_company.data.model.ComplaintHistoryModel
 import com.kust.erms_company.data.model.ComplaintModel
 import com.kust.erms_company.databinding.FragmentComplaintDetailBinding
+import com.kust.erms_company.utils.ComplaintStatus
 import com.kust.erms_company.utils.UiState
 import com.kust.erms_company.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,7 +48,6 @@ class ComplaintDetailFragment : Fragment() {
             toast(complaint.id)
             complaintViewModel.getComplaintHistory(complaint.id)
         }
-
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = historyAdapter
     }
@@ -72,12 +72,29 @@ class ComplaintDetailFragment : Fragment() {
         }
     }
 
+    private fun updateComplaintHistory(): ComplaintHistoryModel {
+        val message = "Complaint is referred to manager"
+        return ComplaintHistoryModel(
+            message = message
+        )
+    }
+
     private fun updateUi() {
         // get from bundle
         with (binding) {
             tvComplaintTitle.text = complaint.title
             tvComplaintDescription.text = complaint.description
             tvDateCreated.text = complaint.dateCreated
+        }
+
+        if (!complaint.isReferToManager) {
+            lifecycleScope.launch {
+                complaint.isReferToManager = true
+                complaint.status = ComplaintStatus.IN_PROGRESS
+                complaintViewModel.updateComplaint(complaint, updateComplaintHistory())
+            }
+        } else {
+            binding.btnForward.visibility = View.GONE
         }
     }
 
