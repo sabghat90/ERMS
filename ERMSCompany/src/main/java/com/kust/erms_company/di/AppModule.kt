@@ -3,7 +3,7 @@ package com.kust.erms_company.di
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.kust.erms_company.utils.SharedPreferencesConstants
+import com.kust.ermslibrary.utils.SharedPreferencesConstants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

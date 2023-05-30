@@ -1,13 +1,13 @@
 package com.kust.ermsemployee.data.repository
 
-import com.kust.ermsemployee.data.model.ComplaintHistoryModel
-import com.kust.ermsemployee.data.model.ComplaintModel
-import com.kust.ermsemployee.utils.UiState
+import com.kust.ermslibrary.models.Complaint
+import com.kust.ermslibrary.models.ComplaintHistory
+import com.kust.ermslibrary.utils.UiState
 
 interface ComplaintRepository {
-    suspend fun createComplaint(complaintModel: ComplaintModel, complaintHistoryModel: ComplaintHistoryModel, result: (UiState<String>) -> Unit)
-    suspend fun getComplaints(result: (UiState<List<ComplaintModel>>) -> Unit)
-    suspend fun updateComplaint(complaintModel: ComplaintModel, result: (UiState<Pair<ComplaintModel,String>>) -> Unit)
-    suspend fun deleteComplaint(complaintModel: ComplaintModel, result: (UiState<String>) -> Unit)
-    suspend fun getComplaintHistory(id: String, result: (UiState<List<ComplaintHistoryModel>>) -> Unit)
+    suspend fun createComplaint(complaint: Complaint, complaintHistory: ComplaintHistory, result: (UiState<String>) -> Unit)
+    suspend fun getComplaints(result: (UiState<List<Complaint>>) -> Unit)
+    suspend fun updateComplaint(complaint: Complaint, result: (UiState<Pair<Complaint,String>>) -> Unit)
+    suspend fun deleteComplaint(complaint: Complaint, result: (UiState<String>) -> Unit)
+    suspend fun getComplaintHistory(id: String, result: (UiState<List<ComplaintHistory>>) -> Unit)
 }

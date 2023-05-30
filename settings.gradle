@@ -16,3 +16,4 @@ rootProject.name = "ERMS"
 include ':ERMSCompany'
 include ':ERMSEmployee'
 include ':ERMSManager'
+include ':ERMSLibrary'

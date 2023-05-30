@@ -1,7 +1,6 @@
 package com.kust.ermsemployee.ui.complaints
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.Timestamp
-import com.kust.ermsemployee.data.model.ComplaintHistoryModel
-import com.kust.ermsemployee.data.model.ComplaintModel
-import com.kust.ermsemployee.data.model.EmployeeModel
 import com.kust.ermsemployee.databinding.FragmentCreateComplaintBinding
 import com.kust.ermsemployee.ui.auth.AuthViewModel
-import com.kust.ermsemployee.utils.ComplaintStatus
-import com.kust.ermsemployee.utils.UiState
-import com.kust.ermsemployee.utils.toast
+import com.kust.ermslibrary.models.Complaint
+import com.kust.ermslibrary.models.ComplaintHistory
+import com.kust.ermslibrary.models.Employee
+import com.kust.ermslibrary.utils.ComplaintStatus
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -27,7 +26,7 @@ class CreateComplaintFragment : Fragment() {
 
     private val authViewModel: AuthViewModel by viewModels()
     private val complaintViewModel: ComplaintViewModel by viewModels()
-    private lateinit var employee: EmployeeModel
+    private lateinit var employee: Employee
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,8 +75,8 @@ class CreateComplaintFragment : Fragment() {
         }
     }
 
-    private fun getComplaintObj(): ComplaintModel {
-        return ComplaintModel(
+    private fun getComplaintObj(): Complaint {
+        return Complaint(
             title = binding.etComplaintTitle.text.toString(),
             description = binding.etComplaintDescription.text.toString(),
             status = ComplaintStatus.PENDING,
@@ -89,9 +88,9 @@ class CreateComplaintFragment : Fragment() {
         )
     }
 
-    private fun getComplaintHistoryObj(): ComplaintHistoryModel {
+    private fun getComplaintHistoryObj(): ComplaintHistory {
         val message = "Complaint created, forward to company for review"
-        return ComplaintHistoryModel(
+        return ComplaintHistory(
             message = message,
             date = Timestamp.now().toDate().toString()
         )

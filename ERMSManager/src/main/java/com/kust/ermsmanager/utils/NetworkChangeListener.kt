@@ -7,12 +7,11 @@ import android.content.Intent
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.Button
-import com.google.android.material.button.MaterialButton
 import com.kust.ermsmanager.R
 
 class NetworkChangeListener : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        if (!(CheckInternetConnection().isConnectedToInternet(context!!))) {
+        if (!CheckInternetConnection().isConnectedToInternet(context!!)) {
             val builder = AlertDialog.Builder(context)
             val dialog = LayoutInflater.from(context).inflate(R.layout.check_internet_dialog, null)
             builder.setView(dialog)

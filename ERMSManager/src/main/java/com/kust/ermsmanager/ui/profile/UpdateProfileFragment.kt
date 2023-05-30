@@ -19,7 +19,7 @@ import com.kust.ermsmanager.databinding.FragmentUpdateProfileBinding
 import com.kust.ermsmanager.ui.auth.AuthViewModel
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import com.kust.ermsmanager.utils.UiState
-import com.kust.ermsmanager.utils.toast
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

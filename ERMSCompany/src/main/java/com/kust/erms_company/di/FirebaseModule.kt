@@ -5,7 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.kust.erms_company.utils.FirebaseStorageConstants
+import com.kust.ermslibrary.utils.FirebaseStorageConstants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

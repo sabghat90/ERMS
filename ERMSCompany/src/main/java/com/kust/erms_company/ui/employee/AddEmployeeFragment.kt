@@ -8,13 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.kust.erms_company.R
-import com.kust.erms_company.data.model.EmployeeModel
-import com.kust.erms_company.data.model.NotificationModel
-import com.kust.erms_company.data.model.PushNotification
 import com.kust.erms_company.databinding.FragmentAddEmployeeBinding
-import com.kust.erms_company.services.NotificationService
-import com.kust.erms_company.utils.UiState
-import com.kust.erms_company.utils.toast
+import com.kust.ermslibrary.models.Employee
+import com.kust.ermslibrary.models.NotificationData
+import com.kust.ermslibrary.models.PushNotification
+import com.kust.ermslibrary.services.NotificationService
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -74,11 +74,11 @@ class AddEmployeeFragment : Fragment() {
         }
     }
 
-    private fun sendNotification(data: Pair<EmployeeModel, String>) {
+    private fun sendNotification(data: Pair<Employee, String>) {
         val title = "New Employee"
         val message = "New employee ${data.first.email} has been registered"
         PushNotification(
-            NotificationModel(
+            NotificationData(
                 title,
                 message
             ),
@@ -88,8 +88,8 @@ class AddEmployeeFragment : Fragment() {
         }
     }
 
-    private fun getObject(): EmployeeModel {
-        return EmployeeModel(
+    private fun getObject(): Employee {
+        return Employee(
             email = binding.etEmail.text.toString()
         )
     }

@@ -9,10 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.erms_company.R
-import com.kust.erms_company.data.model.EmployeeModel
 import com.kust.erms_company.databinding.FragmentEmployeeListingBinding
-import com.kust.erms_company.utils.UiState
-import com.kust.erms_company.utils.toast
+import com.kust.ermslibrary.models.Employee
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -57,7 +57,7 @@ class EmployeeListingFragment : Fragment() {
                     binding.shimmerLayout.startShimmer()
                 }
                 is UiState.Success -> {
-                    adapter.employees = it.data as MutableList<EmployeeModel>
+                    adapter.employees = it.data as MutableList<Employee>
                     adapter.updateList(it.data.toMutableList())
                     binding.shimmerLayout.stopShimmer()
                     binding.shimmerLayout.visibility = View.GONE

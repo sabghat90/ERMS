@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.kust.erms_company.data.model.ComplaintHistoryModel
 import com.kust.erms_company.databinding.ComplaintHistoryItemBinding
 
 class ComplaintHistoryAdapter:

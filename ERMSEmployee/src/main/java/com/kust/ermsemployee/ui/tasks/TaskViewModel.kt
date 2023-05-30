@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kust.ermsemployee.data.model.TaskModel
 import com.kust.ermsemployee.data.repository.TaskRepository
-import com.kust.ermsemployee.utils.UiState
+import com.kust.ermslibrary.models.Task
+import com.kust.ermslibrary.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,18 +17,18 @@ import javax.inject.Inject
 class TaskViewModel @Inject constructor(
     private val taskRepository: TaskRepository
 ): ViewModel() {
-    private val _updateTask = MutableLiveData<UiState<Pair<TaskModel, String>>>()
-    val updateTask : LiveData<UiState<Pair<TaskModel, String>>>
+    private val _updateTask = MutableLiveData<UiState<Pair<Task, String>>>()
+    val updateTask : LiveData<UiState<Pair<Task, String>>>
         get() = _updateTask
 
-    private val _getTasks = MutableLiveData<UiState<List<TaskModel>>>()
-    val getTasks : LiveData<UiState<List<TaskModel>>>
+    private val _getTasks = MutableLiveData<UiState<List<Task>>>()
+    val getTasks : LiveData<UiState<List<Task>>>
         get() = _getTasks
 
-    suspend fun updateTask(taskModel: TaskModel) {
+    suspend fun updateTask(task: Task) {
         viewModelScope.launch {
             _updateTask.value = UiState.Loading
-            taskRepository.updateTask(taskModel) {
+            taskRepository.updateTask(task) {
                 _updateTask.value = it
             }
         }

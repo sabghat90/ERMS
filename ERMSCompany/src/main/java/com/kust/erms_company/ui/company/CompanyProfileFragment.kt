@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.kust.erms_company.data.model.CompanyModel
 import com.kust.erms_company.databinding.FragmentCompanyProfileBinding
 import com.kust.erms_company.ui.auth.AuthViewModel
+import com.kust.ermslibrary.models.Company
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +20,7 @@ class CompanyProfileFragment : Fragment() {
 
     private val authViewModel : AuthViewModel by viewModels()
 
-    private var companyModel = CompanyModel()
+    private var company = Company()
 
     private val progressDialog by lazy {
         ProgressDialog(requireContext())
@@ -52,20 +52,20 @@ class CompanyProfileFragment : Fragment() {
     private fun observer() {
         authViewModel.getSession {
             if (it != null) {
-                companyModel = it
+                company = it
             }
         }
     }
 
     private fun updateUi() {
         binding.profileView.apply {
-            companyName.text = companyModel.name
-            tvEmail.text = companyModel.email
-            tvPhone.text = companyModel.phone
-            tvWebsite.text = companyModel.website
-            tvCountry.text = companyModel.country
-            tvState.text = companyModel.state
-            tvFullAddress.text = companyModel.fullAddress
+            companyName.text = company.name
+            tvEmail.text = company.email
+            tvPhone.text = company.phone
+            tvWebsite.text = company.website
+            tvCountry.text = company.country
+            tvState.text = company.state
+            tvFullAddress.text = company.fullAddress
         }
     }
 

@@ -9,11 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.kust.ermsemployee.R
-import com.kust.ermsemployee.data.model.EmployeeModel
 import com.kust.ermsemployee.databinding.FragmentSignUpBinding
-import com.kust.ermsemployee.utils.Role
-import com.kust.ermsemployee.utils.UiState
-import com.kust.ermsemployee.utils.toast
+import com.kust.ermslibrary.utils.Role
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,7 +51,7 @@ class SignUpFragment : Fragment() {
                 authViewModel.signUp(
                     email = binding.editTextEmail.text.toString().trim(),
                     password = binding.editTextPassword.text.toString(),
-                    employeeModel = getEmployeeObj()
+                    employee = getEmployeeObj()
                 )
             }
         }
@@ -113,8 +112,8 @@ class SignUpFragment : Fragment() {
         return isValid
     }
 
-    private fun getEmployeeObj(): EmployeeModel {
-        return EmployeeModel(
+    private fun getEmployeeObj(): Employee {
+        return Employee(
             name = binding.editTextName.text.toString(),
             employeeId = binding.editTextName.text.toString(),
             email = binding.editTextEmail.text.toString().trim(),

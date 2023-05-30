@@ -6,7 +6,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.kust.ermsmanager.data.models.AttendanceModel
-import com.kust.ermsmanager.utils.FirebaseRealtimeDatabaseConstants
+import com.kust.ermslibrary.utils.FirebaseRealtimeDatabaseConstants
 import com.kust.ermsmanager.utils.UiState
 import java.text.SimpleDateFormat
 import java.util.Date

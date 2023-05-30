@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Timestamp
 import com.kust.ermsemployee.R
-import com.kust.ermsemployee.data.model.TaskModel
 import com.kust.ermsemployee.databinding.TaskItemBinding
-import com.kust.ermsemployee.utils.ConvertDateAndTimeFormat
-import com.kust.ermsemployee.utils.TaskStatus
+import com.kust.ermslibrary.models.Task
+import com.kust.ermslibrary.utils.ConvertDateAndTimeFormat
+import com.kust.ermslibrary.utils.TaskStatus
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -19,10 +19,10 @@ import java.util.Locale
 // task adapter using list adapter
 class TaskListingAdapter(
     val context: Context,
-    val onItemClicked: (Int, TaskModel) -> Unit
-) : ListAdapter<TaskModel, TaskListingAdapter.TaskViewHolder>(DiffUtilCallback()) {
+    val onItemClicked: (Int, Task) -> Unit
+) : ListAdapter<Task, TaskListingAdapter.TaskViewHolder>(DiffUtilCallback()) {
 
-    var taskList: MutableList<TaskModel> = arrayListOf()
+    var taskList: MutableList<Task> = arrayListOf()
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val task = taskList[position]
@@ -35,14 +35,14 @@ class TaskListingAdapter(
     }
 
     // receive event call from handler to update task list
-    fun updateTaskList(taskList: MutableList<TaskModel>) {
+    fun updateTaskList(taskList: MutableList<Task>) {
         this.taskList = taskList
         notifyDataSetChanged()
     }
 
     inner class TaskViewHolder(private val binding: TaskItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(task: TaskModel) {
+        fun bind(task: Task) {
 
             if (task.status == TaskStatus.APPROVED) {
                 binding.imgStatus.visibility = RecyclerView.VISIBLE
@@ -91,12 +91,12 @@ class TaskListingAdapter(
         }
     }
 
-    class DiffUtilCallback : DiffUtil.ItemCallback<TaskModel>() {
-        override fun areItemsTheSame(oldItem: TaskModel, newItem: TaskModel): Boolean {
+    class DiffUtilCallback : DiffUtil.ItemCallback<Task>() {
+        override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: TaskModel, newItem: TaskModel): Boolean {
+        override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
             return oldItem == newItem
         }
     }

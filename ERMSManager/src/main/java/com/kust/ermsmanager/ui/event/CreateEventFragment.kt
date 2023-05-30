@@ -21,7 +21,7 @@ import com.kust.ermsmanager.databinding.FragmentCreateEventBinding
 import com.kust.ermsmanager.services.NotificationService
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import com.kust.ermsmanager.utils.UiState
-import com.kust.ermsmanager.utils.toast
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Calendar

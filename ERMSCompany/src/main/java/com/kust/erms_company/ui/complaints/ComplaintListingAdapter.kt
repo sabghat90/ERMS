@@ -6,15 +6,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.kust.erms_company.data.model.ComplaintModel
 import com.kust.erms_company.databinding.ComplaintItemBinding
+import com.kust.ermslibrary.models.Complaint
 
 class ComplaintListingAdapter(
     val context: Context,
-    val onItemClicked: (Int, ComplaintModel) -> Unit
-) : ListAdapter<ComplaintModel, ComplaintListingAdapter.ComplaintViewHolder>(DiffUtilCallback()) {
+    val onItemClicked: (Int, Complaint) -> Unit
+) : ListAdapter<Complaint, ComplaintListingAdapter.ComplaintViewHolder>(DiffUtilCallback()) {
 
-    var complaintList: MutableList<ComplaintModel> = arrayListOf()
+    var complaintList: MutableList<Complaint> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComplaintViewHolder {
         val binding =
@@ -28,7 +28,7 @@ class ComplaintListingAdapter(
 
     inner class ComplaintViewHolder(private val binding: ComplaintItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(complaint: ComplaintModel) {
+        fun bind(complaint: Complaint) {
 
             binding.tvComplaintTitle.text = complaint.title
             binding.tvDateTime.text = complaint.dateCreated.toString()
@@ -43,12 +43,12 @@ class ComplaintListingAdapter(
         }
     }
 
-    class DiffUtilCallback : DiffUtil.ItemCallback<ComplaintModel>() {
-        override fun areItemsTheSame(oldItem: ComplaintModel, newItem: ComplaintModel): Boolean {
+    class DiffUtilCallback : DiffUtil.ItemCallback<Complaint>() {
+        override fun areItemsTheSame(oldItem: Complaint, newItem: Complaint): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: ComplaintModel, newItem: ComplaintModel): Boolean {
+        override fun areContentsTheSame(oldItem: Complaint, newItem: Complaint): Boolean {
             return oldItem == newItem
         }
     }

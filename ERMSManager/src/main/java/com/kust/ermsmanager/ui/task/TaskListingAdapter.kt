@@ -12,7 +12,7 @@ import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.TaskModel
 import com.kust.ermsmanager.databinding.TaskItemBinding
 import com.kust.ermsmanager.utils.ConvertDateAndTimeFormat
-import com.kust.ermsmanager.utils.TaskStatus
+import com.kust.ermslibrary.utils.TaskStatus
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale

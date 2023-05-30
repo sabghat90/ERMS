@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.kust.erms_company.R
-import com.kust.erms_company.data.model.CompanyModel
 import com.kust.erms_company.databinding.FragmentCompanyRegistrationBinding
-import com.kust.erms_company.utils.Role
-import com.kust.erms_company.utils.UiState
-import com.kust.erms_company.utils.toast
+import com.kust.ermslibrary.models.Company
+import com.kust.ermslibrary.utils.Role
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -71,8 +71,8 @@ class CompanyRegistrationFragment : Fragment() {
         }
     }
 
-    private fun getCompanyObj(): CompanyModel {
-        return CompanyModel(
+    private fun getCompanyObj(): Company {
+        return Company(
             id = "",
             name = binding.editTextCompanyName.text.toString(),
             address = "",

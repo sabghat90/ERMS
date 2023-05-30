@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kust.ermsemployee.data.model.ComplaintHistoryModel
-import com.kust.ermsemployee.data.model.ComplaintModel
 import com.kust.ermsemployee.data.repository.ComplaintRepository
-import com.kust.ermsemployee.utils.UiState
+import com.kust.ermslibrary.models.Complaint
+import com.kust.ermslibrary.models.ComplaintHistory
+import com.kust.ermslibrary.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,26 +21,26 @@ class ComplaintViewModel @Inject constructor(
     val createComplaint : LiveData<UiState<String>>
         get() = _createComplaint
 
-    private val _getComplaints = MutableLiveData<UiState<List<ComplaintModel>>>()
-    val getComplaints : LiveData<UiState<List<ComplaintModel>>>
+    private val _getComplaints = MutableLiveData<UiState<List<Complaint>>>()
+    val getComplaints : LiveData<UiState<List<Complaint>>>
         get() = _getComplaints
 
-    private val _updateComplaint = MutableLiveData<UiState<Pair<ComplaintModel,String>>>()
-    val updateComplaint : LiveData<UiState<Pair<ComplaintModel,String>>>
+    private val _updateComplaint = MutableLiveData<UiState<Pair<Complaint,String>>>()
+    val updateComplaint : LiveData<UiState<Pair<Complaint,String>>>
         get() = _updateComplaint
 
     private val _deleteComplaint = MutableLiveData<UiState<String>>()
     val deleteComplaint : LiveData<UiState<String>>
         get() = _deleteComplaint
 
-    private val _getComplaintHistory = MutableLiveData<UiState<List<ComplaintHistoryModel>>>()
-    val getComplaintHistory: LiveData<UiState<List<ComplaintHistoryModel>>>
+    private val _getComplaintHistory = MutableLiveData<UiState<List<ComplaintHistory>>>()
+    val getComplaintHistory: LiveData<UiState<List<ComplaintHistory>>>
         get() = _getComplaintHistory
 
-    suspend fun createComplaint(complaintModel: ComplaintModel, complaintHistoryModel: ComplaintHistoryModel) {
+    suspend fun createComplaint(complaint: Complaint, complaintHistory: ComplaintHistory) {
         _createComplaint.value = UiState.Loading
         viewModelScope.launch {
-            complaintRepository.createComplaint(complaintModel, complaintHistoryModel) {
+            complaintRepository.createComplaint(complaint, complaintHistory) {
                 _createComplaint.value = it
             }
         }
@@ -55,19 +55,19 @@ class ComplaintViewModel @Inject constructor(
         }
     }
 
-    suspend fun updateComplaint(complaintModel: ComplaintModel) {
+    suspend fun updateComplaint(complaint: Complaint) {
         _updateComplaint.value = UiState.Loading
         viewModelScope.launch {
-            complaintRepository.updateComplaint(complaintModel) {
+            complaintRepository.updateComplaint(complaint) {
                 _updateComplaint.value = it
             }
         }
     }
 
-    suspend fun deleteComplaint(complaintModel: ComplaintModel) {
+    suspend fun deleteComplaint(complaint: Complaint) {
         _deleteComplaint.value = UiState.Loading
         viewModelScope.launch {
-            complaintRepository.deleteComplaint(complaintModel) {
+            complaintRepository.deleteComplaint(complaint) {
                 _deleteComplaint.value = it
             }
         }

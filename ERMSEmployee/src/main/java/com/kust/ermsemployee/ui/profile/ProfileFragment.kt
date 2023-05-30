@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.kust.ermsemployee.data.model.EmployeeModel
 import com.kust.ermsemployee.databinding.FragmentProfileBinding
 import com.kust.ermsemployee.ui.auth.AuthViewModel
+import com.kust.ermslibrary.models.Employee
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,7 +17,7 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val authViewModel: AuthViewModel by viewModels()
-    private lateinit var employeeObj: EmployeeModel
+    private lateinit var employeeObj: Employee
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

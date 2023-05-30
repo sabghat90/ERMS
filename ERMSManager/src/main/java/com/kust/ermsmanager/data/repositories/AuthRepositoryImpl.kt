@@ -10,9 +10,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.kust.ermsmanager.data.models.EmployeeModel
-import com.kust.ermsmanager.utils.FireStoreCollectionConstants
-import com.kust.ermsmanager.utils.Role
-import com.kust.ermsmanager.utils.SharedPreferencesConstants
+import com.kust.ermslibrary.utils.FireStoreCollectionConstants
+import com.kust.ermslibrary.utils.Role
+import com.kust.ermslibrary.utils.SharedPreferencesConstants
 import com.kust.ermsmanager.utils.UiState
 
 class AuthRepositoryImpl(
@@ -114,7 +114,7 @@ class AuthRepositoryImpl(
             val document = task.result
             if (document != null) {
                 val role = document.getString("role")
-                return@continueWith (role == Role.MANAGER)
+                return@continueWith role == Role.MANAGER
             } else {
                 return@continueWith false
             }

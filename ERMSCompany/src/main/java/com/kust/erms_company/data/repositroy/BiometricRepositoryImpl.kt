@@ -1,8 +1,8 @@
 package com.kust.erms_company.data.repositroy
 
 import android.content.SharedPreferences
-import com.kust.erms_company.utils.SharedPreferencesConstants
-import com.kust.erms_company.utils.UiState
+import com.kust.ermslibrary.utils.SharedPreferencesConstants
+import com.kust.ermslibrary.utils.UiState
 
 class BiometricRepositoryImpl(
     private val sharedPreferences: SharedPreferences

@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/ERMSCompany" />
             <option value="$PROJECT_DIR$/ERMSEmployee" />
+            <option value="$PROJECT_DIR$/ERMSLibrary" />
             <option value="$PROJECT_DIR$/ERMSManager" />
           </set>
         </option>

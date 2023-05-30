@@ -12,7 +12,7 @@ import com.kust.ermsmanager.R
 import com.kust.ermsmanager.databinding.FragmentLoginBinding
 import com.kust.ermsmanager.ui.setting.BiometricActivity
 import com.kust.ermsmanager.utils.UiState
-import com.kust.ermsmanager.utils.toast
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 

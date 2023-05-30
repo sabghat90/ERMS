@@ -10,15 +10,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kust.erms_company.R
-import com.kust.erms_company.data.model.EmployeeModel
-import com.kust.erms_company.data.model.NotificationModel
-import com.kust.erms_company.data.model.PushNotification
 import com.kust.erms_company.databinding.FragmentEmployeeProfileBinding
-import com.kust.erms_company.services.NotificationService
 import com.kust.erms_company.ui.employee.EmployeeViewModel
-import com.kust.erms_company.utils.Role
-import com.kust.erms_company.utils.UiState
-import com.kust.erms_company.utils.toast
+import com.kust.ermslibrary.models.Employee
+import com.kust.ermslibrary.models.NotificationData
+import com.kust.ermslibrary.models.PushNotification
+import com.kust.ermslibrary.services.NotificationService
+import com.kust.ermslibrary.utils.Role
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,7 +27,7 @@ class EmployeeProfileFragment : Fragment() {
     private var _binding: FragmentEmployeeProfileBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var employeeObj: EmployeeModel
+    private lateinit var employeeObj: Employee
 
     private val employeeViewModel: EmployeeViewModel by viewModels()
 
@@ -163,7 +163,7 @@ class EmployeeProfileFragment : Fragment() {
         }
 
         PushNotification(
-            NotificationModel(
+            NotificationData(
                 title = title,
                 body = body,
             ),

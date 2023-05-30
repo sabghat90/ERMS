@@ -3,9 +3,9 @@ package com.kust.erms_company.ui.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kust.erms_company.data.model.CompanyModel
 import com.kust.erms_company.data.repositroy.AuthRepository
-import com.kust.erms_company.utils.UiState
+import com.kust.ermslibrary.models.Company
+import com.kust.ermslibrary.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -41,10 +41,10 @@ class AuthViewModel @Inject constructor(
     fun register (
         email: String,
         password: String,
-        companyModel : CompanyModel
+        company : Company
     ) {
         _register.value = UiState.Loading
-        authRepository.registerCompany(email, password, companyModel) {
+        authRepository.registerCompany(email, password, company) {
             _register.value = it
         }
     }
@@ -73,7 +73,7 @@ class AuthViewModel @Inject constructor(
         _login.value = UiState.Success("Logout Successful")
     }
 
-    fun getSession(result: (CompanyModel?) -> Unit) {
+    fun getSession(result: (Company?) -> Unit) {
         authRepository.getUserSession(result)
     }
 

@@ -1,7 +1,6 @@
 package com.kust.ermsmanager.ui.employee
 
 import android.app.Dialog
-import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,7 @@ import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.databinding.FragmentEmployeeListingBinding
 import com.kust.ermsmanager.utils.UiState
-import com.kust.ermsmanager.utils.toast
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

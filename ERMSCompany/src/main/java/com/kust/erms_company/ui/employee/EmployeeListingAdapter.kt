@@ -5,15 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kust.erms_company.R
-import com.kust.erms_company.data.model.EmployeeModel
 import com.kust.erms_company.databinding.ItemEmployeeBinding
-import com.kust.erms_company.utils.Role
+import com.kust.ermslibrary.models.Employee
+import com.kust.ermslibrary.utils.Role
 
 class EmployeeListingAdapter (
-    val onItemClicked: (Int, EmployeeModel) -> Unit
+    val onItemClicked: (Int, Employee) -> Unit
         ) : RecyclerView.Adapter<EmployeeListingAdapter.ViewHolder>() {
 
-    var employees: MutableList<EmployeeModel> = arrayListOf()
+    var employees: MutableList<Employee> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView =
@@ -26,7 +26,7 @@ class EmployeeListingAdapter (
         holder.bind(employee)
     }
 
-    fun updateList(newList: MutableList<EmployeeModel>) {
+    fun updateList(newList: MutableList<Employee>) {
         employees = newList
         notifyDataSetChanged()
     }
@@ -37,7 +37,7 @@ class EmployeeListingAdapter (
 
     inner class ViewHolder(private val binding: ItemEmployeeBinding, /* listener : OnItemClickListener*/ ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(employee: EmployeeModel) {
+        fun bind(employee: Employee) {
 
             Glide.with(binding.root.context)
                 .load(employee.profilePicture)

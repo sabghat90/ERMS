@@ -3,9 +3,9 @@ package com.kust.erms_company.ui.company
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kust.erms_company.data.model.CompanyModel
 import com.kust.erms_company.data.repositroy.CompanyRepository
-import com.kust.erms_company.utils.UiState
+import com.kust.ermslibrary.models.Company
+import com.kust.ermslibrary.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -14,29 +14,29 @@ class CompanyViewModel @Inject constructor(
     private val repository: CompanyRepository
 ) : ViewModel() {
 
-    private val _getCompanyDetails = MutableLiveData<UiState<List<CompanyModel>>>()
-    val getCompanyDetails: LiveData<UiState<List<CompanyModel>>>
+    private val _getCompanyDetails = MutableLiveData<UiState<List<Company>>>()
+    val getCompanyDetails: LiveData<UiState<List<Company>>>
         get() = _getCompanyDetails
 
-    private val _updateCompanyDetails = MutableLiveData<UiState<Pair<CompanyModel, String>>>()
-    val updateCompanyDetails: LiveData<UiState<Pair<CompanyModel, String>>>
+    private val _updateCompanyDetails = MutableLiveData<UiState<Pair<Company, String>>>()
+    val updateCompanyDetails: LiveData<UiState<Pair<Company, String>>>
         get() = _updateCompanyDetails
 
     init {
-        getCompanyDetails(CompanyModel())
+        getCompanyDetails(Company())
     }
 
 
-    private fun getCompanyDetails(companyModel: CompanyModel) {
+    private fun getCompanyDetails(company: Company) {
         _getCompanyDetails.value = UiState.Loading
-        repository.getCompanyDetails(companyModel) {
+        repository.getCompanyDetails(company) {
             _getCompanyDetails.value = it
         }
     }
 
-    fun updateCompanyDetails(companyId: String, companyModel: CompanyModel) {
+    fun updateCompanyDetails(companyId: String, company: Company) {
         _updateCompanyDetails.value = UiState.Loading
-        repository.updateCompanyDetails(companyId, companyModel) {
+        repository.updateCompanyDetails(companyId, company) {
             _updateCompanyDetails.value = it
         }
     }

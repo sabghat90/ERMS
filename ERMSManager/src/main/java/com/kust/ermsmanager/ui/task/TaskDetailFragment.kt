@@ -19,9 +19,9 @@ import com.kust.ermsmanager.databinding.FragmentTaskDetailBinding
 import com.kust.ermsmanager.services.NotificationService
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import com.kust.ermsmanager.utils.ConvertDateAndTimeFormat
-import com.kust.ermsmanager.utils.TaskStatus
+import com.kust.ermslibrary.utils.TaskStatus
 import com.kust.ermsmanager.utils.UiState
-import com.kust.ermsmanager.utils.toast
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -11,12 +11,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.ermsemployee.R
-import com.kust.ermsemployee.data.model.EventModel
 import com.kust.ermsemployee.databinding.FragmentEventListingBinding
-import com.kust.ermsemployee.utils.UiState
-import com.kust.ermsemployee.utils.hide
-import com.kust.ermsemployee.utils.show
-import com.kust.ermsemployee.utils.toast
+import com.kust.ermslibrary.models.Event
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.hide
+import com.kust.ermslibrary.utils.show
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -76,11 +76,8 @@ class EventListingFragment : Fragment() {
                         binding.rvEvents.hide()
                     } else {
                         binding.rvEvents.show()
-                        adapter.eventList = it.data as MutableList<EventModel>
+                        adapter.eventList = it.data as MutableList<Event>
                         adapter.submitList(it.data)
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            adapter.updateEventList(it.data)
-                        }, 1000)
                     }
                 }
                 is UiState.Error -> {

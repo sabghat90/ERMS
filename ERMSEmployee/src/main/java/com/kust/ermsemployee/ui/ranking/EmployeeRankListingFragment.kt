@@ -11,8 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.ermsemployee.R
 import com.kust.ermsemployee.databinding.FragmentEmployeeRankListingBinding
-import com.kust.ermsemployee.utils.UiState
-import com.kust.ermsemployee.utils.toast
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

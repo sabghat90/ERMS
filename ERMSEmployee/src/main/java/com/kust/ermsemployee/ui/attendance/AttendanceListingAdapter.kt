@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.kust.ermsemployee.data.model.AttendanceModel
 import com.kust.ermsemployee.databinding.AttendanceItemBinding
+import com.kust.ermslibrary.models.Attendance
 
 class AttendanceListingAdapter :
-    ListAdapter<AttendanceModel, AttendanceListingAdapter.AttendanceViewHolder>(DiffUtilCallback()) {
+    ListAdapter<Attendance, AttendanceListingAdapter.AttendanceViewHolder>(DiffUtilCallback()) {
 
-    var attendanceList: MutableList<AttendanceModel> = arrayListOf()
+    var attendanceList: MutableList<Attendance> = arrayListOf()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -32,7 +32,7 @@ class AttendanceListingAdapter :
 
     inner class AttendanceViewHolder(private val binding: AttendanceItemBinding):
     RecyclerView.ViewHolder(binding.root){
-        fun bind(attendance: AttendanceModel){
+        fun bind(attendance: Attendance){
             with(binding) {
                 tvEmployeeName.text = attendance.employeeName
                 tvDate.text = attendance.date
@@ -42,14 +42,14 @@ class AttendanceListingAdapter :
         }
     }
 
-    class DiffUtilCallback : DiffUtil.ItemCallback<AttendanceModel>() {
-        override fun areItemsTheSame(oldItem: AttendanceModel, newItem: AttendanceModel): Boolean {
+    class DiffUtilCallback : DiffUtil.ItemCallback<Attendance>() {
+        override fun areItemsTheSame(oldItem: Attendance, newItem: Attendance): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: AttendanceModel,
-            newItem: AttendanceModel
+            oldItem: Attendance,
+            newItem: Attendance
         ): Boolean {
             return oldItem == newItem
         }

@@ -8,8 +8,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
 import com.kust.ermsmanager.data.models.EmployeeModel
-import com.kust.ermsmanager.utils.FireStoreCollectionConstants
-import com.kust.ermsmanager.utils.SharedPreferencesConstants
+import com.kust.ermslibrary.utils.FireStoreCollectionConstants
+import com.kust.ermslibrary.utils.SharedPreferencesConstants
 import com.kust.ermsmanager.utils.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await

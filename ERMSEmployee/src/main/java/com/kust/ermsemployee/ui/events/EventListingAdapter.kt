@@ -8,19 +8,19 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Timestamp
 import com.kust.ermsemployee.R
-import com.kust.ermsemployee.data.model.EventModel
 import com.kust.ermsemployee.databinding.EventItemBinding
-import com.kust.ermsemployee.utils.ConvertDateAndTimeFormat
+import com.kust.ermslibrary.models.Event
+import com.kust.ermslibrary.utils.ConvertDateAndTimeFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class EventListingAdapter(
     val context: Context,
-    val onItemClicked: (Int, EventModel) -> Unit
-) : ListAdapter<EventModel, EventListingAdapter.EventViewHolder>(DiffUtilCallback()) {
+    val onItemClicked: (Int, Event) -> Unit
+) : ListAdapter<Event, EventListingAdapter.EventViewHolder>(DiffUtilCallback()) {
 
-    var eventList: MutableList<EventModel> = arrayListOf()
+    var eventList: MutableList<Event> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val binding =
@@ -33,14 +33,14 @@ class EventListingAdapter(
     }
 
     // receive event call from handler to update event list
-    fun updateEventList(eventList: MutableList<EventModel>) {
+    fun updateEventList(eventList: MutableList<Event>) {
         this.eventList = eventList
         notifyDataSetChanged()
     }
 
     inner class EventViewHolder(private val binding: EventItemBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(event: EventModel) {
+        fun bind(event: Event) {
 
             val eventDate = event.eventDate
             val format = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.getDefault())
@@ -87,12 +87,12 @@ class EventListingAdapter(
         }
     }
 
-    class DiffUtilCallback : DiffUtil.ItemCallback<EventModel>() {
-        override fun areItemsTheSame(oldItem: EventModel, newItem: EventModel): Boolean {
+    class DiffUtilCallback : DiffUtil.ItemCallback<Event>() {
+        override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: EventModel, newItem: EventModel): Boolean {
+        override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean {
             return oldItem == newItem
         }
     }

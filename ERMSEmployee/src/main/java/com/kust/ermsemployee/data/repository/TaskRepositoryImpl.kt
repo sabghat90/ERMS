@@ -3,10 +3,9 @@ package com.kust.ermsemployee.data.repository
 import android.content.SharedPreferences
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.kust.ermsemployee.data.model.TaskModel
-import com.kust.ermsemployee.utils.FireStoreCollectionConstants
-import com.kust.ermsemployee.utils.TaskStatus
-import com.kust.ermsemployee.utils.UiState
+import com.kust.ermslibrary.models.Task
+import com.kust.ermslibrary.utils.FireStoreCollectionConstants
+import com.kust.ermslibrary.utils.UiState
 
 class TaskRepositoryImpl(
     private val database: FirebaseFirestore,
@@ -14,7 +13,7 @@ class TaskRepositoryImpl(
     private val sharedPreferences: SharedPreferences
 ) : TaskRepository {
     override fun getTasks(
-        result: (UiState<List<TaskModel>>) -> Unit
+        result: (UiState<List<Task>>) -> Unit
     ) {
 
         val uid = auth.currentUser?.uid
@@ -22,9 +21,9 @@ class TaskRepositoryImpl(
         database.collection(FireStoreCollectionConstants.TASKS)
             .whereEqualTo("assigneeId", uid)
             .get().addOnSuccessListener { documents ->
-            val tasks = mutableListOf<TaskModel>()
+            val tasks = mutableListOf<Task>()
             for (document in documents) {
-                val task = document.toObject(TaskModel::class.java)
+                val task = document.toObject(Task::class.java)
                 tasks.add(task)
             }
             result(UiState.Success(tasks))
@@ -34,8 +33,8 @@ class TaskRepositoryImpl(
     }
 
     override suspend fun updateTask(
-        task: TaskModel,
-        result: (UiState<Pair<TaskModel, String>>) -> Unit
+        task: Task,
+        result: (UiState<Pair<Task, String>>) -> Unit
     ) {
         // update the task status field in database and update UiState with result or error message
         database.collection(FireStoreCollectionConstants.TASKS)

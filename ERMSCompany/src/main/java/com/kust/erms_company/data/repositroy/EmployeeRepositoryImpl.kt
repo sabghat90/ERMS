@@ -2,9 +2,9 @@ package com.kust.erms_company.data.repositroy
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.kust.erms_company.data.model.EmployeeModel
-import com.kust.erms_company.utils.FireStoreCollectionConstants
-import com.kust.erms_company.utils.UiState
+import com.kust.ermslibrary.models.Employee
+import com.kust.ermslibrary.utils.FireStoreCollectionConstants
+import com.kust.ermslibrary.utils.UiState
 
 class EmployeeRepositoryImpl(
     auth: FirebaseAuth,
@@ -15,8 +15,8 @@ class EmployeeRepositoryImpl(
 
     override fun addEmployee(
         email: String,
-        employeeModel: EmployeeModel,
-        result: (UiState<Pair<EmployeeModel, String>>) -> Unit
+        employee: Employee,
+        result: (UiState<Pair<Employee, String>>) -> Unit
     ) {
         val dbRef = database.collection(FireStoreCollectionConstants.USERS)
             .whereEqualTo("email", email)
@@ -43,7 +43,7 @@ class EmployeeRepositoryImpl(
                         result.invoke(
                             UiState.Success(
                                 Pair(
-                                    employeeModel,
+                                    employee,
                                     "Employee added successfully"
                                 )
                             )
@@ -59,24 +59,24 @@ class EmployeeRepositoryImpl(
     }
 
     override fun updateEmployee(
-        employeeModel: EmployeeModel,
-        result: (UiState<Pair<EmployeeModel, String>>) -> Unit
+        employee: Employee,
+        result: (UiState<Pair<Employee, String>>) -> Unit
     ) {
         val document =
-            database.collection(FireStoreCollectionConstants.USERS).document(employeeModel.id)
-        document.set(employeeModel).addOnSuccessListener {
-            result.invoke(UiState.Success(Pair(employeeModel, "Employee updated successfully")))
+            database.collection(FireStoreCollectionConstants.USERS).document(employee.id)
+        document.set(employee).addOnSuccessListener {
+            result.invoke(UiState.Success(Pair(employee, "Employee updated successfully")))
         }.addOnFailureListener {
             result(UiState.Error(it.message.toString()))
         }
     }
 
-    override fun removeEmployee(employeeModel: EmployeeModel, result: (UiState<String>) -> Unit) {
+    override fun removeEmployee(employee: Employee, result: (UiState<String>) -> Unit) {
         // remove employee by setting companyId field to null
         val employeeHashMap = hashMapOf<String, Any>()
         employeeHashMap["companyId"] = ""
         val document =
-            database.collection(FireStoreCollectionConstants.USERS).document(employeeModel.id)
+            database.collection(FireStoreCollectionConstants.USERS).document(employee.id)
         document.update(employeeHashMap).addOnSuccessListener {
             result.invoke(UiState.Success("Employee removed successfully"))
         }.addOnFailureListener {
@@ -85,17 +85,17 @@ class EmployeeRepositoryImpl(
     }
 
     override fun getEmployeeList(
-        employeeList: EmployeeModel?,
-        result: (UiState<List<EmployeeModel>>) -> Unit
+        employeeList: Employee?,
+        result: (UiState<List<Employee>>) -> Unit
     ) {
 
         database.collection(FireStoreCollectionConstants.USERS)
             .whereEqualTo("companyId", companyId)
             .get()
             .addOnSuccessListener {
-                val list = arrayListOf<EmployeeModel>()
+                val list = arrayListOf<Employee>()
                 for (document in it) {
-                    val employee = document.toObject(EmployeeModel::class.java)
+                    val employee = document.toObject(Employee::class.java)
                     list.add(employee)
                 }
                 result.invoke(UiState.Success(list))

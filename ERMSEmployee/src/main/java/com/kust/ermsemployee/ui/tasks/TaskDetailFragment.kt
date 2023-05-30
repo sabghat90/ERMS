@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kust.ermsemployee.R
-import com.kust.ermsemployee.data.model.NotificationModel
-import com.kust.ermsemployee.data.model.PushNotification
-import com.kust.ermsemployee.data.model.TaskModel
 import com.kust.ermsemployee.databinding.FragmentTaskDetailBinding
-import com.kust.ermsemployee.services.NotificationService
-import com.kust.ermsemployee.utils.ConvertDateAndTimeFormat
-import com.kust.ermsemployee.utils.TaskStatus
-import com.kust.ermsemployee.utils.UiState
+import com.kust.ermslibrary.models.NotificationData
+import com.kust.ermslibrary.models.PushNotification
+import com.kust.ermslibrary.models.Task
+import com.kust.ermslibrary.services.NotificationService
+import com.kust.ermslibrary.utils.ConvertDateAndTimeFormat
+import com.kust.ermslibrary.utils.TaskStatus
+import com.kust.ermslibrary.utils.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +28,7 @@ class TaskDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     // task object
-    private lateinit var task: TaskModel
+    private lateinit var task: Task
 
     private val taskViewModel: TaskViewModel by viewModels()
     private val notificationService = NotificationService()
@@ -77,7 +77,7 @@ class TaskDetailFragment : Fragment() {
         val title = "Task Update"
         val message = "Task ${task.name} has been updated by ${task.assigneeName}"
         PushNotification(
-            NotificationModel(
+            NotificationData(
                 title,
                 message,
             ),

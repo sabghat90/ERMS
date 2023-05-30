@@ -3,9 +3,8 @@ package com.kust.ermsemployee.ui.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kust.ermsemployee.data.model.EmployeeModel
 import com.kust.ermsemployee.data.repository.AuthRepository
-import com.kust.ermsemployee.utils.UiState
+import com.kust.ermslibrary.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -51,10 +50,10 @@ class AuthViewModel @Inject constructor(
     fun signUp(
         email: String,
         password: String,
-        employeeModel: EmployeeModel
+        employee: Employee
     ) {
         _signUp.value = UiState.Loading
-        repository.signUp(email, password, employeeModel) {
+        repository.signUp(email, password, employee) {
             _signUp.value = it
         }
     }
@@ -73,7 +72,7 @@ class AuthViewModel @Inject constructor(
         _login.value = UiState.Success("Logout Successful")
     }
 
-    fun getSession(result: (EmployeeModel?) -> Unit) {
+    fun getSession(result: (Employee?) -> Unit) {
         repository.getUserSession(result)
     }
 

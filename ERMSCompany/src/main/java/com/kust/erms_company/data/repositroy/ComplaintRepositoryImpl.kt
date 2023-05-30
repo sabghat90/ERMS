@@ -2,10 +2,9 @@ package com.kust.erms_company.data.repositroy
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.kust.erms_company.data.model.ComplaintHistoryModel
-import com.kust.erms_company.data.model.ComplaintModel
-import com.kust.erms_company.utils.FireStoreCollectionConstants
-import com.kust.erms_company.utils.UiState
+import com.kust.ermslibrary.models.Complaint
+import com.kust.ermslibrary.utils.FireStoreCollectionConstants
+import com.kust.ermslibrary.utils.UiState
 import kotlinx.coroutines.tasks.await
 
 class ComplaintRepositoryImpl(
@@ -13,7 +12,7 @@ class ComplaintRepositoryImpl(
     private val auth: FirebaseAuth
 ) : ComplaintRepository {
 
-    override suspend fun getComplaints(result: (UiState<List<ComplaintModel>>) -> Unit) {
+    override suspend fun getComplaints(result: (UiState<List<Complaint>>) -> Unit) {
         // use coroutines to get complaints
         return try {
             // get complaints
@@ -21,7 +20,7 @@ class ComplaintRepositoryImpl(
                 .whereEqualTo("companyId", auth.currentUser?.uid)
                 .get()
                 .await()
-                .toObjects(ComplaintModel::class.java)
+                .toObjects(Complaint::class.java)
             // return success
             result(UiState.Success(complaints))
         } catch (e: Exception) {
@@ -30,17 +29,17 @@ class ComplaintRepositoryImpl(
     }
 
     override suspend fun updateComplaint(
-        complaintModel: ComplaintModel,
+        complaint: Complaint,
         historyModel: ComplaintHistoryModel,
         result: (UiState<String>) -> Unit
     ) {
         database.collection(FireStoreCollectionConstants.COMPLAINTS)
-            .document(complaintModel.id)
-            .set(complaintModel)
+            .document(complaint.id)
+            .set(complaint)
             .await()
 
         val historyRef = database.collection(FireStoreCollectionConstants.COMPLAINTS)
-            .document(complaintModel.id)
+            .document(complaint.id)
             .collection(FireStoreCollectionConstants.COMPLAINT_HISTORY)
             .document()
 
@@ -53,7 +52,7 @@ class ComplaintRepositoryImpl(
     }
 
     override suspend fun deleteComplaint(
-        complaintModel: ComplaintModel,
+        complaint: Complaint,
         result: (UiState<String>) -> Unit
     ) {
         TODO("Not yet implemented")

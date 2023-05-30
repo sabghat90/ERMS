@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kust.ermsemployee.data.model.ComplaintHistoryModel
-import com.kust.ermsemployee.data.model.ComplaintModel
 import com.kust.ermsemployee.databinding.FragmentComplaintDetailBinding
-import com.kust.ermsemployee.utils.ComplaintStatus
-import com.kust.ermsemployee.utils.UiState
-import com.kust.ermsemployee.utils.toast
+import com.kust.ermslibrary.models.Complaint
+import com.kust.ermslibrary.models.ComplaintHistory
+import com.kust.ermslibrary.utils.ComplaintStatus
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -23,7 +23,7 @@ class ComplaintDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val complaintViewModel: ComplaintViewModel by viewModels()
-    private lateinit var complaint: ComplaintModel
+    private lateinit var complaint: Complaint
     private val historyAdapter by lazy { ComplaintHistoryAdapter() }
 
     override fun onCreateView(
@@ -59,7 +59,7 @@ class ComplaintDetailFragment : Fragment() {
 
                 is UiState.Success -> {
                     toast(it.data.toString())
-                    historyAdapter.historyList = it.data as ArrayList<ComplaintHistoryModel>
+                    historyAdapter.historyList = it.data as ArrayList<ComplaintHistory>
                     historyAdapter.submitList(it.data)
                 }
 

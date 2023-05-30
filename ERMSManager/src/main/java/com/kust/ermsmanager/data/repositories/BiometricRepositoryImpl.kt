@@ -1,7 +1,7 @@
 package com.kust.ermsmanager.data.repositories
 
 import android.content.SharedPreferences
-import com.kust.ermsmanager.utils.SharedPreferencesConstants
+import com.kust.ermslibrary.utils.SharedPreferencesConstants
 import com.kust.ermsmanager.utils.UiState
 
 class BiometricRepositoryImpl(

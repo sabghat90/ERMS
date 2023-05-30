@@ -3,7 +3,6 @@ package com.kust.ermsmanager.ui.event
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +14,9 @@ import com.kust.ermsmanager.R
 import com.kust.ermsmanager.data.models.EventModel
 import com.kust.ermsmanager.databinding.FragmentEventListingBinding
 import com.kust.ermsmanager.utils.UiState
-import com.kust.ermsmanager.utils.hide
-import com.kust.ermsmanager.utils.show
-import com.kust.ermsmanager.utils.toast
+import com.kust.ermslibrary.utils.hide
+import com.kust.ermslibrary.utils.show
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

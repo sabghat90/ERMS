@@ -6,16 +6,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.kust.ermsemployee.R
-import com.kust.ermsemployee.data.model.EmployeeModel
 import com.kust.ermsemployee.databinding.EmployeeRankItemBinding
+import com.kust.ermslibrary.models.Employee
 
 class EmployeeRankingAdapter(
-    val onItemClicked: (Int, EmployeeModel) -> Unit
+    val onItemClicked: (Int, Employee) -> Unit
 ) :
-    ListAdapter<EmployeeModel, EmployeeRankingAdapter.EmployeeViewHolder>(DiffUtilCallback()) {
+    ListAdapter<Employee, EmployeeRankingAdapter.EmployeeViewHolder>(DiffUtilCallback()) {
 
     // list of employees where i can index to first 3 employees
-    var employeeList = mutableListOf<EmployeeModel>()
+    var employeeList = mutableListOf<Employee>()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmployeeViewHolder {
@@ -30,7 +30,7 @@ class EmployeeRankingAdapter(
     }
 
     // notifies the adapter that the data set has changed
-    fun updateList(employeeList: MutableList<EmployeeModel>) {
+    fun updateList(employeeList: MutableList<Employee>) {
         this.employeeList = employeeList
         notifyDataSetChanged()
     }
@@ -51,7 +51,7 @@ class EmployeeRankingAdapter(
 
     inner class EmployeeViewHolder(private val binding: EmployeeRankItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(employee: EmployeeModel) {
+        fun bind(employee: Employee) {
 
             binding.tvEmployeeName.text = employee.name
             binding.tvRole.text = employee.role
@@ -75,12 +75,12 @@ class EmployeeRankingAdapter(
         }
     }
 
-    class DiffUtilCallback : DiffUtil.ItemCallback<EmployeeModel>() {
-        override fun areItemsTheSame(oldItem: EmployeeModel, newItem: EmployeeModel): Boolean {
+    class DiffUtilCallback : DiffUtil.ItemCallback<Employee>() {
+        override fun areItemsTheSame(oldItem: Employee, newItem: Employee): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: EmployeeModel, newItem: EmployeeModel): Boolean {
+        override fun areContentsTheSame(oldItem: Employee, newItem: Employee): Boolean {
             return oldItem == newItem
         }
     }

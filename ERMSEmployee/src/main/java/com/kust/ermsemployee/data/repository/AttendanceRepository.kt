@@ -1,13 +1,9 @@
 package com.kust.ermsemployee.data.repository
 
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.kust.ermsemployee.data.model.AttendanceModel
-import com.kust.ermsemployee.utils.UiState
-import java.util.Objects
+import com.kust.ermslibrary.models.Attendance
+import com.kust.ermslibrary.utils.UiState
 
 interface AttendanceRepository {
-    fun getAttendance(attendanceModel: AttendanceModel, result: (UiState<List<AttendanceModel>>) -> Unit)
-    fun getAttendanceForToday(result: (UiState<List<AttendanceModel>>) -> Unit)
+    fun getAttendance(attendance: Attendance, result: (UiState<List<Attendance>>) -> Unit)
+    fun getAttendanceForToday(result: (UiState<List<Attendance>>) -> Unit)
 }

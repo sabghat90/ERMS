@@ -11,8 +11,8 @@ import androidx.navigation.fragment.findNavController
 import com.kust.ermsemployee.R
 import com.kust.ermsemployee.databinding.FragmentLoginBinding
 import com.kust.ermsemployee.ui.dashboard.DashboardActivity
-import com.kust.ermsemployee.utils.UiState
-import com.kust.ermsemployee.utils.toast
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

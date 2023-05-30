@@ -4,10 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kust.erms_company.data.model.ComplaintHistoryModel
-import com.kust.erms_company.data.model.ComplaintModel
 import com.kust.erms_company.data.repositroy.ComplaintRepository
-import com.kust.erms_company.utils.UiState
+import com.kust.ermslibrary.models.Complaint
+import com.kust.ermslibrary.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,8 +16,8 @@ class ComplaintViewModel @Inject constructor(
     private val complaintRepository: ComplaintRepository
 ) : ViewModel() {
 
-    private val _getComplaints = MutableLiveData<UiState<List<ComplaintModel>>>()
-    val getComplaints : LiveData<UiState<List<ComplaintModel>>>
+    private val _getComplaints = MutableLiveData<UiState<List<Complaint>>>()
+    val getComplaints : LiveData<UiState<List<Complaint>>>
         get() = _getComplaints
 
     private val _updateComplaint = MutableLiveData<UiState<String>>()
@@ -42,19 +41,19 @@ class ComplaintViewModel @Inject constructor(
         }
     }
 
-    suspend fun updateComplaint(complaintModel: ComplaintModel, updateComplaintHistory: ComplaintHistoryModel) {
+    suspend fun updateComplaint(complaint: Complaint, updateComplaintHistory: ComplaintHistoryModel) {
         _updateComplaint.value = UiState.Loading
         viewModelScope.launch {
-            complaintRepository.updateComplaint(complaintModel, updateComplaintHistory) {
+            complaintRepository.updateComplaint(complaint, updateComplaintHistory) {
                 _updateComplaint.value = it
             }
         }
     }
 
-    suspend fun deleteComplaint(complaintModel: ComplaintModel) {
+    suspend fun deleteComplaint(complaint: Complaint) {
         _deleteComplaint.value = UiState.Loading
         viewModelScope.launch {
-            complaintRepository.deleteComplaint(complaintModel) {
+            complaintRepository.deleteComplaint(complaint) {
                 _deleteComplaint.value = it
             }
         }

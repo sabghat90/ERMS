@@ -18,8 +18,9 @@ import com.kust.erms_company.R
 import com.kust.erms_company.data.repositroy.BiometricRepository
 import com.kust.erms_company.data.repositroy.BiometricRepositoryImpl
 import com.kust.erms_company.databinding.FragmentSettingBinding
-import com.kust.erms_company.utils.SharedPreferencesConstants
-import com.kust.erms_company.utils.toast
+import com.kust.ermslibrary.utils.SharedPreferencesConstants
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -89,7 +90,7 @@ class SettingFragment : Fragment() {
 
     private fun updateUi() {
         val biometricState = biometricRepository.getBiometricState()
-        if (biometricState is com.kust.erms_company.utils.UiState.Success) {
+        if (biometricState is UiState.Success) {
             binding.biometricSwitch.isChecked = biometricState.data
         }
     }

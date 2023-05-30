@@ -9,17 +9,15 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
-import com.kust.ermsemployee.data.model.EmployeeModel
-import com.kust.ermsemployee.utils.FireStoreCollectionConstants
-import com.kust.ermsemployee.utils.Role
-import com.kust.ermsemployee.utils.SharedPreferencesConstants
-import com.kust.ermsemployee.utils.UiState
+import com.kust.ermslibrary.models.Employee
+import com.kust.ermslibrary.utils.FireStoreCollectionConstants
+import com.kust.ermslibrary.utils.Role
+import com.kust.ermslibrary.utils.SharedPreferencesConstants
+import com.kust.ermslibrary.utils.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 class EmployeeRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
@@ -29,13 +27,13 @@ class EmployeeRepositoryImpl @Inject constructor(
     private val gson: Gson
 ) : EmployeeRepository {
     override fun getEmployeeList(
-        employeeModel: EmployeeModel?,
-        result: (UiState<List<EmployeeModel>>) -> Unit
+        employee: Employee?,
+        result: (UiState<List<Employee>>) -> Unit
     ) {
         // get company id from shared preference
         val employeeJson =
             sharedPreferences.getString(SharedPreferencesConstants.USER_SESSION, null)
-        val employeeObj = gson.fromJson(employeeJson, EmployeeModel::class.java)
+        val employeeObj = gson.fromJson(employeeJson, Employee::class.java)
         val companyId = employeeObj.companyId
 
 
@@ -44,9 +42,9 @@ class EmployeeRepositoryImpl @Inject constructor(
             .whereEqualTo("companyId", companyId)
         docRef.get()
             .addOnSuccessListener { documents ->
-                val list = mutableListOf<EmployeeModel>()
+                val list = mutableListOf<Employee>()
                 for (document in documents) {
-                    val employee = document.toObject(EmployeeModel::class.java)
+                    val employee = document.toObject(Employee::class.java)
                     list.add(employee)
                 }
                 result.invoke(UiState.Success(list))
@@ -57,21 +55,21 @@ class EmployeeRepositoryImpl @Inject constructor(
     }
 
     override fun updateEmployee(
-        employeeModel: EmployeeModel?,
-        result: (UiState<Pair<EmployeeModel, String>>) -> Unit
+        employee: Employee?,
+        result: (UiState<Pair<Employee, String>>) -> Unit
     ) {
         val docRef = database.collection(FireStoreCollectionConstants.USERS)
             .document(auth.currentUser?.uid.toString())
         // update existing employee data
         val newEmployeeObj = hashMapOf(
-            "name" to employeeModel?.name,
-            "phone" to employeeModel?.phone,
-            "gender" to employeeModel?.gender,
-            "dob" to employeeModel?.dob,
-            "city" to employeeModel?.city,
-            "state" to employeeModel?.state,
-            "country" to employeeModel?.country,
-            "profilePicture" to employeeModel?.profilePicture
+            "name" to employee?.name,
+            "phone" to employee?.phone,
+            "gender" to employee?.gender,
+            "dob" to employee?.dob,
+            "city" to employee?.city,
+            "state" to employee?.state,
+            "country" to employee?.country,
+            "profilePicture" to employee?.profilePicture
         )
 
         docRef.update(newEmployeeObj as Map<String, Any>)
@@ -79,7 +77,7 @@ class EmployeeRepositoryImpl @Inject constructor(
                 result.invoke(
                     UiState.Success(
                         Pair(
-                            employeeModel!!,
+                            employee!!,
                             "Employee updated successfully"
                         )
                     )
@@ -109,7 +107,7 @@ class EmployeeRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getEmployeeRank(result: (UiState<List<EmployeeModel>>) -> Unit) {
+    override suspend fun getEmployeeRank(result: (UiState<List<Employee>>) -> Unit) {
         // use await to get the result of the query
 
         val querySnapshot = database.collection(FireStoreCollectionConstants.USERS)
@@ -118,9 +116,9 @@ class EmployeeRepositoryImpl @Inject constructor(
             .get()
             .await()
 
-        val list = mutableListOf<EmployeeModel>()
+        val list = mutableListOf<Employee>()
         for (document in querySnapshot) {
-            val employee = document.toObject(EmployeeModel::class.java)
+            val employee = document.toObject(Employee::class.java)
             list.add(employee)
         }
         Log.d("TAG", "getEmployeeRank: $list")

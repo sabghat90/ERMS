@@ -11,7 +11,7 @@ import com.kust.ermsemployee.R
 
 class NetworkChangeListener : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        if (!(CheckInternetConnection().isConnectedToInternet(context!!))) {
+        if (!CheckInternetConnection().isConnectedToInternet(context!!)) {
             val builder = AlertDialog.Builder(context)
             val dialog = LayoutInflater.from(context).inflate(R.layout.check_internet_dialog, null)
             builder.setView(dialog)

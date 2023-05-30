@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import com.kust.ermsemployee.R
 import com.kust.ermsemployee.databinding.FragmentChangePasswordBinding
 import com.kust.ermsemployee.ui.auth.AuthViewModel
-import com.kust.ermsemployee.utils.UiState
-import com.kust.ermsemployee.utils.toast
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

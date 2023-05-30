@@ -8,12 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kust.erms_company.data.model.ComplaintHistoryModel
-import com.kust.erms_company.data.model.ComplaintModel
 import com.kust.erms_company.databinding.FragmentComplaintDetailBinding
-import com.kust.erms_company.utils.ComplaintStatus
-import com.kust.erms_company.utils.UiState
-import com.kust.erms_company.utils.toast
+import com.kust.ermslibrary.models.Complaint
+import com.kust.ermslibrary.utils.ComplaintStatus
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -23,7 +22,7 @@ class ComplaintDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val complaintViewModel: ComplaintViewModel by viewModels()
-    private lateinit var complaint : ComplaintModel
+    private lateinit var complaint : Complaint
 
     private val historyAdapter by lazy { ComplaintHistoryAdapter() }
 

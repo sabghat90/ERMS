@@ -2,20 +2,20 @@ package com.kust.erms_company.ui.complaints
 
 import android.app.Dialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.erms_company.R
-import com.kust.erms_company.data.model.ComplaintModel
 import com.kust.erms_company.databinding.FragmentComplaintListingBinding
-import com.kust.erms_company.utils.UiState
-import com.kust.erms_company.utils.toast
+import com.kust.ermslibrary.models.Complaint
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -73,7 +73,7 @@ class ComplaintListingFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     progressDialog.hide()
-                    adapter.complaintList = it.data as MutableList<ComplaintModel>
+                    adapter.complaintList = it.data as MutableList<Complaint>
                     adapter.submitList(it.data)
                 }
                 is UiState.Error -> {

@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kust.ermsemployee.data.model.EmployeeModel
 import com.kust.ermsemployee.data.repository.EmployeeRepository
-import com.kust.ermsemployee.utils.UiState
+import com.kust.ermslibrary.models.Employee
+import com.kust.ermslibrary.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,36 +17,32 @@ class EmployeeViewModel @Inject constructor(
     private val employeeRepository: EmployeeRepository
 ) : ViewModel() {
 
-    private val _getEmployeeList = MutableLiveData<UiState<List<EmployeeModel>>>()
-    val getEmployeeList: LiveData<UiState<List<EmployeeModel>>>
+    private val _getEmployeeList = MutableLiveData<UiState<List<Employee>>>()
+    val getEmployeeList: LiveData<UiState<List<Employee>>>
         get() = _getEmployeeList
 
-    private val _updateEmployee = MutableLiveData<UiState<Pair<EmployeeModel, String>>>()
-    val updateEmployee: LiveData<UiState<Pair<EmployeeModel, String>>>
+    private val _updateEmployee = MutableLiveData<UiState<Pair<Employee, String>>>()
+    val updateEmployee: LiveData<UiState<Pair<Employee, String>>>
         get() = _updateEmployee
 
-    private val _addPoints = MutableLiveData<UiState<String>>()
-    val addPoints: LiveData<UiState<String>>
-        get() = _addPoints
-
-    private val _getEmployeeRank = MutableLiveData<UiState<List<EmployeeModel>>>()
-    val getEmployeeRank: LiveData<UiState<List<EmployeeModel>>>
+    private val _getEmployeeRank = MutableLiveData<UiState<List<Employee>>>()
+    val getEmployeeRank: LiveData<UiState<List<Employee>>>
         get() = _getEmployeeRank
 
     init {
-        getEmployeeList(EmployeeModel())
+        getEmployeeList(Employee())
     }
 
-    private fun getEmployeeList(employeeModel: EmployeeModel) {
+    private fun getEmployeeList(employee: Employee) {
         _getEmployeeList.value = UiState.Loading
-        employeeRepository.getEmployeeList(employeeModel) {
+        employeeRepository.getEmployeeList(employee) {
             _getEmployeeList.value = it
         }
     }
 
-    fun updateEmployee(employeeModel: EmployeeModel) {
+    fun updateEmployee(employee: Employee) {
         _updateEmployee.value = UiState.Loading
-        employeeRepository.updateEmployee(employeeModel) {
+        employeeRepository.updateEmployee(employee) {
             _updateEmployee.value = it
         }
     }
@@ -55,13 +51,6 @@ class EmployeeViewModel @Inject constructor(
         result.invoke(UiState.Loading)
         viewModelScope.launch {
             employeeRepository.uploadImage(fileUris, result)
-        }
-    }
-
-    fun addPoints(id: String) {
-        _addPoints.value = UiState.Loading
-        viewModelScope.launch {
-            _addPoints.value = employeeRepository.addPoints(id)
         }
     }
 

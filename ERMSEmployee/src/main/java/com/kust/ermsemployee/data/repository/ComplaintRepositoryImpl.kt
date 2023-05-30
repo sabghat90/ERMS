@@ -2,10 +2,10 @@ package com.kust.ermsemployee.data.repository
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.kust.ermsemployee.data.model.ComplaintHistoryModel
-import com.kust.ermsemployee.data.model.ComplaintModel
-import com.kust.ermsemployee.utils.FireStoreCollectionConstants
-import com.kust.ermsemployee.utils.UiState
+import com.kust.ermslibrary.models.Complaint
+import com.kust.ermslibrary.models.ComplaintHistory
+import com.kust.ermslibrary.utils.FireStoreCollectionConstants
+import com.kust.ermslibrary.utils.UiState
 import kotlinx.coroutines.tasks.await
 
 class ComplaintRepositoryImpl(
@@ -13,8 +13,8 @@ class ComplaintRepositoryImpl(
     private val auth: FirebaseAuth
 ) : ComplaintRepository {
     override suspend fun createComplaint(
-        complaintModel: ComplaintModel,
-        complaintHistoryModel: ComplaintHistoryModel,
+        complaint: Complaint,
+        complaintHistory: ComplaintHistory,
         result: (UiState<String>) -> Unit
     ) {
         // use coroutines to create complaint
@@ -23,8 +23,8 @@ class ComplaintRepositoryImpl(
             val docRef = database.collection(FireStoreCollectionConstants.COMPLAINTS)
                 .document()
             val complaintId = docRef.id
-            complaintModel.id = complaintId
-            docRef.set(complaintModel).await()
+            complaint.id = complaintId
+            docRef.set(complaint).await()
 
             val historyRef = database
                 .collection(FireStoreCollectionConstants.COMPLAINTS)
@@ -32,8 +32,8 @@ class ComplaintRepositoryImpl(
                 .collection(FireStoreCollectionConstants.COMPLAINT_HISTORY)
                 .document()
             val historyId = historyRef.id
-            complaintHistoryModel.id = historyId
-            historyRef.set(complaintHistoryModel).await()
+            complaintHistory.id = historyId
+            historyRef.set(complaintHistory).await()
 
             // return success
             result(UiState.Success("Complaint created successfully"))
@@ -42,7 +42,7 @@ class ComplaintRepositoryImpl(
         }
     }
 
-    override suspend fun getComplaints(result: (UiState<List<ComplaintModel>>) -> Unit) {
+    override suspend fun getComplaints(result: (UiState<List<Complaint>>) -> Unit) {
         // use coroutines to get complaints
         return try {
             // get complaints
@@ -50,7 +50,7 @@ class ComplaintRepositoryImpl(
                 .whereEqualTo("employeeId", auth.currentUser?.uid)
                 .get()
                 .await()
-                .toObjects(ComplaintModel::class.java)
+                .toObjects(Complaint::class.java)
             // return success
             result(UiState.Success(complaints))
         } catch (e: Exception) {
@@ -59,14 +59,14 @@ class ComplaintRepositoryImpl(
     }
 
     override suspend fun updateComplaint(
-        complaintModel: ComplaintModel,
-        result: (UiState<Pair<ComplaintModel,String>>) -> Unit
+        complaint: Complaint,
+        result: (UiState<Pair<Complaint,String>>) -> Unit
     ) {
         TODO("Not yet implemented")
     }
 
     override suspend fun deleteComplaint(
-        complaintModel: ComplaintModel,
+        complaint: Complaint,
         result: (UiState<String>) -> Unit
     ) {
         TODO("Not yet implemented")
@@ -74,7 +74,7 @@ class ComplaintRepositoryImpl(
 
     override suspend fun getComplaintHistory(
         id: String,
-        result: (UiState<List<ComplaintHistoryModel>>) -> Unit
+        result: (UiState<List<ComplaintHistory>>) -> Unit
     ) {
         return try {
             val historyList = database.collection(FireStoreCollectionConstants.COMPLAINTS)
@@ -82,7 +82,7 @@ class ComplaintRepositoryImpl(
                 .collection(FireStoreCollectionConstants.COMPLAINT_HISTORY)
                 .get()
                 .await()
-                .toObjects(ComplaintHistoryModel::class.java)
+                .toObjects(ComplaintHistory::class.java)
             result(UiState.Success(historyList))
         } catch (e: Exception) {
             result(UiState.Error("Error to load history"))

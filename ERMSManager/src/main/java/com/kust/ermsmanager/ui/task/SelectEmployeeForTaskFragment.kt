@@ -13,7 +13,7 @@ import com.kust.ermsmanager.databinding.FragmentSelectEmployeeForTaskBinding
 import com.kust.ermsmanager.ui.employee.EmployeeListingAdapter
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import com.kust.ermsmanager.utils.UiState
-import com.kust.ermsmanager.utils.toast
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.firebase.Timestamp
 import com.kust.ermsemployee.R
-import com.kust.ermsemployee.data.model.EventModel
 import com.kust.ermsemployee.databinding.FragmentEventDetailBinding
-import com.kust.ermsemployee.utils.ConvertDateAndTimeFormat
+import com.kust.ermslibrary.models.Event
+import com.kust.ermslibrary.utils.ConvertDateAndTimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -22,7 +22,7 @@ class EventDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     // event object
-    private lateinit var event: EventModel
+    private lateinit var event: Event
 
     private val eventViewModel: EventViewModel by viewModels()
 

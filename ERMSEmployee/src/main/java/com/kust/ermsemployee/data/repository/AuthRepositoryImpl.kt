@@ -2,15 +2,18 @@ package com.kust.ermsemployee.data.repository
 
 import android.content.SharedPreferences
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
-import com.kust.ermsemployee.data.model.EmployeeModel
-import com.kust.ermsemployee.utils.FireStoreCollectionConstants
-import com.kust.ermsemployee.utils.Role
-import com.kust.ermsemployee.utils.SharedPreferencesConstants
-import com.kust.ermsemployee.utils.UiState
+import com.kust.ermslibrary.utils.FireStoreCollectionConstants
+import com.kust.ermslibrary.utils.Role
+import com.kust.ermslibrary.utils.SharedPreferencesConstants
+import com.kust.ermslibrary.utils.UiState
 
 class AuthRepositoryImpl(
     private val auth: FirebaseAuth,
@@ -94,15 +97,15 @@ class AuthRepositoryImpl(
     override fun signUp(
         email: String,
         password: String,
-        employeeModel: EmployeeModel,
+        employee: Employee,
         result: (UiState<String>) -> Unit
     ) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    employeeModel.id = task.result.user?.uid ?: ""
-                    employeeModel.role = Role.EMPLOYEE
-                    updateEmployeeInfo(employeeModel) { uiState ->
+                    employee.id = task.result.user?.uid ?: ""
+                    employee.role = Role.EMPLOYEE
+                    updateEmployeeInfo(employee) { uiState ->
                         when (uiState) {
                             is UiState.Error -> {
                                 result.invoke(UiState.Error(uiState.error))
@@ -134,13 +137,13 @@ class AuthRepositoryImpl(
     }
 
     override fun updateEmployeeInfo(
-        employeeModel: EmployeeModel,
+        employee: Employee,
         result: (UiState<String>) -> Unit
     ) {
         val dbRef =
-            database.collection(FireStoreCollectionConstants.USERS).document(employeeModel.id)
+            database.collection(FireStoreCollectionConstants.USERS).document(employee.id)
 
-        dbRef.set(employeeModel)
+        dbRef.set(employee)
             .addOnSuccessListener {
                 result.invoke(UiState.Success("Employee Updated"))
             }
@@ -155,7 +158,7 @@ class AuthRepositoryImpl(
             val document = task.result
             if (document != null) {
                 val role = document.getString("role")
-                return@continueWith (role == Role.EMPLOYEE)
+                return@continueWith role == Role.EMPLOYEE
             } else {
                 return@continueWith false
             }
@@ -195,11 +198,11 @@ class AuthRepositoryImpl(
         return user != null
     }
 
-    override fun storeUserSession(email: String, result: (EmployeeModel?) -> Unit) {
+    override fun storeUserSession(email: String, result: (Employee?) -> Unit) {
         val docRef = database.collection(FireStoreCollectionConstants.USERS).document(email)
         docRef.get().addOnSuccessListener { document ->
             if (document != null) {
-                val employee = document.toObject(EmployeeModel::class.java)
+                val employee = document.toObject(Employee::class.java)
                 val editor = sharedPreferences.edit()
                 editor.putString(SharedPreferencesConstants.USER_SESSION, gson.toJson(employee))
                 editor.apply()
@@ -212,10 +215,10 @@ class AuthRepositoryImpl(
         }
     }
 
-    override fun getUserSession(result: (EmployeeModel?) -> Unit) {
+    override fun getUserSession(result: (Employee?) -> Unit) {
         val user = sharedPreferences.getString(SharedPreferencesConstants.USER_SESSION, null)
         if (user != null) {
-            val employee = gson.fromJson(user, EmployeeModel::class.java)
+            val employee = gson.fromJson(user, Employee::class.java)
             result(employee)
         } else {
             result.invoke(null)

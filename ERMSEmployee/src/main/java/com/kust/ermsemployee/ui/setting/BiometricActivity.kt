@@ -11,8 +11,8 @@ import com.kust.ermsemployee.data.repository.BiometricRepositoryImpl
 import com.kust.ermsemployee.databinding.ActivityBiometricBinding
 import com.kust.ermsemployee.ui.dashboard.DashboardActivity
 import com.kust.ermsemployee.utils.BiometricAuthentication
-import com.kust.ermsemployee.utils.SharedPreferencesConstants
-import com.kust.ermsemployee.utils.UiState
+import com.kust.ermslibrary.utils.SharedPreferencesConstants
+import com.kust.ermslibrary.utils.UiState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

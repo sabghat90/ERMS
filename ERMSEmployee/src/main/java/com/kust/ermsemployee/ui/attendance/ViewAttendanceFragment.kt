@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.ermsemployee.R
-import com.kust.ermsemployee.data.model.AttendanceModel
 import com.kust.ermsemployee.databinding.FragmentViewAttendaceBinding
-import com.kust.ermsemployee.utils.UiState
-import com.kust.ermsemployee.utils.toast
+import com.kust.ermslibrary.models.Attendance
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -25,7 +25,7 @@ class ViewAttendanceFragment : Fragment() {
 
     private val attendanceViewModel: AttendanceViewModel by viewModels()
     private val adapter = AttendanceListingAdapter()
-    private var attendanceList: ArrayList<AttendanceModel> = ArrayList()
+    private var attendanceList: ArrayList<Attendance> = ArrayList()
     private lateinit var progressDialog: Dialog
 
     override fun onCreateView(
@@ -76,7 +76,7 @@ class ViewAttendanceFragment : Fragment() {
                 is UiState.Success -> {
                     progressDialog.dismiss()
                     toast("Success ${it.data}")
-                    adapter.attendanceList = it.data as ArrayList<AttendanceModel>
+                    adapter.attendanceList = it.data as ArrayList<Attendance>
                     adapter.submitList(it.data)
                 }
                 is UiState.Error -> {
@@ -92,7 +92,7 @@ class ViewAttendanceFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     progressDialog.dismiss()
-                    attendanceList = it.data as ArrayList<AttendanceModel>
+                    attendanceList = it.data as ArrayList<Attendance>
                     setForToday()
                 }
                 is UiState.Error -> {
