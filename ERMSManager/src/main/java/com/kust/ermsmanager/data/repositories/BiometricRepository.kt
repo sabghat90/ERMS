@@ -1,6 +1,6 @@
 package com.kust.ermsmanager.data.repositories
 
-import com.kust.ermsmanager.utils.UiState
+import com.kust.ermslibrary.utils.UiState
 
 interface BiometricRepository {
     // enable or disable biometric state in the shared preferences

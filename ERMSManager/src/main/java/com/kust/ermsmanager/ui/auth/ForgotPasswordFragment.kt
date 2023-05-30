@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.kust.ermslibrary.utils.UiState
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.databinding.FragmentForgotPasswordBinding
-import com.kust.ermsmanager.utils.UiState
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 

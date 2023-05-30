@@ -1,8 +1,6 @@
 package com.kust.ermslibrary.utils
 
 object FireStoreCollectionConstants {
-    const val COMPANY = "company"
-    const val EMPLOYEE = "employee"
     const val USERS = "users"
     const val TASKS = "tasks"
     const val EVENTS = "events"
@@ -20,9 +18,9 @@ object FirebaseRealtimeDatabaseConstants {
 }
 
 object Role {
-    const val COMPANY = "company"
-    const val EMPLOYEE = "employee"
-    const val MANAGER = "manager"
+    const val COMPANY = "Company"
+    const val EMPLOYEE = "Employee"
+    const val MANAGER = "Manager"
 }
 
 object TaskStatus {
@@ -52,5 +50,4 @@ object SharedPreferencesConstants {
 object ServerConstants {
     const val BASE_URL = "https://fcm.googleapis.com"
     const val CONTENT_TYPE = "application/json"
-    const val TOPIC = "/topics/myTopic"
 }

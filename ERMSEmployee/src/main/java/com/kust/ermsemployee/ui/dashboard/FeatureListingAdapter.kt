@@ -3,12 +3,12 @@ package com.kust.ermsemployee.ui.dashboard
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.kust.ermsemployee.data.model.FeatureModel
 import com.kust.ermsemployee.databinding.FeatureItemBinding
+import com.kust.ermslibrary.models.Feature
 
 class FeatureListingAdapter : RecyclerView.Adapter<FeatureListingAdapter.FeatureListingViewHolder>() {
 
-    var features : MutableList<FeatureModel> = arrayListOf()
+    var features : MutableList<Feature> = arrayListOf()
 
     private lateinit var listener : OnItemClickListener
 
@@ -36,7 +36,7 @@ class FeatureListingAdapter : RecyclerView.Adapter<FeatureListingAdapter.Feature
     }
 
     inner class FeatureListingViewHolder(private val binding: FeatureItemBinding, listener : OnItemClickListener) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(feature: FeatureModel) {
+        fun bind(feature: Feature) {
             binding.featureImage.setImageResource(feature.image)
             binding.featureName.text = feature.title
         }

@@ -8,14 +8,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.kust.ermslibrary.models.Attendance
+import com.kust.ermslibrary.models.Employee
+import com.kust.ermslibrary.models.NotificationData
+import com.kust.ermslibrary.models.PushNotification
+import com.kust.ermslibrary.services.NotificationService
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.hideKeyboard
 import com.kust.ermsmanager.R
-import com.kust.ermsmanager.data.models.AttendanceModel
-import com.kust.ermsmanager.data.models.EmployeeModel
-import com.kust.ermsmanager.data.models.NotificationModel
-import com.kust.ermsmanager.data.models.PushNotification
-import com.kust.ermsmanager.services.NotificationService
 import com.kust.ermsmanager.databinding.FragmentAttendanceSheetBinding
-import com.kust.ermsmanager.utils.UiState
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -29,7 +30,7 @@ class AttendanceSheetFragment : Fragment() {
     private var _binding: FragmentAttendanceSheetBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var employeeObj: EmployeeModel
+    private lateinit var employeeObj: Employee
     private val attendanceViewModel: AttendanceViewModel by viewModels()
 
     // notification service instance
@@ -53,10 +54,12 @@ class AttendanceSheetFragment : Fragment() {
         observer()
 
         binding.btnSubmitAttendance.setOnClickListener {
+            hideKeyboard()
             attendanceViewModel.markAttendance(getAttendanceObj())
         }
 
         binding.datePickerLayout.setOnClickListener {
+            hideKeyboard()
             selectDateFromDatePicker()
         }
     }
@@ -130,7 +133,7 @@ class AttendanceSheetFragment : Fragment() {
         }
     }
 
-    private fun getAttendanceObj(): AttendanceModel {
+    private fun getAttendanceObj(): Attendance {
         val time = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(Date())
         val year = SimpleDateFormat("yyyy", Locale.getDefault()).format(Date())
         val month = SimpleDateFormat("MMM", Locale.getDefault()).format(Date())
@@ -151,7 +154,7 @@ class AttendanceSheetFragment : Fragment() {
             }
         }
 
-        return AttendanceModel(
+        return Attendance(
             employeeId = employeeObj.id,
             employeeName = employeeObj.name,
             date = binding.tvDate.text.toString(),
@@ -169,27 +172,27 @@ class AttendanceSheetFragment : Fragment() {
         with(binding) {
             when {
                 rbtnPresent.isChecked -> {
-                    return AttendanceModel.STATUS_PRESENT
+                    return Attendance.STATUS_PRESENT
                 }
 
                 rbtnAbsent.isChecked -> {
-                    return AttendanceModel.STATUS_ABSENT
+                    return Attendance.STATUS_ABSENT
                 }
 
                 rbtnLeave.isChecked -> {
-                    return AttendanceModel.STATUS_LEAVE
+                    return Attendance.STATUS_LEAVE
                 }
 
                 rbtnHoliday.isChecked -> {
-                    return AttendanceModel.STATUS_HOLIDAY
+                    return Attendance.STATUS_HOLIDAY
                 }
 
                 rbtnHalfDay.isChecked -> {
-                    return AttendanceModel.STATUS_HALF_DAY
+                    return Attendance.STATUS_HALF_DAY
                 }
 
                 rbtnOvertime.isChecked -> {
-                    return AttendanceModel.STATUS_OVERTIME
+                    return Attendance.STATUS_OVERTIME
                 }
 
                 else -> {
@@ -201,7 +204,7 @@ class AttendanceSheetFragment : Fragment() {
 
     private fun sendNotification() {
         PushNotification(
-            NotificationModel(
+            NotificationData(
                 title = "Attendance Marked",
                 body = "Your attendance has been marked for ${binding.tvDate.text}"
             ),

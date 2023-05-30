@@ -3,9 +3,9 @@ package com.kust.ermsmanager.ui.attendance
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kust.ermsmanager.data.models.AttendanceModel
+import com.kust.ermslibrary.models.Attendance
+import com.kust.ermslibrary.utils.UiState
 import com.kust.ermsmanager.data.repositories.AttendanceRepository
-import com.kust.ermsmanager.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -18,17 +18,17 @@ class AttendanceViewModel @Inject constructor(
     val markAttendance: LiveData<UiState<String>>
         get() = _markAttendance
 
-    private val _getAttendanceForOneEmployee = MutableLiveData<UiState<List<AttendanceModel>>>()
-    val getAttendanceForOneEmployee: LiveData<UiState<List<AttendanceModel>>>
+    private val _getAttendanceForOneEmployee = MutableLiveData<UiState<List<Attendance>>>()
+    val getAttendanceForOneEmployee: LiveData<UiState<List<Attendance>>>
         get() = _getAttendanceForOneEmployee
 
-    private val _getAttendance = MutableLiveData<UiState<List<AttendanceModel>>>()
-    val getAttendance: LiveData<UiState<List<AttendanceModel>>>
+    private val _getAttendance = MutableLiveData<UiState<List<Attendance>>>()
+    val getAttendance: LiveData<UiState<List<Attendance>>>
         get() = _getAttendance
 
-    fun markAttendance(attendanceModel: AttendanceModel) {
+    fun markAttendance(attendance: Attendance) {
         _markAttendance.value = UiState.Loading
-        attendanceRepository.markAttendance(attendanceModel) {
+        attendanceRepository.markAttendance(attendance) {
             _markAttendance.value = it
         }
     }
@@ -40,7 +40,7 @@ class AttendanceViewModel @Inject constructor(
         }
     }
 
-    fun getAttendance(attendanceModel: AttendanceModel) {
+    fun getAttendance(attendance: Attendance) {
         _getAttendance.value = UiState.Loading
         attendanceRepository.getAttendance() {
             _getAttendance.value = it

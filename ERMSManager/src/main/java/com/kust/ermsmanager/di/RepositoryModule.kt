@@ -7,8 +7,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
+import com.kust.ermslibrary.services.NotificationService
 import com.kust.ermsmanager.data.repositories.*
-import com.kust.ermsmanager.services.NotificationService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

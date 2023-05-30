@@ -1,5 +1,6 @@
 package com.kust.ermsemployee.data.repository
 
+import com.kust.ermslibrary.models.Event
 import com.kust.ermslibrary.utils.UiState
 
 interface EventRepository {

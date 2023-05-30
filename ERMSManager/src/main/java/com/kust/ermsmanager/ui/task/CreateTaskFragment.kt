@@ -13,16 +13,17 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
+import com.kust.ermslibrary.models.Employee
+import com.kust.ermslibrary.models.NotificationData
+import com.kust.ermslibrary.models.PushNotification
+import com.kust.ermslibrary.models.Task
+import com.kust.ermslibrary.services.NotificationService
 import com.kust.ermsmanager.R
-import com.kust.ermsmanager.data.models.EmployeeModel
-import com.kust.ermsmanager.data.models.NotificationModel
-import com.kust.ermsmanager.data.models.PushNotification
-import com.kust.ermsmanager.data.models.TaskModel
 import com.kust.ermsmanager.databinding.FragmentCreateTaskBinding
-import com.kust.ermsmanager.services.NotificationService
 import com.kust.ermsmanager.ui.auth.AuthViewModel
 import com.kust.ermslibrary.utils.TaskStatus
-import com.kust.ermsmanager.utils.UiState
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.hideKeyboard
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -42,11 +43,11 @@ class CreateTaskFragment : Fragment() {
 
     private val taskViewModel: TaskViewModel by viewModels()
     private val employee by lazy {
-        arguments?.getParcelable<EmployeeModel>("employee")
+        arguments?.getParcelable<Employee>("employee")
     }
     private var selectedDateTimestamp: Date? = null
     private val notificationService = NotificationService()
-    private lateinit var manager: EmployeeModel
+    private lateinit var manager: Employee
     private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
@@ -70,9 +71,12 @@ class CreateTaskFragment : Fragment() {
         observer()
         updateUi()
 
-        binding.taskDueDateButton.setOnClickListener { getDueDateAndTime() }
+        binding.taskDueDateButton.setOnClickListener {
+            hideKeyboard()
+            getDueDateAndTime() }
 
         binding.btnCreateTask.setOnClickListener {
+            hideKeyboard()
             if (validateInput()) {
                 val task = taskObj()
                 CoroutineScope(Dispatchers.IO).launch {
@@ -88,9 +92,9 @@ class CreateTaskFragment : Fragment() {
         }
     }
 
-    private fun taskObj(): TaskModel {
+    private fun taskObj(): Task {
 
-        return TaskModel(
+        return Task(
             name = binding.taskNameInput.text.toString(),
             description = binding.taskDescriptionInput.text.toString(),
             status = TaskStatus.PENDING,
@@ -136,7 +140,7 @@ class CreateTaskFragment : Fragment() {
         val title = "New Task"
         val message = "Dear ${employee!!.name}, you have a new task"
         PushNotification(
-            NotificationModel(
+            NotificationData(
                 title,
                 message
             ),

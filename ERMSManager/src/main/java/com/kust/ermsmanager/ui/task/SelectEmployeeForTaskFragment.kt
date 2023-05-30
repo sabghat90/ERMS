@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kust.ermslibrary.utils.UiState
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.databinding.FragmentSelectEmployeeForTaskBinding
 import com.kust.ermsmanager.ui.employee.EmployeeListingAdapter
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
-import com.kust.ermsmanager.utils.UiState
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 

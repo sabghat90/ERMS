@@ -3,9 +3,9 @@ package com.kust.ermsmanager.ui.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kust.ermsmanager.data.models.EmployeeModel
+import com.kust.ermslibrary.models.Employee
+import com.kust.ermslibrary.utils.UiState
 import com.kust.ermsmanager.data.repositories.AuthRepository
-import com.kust.ermsmanager.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -60,7 +60,7 @@ class AuthViewModel @Inject constructor(
         _login.value = UiState.Success("Logout Successful")
     }
 
-    fun getSession(result: (EmployeeModel?) -> Unit) {
+    fun getSession(result: (Employee?) -> Unit) {
         authRepository.getUserSession(result)
     }
 

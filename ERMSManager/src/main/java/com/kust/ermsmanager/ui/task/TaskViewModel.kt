@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kust.ermsmanager.data.models.TaskModel
+import com.kust.ermslibrary.models.Task
+import com.kust.ermslibrary.utils.UiState
 import com.kust.ermsmanager.data.repositories.TaskRepository
-import com.kust.ermsmanager.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,36 +17,36 @@ import javax.inject.Inject
 class TaskViewModel @Inject constructor(
     private val taskRepository: TaskRepository
 ) : ViewModel() {
-    private val _createTask = MutableLiveData<UiState<Pair<TaskModel, String>>>()
-    val createTask: LiveData<UiState<Pair<TaskModel, String>>>
+    private val _createTask = MutableLiveData<UiState<Pair<Task, String>>>()
+    val createTask: LiveData<UiState<Pair<Task, String>>>
         get() = _createTask
 
-    private val _updateTask = MutableLiveData<UiState<Pair<TaskModel, String>>>()
-    val updateTask: LiveData<UiState<Pair<TaskModel, String>>>
+    private val _updateTask = MutableLiveData<UiState<Pair<Task, String>>>()
+    val updateTask: LiveData<UiState<Pair<Task, String>>>
         get() = _updateTask
 
-    private val _deleteTask = MutableLiveData<UiState<Pair<TaskModel, String>>>()
-    val deleteTask: LiveData<UiState<Pair<TaskModel, String>>>
+    private val _deleteTask = MutableLiveData<UiState<Pair<Task, String>>>()
+    val deleteTask: LiveData<UiState<Pair<Task, String>>>
         get() = _deleteTask
 
-    private val _getTasks = MutableLiveData<UiState<List<TaskModel>>>()
-    val getTasks: LiveData<UiState<List<TaskModel>>>
+    private val _getTasks = MutableLiveData<UiState<List<Task>>>()
+    val getTasks: LiveData<UiState<List<Task>>>
         get() = _getTasks
 
-    suspend fun createTask(taskModel: TaskModel) {
+    suspend fun createTask(task: Task) {
         viewModelScope.launch {
             _createTask.value = UiState.Loading
             withContext(Dispatchers.Main) {
-                taskRepository.createTask(taskModel) {
+                taskRepository.createTask(task) {
                     _createTask.postValue(it)
                 }
             }
         }
     }
 
-    fun updateTask(taskModel: TaskModel) {
+    fun updateTask(task: Task) {
         _updateTask.value = UiState.Loading
-        taskRepository.updateTask(taskModel) {
+        taskRepository.updateTask(task) {
             _updateTask.value = it
         }
     }

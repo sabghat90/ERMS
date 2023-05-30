@@ -9,11 +9,11 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
-import com.kust.ermsmanager.data.models.EmployeeModel
+import com.kust.ermslibrary.models.Employee
 import com.kust.ermslibrary.utils.FireStoreCollectionConstants
 import com.kust.ermslibrary.utils.Role
 import com.kust.ermslibrary.utils.SharedPreferencesConstants
-import com.kust.ermsmanager.utils.UiState
+import com.kust.ermslibrary.utils.UiState
 
 class AuthRepositoryImpl(
     private val auth: FirebaseAuth,
@@ -128,11 +128,11 @@ class AuthRepositoryImpl(
         return user != null
     }
 
-    override fun storeUserSession(id: String, result: (EmployeeModel?) -> Unit) {
+    override fun storeUserSession(id: String, result: (Employee?) -> Unit) {
         val docRef = database.collection(FireStoreCollectionConstants.USERS).document(id)
         docRef.get().addOnSuccessListener { document ->
             if (document != null) {
-                val employee = document.toObject(EmployeeModel::class.java)
+                val employee = document.toObject(Employee::class.java)
                 val editor = sharedPreferences.edit()
                 editor.putString(SharedPreferencesConstants.USER_SESSION, gson.toJson(employee))
                 editor.apply()
@@ -145,10 +145,10 @@ class AuthRepositoryImpl(
         }
     }
 
-    override fun getUserSession(result: (EmployeeModel?) -> Unit) {
+    override fun getUserSession(result: (Employee?) -> Unit) {
         val user = sharedPreferences.getString(SharedPreferencesConstants.USER_SESSION, null)
         if (user != null) {
-            val employee = gson.fromJson(user, EmployeeModel::class.java)
+            val employee = gson.fromJson(user, Employee::class.java)
             result(employee)
         } else {
             result.invoke(null)

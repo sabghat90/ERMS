@@ -5,9 +5,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.kust.ermsmanager.data.models.AttendanceModel
+import com.kust.ermslibrary.models.Attendance
 import com.kust.ermslibrary.utils.FirebaseRealtimeDatabaseConstants
-import com.kust.ermsmanager.utils.UiState
+import com.kust.ermslibrary.utils.UiState
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -20,16 +20,16 @@ class AttendanceRepositoryImpl (
     private val month = SimpleDateFormat("MMMM").format(Date())
     private val day = SimpleDateFormat("dd").format(Date())
     override fun markAttendance(
-        attendanceModel: AttendanceModel,
+        attendance: Attendance,
         result: (UiState<String>) -> Unit
     ) {
         val attendanceRef = database.getReference(FirebaseRealtimeDatabaseConstants.ATTENDANCE)
-            .child(attendanceModel.year)
-            .child(attendanceModel.month)
-            .child(attendanceModel.day)
-            .child(attendanceModel.employeeId)
+            .child(attendance.year)
+            .child(attendance.month)
+            .child(attendance.day)
+            .child(attendance.employeeId)
 
-        attendanceRef.setValue(attendanceModel).addOnCompleteListener { task ->
+        attendanceRef.setValue(attendance).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 result(UiState.Success("Attendance marked successfully"))
             } else {
@@ -40,13 +40,13 @@ class AttendanceRepositoryImpl (
 
     override fun getAttendanceForOneEmployee(
         id: String,
-        result: (UiState<List<AttendanceModel>>) -> Unit
+        result: (UiState<List<Attendance>>) -> Unit
     ) {
 
     }
 
     override fun getAttendance(
-        result: (UiState<List<AttendanceModel>>) -> Unit
+        result: (UiState<List<Attendance>>) -> Unit
     ) {
         // get attendance from firebase realtime database where id field is equal to current user id
         val reference = database.getReference(FirebaseRealtimeDatabaseConstants.ATTENDANCE)
@@ -56,9 +56,9 @@ class AttendanceRepositoryImpl (
 
         reference.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val attendanceList = ArrayList<AttendanceModel>()
+                val attendanceList = ArrayList<Attendance>()
                 for (data in snapshot.children) {
-                    val attendance = data.getValue(AttendanceModel::class.java)
+                    val attendance = data.getValue(Attendance::class.java)
                     if (attendance != null) {
                         attendanceList.add(attendance)
                     }

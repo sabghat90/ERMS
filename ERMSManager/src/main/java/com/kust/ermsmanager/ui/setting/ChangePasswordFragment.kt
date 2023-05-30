@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.hideKeyboard
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.databinding.FragmentChangePasswordBinding
 import com.kust.ermsmanager.ui.auth.AuthViewModel
-import com.kust.ermsmanager.utils.UiState
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,6 +38,7 @@ class ChangePasswordFragment : Fragment() {
         observer()
 
         binding.btnSubmit.setOnClickListener {
+            hideKeyboard()
             if (validation()) {
                 val newPassword = binding.newPasswordEditText.text.toString()
                 authViewModel.changePassword(newPassword)

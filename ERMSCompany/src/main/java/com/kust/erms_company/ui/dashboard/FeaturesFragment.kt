@@ -10,10 +10,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.erms_company.R
-import com.kust.erms_company.data.model.FeatureModel
 import com.kust.erms_company.databinding.FragmentFeaturesBinding
 import com.kust.erms_company.ui.auth.AuthViewModel
 import com.kust.erms_company.ui.auth.RegistrationActivity
+import com.kust.ermslibrary.models.Feature
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -39,14 +39,14 @@ class FeaturesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val features = mutableListOf<FeatureModel>()
+        val features = mutableListOf<Feature>()
 
-        features.add(FeatureModel("Add Employee", R.drawable.ic_add))
-        features.add(FeatureModel("Manage Employee", R.drawable.ic_manage_emp))
-        features.add(FeatureModel("Complaints", R.drawable.ic_manage_emp))
-        features.add(FeatureModel("Setting", R.drawable.ic_setting))
-        features.add(FeatureModel("Profile", R.drawable.ic_profile))
-        features.add(FeatureModel("Logout", R.drawable.ic_logout))
+        features.add(Feature("Add Employee", R.drawable.ic_add))
+        features.add(Feature("Manage Employee", R.drawable.ic_manage_emp))
+        features.add(Feature("Complaints", R.drawable.ic_manage_emp))
+        features.add(Feature("Setting", R.drawable.ic_setting))
+        features.add(Feature("Profile", R.drawable.ic_profile))
+        features.add(Feature("Logout", R.drawable.ic_logout))
 
         adapter.features = features
         val layout = LinearLayoutManager(requireContext())

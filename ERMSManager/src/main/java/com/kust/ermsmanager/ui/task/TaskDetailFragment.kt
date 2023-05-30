@@ -11,17 +11,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.kust.ermsmanager.R
-import com.kust.ermsmanager.data.models.NotificationModel
-import com.kust.ermsmanager.data.models.PushNotification
-import com.kust.ermsmanager.data.models.TaskModel
-import com.kust.ermsmanager.databinding.FragmentTaskDetailBinding
-import com.kust.ermsmanager.services.NotificationService
-import com.kust.ermsmanager.ui.employee.EmployeeViewModel
-import com.kust.ermsmanager.utils.ConvertDateAndTimeFormat
+import com.kust.ermslibrary.models.NotificationData
+import com.kust.ermslibrary.models.PushNotification
+import com.kust.ermslibrary.models.Task
+import com.kust.ermslibrary.services.NotificationService
+import com.kust.ermslibrary.utils.ConvertDateAndTimeFormat
 import com.kust.ermslibrary.utils.TaskStatus
-import com.kust.ermsmanager.utils.UiState
+import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast
+import com.kust.ermsmanager.R
+import com.kust.ermsmanager.databinding.FragmentTaskDetailBinding
+import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +35,7 @@ class TaskDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     // task object
-    private lateinit var task: TaskModel
+    private lateinit var task: Task
 
     private val taskViewModel: TaskViewModel by viewModels()
     private val employeeViewModel: EmployeeViewModel by viewModels()
@@ -116,7 +116,7 @@ class TaskDetailFragment : Fragment() {
                 val title = "Task Resubmitted"
                 val message = "Your task has been resubmitted by your manager"
                 PushNotification(
-                    NotificationModel(
+                    NotificationData(
                         title = title,
                         body = message,
                     ),
@@ -129,7 +129,7 @@ class TaskDetailFragment : Fragment() {
                 val title = "Task Approved"
                 val message = "Your task has been approved by your manager"
                 PushNotification(
-                    NotificationModel(
+                    NotificationData(
                         title = title,
                         body = message,
                     ),

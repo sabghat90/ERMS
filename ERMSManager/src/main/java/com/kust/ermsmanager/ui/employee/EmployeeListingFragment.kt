@@ -9,10 +9,10 @@ import android.view.Window
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kust.ermslibrary.models.Employee
+import com.kust.ermslibrary.utils.UiState
 import com.kust.ermsmanager.R
-import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.databinding.FragmentEmployeeListingBinding
-import com.kust.ermsmanager.utils.UiState
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -67,7 +67,7 @@ class EmployeeListingFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     progressDialog.dismiss()
-                    adapter.employeeList = it.data as MutableList<EmployeeModel>
+                    adapter.employeeList = it.data as MutableList<Employee>
                     adapter.submitList(it.data)
                 }
                 is UiState.Error -> {

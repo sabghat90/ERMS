@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import com.kust.ermsmanager.R
-import com.kust.ermsmanager.data.models.EmployeeModel
+import com.kust.ermslibrary.models.Employee
 import com.kust.ermsmanager.databinding.FragmentManagerProfileBinding
 import com.kust.ermsmanager.ui.auth.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +20,7 @@ class ManagerProfileFragment : Fragment() {
     private val authViewModel: AuthViewModel by viewModels()
 
     // create employee model object to store employee data from session
-    private val employeeModel = EmployeeModel()
+    private val employee = Employee()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +41,7 @@ class ManagerProfileFragment : Fragment() {
 
     private fun observer() {
         authViewModel.getSession {
-            employeeModel.apply {
+            employee.apply {
                 id = it?.id.toString()
                 name = it?.name.toString()
                 email = it?.email.toString()
@@ -56,10 +54,10 @@ class ManagerProfileFragment : Fragment() {
 
     private fun updateUI() {
         binding.profile.apply {
-            name.text = employeeModel.name
-            tvEmail.text = employeeModel.email
-            tvPhone.text = employeeModel.phone
-            tvFullAddress.text = employeeModel.address
+            name.text = employee.name
+            tvEmail.text = employee.email
+            tvPhone.text = employee.phone
+            tvFullAddress.text = employee.address
         }
     }
 

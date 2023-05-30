@@ -1,6 +1,7 @@
 package com.kust.ermsemployee.data.repository
 
 import com.google.android.gms.tasks.Task
+import com.kust.ermslibrary.models.Employee
 import com.kust.ermslibrary.utils.UiState
 
 interface AuthRepository {

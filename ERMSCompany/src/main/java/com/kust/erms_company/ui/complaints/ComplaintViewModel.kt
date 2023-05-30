@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kust.erms_company.data.repositroy.ComplaintRepository
 import com.kust.ermslibrary.models.Complaint
+import com.kust.ermslibrary.models.ComplaintHistory
 import com.kust.ermslibrary.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -28,8 +29,8 @@ class ComplaintViewModel @Inject constructor(
     val deleteComplaint : LiveData<UiState<String>>
         get() = _deleteComplaint
 
-    private val _getComplaintHistory = MutableLiveData<UiState<List<ComplaintHistoryModel>>>()
-    val getComplaintHistory: LiveData<UiState<List<ComplaintHistoryModel>>>
+    private val _getComplaintHistory = MutableLiveData<UiState<List<ComplaintHistory>>>()
+    val getComplaintHistory: LiveData<UiState<List<ComplaintHistory>>>
         get() = _getComplaintHistory
 
     suspend fun getComplaints() {
@@ -41,7 +42,7 @@ class ComplaintViewModel @Inject constructor(
         }
     }
 
-    suspend fun updateComplaint(complaint: Complaint, updateComplaintHistory: ComplaintHistoryModel) {
+    suspend fun updateComplaint(complaint: Complaint, updateComplaintHistory: ComplaintHistory) {
         _updateComplaint.value = UiState.Loading
         viewModelScope.launch {
             complaintRepository.updateComplaint(complaint, updateComplaintHistory) {

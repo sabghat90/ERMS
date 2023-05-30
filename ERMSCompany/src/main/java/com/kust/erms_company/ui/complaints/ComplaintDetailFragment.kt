@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.erms_company.databinding.FragmentComplaintDetailBinding
 import com.kust.ermslibrary.models.Complaint
+import com.kust.ermslibrary.models.ComplaintHistory
 import com.kust.ermslibrary.utils.ComplaintStatus
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast
@@ -60,7 +61,7 @@ class ComplaintDetailFragment : Fragment() {
 
                 is UiState.Success -> {
                     toast(it.data.toString())
-                    historyAdapter.historyList = it.data as ArrayList<ComplaintHistoryModel>
+                    historyAdapter.historyList = it.data as ArrayList<ComplaintHistory>
                     historyAdapter.submitList(it.data)
                 }
 
@@ -71,9 +72,9 @@ class ComplaintDetailFragment : Fragment() {
         }
     }
 
-    private fun updateComplaintHistory(): ComplaintHistoryModel {
+    private fun updateComplaintHistory(): ComplaintHistory {
         val message = "Complaint is referred to manager"
-        return ComplaintHistoryModel(
+        return ComplaintHistory(
             message = message
         )
     }

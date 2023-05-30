@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.kust.ermsemployee.R
 import com.kust.ermsemployee.databinding.FragmentSignUpBinding
+import com.kust.ermslibrary.models.Employee
 import com.kust.ermslibrary.utils.Role
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast

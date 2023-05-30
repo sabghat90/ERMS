@@ -13,12 +13,12 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.kust.ermslibrary.models.Employee
+import com.kust.ermslibrary.utils.UiState
 import com.kust.ermsmanager.R
-import com.kust.ermsmanager.data.models.EmployeeModel
 import com.kust.ermsmanager.databinding.FragmentUpdateProfileBinding
 import com.kust.ermsmanager.ui.auth.AuthViewModel
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
-import com.kust.ermsmanager.utils.UiState
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,7 +32,7 @@ class UpdateProfileFragment : Fragment() {
     private val authViewModel : AuthViewModel by viewModels()
 
     // create employee model object to store employee data from session
-    private val employeeModel = EmployeeModel()
+    private val employee = Employee()
 
     private lateinit var imageUri : Uri
     private lateinit var uploadedImageUri : Uri
@@ -93,7 +93,7 @@ class UpdateProfileFragment : Fragment() {
         }
 
         authViewModel.getSession {
-            employeeModel.apply {
+            employee.apply {
                 id = it?.id.toString()
                 name = it?.name.toString()
                 phone = it?.phone.toString()
@@ -107,7 +107,7 @@ class UpdateProfileFragment : Fragment() {
     }
 
     private fun updateUI() {
-        employeeModel.let {
+        employee.let {
             with(binding) {
                 textViewName.setText(it.name)
                 textViewPhone.setText(it.phone)
@@ -121,10 +121,10 @@ class UpdateProfileFragment : Fragment() {
         }
     }
 
-    private fun getEmployeeObj() : EmployeeModel {
-        return EmployeeModel(
+    private fun getEmployeeObj() : Employee {
+        return Employee(
             name = binding.textViewName.text.toString().trim(),
-            email = employeeModel.email,
+            email = employee.email,
             phone = binding.textViewPhone.text.toString(),
             gender = binding.dropDownGender.text.toString(),
             dob = binding.btnDateOfBirth.text.toString(),

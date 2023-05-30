@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kust.ermslibrary.models.Feature
 import com.kust.ermsmanager.R
-import com.kust.ermsmanager.data.models.FeatureModel
 import com.kust.ermsmanager.databinding.FragmentFeatureBinding
 import com.kust.ermsmanager.ui.auth.AuthActivity
 import com.kust.ermsmanager.ui.auth.AuthViewModel
@@ -41,16 +41,16 @@ class FeaturesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val features = mutableListOf<FeatureModel>()
+        val features = mutableListOf<Feature>()
 
-        features.add(FeatureModel("View Employees", R.drawable.avatar2))
-        features.add(FeatureModel("Manage Employee", R.drawable.avatar2))
-        features.add(FeatureModel("Mark Attendance", R.drawable.avatar2))
-        features.add(FeatureModel("Task", R.drawable.avatar2))
-        features.add(FeatureModel("Events", R.drawable.avatar2))
-        features.add(FeatureModel("Setting", R.drawable.avatar2))
-        features.add(FeatureModel("Profile", R.drawable.avatar2))
-        features.add(FeatureModel("Logout", R.drawable.avatar2))
+        features.add(Feature("View Employees", R.drawable.avatar2))
+        features.add(Feature("Manage Employee", R.drawable.avatar2))
+        features.add(Feature("Mark Attendance", R.drawable.avatar2))
+        features.add(Feature("Task", R.drawable.avatar2))
+        features.add(Feature("Events", R.drawable.avatar2))
+        features.add(Feature("Setting", R.drawable.avatar2))
+        features.add(Feature("Profile", R.drawable.avatar2))
+        features.add(Feature("Logout", R.drawable.avatar2))
 
         adapter.features = features
 

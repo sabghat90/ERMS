@@ -11,10 +11,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.ermsemployee.R
-import com.kust.ermsemployee.data.model.FeatureModel
 import com.kust.ermsemployee.databinding.FragmentFeatureBinding
 import com.kust.ermsemployee.ui.auth.AuthActivity
 import com.kust.ermsemployee.ui.auth.AuthViewModel
+import com.kust.ermslibrary.models.Feature
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -43,17 +43,17 @@ class FeaturesFragment : Fragment() {
 
         binding.rvFeatures.visibility = View.VISIBLE
 
-        val features = mutableListOf<FeatureModel>()
+        val features = mutableListOf<Feature>()
 
-        features.add(FeatureModel("View Employees", R.drawable.avatar2))
-        features.add(FeatureModel("Employee Ranking", R.drawable.avatar2))
-        features.add(FeatureModel("View Attendance", R.drawable.avatar2))
-        features.add(FeatureModel("Task", R.drawable.avatar2))
-        features.add(FeatureModel("Events", R.drawable.avatar2))
-        features.add(FeatureModel("Setting", R.drawable.avatar2))
-        features.add(FeatureModel("Complaints", R.drawable.avatar2))
-        features.add(FeatureModel("Profile", R.drawable.avatar2))
-        features.add(FeatureModel("Logout", R.drawable.avatar2))
+        features.add(Feature("View Employees", R.drawable.avatar2))
+        features.add(Feature("Employee Ranking", R.drawable.avatar2))
+        features.add(Feature("View Attendance", R.drawable.avatar2))
+        features.add(Feature("Task", R.drawable.avatar2))
+        features.add(Feature("Events", R.drawable.avatar2))
+        features.add(Feature("Setting", R.drawable.avatar2))
+        features.add(Feature("Complaints", R.drawable.avatar2))
+        features.add(Feature("Profile", R.drawable.avatar2))
+        features.add(Feature("Logout", R.drawable.avatar2))
 
         adapter.features = features
 

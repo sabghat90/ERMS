@@ -12,15 +12,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.Timestamp
+import com.kust.ermslibrary.models.Employee
+import com.kust.ermslibrary.models.Event
+import com.kust.ermslibrary.models.NotificationData
+import com.kust.ermslibrary.models.PushNotification
+import com.kust.ermslibrary.services.NotificationService
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.hideKeyboard
 import com.kust.ermsmanager.R
-import com.kust.ermsmanager.data.models.EmployeeModel
-import com.kust.ermsmanager.data.models.EventModel
-import com.kust.ermsmanager.data.models.NotificationModel
-import com.kust.ermsmanager.data.models.PushNotification
 import com.kust.ermsmanager.databinding.FragmentCreateEventBinding
-import com.kust.ermsmanager.services.NotificationService
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
-import com.kust.ermsmanager.utils.UiState
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -38,7 +39,7 @@ class CreateEventFragment : Fragment() {
     private val eventViewModel: EventViewModel by viewModels()
 
     // create employee list to store all employees from database
-    private var employeeList = listOf<EmployeeModel>()
+    private var employeeList = listOf<Employee>()
 
     private val notificationService = NotificationService()
 
@@ -59,12 +60,14 @@ class CreateEventFragment : Fragment() {
         observer()
 
         binding.btnCreateEvent.setOnClickListener {
+            hideKeyboard()
             if (validation()) {
                 eventViewModel.createEvent(getEventObj())
             }
         }
 
         binding.btnDate.setOnClickListener {
+            hideKeyboard()
             showDateTimePicker()
         }
 
@@ -72,9 +75,7 @@ class CreateEventFragment : Fragment() {
 
     private fun showDateTimePicker() {
         // hide the keyboard
-        val imm =
-            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+        hideKeyboard()
 
         // Get the current date and time
         val calendar = Calendar.getInstance()
@@ -164,7 +165,7 @@ class CreateEventFragment : Fragment() {
         // send notification to all employees
         tokens.forEach { token ->
             PushNotification(
-                NotificationModel(
+                NotificationData(
                     title = "New Event",
                     body = "A new event has been created"
                 ),
@@ -175,14 +176,14 @@ class CreateEventFragment : Fragment() {
         }
     }
 
-    private fun getEventObj(): EventModel {
+    private fun getEventObj(): Event {
         val title = binding.etEventTitle.text.toString()
         val description = binding.etEventDescription.text.toString()
         val dateCreated = Timestamp.now().toDate()
         val eventDate = selectedDateTimestamp
         val location = binding.etEventLocation.text.toString()
         val type = binding.etEventType.text.toString()
-        return EventModel(
+        return Event(
             id = "",
             title = title,
             description = description,

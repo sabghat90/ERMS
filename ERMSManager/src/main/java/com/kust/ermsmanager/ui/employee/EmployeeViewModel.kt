@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kust.ermsmanager.data.models.EmployeeModel
+import com.kust.ermslibrary.models.Employee
+import com.kust.ermslibrary.utils.UiState
 import com.kust.ermsmanager.data.repositories.EmployeeRepository
-import com.kust.ermsmanager.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,12 +17,12 @@ class EmployeeViewModel @Inject constructor(
     private val employeeRepository: EmployeeRepository
 ) : ViewModel() {
 
-    private val _getEmployeeList = MutableLiveData<UiState<List<EmployeeModel>>>()
-    val getEmployeeList: LiveData<UiState<List<EmployeeModel>>>
+    private val _getEmployeeList = MutableLiveData<UiState<List<Employee>>>()
+    val getEmployeeList: LiveData<UiState<List<Employee>>>
         get() = _getEmployeeList
 
-    private val _updateEmployee = MutableLiveData<UiState<Pair<EmployeeModel, String>>>()
-    val updateEmployee: LiveData<UiState<Pair<EmployeeModel, String>>>
+    private val _updateEmployee = MutableLiveData<UiState<Pair<Employee, String>>>()
+    val updateEmployee: LiveData<UiState<Pair<Employee, String>>>
         get() = _updateEmployee
 
     private val _addPoints = MutableLiveData<UiState<String>>()
@@ -34,19 +34,19 @@ class EmployeeViewModel @Inject constructor(
         get() = _removePoints
 
     init {
-        getEmployeeList(EmployeeModel())
+        getEmployeeList(Employee())
     }
 
-    private fun getEmployeeList(employeeModel: EmployeeModel) {
+    private fun getEmployeeList(employee: Employee) {
         _getEmployeeList.value = UiState.Loading
-        employeeRepository.getEmployeeList(employeeModel) {
+        employeeRepository.getEmployeeList(employee) {
             _getEmployeeList.value = it
         }
     }
 
-    fun updateEmployee(employeeModel: EmployeeModel) {
+    fun updateEmployee(employee: Employee) {
         _updateEmployee.value = UiState.Loading
-        employeeRepository.updateEmployee(employeeModel) {
+        employeeRepository.updateEmployee(employee) {
             _updateEmployee.value = it
         }
     }

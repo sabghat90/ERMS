@@ -19,7 +19,7 @@ import com.kust.ermsmanager.data.repositories.BiometricRepository
 import com.kust.ermsmanager.data.repositories.BiometricRepositoryImpl
 import com.kust.ermsmanager.databinding.FragmentSettingBinding
 import com.kust.ermslibrary.utils.SharedPreferencesConstants
-import com.kust.ermsmanager.utils.UiState
+import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 

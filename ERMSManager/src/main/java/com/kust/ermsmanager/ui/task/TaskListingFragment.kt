@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kust.ermslibrary.models.Task
+import com.kust.ermslibrary.utils.UiState
 import com.kust.ermsmanager.R
-import com.kust.ermsmanager.data.models.TaskModel
 import com.kust.ermsmanager.databinding.FragmentTaskListingBinding
-import com.kust.ermsmanager.utils.UiState
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -73,11 +73,8 @@ class TaskListingFragment : Fragment() {
                         binding.rvTaskListing.visibility = View.GONE
                     } else {
                         binding.rvTaskListing.visibility = View.VISIBLE
-                        adapter.taskList = it.data as MutableList<TaskModel>
+                        adapter.taskList = it.data as MutableList<Task>
                         adapter.submitList(it.data)
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            adapter.updateTaskList(it.data)
-                        }, 1000)
                     }
                 }
                 is UiState.Error -> {

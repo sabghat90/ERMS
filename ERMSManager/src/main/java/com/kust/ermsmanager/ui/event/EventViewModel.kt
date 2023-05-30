@@ -3,9 +3,9 @@ package com.kust.ermsmanager.ui.event
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kust.ermsmanager.data.models.EventModel
+import com.kust.ermslibrary.models.Event
+import com.kust.ermslibrary.utils.UiState
 import com.kust.ermsmanager.data.repositories.EventRepository
-import com.kust.ermsmanager.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -13,20 +13,20 @@ import javax.inject.Inject
 class EventViewModel @Inject constructor(
     private val eventRepository: EventRepository
 ) : ViewModel() {
-    private val _getEventList = MutableLiveData<UiState<List<EventModel>>>()
-    val getEventList : LiveData<UiState<List<EventModel>>>
+    private val _getEventList = MutableLiveData<UiState<List<Event>>>()
+    val getEventList : LiveData<UiState<List<Event>>>
         get() = _getEventList
 
-    private val _createEvent = MutableLiveData<UiState<Pair<EventModel, String>>>()
-    val createEvent : LiveData<UiState<Pair<EventModel, String>>>
+    private val _createEvent = MutableLiveData<UiState<Pair<Event, String>>>()
+    val createEvent : LiveData<UiState<Pair<Event, String>>>
         get() = _createEvent
 
-    private val _updateEvent = MutableLiveData<UiState<Pair<EventModel, String>>>()
-    val updateEvent : LiveData<UiState<Pair<EventModel, String>>>
+    private val _updateEvent = MutableLiveData<UiState<Pair<Event, String>>>()
+    val updateEvent : LiveData<UiState<Pair<Event, String>>>
         get() = _updateEvent
 
-    private val _deleteEvent = MutableLiveData<UiState<Pair<EventModel, String>>>()
-    val deleteEvent : LiveData<UiState<Pair<EventModel, String>>>
+    private val _deleteEvent = MutableLiveData<UiState<Pair<Event, String>>>()
+    val deleteEvent : LiveData<UiState<Pair<Event, String>>>
         get() = _deleteEvent
 
     init {
@@ -40,23 +40,23 @@ class EventViewModel @Inject constructor(
         }
     }
 
-    fun createEvent(eventModel: EventModel) {
+    fun createEvent(event: Event) {
         _createEvent.value = UiState.Loading
-        eventRepository.createEvent(eventModel) {
+        eventRepository.createEvent(event) {
             _createEvent.value = it
         }
     }
 
-    fun updateEvent(eventModel: EventModel) {
+    fun updateEvent(event: Event) {
         _updateEvent.value = UiState.Loading
-        eventRepository.updateEvent(eventModel) {
+        eventRepository.updateEvent(event) {
             _updateEvent.value = it
         }
     }
 
-    fun deleteEvent(eventModel: EventModel) {
+    fun deleteEvent(event: Event) {
         _deleteEvent.value = UiState.Loading
-        eventRepository.deleteEvent(eventModel) {
+        eventRepository.deleteEvent(event) {
             _deleteEvent.value = it
         }
     }

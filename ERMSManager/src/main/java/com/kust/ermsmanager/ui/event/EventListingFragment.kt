@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kust.ermslibrary.models.Event
+import com.kust.ermslibrary.utils.UiState
 import com.kust.ermsmanager.R
-import com.kust.ermsmanager.data.models.EventModel
 import com.kust.ermsmanager.databinding.FragmentEventListingBinding
-import com.kust.ermsmanager.utils.UiState
 import com.kust.ermslibrary.utils.hide
 import com.kust.ermslibrary.utils.show
 import com.kust.ermslibrary.utils.toast
@@ -79,11 +79,8 @@ class EventListingFragment : Fragment() {
                         binding.rvEvents.hide()
                     } else {
                         binding.rvEvents.show()
-                        adapter.eventList = it.data as MutableList<EventModel>
+                        adapter.eventList = it.data as MutableList<Event>
                         adapter.submitList(it.data)
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            adapter.updateEventList(it.data)
-                        }, 1000)
                     }
                 }
                 is UiState.Error -> {
