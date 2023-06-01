@@ -4,6 +4,7 @@
 
 
     <color name="transparent">#00000000</color>
+    <color name="white">#000</color>
 
 <!--    &lt;!&ndash;    dark theme colors&ndash;&gt;-->
 <!--    <color name="colorPrimary">#BB86FC</color>-->

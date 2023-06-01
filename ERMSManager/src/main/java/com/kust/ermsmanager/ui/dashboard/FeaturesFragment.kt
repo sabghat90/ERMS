@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kust.ermslibrary.models.Feature
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.databinding.FragmentFeatureBinding
@@ -48,13 +49,11 @@ class FeaturesFragment : Fragment() {
         features.add(Feature("Mark Attendance", R.drawable.avatar2))
         features.add(Feature("Task", R.drawable.avatar2))
         features.add(Feature("Events", R.drawable.avatar2))
-        features.add(Feature("Setting", R.drawable.avatar2))
-        features.add(Feature("Profile", R.drawable.avatar2))
         features.add(Feature("Logout", R.drawable.avatar2))
 
         adapter.features = features
 
-        val layout = LinearLayoutManager(requireContext())
+        val layout = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
 
         binding.rvFeature.layoutManager = layout
 
@@ -77,12 +76,6 @@ class FeaturesFragment : Fragment() {
                         findNavController().navigate(R.id.action_featureFragment_to_eventListingFragment)
                     }
                     5 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_settingFragment)
-                    }
-                    6 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_managerProfileFragment)
-                    }
-                    7 -> {
                         authViewModel.logout {
                             val intent = Intent(requireContext(), AuthActivity::class.java)
                             startActivity(intent)

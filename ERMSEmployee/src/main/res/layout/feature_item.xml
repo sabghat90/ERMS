@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/feature_card"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="150dp"
     android:layout_margin="15dp"
-    android:elevation="5dp"
-    android:clickable="true"
-    android:backgroundTint="#F4F4F4"
     app:cardCornerRadius="8dp"
-    tools:ignore="MissingDefaultResource"
-    android:focusable="true">
+    app:cardElevation="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    tools:ignore="MissingDefaultResource">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,23 +22,29 @@
             android:id="@+id/feature_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
             android:text="@string/feature_name"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/feature_image"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/feature_image" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/feature_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/avatar4"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_margin="10dp"
-            app:civ_border_color="@color/md_theme_light_primary"
-            app:civ_border_width="3dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/avatar4"
+            app:layout_constraintBottom_toTopOf="@+id/feature_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

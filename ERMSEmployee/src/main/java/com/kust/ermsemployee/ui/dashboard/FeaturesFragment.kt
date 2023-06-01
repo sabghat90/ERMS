@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kust.ermsemployee.R
 import com.kust.ermsemployee.databinding.FragmentFeatureBinding
 import com.kust.ermsemployee.ui.auth.AuthActivity
@@ -50,14 +51,12 @@ class FeaturesFragment : Fragment() {
         features.add(Feature("View Attendance", R.drawable.avatar2))
         features.add(Feature("Task", R.drawable.avatar2))
         features.add(Feature("Events", R.drawable.avatar2))
-        features.add(Feature("Setting", R.drawable.avatar2))
         features.add(Feature("Complaints", R.drawable.avatar2))
-        features.add(Feature("Profile", R.drawable.avatar2))
         features.add(Feature("Logout", R.drawable.avatar2))
 
         adapter.features = features
 
-        val layout = LinearLayoutManager(requireContext())
+        val layout = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
 
         binding.rvFeatures.layoutManager = layout
 
@@ -83,15 +82,9 @@ class FeaturesFragment : Fragment() {
                         findNavController().navigate(R.id.action_featureFragment_to_eventListingFragment)
                     }
                     5 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_settingFragment)
-                    }
-                    6 -> {
                         findNavController().navigate(R.id.action_featureFragment_to_complaintListingFragment)
                     }
-                    7 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_profileFragment)
-                    }
-                    8 -> {
+                    6 -> {
                         Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()
                         // Logout
                         authViewModel.logout {

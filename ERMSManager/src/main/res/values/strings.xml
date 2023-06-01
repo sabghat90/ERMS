@@ -137,4 +137,7 @@
     <string name="approve">Approve</string>
     <string name="status">Status</string>
     <string name="complaint_title">Complaint Title</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="settings">Settings</string>
 </resources>

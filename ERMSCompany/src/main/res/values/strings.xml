@@ -81,4 +81,7 @@
     <string name="event_description">Desicription</string>
     <string name="date_amp_time"><![CDATA[Date & Time]]></string>
     <string name="add_complaint">Add Complaint</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="settings">Settings</string>
 </resources>

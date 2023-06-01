@@ -8,12 +8,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.kust.erms_company.R
 import com.kust.erms_company.databinding.FragmentFeaturesBinding
 import com.kust.erms_company.ui.auth.AuthViewModel
 import com.kust.erms_company.ui.auth.RegistrationActivity
 import com.kust.ermslibrary.models.Feature
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -39,17 +42,20 @@ class FeaturesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        // rest the nav controller to the home fragment
+
         val features = mutableListOf<Feature>()
 
-        features.add(Feature("Add Employee", R.drawable.ic_add))
+        features.add(Feature("Add Employee", R.drawable.ic_add_emp))
         features.add(Feature("Manage Employee", R.drawable.ic_manage_emp))
-        features.add(Feature("Complaints", R.drawable.ic_manage_emp))
-        features.add(Feature("Setting", R.drawable.ic_setting))
+        features.add(Feature("Complaints", R.drawable.ic_report))
+        features.add(Feature("Setting", R.drawable.ic_settings))
         features.add(Feature("Profile", R.drawable.ic_profile))
         features.add(Feature("Logout", R.drawable.ic_logout))
 
         adapter.features = features
-        val layout = LinearLayoutManager(requireContext())
+        val layout = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         binding.rvFeatures.layoutManager = layout
         binding.rvFeatures.adapter = adapter
 
@@ -66,10 +72,10 @@ class FeaturesFragment : Fragment() {
                         findNavController().navigate(R.id.action_featuresFragment_to_complaintListingFragment)
                     }
                     3 -> {
-                        findNavController().navigate(R.id.action_featuresFragment_to_settingFragment)
+                        toast("Coming Soon")
                     }
                     4 -> {
-                        findNavController().navigate(R.id.action_featuresFragment_to_companyProfileFragment)
+                        toast("Coming Soon")
                     }
                     5 -> {
                         authViewModel.logout {

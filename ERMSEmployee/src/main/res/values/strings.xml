@@ -107,6 +107,9 @@
     <string name="accept">Accept</string>
     <string name="reject">Reject</string>
     <string name="feedback">Feedback</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="settings">Settings</string>
 
     <string-array name="gender">
         <item>Male</item>

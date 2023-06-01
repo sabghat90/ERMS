@@ -66,6 +66,7 @@
 
     <color name="transparent">#00000000</color>
     <color name="shimmer_effect">#AFAFAF</color>
+    <color name="white">#fff</color>
 
 
 
