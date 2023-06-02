@@ -25,8 +25,7 @@ class EmployeeRepositoryImpl @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val gson: Gson
 ) : EmployeeRepository {
-    override fun getEmployeeList(
-        employee: Employee?,
+    override suspend fun getEmployeeList(
         result: (UiState<List<Employee>>) -> Unit
     ) {
         // get company id from shared preference
@@ -35,22 +34,40 @@ class EmployeeRepositoryImpl @Inject constructor(
         val employeeObj = gson.fromJson(employeeJson, Employee::class.java)
         val companyId = employeeObj.companyId
 
+        // get employee list from database
+        try {
+            val employeeList = withContext(Dispatchers.IO) {
+                database.collection(FireStoreCollectionConstants.USERS)
+                    .whereEqualTo("companyId", companyId)
+                    .get()
+                    .await()
+                    .toObjects(Employee::class.java)
+            }
+            result.invoke(UiState.Success(employeeList))
+        } catch (e: Exception) {
+            result.invoke(UiState.Error(e.localizedMessage))
+        }
+    }
 
-        // get employee list where company id is equal to employee list company id
-        val docRef = database.collection(FireStoreCollectionConstants.USERS)
-            .whereEqualTo("companyId", companyId)
-        docRef.get()
-            .addOnSuccessListener { documents ->
-                val list = mutableListOf<Employee>()
-                for (document in documents) {
-                    val employee = document.toObject(Employee::class.java)
-                    list.add(employee)
+    override suspend fun getEmployee(result: (UiState<Employee>) -> Unit) {
+        try {
+            database.collection(FireStoreCollectionConstants.USERS)
+                .document(auth.currentUser?.uid.toString())
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        val employee = document.toObject(Employee::class.java)
+                        result.invoke(UiState.Success(employee!!))
+                    } else {
+                        result.invoke(UiState.Error("No such document"))
+                    }
                 }
-                result.invoke(UiState.Success(list))
-            }
-            .addOnFailureListener { exception ->
-                result.invoke(UiState.Error(exception.message.toString()))
-            }
+                .addOnFailureListener { exception ->
+                    result.invoke(UiState.Error(exception.localizedMessage))
+                }
+        } catch (e: Exception) {
+            result.invoke(UiState.Error(e.localizedMessage))
+        }
     }
 
     override fun updateEmployee(

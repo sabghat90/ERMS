@@ -1,12 +1,15 @@
 package com.kust.erms_company.ui.company
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kust.erms_company.data.repositroy.CompanyRepository
 import com.kust.ermslibrary.models.Company
 import com.kust.ermslibrary.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,9 +25,9 @@ class CompanyViewModel @Inject constructor(
     val updateCompanyDetails: LiveData<UiState<Pair<Company, String>>>
         get() = _updateCompanyDetails
 
-    init {
-        getCompanyDetails(Company())
-    }
+    private val _uploadImage = MutableLiveData<UiState<Uri>>()
+    val uploadImage: LiveData<UiState<Uri>>
+        get() = _uploadImage
 
 
     private fun getCompanyDetails(company: Company) {
@@ -34,10 +37,22 @@ class CompanyViewModel @Inject constructor(
         }
     }
 
-    fun updateCompanyDetails(companyId: String, company: Company) {
+    fun updateCompanyDetails(company: Company) {
         _updateCompanyDetails.value = UiState.Loading
-        repository.updateCompanyDetails(companyId, company) {
-            _updateCompanyDetails.value = it
+        viewModelScope.launch {
+            repository.updateCompanyDetails(company) {
+                _updateCompanyDetails.value = it
+            }
+        }
+    }
+
+    fun uploadImage(fileUris: Uri, result: (UiState<Uri>) -> Unit) {
+        _uploadImage.value = UiState.Loading
+        viewModelScope.launch {
+            repository.uploadProfilePicture(fileUris) {
+                _uploadImage.value = it
+                result(it)
+            }
         }
     }
 }

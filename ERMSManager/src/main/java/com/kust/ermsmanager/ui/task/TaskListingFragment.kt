@@ -49,6 +49,7 @@ class TaskListingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observer()
+        taskViewModel.getTasks()
 
         binding.rvTaskListing.layoutManager = LinearLayoutManager(requireContext())
         binding.rvTaskListing.adapter = adapter

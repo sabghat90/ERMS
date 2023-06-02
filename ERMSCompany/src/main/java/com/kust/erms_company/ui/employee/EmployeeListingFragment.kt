@@ -37,7 +37,6 @@ class EmployeeListingFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentEmployeeListingBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -45,6 +44,7 @@ class EmployeeListingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observer()
+        viewModel.getEmployeeList()
 
         binding.rvEmployee.layoutManager = LinearLayoutManager(requireContext())
         binding.rvEmployee.adapter = adapter
@@ -57,8 +57,7 @@ class EmployeeListingFragment : Fragment() {
                     binding.shimmerLayout.startShimmer()
                 }
                 is UiState.Success -> {
-                    adapter.employees = it.data as MutableList<Employee>
-                    adapter.updateList(it.data.toMutableList())
+                    adapter.submitList(it.data)
                     binding.shimmerLayout.stopShimmer()
                     binding.shimmerLayout.visibility = View.GONE
                     binding.rvEmployee.visibility = View.VISIBLE

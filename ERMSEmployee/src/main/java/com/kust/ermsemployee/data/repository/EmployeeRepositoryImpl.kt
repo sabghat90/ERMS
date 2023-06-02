@@ -54,6 +54,27 @@ class EmployeeRepositoryImpl @Inject constructor(
             }
     }
 
+    override suspend fun getEmployee(result: (UiState<Employee>) -> Unit) {
+        try {
+            database.collection(FireStoreCollectionConstants.USERS)
+                .document(auth.currentUser?.uid.toString())
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        val employee = document.toObject(Employee::class.java)
+                        result.invoke(UiState.Success(employee!!))
+                    } else {
+                        result.invoke(UiState.Error("No such document"))
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    result.invoke(UiState.Error(exception.localizedMessage ?: "Error"))
+                }
+        } catch (e: Exception) {
+            result.invoke(UiState.Error(e.localizedMessage))
+        }
+    }
+
     override fun updateEmployee(
         employee: Employee?,
         result: (UiState<Pair<Employee, String>>) -> Unit

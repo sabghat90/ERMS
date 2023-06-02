@@ -7,15 +7,15 @@ import kotlinx.parcelize.Parcelize
 data class Company(
     var id: String = "",
     var name: String = "",
-    val address: String = "",
-    val city: String = "",
-    val state: String = "",
+    var address: String = "",
+    var city: String = "",
+    var state: String = "",
     var country: String = "",
     var fullAddress: String = "",
     var email: String = "",
     var phone: String = "",
     var website: String = "",
     var role : String = "",
-    val profilePicture : String = "",
+    var profilePicture : String = "",
     var fcmToken : String = ""
 ): Parcelable

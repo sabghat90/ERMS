@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="cities">
+        <item>Abbottabad</item>
+        <item>Attock</item>
+        <item>Bahawalpur</item>
+        <item>Burewala</item>
+        <item>Chakwal</item>
+        <item>Chiniot</item>
+        <item>Dera Ghazi Khan</item>
+        <item>Faisalabad</item>
+        <item>Gujar Khan</item>
+        <item>Gujranwala</item>
+        <item>Gujrat</item>
+        <item>Hafizabad</item>
+        <item>Hyderabad</item>
+        <item>Islamabad</item>
+        <item>Jhang</item>
+        <item>Jhelum</item>
+        <item>Karachi</item>
+        <item>Kasur</item>
+        <item>Khanewal</item>
+        <item>Kharian</item>
+        <item>Kohat</item>
+        <item>Lahore</item>
+        <item>Larkana</item>
+        <item>Mardan</item>
+        <item>Mianwali</item>
+        <item>Mirpur Khas</item>
+        <item>Multan</item>
+        <item>Muridke</item>
+        <item>Nankana Sahib</item>
+        <item>Nowshera</item>
+        <item>Okara</item>
+        <item>Peshawar</item>
+        <item>Quetta</item>
+        <item>Rahim Yar Khan</item>
+        <item>Raiwind</item>
+        <item>Rawalakot</item>
+        <item>Rawalpindi</item>
+        <item>Sadiqabad</item>
+        <item>Sahiwal</item>
+        <item>Sargodha</item>
+        <item>Sheikhupura</item>
+        <item>Sialkot</item>
+        <item>Sukkur</item>
+        <item>Swabi</item>
+        <item>Tando Adam</item>
+        <item>Taxila</item>
+        <item>Vehari</item>
+        <item>Wah Cantonment</item>
+    </string-array>
+</resources>

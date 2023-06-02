@@ -30,10 +30,6 @@ class EmployeeViewModel @Inject constructor(
     val getEmployeeList : LiveData<UiState<List<Employee>>>
         get() = _getEmployeeList
 
-    init {
-        getEmployee(Employee())
-    }
-
     fun registerEmployee(email : String, employee: Employee) {
         _addEmployee.value = UiState.Loading
         employeeRepository.addEmployee(email, employee) {
@@ -55,9 +51,9 @@ class EmployeeViewModel @Inject constructor(
         }
     }
 
-    private fun getEmployee(employeeList : Employee) {
+    fun getEmployeeList() {
         _getEmployeeList.value = UiState.Loading
-        employeeRepository.getEmployeeList(employeeList) {
+        employeeRepository.getEmployeeList() {
             _getEmployeeList.value = it
         }
     }

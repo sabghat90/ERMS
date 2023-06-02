@@ -176,7 +176,7 @@ class EmployeeProfileFragment : Fragment() {
     private fun updateUi() {
         employeeObj = arguments?.getParcelable("employee")!!
         binding.profileView.apply {
-            companyName.text = employeeObj.name
+            name.text = employeeObj.name
             tvEmail.text = employeeObj.email
             tvPhone.text = employeeObj.phone
             tvCountry.text = employeeObj.country

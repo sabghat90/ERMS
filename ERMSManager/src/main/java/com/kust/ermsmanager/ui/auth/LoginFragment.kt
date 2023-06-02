@@ -25,7 +25,6 @@ class LoginFragment : Fragment() {
 
     private val authViewModel: AuthViewModel by viewModels()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

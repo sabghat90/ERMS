@@ -3,11 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/profile_nav_graph"
-    app:startDestination="@id/companyProfileFragment">
+    app:startDestination="@id/profileFragment">
 
     <fragment
-        android:id="@+id/companyProfileFragment"
-        android:name="com.kust.erms_company.ui.company.CompanyProfileFragment"
+        android:id="@+id/profileFragment"
+        android:name="com.kust.erms_company.ui.company.ProfileFragment"
         android:label="fragment_company_profile"
-        tools:layout="@layout/fragment_company_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_updateProfileFragment"
+            app:destination="@id/updateProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateProfileFragment"
+        android:name="com.kust.erms_company.ui.company.UpdateProfileFragment"
+        android:label="UpdateProfileFragment" >
+        <action
+            android:id="@+id/action_updateProfileFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

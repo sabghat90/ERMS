@@ -6,6 +6,7 @@ import com.kust.ermslibrary.utils.UiState
 
 interface EmployeeRepository {
     fun getEmployeeList(employee : Employee?, result: (UiState<List<Employee>>) -> Unit)
+    suspend fun getEmployee(result: (UiState<Employee>) -> Unit)
     fun updateEmployee(employee: Employee?, result : (UiState<Pair<Employee, String>>) -> Unit)
     suspend fun uploadImage(imageUri : Uri, result : (UiState<Uri>) -> Unit)
     suspend fun getEmployeeRank(result: (UiState<List<Employee>>) -> Unit)

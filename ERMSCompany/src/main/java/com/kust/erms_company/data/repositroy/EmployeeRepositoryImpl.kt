@@ -85,7 +85,6 @@ class EmployeeRepositoryImpl(
     }
 
     override fun getEmployeeList(
-        employeeList: Employee?,
         result: (UiState<List<Employee>>) -> Unit
     ) {
 

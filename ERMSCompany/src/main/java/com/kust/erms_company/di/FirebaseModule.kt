@@ -10,6 +10,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -30,6 +31,7 @@ object FirebaseModule {
 
     @Provides
     @Singleton
+    @Named(FirebaseStorageConstants.COMPANY_PROFILE)
     fun provideFirebaseStorage() : StorageReference {
         return FirebaseStorage.getInstance().getReference(FirebaseStorageConstants.COMPANY_PROFILE)
     }

@@ -1,6 +1,5 @@
 package com.kust.ermsmanager.data.repositories
 
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -11,10 +10,9 @@ import com.kust.ermslibrary.utils.UiState
 import java.text.SimpleDateFormat
 import java.util.Date
 
-class AttendanceRepositoryImpl (
-    private val database: FirebaseDatabase,
-    private val auth: FirebaseAuth
-        ) : AttendanceRepository {
+class AttendanceRepositoryImpl(
+    private val database: FirebaseDatabase
+) : AttendanceRepository {
 
     private val year = SimpleDateFormat("yyyy").format(Date())
     private val month = SimpleDateFormat("MMMM").format(Date())

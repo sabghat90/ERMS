@@ -57,10 +57,9 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideAttendanceRepository (
-        database : FirebaseDatabase,
-        auth : FirebaseAuth
+        database: FirebaseDatabase
     ) : AttendanceRepository {
-        return AttendanceRepositoryImpl(database, auth)
+        return AttendanceRepositoryImpl(database)
     }
 
     @Provides

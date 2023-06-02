@@ -32,12 +32,6 @@ class EventListingAdapter(
         holder.bind(eventList[position])
     }
 
-    // receive event call from handler to update event list
-    fun updateEventList(eventList: MutableList<Event>) {
-        this.eventList = eventList
-        notifyDataSetChanged()
-    }
-
     inner class EventViewHolder(private val binding: EventItemBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(event: Event) {

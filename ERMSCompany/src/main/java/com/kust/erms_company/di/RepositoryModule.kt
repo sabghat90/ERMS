@@ -4,12 +4,16 @@ import android.content.SharedPreferences
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
 import com.kust.erms_company.data.repositroy.*
+import com.kust.ermslibrary.utils.FirebaseStorageConstants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -42,8 +46,10 @@ object RepositoryModule {
     fun provideCompanyRepository(
         auth: FirebaseAuth,
         database: FirebaseFirestore,
+        @Named(FirebaseStorageConstants.COMPANY_PROFILE)
+        storage: StorageReference
     ): CompanyRepository {
-        return CompanyRepositoryImpl(auth, database)
+        return CompanyRepositoryImpl(auth, database, storage)
     }
 
     @Provides

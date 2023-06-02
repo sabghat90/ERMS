@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.ermslibrary.models.Employee
 import com.kust.ermslibrary.utils.UiState
@@ -15,6 +16,7 @@ import com.kust.ermsmanager.R
 import com.kust.ermsmanager.databinding.FragmentEmployeeListingBinding
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class EmployeeListingFragment : Fragment() {
@@ -46,6 +48,10 @@ class EmployeeListingFragment : Fragment() {
         progressDialog.setCancelable(false)
         progressDialog.setCanceledOnTouchOutside(false)
         progressDialog.setContentView(R.layout.custom_progress_dialog)
+
+        lifecycleScope.launch {
+            employeeViewModel.getEmployeeList()
+        }
 
         return binding.root
     }

@@ -50,8 +50,6 @@ class FeaturesFragment : Fragment() {
         features.add(Feature("Add Employee", R.drawable.ic_add_emp))
         features.add(Feature("Manage Employee", R.drawable.ic_manage_emp))
         features.add(Feature("Complaints", R.drawable.ic_report))
-        features.add(Feature("Setting", R.drawable.ic_settings))
-        features.add(Feature("Profile", R.drawable.ic_profile))
         features.add(Feature("Logout", R.drawable.ic_logout))
 
         adapter.features = features
@@ -72,12 +70,6 @@ class FeaturesFragment : Fragment() {
                         findNavController().navigate(R.id.action_featuresFragment_to_complaintListingFragment)
                     }
                     3 -> {
-                        toast("Coming Soon")
-                    }
-                    4 -> {
-                        toast("Coming Soon")
-                    }
-                    5 -> {
                         authViewModel.logout {
                             val intent = Intent(requireContext(), RegistrationActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

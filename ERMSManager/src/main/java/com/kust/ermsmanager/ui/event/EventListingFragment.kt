@@ -57,6 +57,8 @@ class EventListingFragment : Fragment() {
 
         observer()
 
+        eventViewModel.getEventList()
+
         binding.rvEvents.layoutManager = LinearLayoutManager(requireContext())
         binding.rvEvents.adapter = adapter
 

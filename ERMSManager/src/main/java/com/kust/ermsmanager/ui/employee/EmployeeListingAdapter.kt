@@ -15,7 +15,6 @@ class EmployeeListingAdapter(
 
     var employeeList: MutableList<Employee> = arrayListOf()
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmployeeViewHolder {
         val binding =
             ItemEmployeeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -25,12 +24,6 @@ class EmployeeListingAdapter(
     override fun onBindViewHolder(holder: EmployeeViewHolder, position: Int) {
         val employee = employeeList[position]
         holder.bind(employee)
-    }
-
-    // notifies the adapter that the data set has changed
-    fun updateList(employeeList: MutableList<Employee>) {
-        this.employeeList = employeeList
-        notifyDataSetChanged()
     }
 
     inner class EmployeeViewHolder(private val binding: ItemEmployeeBinding) :

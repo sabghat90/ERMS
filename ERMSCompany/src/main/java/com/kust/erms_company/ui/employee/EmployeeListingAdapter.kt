@@ -2,64 +2,55 @@ package com.kust.erms_company.ui.employee
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.kust.erms_company.R
 import com.kust.erms_company.databinding.ItemEmployeeBinding
 import com.kust.ermslibrary.models.Employee
-import com.kust.ermslibrary.utils.Role
 
-class EmployeeListingAdapter (
+class EmployeeListingAdapter(
     val onItemClicked: (Int, Employee) -> Unit
-        ) : RecyclerView.Adapter<EmployeeListingAdapter.ViewHolder>() {
+) :
+    ListAdapter<Employee, EmployeeListingAdapter.EmployeeViewHolder>(DiffUtilCallback()) {
 
-    var employees: MutableList<Employee> = arrayListOf()
+    var employeeList: MutableList<Employee> = arrayListOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView =
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmployeeViewHolder {
+        val binding =
             ItemEmployeeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(itemView, /*listener*/ )
+        return EmployeeViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val employee = employees[position]
+    override fun onBindViewHolder(holder: EmployeeViewHolder, position: Int) {
+        val employee = employeeList[position]
         holder.bind(employee)
     }
 
-    fun updateList(newList: MutableList<Employee>) {
-        employees = newList
-        notifyDataSetChanged()
-    }
-
-    override fun getItemCount(): Int {
-        return employees.size
-    }
-
-    inner class ViewHolder(private val binding: ItemEmployeeBinding, /* listener : OnItemClickListener*/ ) :
+    inner class EmployeeViewHolder(private val binding: ItemEmployeeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(employee: Employee) {
 
-            Glide.with(binding.root.context)
-                .load(employee.profilePicture)
-                .placeholder(R.drawable.avatar4)
-                .centerCrop()
-                .into(binding.imgEmployee)
-
             binding.tvEmployeeName.text = employee.name
             binding.tvDepartment.text = employee.department
-
-            if (employee.role == "manager") {
-                binding.tvStatus.text = Role.MANAGER
-            } else {
-                binding.tvStatus.text = Role.EMPLOYEE
-            }
+            binding.tvStatus.text = employee.role
 
             binding.cardEmployee.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    onItemClicked(position, employees[position])
+                    onItemClicked(position, employeeList[position])
                 }
             }
+        }
+    }
+
+    class DiffUtilCallback : DiffUtil.ItemCallback<Employee>() {
+        override fun areItemsTheSame(oldItem: Employee, newItem: Employee): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Employee, newItem: Employee): Boolean {
+            return oldItem == newItem
         }
     }
 }

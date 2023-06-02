@@ -33,9 +33,9 @@ class EventViewModel @Inject constructor(
         getEventList()
     }
 
-    private fun getEventList() {
+    fun getEventList() {
         _getEventList.value = UiState.Loading
-        eventRepository.getEventList() {
+        eventRepository.getEventList {
             _getEventList.value = it
         }
     }

@@ -21,6 +21,10 @@ class EmployeeViewModel @Inject constructor(
     val getEmployeeList: LiveData<UiState<List<Employee>>>
         get() = _getEmployeeList
 
+    private val _getEmployee = MutableLiveData<UiState<Employee>>()
+    val getEmployee: LiveData<UiState<Employee>>
+        get() = _getEmployee
+
     private val _updateEmployee = MutableLiveData<UiState<Pair<Employee, String>>>()
     val updateEmployee: LiveData<UiState<Pair<Employee, String>>>
         get() = _updateEmployee
@@ -37,6 +41,15 @@ class EmployeeViewModel @Inject constructor(
         _getEmployeeList.value = UiState.Loading
         employeeRepository.getEmployeeList(employee) {
             _getEmployeeList.value = it
+        }
+    }
+
+    fun getEmployee() {
+        _getEmployee.value = UiState.Loading
+        viewModelScope.launch {
+            employeeRepository.getEmployee {
+                _getEmployee.value = it
+            }
         }
     }
 

@@ -18,7 +18,7 @@
 
             <include
                 android:id="@+id/profile_view"
-                layout="@layout/view_profile" />
+                layout="@layout/profile_layout" />
 
             <RelativeLayout
                 android:id="@+id/btn_layout"

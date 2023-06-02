@@ -8,5 +8,5 @@ interface EmployeeRepository {
     fun addEmployee(email : String, employee: Employee, result: (UiState<Pair<Employee, String>>) -> Unit)
     fun updateEmployee(employee: Employee, result: (UiState<Pair<Employee, String>>) -> Unit)
     fun removeEmployee(employee: Employee, result: (UiState<String>) -> Unit)
-    fun getEmployeeList(employeeList : Employee?, result: (UiState<List<Employee>>) -> Unit)
+    fun getEmployeeList(result: (UiState<List<Employee>>) -> Unit)
 }
