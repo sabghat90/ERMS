@@ -9,6 +9,7 @@ import android.view.Window
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.kust.ermsemployee.R
 import com.kust.ermsemployee.databinding.FragmentViewAttendaceBinding
 import com.kust.ermslibrary.models.Attendance
@@ -24,6 +25,7 @@ class ViewAttendanceFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val attendanceViewModel: AttendanceViewModel by viewModels()
+    private var attendanceToday: ArrayList<Attendance> = ArrayList()
     private val adapter = AttendanceListingAdapter()
     private var attendanceList: ArrayList<Attendance> = ArrayList()
     private lateinit var progressDialog: Dialog
@@ -50,17 +52,19 @@ class ViewAttendanceFragment : Fragment() {
         observer()
         setForToday()
 
+        attendanceViewModel.getAttendanceList()
+        attendanceViewModel.getAttendanceForToday()
+
         binding.rvAttendance.layoutManager = LinearLayoutManager(requireContext())
         binding.rvAttendance.adapter = adapter
-
     }
 
-    private fun setForToday() {
+    private fun setForToday(attendance: Attendance? = null) {
         val day = SimpleDateFormat("dd").format(Date())
         if (attendanceList.isNotEmpty()) {
-            if (attendanceList[0].day == day) {
-                binding.tvStatus.text = attendanceList[0].status
-                binding.tvSubmissionTime.text = attendanceList[0].time
+            with (binding) {
+                tvStatus.text = attendance?.status ?: "Absent"
+                tvSubmissionTime.text = attendance?.time ?: "N/A"
             }
         } else {
             toast("No attendance found for today")
@@ -76,7 +80,7 @@ class ViewAttendanceFragment : Fragment() {
                 is UiState.Success -> {
                     progressDialog.dismiss()
                     toast("Success ${it.data}")
-                    adapter.attendanceList = it.data as ArrayList<Attendance>
+                    adapter.attendanceList = it.data as MutableList<Attendance>
                     adapter.submitList(it.data)
                 }
                 is UiState.Error -> {
@@ -92,8 +96,12 @@ class ViewAttendanceFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     progressDialog.dismiss()
-                    attendanceList = it.data as ArrayList<Attendance>
-                    setForToday()
+                    for (attendance in it.data as ArrayList<Attendance>) {
+                        if (attendance.employeeId == FirebaseAuth.getInstance().currentUser?.uid) {
+                            attendanceToday.add(attendance)
+                            setForToday(attendanceToday[0])
+                        }
+                    }
                 }
                 is UiState.Error -> {
                     progressDialog.dismiss()

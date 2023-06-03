@@ -76,4 +76,13 @@ object RepositoryModule {
     ) : EventRepository {
         return EventRepositoryImpl(database, sharedPreferences)
     }
+
+    @Provides
+    @Singleton
+    fun provideChatRepository(
+        database: FirebaseDatabase,
+        auth: FirebaseAuth
+    ) : ChatRepository {
+        return ChatRepositoryImpl(database, auth)
+    }
 }

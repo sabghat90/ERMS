@@ -37,6 +37,10 @@ class EmployeeViewModel @Inject constructor(
     val removePoints: LiveData<UiState<String>>
         get() = _removePoints
 
+    init {
+        getEmployee()
+    }
+
     fun getEmployeeList() {
         _getEmployeeList.value = UiState.Loading
         viewModelScope.launch {
@@ -46,7 +50,7 @@ class EmployeeViewModel @Inject constructor(
         }
     }
 
-    fun getEmployee() {
+    private fun getEmployee() {
         getEmployee.value = UiState.Loading
         viewModelScope.launch {
             employeeRepository.getEmployee {
@@ -69,17 +73,17 @@ class EmployeeViewModel @Inject constructor(
         }
     }
 
-    fun addPoints(id: String) {
+    fun addPoints(id: String, points: Double) {
         _addPoints.value = UiState.Loading
         viewModelScope.launch {
-            _addPoints.value = employeeRepository.addPoints(id)
+            _addPoints.value = employeeRepository.addPoints(id, points)
         }
     }
 
-    fun removePoints(id: String) {
+    fun removePoints(id: String, points: Double) {
         _removePoints.value = UiState.Loading
         viewModelScope.launch {
-            _removePoints.value = employeeRepository.removePoints(id)
+            _removePoints.value = employeeRepository.removePoints(id, points)
         }
     }
 }

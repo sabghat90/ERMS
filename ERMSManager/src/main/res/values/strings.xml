@@ -140,4 +140,6 @@
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="settings">Settings</string>
+    <string name="button_send">Button Send</string>
+    <string name="chat">Chat</string>
 </resources>

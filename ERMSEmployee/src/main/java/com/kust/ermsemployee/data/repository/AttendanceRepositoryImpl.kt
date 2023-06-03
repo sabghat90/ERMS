@@ -1,5 +1,6 @@
 package com.kust.ermsemployee.data.repository
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -20,56 +21,66 @@ class AttendanceRepositoryImpl(
     private val month = SimpleDateFormat("MMMM").format(Date())
     private val day = SimpleDateFormat("dd").format(Date())
 
-    override fun getAttendance(attendance: Attendance, result: (UiState<List<Attendance>>) -> Unit) {
+    override suspend fun getAttendance(result: (UiState<List<Attendance>>) -> Unit) {
+        try {
+            val reference = firebaseDatabase.getReference(FirebaseRealtimeDatabaseConstants.ATTENDANCE)
+                .child(year)
+                .child(month)
+                .child(day)
 
 
-        // get attendance from firebase realtime database where id field is equal to current user id
-        val reference = firebaseDatabase.getReference(FirebaseRealtimeDatabaseConstants.ATTENDANCE)
-            .child(year)
-            .child(month)
-            .child(day)
 
-        reference.addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val attendanceList = ArrayList<Attendance>()
-                for (data in snapshot.children) {
-                    val attendance = data.getValue(Attendance::class.java)
-                    if (attendance != null) {
-                        attendanceList.add(attendance)
+            reference.addListenerForSingleValueEvent(object: ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val attendanceList = ArrayList<Attendance>()
+                    for (data in snapshot.children) {
+                        val attendance = data.getValue(Attendance::class.java)
+                        if (attendance != null) {
+                            attendanceList.add(attendance)
+                        }
                     }
+                    result(UiState.Success(attendanceList))
                 }
-                result(UiState.Success(attendanceList))
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                result(UiState.Error(error.message))
-            }
-        })
+                override fun onCancelled(error: DatabaseError) {
+                    result(UiState.Error(error.message))
+                }
+            })
+        } catch (e: Exception) {
+            result(UiState.Error(e.message))
+        }
     }
 
-    override fun getAttendanceForToday(
+    override suspend fun getAttendanceForToday(
         result: (UiState<List<Attendance>>) -> Unit
     ) {
-        val reference = firebaseDatabase.getReference(FirebaseRealtimeDatabaseConstants.ATTENDANCE)
-            .child(year)
-            .child(month)
-            .child(day)
+        try {
+            val id = auth.currentUser?.uid.toString()
+            val reference = firebaseDatabase.getReference(FirebaseRealtimeDatabaseConstants.ATTENDANCE)
+                .child(year)
+                .child(month)
+                .child(day)
+                .orderByChild("employeeId")
+                .equalTo(id)
 
-        reference.addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val attendanceList = ArrayList<Attendance>()
-                for (data in snapshot.children) {
-                    val attendance = data.getValue(Attendance::class.java)
-                    if (attendance != null) {
-                        attendanceList.add(attendance)
+            reference.addListenerForSingleValueEvent(object: ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val attendanceList = ArrayList<Attendance>()
+                    for (data in snapshot.children) {
+                        val attendance = data.getValue(Attendance::class.java)
+                        if (attendance != null) {
+                            attendanceList.add(attendance)
+                        }
                     }
+                    result(UiState.Success(attendanceList))
                 }
-                result(UiState.Success(attendanceList))
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                result(UiState.Error(error.message))
-            }
-        })
+                override fun onCancelled(error: DatabaseError) {
+                    result(UiState.Error(error.message))
+                }
+            })
+        } catch (e: Exception) {
+            result(UiState.Error(e.message))
+        }
     }
 }

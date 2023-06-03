@@ -13,16 +13,19 @@ import com.kust.ermslibrary.models.Employee
 import com.kust.ermslibrary.models.NotificationData
 import com.kust.ermslibrary.models.PushNotification
 import com.kust.ermslibrary.services.NotificationService
+import com.kust.ermslibrary.utils.AttendancePoints
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.hideKeyboard
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.databinding.FragmentAttendanceSheetBinding
 import com.kust.ermslibrary.utils.toast
+import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class AttendanceSheetFragment : Fragment() {
@@ -32,11 +35,13 @@ class AttendanceSheetFragment : Fragment() {
 
     private lateinit var employeeObj: Employee
     private val attendanceViewModel: AttendanceViewModel by viewModels()
+    private val employeeViewModel: EmployeeViewModel by viewModels()
 
     // notification service instance
     private val notificationService = NotificationService()
 
     private lateinit var day : String
+    private var points by Delegates.notNull<Double>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,6 +61,7 @@ class AttendanceSheetFragment : Fragment() {
         binding.btnSubmitAttendance.setOnClickListener {
             hideKeyboard()
             attendanceViewModel.markAttendance(getAttendanceObj())
+            employeeViewModel.addPoints(employeeObj.id, points)
         }
 
         binding.datePickerLayout.setOnClickListener {
@@ -172,26 +178,32 @@ class AttendanceSheetFragment : Fragment() {
         with(binding) {
             when {
                 rbtnPresent.isChecked -> {
+                    points = AttendancePoints.PRESENT
                     return Attendance.STATUS_PRESENT
                 }
 
                 rbtnAbsent.isChecked -> {
+                    points = AttendancePoints.ABSENT
                     return Attendance.STATUS_ABSENT
                 }
 
                 rbtnLeave.isChecked -> {
+                    points = AttendancePoints.LEAVE
                     return Attendance.STATUS_LEAVE
                 }
 
                 rbtnHoliday.isChecked -> {
+                    points = AttendancePoints.HOLIDAY
                     return Attendance.STATUS_HOLIDAY
                 }
 
                 rbtnHalfDay.isChecked -> {
+                    points = AttendancePoints.HALF_DAY
                     return Attendance.STATUS_HALF_DAY
                 }
 
                 rbtnOvertime.isChecked -> {
+                    points = AttendancePoints.OVERTIME
                     return Attendance.STATUS_OVERTIME
                 }
 

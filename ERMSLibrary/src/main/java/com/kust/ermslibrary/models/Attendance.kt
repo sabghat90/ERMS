@@ -21,6 +21,6 @@ data class Attendance(
         const val STATUS_LEAVE = "Leave"
         const val STATUS_HOLIDAY = "Holiday"
         const val STATUS_HALF_DAY = "Half_day"
-        const val STATUS_OVERTIME = "overtime"
+        const val STATUS_OVERTIME = "Overtime"
     }
 }

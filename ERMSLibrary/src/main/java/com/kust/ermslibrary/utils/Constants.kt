@@ -15,6 +15,7 @@ object FirebaseStorageConstants {
 
 object FirebaseRealtimeDatabaseConstants {
     const val ATTENDANCE = "attendance"
+    const val CHAT = "chats"
 }
 
 object Role {
@@ -33,12 +34,32 @@ object TaskStatus {
     const val RESUBMITTED = "Resubmitted"
 }
 
+object TaskPoints {
+    const val PENDING = 0
+    const val IN_PROGRESS = 0
+    const val COMPLETED = 0
+    const val SUBMITTED = 10.00
+    const val APPROVED = 10.00
+    const val REJECTED = 0
+    const val RESUBMITTED = 10.00
+}
+
 object ComplaintStatus {
     const val PENDING = "Pending"
     const val IN_PROGRESS = "In Progress"
     const val RESOLVED = "Resolved"
     const val REJECTED = "Rejected"
     const val CLOSED = "Closed"
+}
+
+object AttendancePoints {
+    const val PRESENT = 10.00
+    const val ABSENT = 0.00
+    const val LATE = 5.00
+    const val HALF_DAY = 5.00
+    const val LEAVE = 10.00
+    const val HOLIDAY = 0.00
+    const val OVERTIME = 15.00
 }
 
 object SharedPreferencesConstants {

@@ -49,13 +49,12 @@ class FeaturesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         progressDialog = Dialog(requireContext())
+        progressDialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
         progressDialog.setContentView(R.layout.custom_progress_dialog)
         progressDialog.setCancelable(false)
         progressDialog.setCanceledOnTouchOutside(false)
-        progressDialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
 
         observer()
-        employeeViewModel.getEmployee()
 
         val features = mutableListOf<Feature>()
         features.add(Feature("View Employees", R.drawable.avatar2))
@@ -109,9 +108,7 @@ class FeaturesFragment : Fragment() {
 
                 is UiState.Success -> {
                     progressDialog.dismiss()
-                    if (it.data.role == Role.MANAGER) {
-                        toast("Welcome ${it.data.name}")
-                    } else {
+                    if (it.data.role != Role.MANAGER) {
                         toast("You are no longer a manager")
                         authViewModel.logout {
                             val intent = Intent(requireContext(), AuthActivity::class.java)

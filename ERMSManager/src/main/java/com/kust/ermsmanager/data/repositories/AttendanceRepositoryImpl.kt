@@ -17,56 +17,90 @@ class AttendanceRepositoryImpl(
     private val year = SimpleDateFormat("yyyy").format(Date())
     private val month = SimpleDateFormat("MMMM").format(Date())
     private val day = SimpleDateFormat("dd").format(Date())
-    override fun markAttendance(
+    override suspend fun markAttendance(
         attendance: Attendance,
         result: (UiState<String>) -> Unit
     ) {
-        val attendanceRef = database.getReference(FirebaseRealtimeDatabaseConstants.ATTENDANCE)
-            .child(attendance.year)
-            .child(attendance.month)
-            .child(attendance.day)
-            .child(attendance.employeeId)
+        try {
+            val reference = database.getReference(FirebaseRealtimeDatabaseConstants.ATTENDANCE)
+                .child(year)
+                .child(month)
+                .child(day)
+                .child(attendance.employeeId)
 
-        attendanceRef.setValue(attendance).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                result(UiState.Success("Attendance marked successfully"))
-            } else {
-                result(UiState.Error(task.exception?.message.toString()))
+            reference.setValue(attendance).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    result.invoke(UiState.Success("Attendance marked successfully"))
+                } else {
+                    result.invoke(UiState.Error(it.exception?.localizedMessage))
+                }
             }
+        } catch (e: Exception) {
+            result.invoke(UiState.Error(e.localizedMessage))
         }
     }
 
-    override fun getAttendanceForOneEmployee(
+    override suspend fun getAttendanceForOneEmployee(
         id: String,
         result: (UiState<List<Attendance>>) -> Unit
     ) {
+        try {
+            val reference = database.getReference(FirebaseRealtimeDatabaseConstants.ATTENDANCE)
+                .child(year)
+                .child(month)
+                .child(day)
+                .child(id)
 
+            reference.addListenerForSingleValueEvent(object: ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val attendanceList = ArrayList<Attendance>()
+                    for (data in snapshot.children) {
+                        val attendance = data.getValue(Attendance::class.java)
+                        if (attendance != null) {
+                            attendanceList.add(attendance)
+                        }
+                    }
+                    result(UiState.Success(attendanceList))
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    result(UiState.Error(error.message))
+                }
+            })
+        } catch (e: Exception) {
+            result.invoke(UiState.Error(e.localizedMessage))
+        }
     }
 
-    override fun getAttendance(
+    override suspend fun getAttendance(
         result: (UiState<List<Attendance>>) -> Unit
     ) {
         // get attendance from firebase realtime database where id field is equal to current user id
-        val reference = database.getReference(FirebaseRealtimeDatabaseConstants.ATTENDANCE)
-            .child(year)
-            .child(month)
-            .child(day)
+        try {
+            val reference = database.getReference(FirebaseRealtimeDatabaseConstants.ATTENDANCE)
+                .child(year)
+                .child(month)
+                .child(day)
 
-        reference.addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val attendanceList = ArrayList<Attendance>()
-                for (data in snapshot.children) {
-                    val attendance = data.getValue(Attendance::class.java)
-                    if (attendance != null) {
-                        attendanceList.add(attendance)
+            reference.addListenerForSingleValueEvent(object: ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val attendanceList = ArrayList<Attendance>()
+                    for (data in snapshot.children) {
+                        val attendance = data.getValue(Attendance::class.java)
+                        if (attendance != null) {
+                            attendanceList.add(attendance)
+                        }
                     }
+                    result(UiState.Success(attendanceList))
                 }
-                result(UiState.Success(attendanceList))
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                result(UiState.Error(error.message))
-            }
-        })
+                override fun onCancelled(error: DatabaseError) {
+                    result(UiState.Error(error.message))
+                }
+            })
+
+        } catch (e: Exception) {
+            result.invoke(UiState.Error(e.localizedMessage))
+        }
     }
 }

@@ -34,7 +34,7 @@ class EmployeeViewModel @Inject constructor(
         get() = _getEmployeeRank
 
     init {
-        getEmployeeList(Employee())
+        getEmployee()
     }
 
     private fun getEmployeeList(employee: Employee) {
@@ -44,7 +44,7 @@ class EmployeeViewModel @Inject constructor(
         }
     }
 
-    fun getEmployee() {
+    private fun getEmployee() {
         _getEmployee.value = UiState.Loading
         viewModelScope.launch {
             employeeRepository.getEmployee {

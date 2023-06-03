@@ -10,7 +10,6 @@ import android.view.Window
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -58,11 +57,7 @@ class FeaturesFragment : Fragment() {
         progressDialog.setCancelable(false)
         progressDialog.setCanceledOnTouchOutside(false)
 
-
         observer()
-        lifecycleScope.launchWhenStarted {
-            employeeViewModel.getEmployee()
-        }
 
         binding.rvFeatures.visibility = View.VISIBLE
 
@@ -129,9 +124,7 @@ class FeaturesFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     progressDialog.dismiss()
-                    if (it.data.role == Role.EMPLOYEE) {
-                        toast("Welcome ${it.data.name}")
-                    } else {
+                    if (it.data.role != Role.EMPLOYEE) {
                         toast("You are no longer an employee")
                         authViewModel.logout {
                             val intent = Intent(requireContext(), AuthActivity::class.java)

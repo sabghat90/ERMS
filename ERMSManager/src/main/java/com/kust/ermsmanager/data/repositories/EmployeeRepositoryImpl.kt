@@ -123,17 +123,17 @@ class EmployeeRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addPoints(id: String): UiState<String> {
+    override suspend fun addPoints(id: String, points: Double): UiState<String> {
         val userRef = database.collection(FireStoreCollectionConstants.USERS).document(id)
 
         return try {
             val result = suspendCoroutine { continuation ->
                 database.runTransaction { transaction ->
                     val documentSnapshot = transaction.get(userRef)
-                    val points = documentSnapshot.getDouble("points") ?: 0.0
+                    val oldPoints = documentSnapshot.getDouble("points") ?: 0.0
 
                     // Increment the points by 5
-                    val newPoints = points + 5
+                    val newPoints = oldPoints + points
                     transaction.update(userRef, "points", newPoints)
                 }.addOnSuccessListener {
                     continuation.resume(UiState.Success("Successfully added points!"))
@@ -147,17 +147,17 @@ class EmployeeRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun removePoints(id: String): UiState<String> {
+    override suspend fun removePoints(id: String, points: Double): UiState<String> {
         val userRef = database.collection(FireStoreCollectionConstants.USERS).document(id)
 
         return try {
             val result = suspendCoroutine { continuation ->
                 database.runTransaction { transaction ->
                     val documentSnapshot = transaction.get(userRef)
-                    val points = documentSnapshot.getDouble("points") ?: 0.0
+                    val oldPoints = documentSnapshot.getDouble("points") ?: 0.0
 
                     // Decrement the points by 5
-                    val newPoints = points - 5
+                    val newPoints = oldPoints - points
                     transaction.update(userRef, "points", newPoints)
                 }.addOnSuccessListener {
                     continuation.resume(UiState.Success("Successfully removed points!"))

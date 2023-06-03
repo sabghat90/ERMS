@@ -1,5 +1,6 @@
 package com.kust.ermsmanager.ui.task
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -7,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +18,7 @@ import com.kust.ermslibrary.models.PushNotification
 import com.kust.ermslibrary.models.Task
 import com.kust.ermslibrary.services.NotificationService
 import com.kust.ermslibrary.utils.ConvertDateAndTimeFormat
+import com.kust.ermslibrary.utils.TaskPoints
 import com.kust.ermslibrary.utils.TaskStatus
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast
@@ -42,6 +45,8 @@ class TaskDetailFragment : Fragment() {
 
     private val notificationService = NotificationService()
 
+    private lateinit var progressDialog: Dialog
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,6 +59,14 @@ class TaskDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
+
+        progressDialog = Dialog(requireContext())
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        progressDialog.setContentView(R.layout.custom_progress_dialog)
+        progressDialog.setCancelable(false)
+        progressDialog.setCanceledOnTouchOutside(false)
+
+
         updateUI()
         observer()
     }
@@ -63,14 +76,16 @@ class TaskDetailFragment : Fragment() {
         taskViewModel.deleteTask.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
-
+                    progressDialog.show()
                 }
 
                 is UiState.Success -> {
+                    progressDialog.dismiss()
                     toast(it.data.toString())
                 }
 
                 is UiState.Error -> {
+                    progressDialog.dismiss()
                     toast(it.error)
                 }
             }
@@ -78,15 +93,17 @@ class TaskDetailFragment : Fragment() {
         employeeViewModel.addPoints.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
-
+                    progressDialog.show()
                 }
 
                 is UiState.Success -> {
+                    progressDialog.dismiss()
                     sendNotification(TaskStatus.APPROVED)
                     toast(it.data)
                 }
 
                 is UiState.Error -> {
+                    progressDialog.dismiss()
                     toast(it.error)
                 }
             }
@@ -94,16 +111,18 @@ class TaskDetailFragment : Fragment() {
         employeeViewModel.removePoints.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
-
+                    progressDialog.show()
                 }
 
                 is UiState.Success -> {
+                    progressDialog.dismiss()
                     sendNotification(TaskStatus.RESUBMITTED)
                     toast(it.data)
                     findNavController().navigate(R.id.action_taskDetailFragment_to_taskListingFragment)
                 }
 
                 is UiState.Error -> {
+                    progressDialog.dismiss()
                     toast(it.error)
                 }
             }
@@ -125,6 +144,7 @@ class TaskDetailFragment : Fragment() {
                     notificationService.sendNotification(it)
                 }
             }
+
             TaskStatus.APPROVED -> {
                 val title = "Task Approved"
                 val message = "Your task has been approved by your manager"
@@ -169,10 +189,12 @@ class TaskDetailFragment : Fragment() {
                 binding.btnApproveTask.visibility = View.GONE
                 binding.btnResubmitTask.visibility = View.GONE
             }
+
             TaskStatus.RESUBMITTED -> {
                 binding.btnApproveTask.visibility = View.VISIBLE
                 binding.btnResubmitTask.visibility = View.VISIBLE
             }
+
             TaskStatus.APPROVED -> {
                 binding.btnApproveTask.visibility = View.GONE
                 binding.btnResubmitTask.visibility = View.VISIBLE
@@ -180,14 +202,16 @@ class TaskDetailFragment : Fragment() {
                     task.status = TaskStatus.RESUBMITTED
                     taskViewModel.updateTask(task)
                     lifecycleScope.launch {
-                        employeeViewModel.removePoints(task.assigneeId)
+                        employeeViewModel.removePoints(task.assigneeId, TaskPoints.APPROVED)
                     }
                 }
             }
+
             TaskStatus.IN_PROGRESS -> {
                 binding.btnApproveTask.visibility = View.GONE
                 binding.btnResubmitTask.visibility = View.GONE
             }
+
             TaskStatus.SUBMITTED -> {
                 binding.btnApproveTask.visibility = View.VISIBLE
                 binding.btnResubmitTask.visibility = View.VISIBLE
@@ -195,7 +219,7 @@ class TaskDetailFragment : Fragment() {
                     task.status = TaskStatus.APPROVED
                     taskViewModel.updateTask(task)
                     lifecycleScope.launch {
-                        employeeViewModel.addPoints(task.assigneeId)
+                        employeeViewModel.addPoints(task.assigneeId, TaskPoints.RESUBMITTED)
                     }
                 }
             }
@@ -211,6 +235,7 @@ class TaskDetailFragment : Fragment() {
                 }
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
