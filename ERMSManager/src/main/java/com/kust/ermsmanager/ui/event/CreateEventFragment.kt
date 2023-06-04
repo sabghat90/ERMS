@@ -28,6 +28,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CreateEventFragment : Fragment() {
@@ -41,7 +42,8 @@ class CreateEventFragment : Fragment() {
     // create employee list to store all employees from database
     private var employeeList = listOf<Employee>()
 
-    private val notificationService = NotificationService()
+    @Inject
+    lateinit var notificationService: NotificationService
 
     private var selectedDateTimestamp: Date? = null
 

@@ -87,4 +87,7 @@
     <string name="update_your_profile">Update Your Profile</string>
     <string name="gender">Gender</string>
     <string name="state">State</string>
+    <string name="chat">Chat</string>
+    <string name="button_send">Send Message</string>
+    <string name="time">Time</string>
 </resources>

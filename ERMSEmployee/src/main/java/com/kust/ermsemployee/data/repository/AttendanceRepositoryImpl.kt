@@ -28,8 +28,6 @@ class AttendanceRepositoryImpl(
                 .child(month)
                 .child(day)
 
-
-
             reference.addListenerForSingleValueEvent(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val attendanceList = ArrayList<Attendance>()

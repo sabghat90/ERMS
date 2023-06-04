@@ -11,8 +11,12 @@ import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.kust.ermslibrary.models.Employee
 import com.kust.ermslibrary.models.Message
+import com.kust.ermslibrary.models.NotificationData
+import com.kust.ermslibrary.models.PushNotification
+import com.kust.ermslibrary.services.NotificationService
 import com.kust.ermsmanager.databinding.FragmentChatBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ChatFragment : Fragment() {
@@ -26,6 +30,9 @@ class ChatFragment : Fragment() {
 
     private lateinit var employee: Employee
 
+    @Inject
+    lateinit var notificationService: NotificationService
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,10 +44,12 @@ class ChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // set action bar title to employee name
-        requireActivity().title = requireArguments().getString("name")
+
 
         employee = requireArguments().getParcelable("employee")!!
+
+        // set action bar title to employee name
+        requireActivity().title = employee.name
 
         observer()
         chatViewModel.getChatList(employee.id)
@@ -52,7 +61,21 @@ class ChatFragment : Fragment() {
             if (binding.etMessage.text.toString().isNotEmpty()) {
                 chatViewModel.sendMessage(getMessage(), employee.id)
                 binding.etMessage.text = null
+                sendNotification()
             }
+        }
+    }
+
+    private fun sendNotification() {
+        val notificationData = "${employee.name} you have a new message"
+        PushNotification(
+            NotificationData(
+                title = "New Message",
+                body = notificationData
+            ),
+            to = employee.fcmToken
+        ).also {
+            notificationService.sendNotification(it)
         }
     }
 
@@ -64,7 +87,6 @@ class ChatFragment : Fragment() {
     }
 
     private fun getMessage(): Message {
-
         val message = binding.etMessage.text.toString()
         return Message(
             body = message,

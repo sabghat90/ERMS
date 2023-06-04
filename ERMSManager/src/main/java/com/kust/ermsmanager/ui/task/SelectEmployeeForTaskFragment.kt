@@ -47,6 +47,7 @@ class SelectEmployeeForTaskFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observer()
+        employeeViewModel.getEmployeeList()
 
         binding.rvEmpList.layoutManager = LinearLayoutManager(requireContext())
         binding.rvEmpList.adapter = adapter

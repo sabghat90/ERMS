@@ -37,9 +37,9 @@ class EmployeeViewModel @Inject constructor(
         getEmployee()
     }
 
-    private fun getEmployeeList(employee: Employee) {
+    fun getEmployeeList() {
         _getEmployeeList.value = UiState.Loading
-        employeeRepository.getEmployeeList(employee) {
+        employeeRepository.getEmployeeList() {
             _getEmployeeList.value = it
         }
     }

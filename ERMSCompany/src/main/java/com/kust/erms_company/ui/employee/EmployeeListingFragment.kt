@@ -57,6 +57,7 @@ class EmployeeListingFragment : Fragment() {
                     binding.shimmerLayout.startShimmer()
                 }
                 is UiState.Success -> {
+                    adapter.employeeList = it.data as MutableList<Employee>
                     adapter.submitList(it.data)
                     binding.shimmerLayout.stopShimmer()
                     binding.shimmerLayout.visibility = View.GONE

@@ -29,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -43,7 +44,8 @@ class TaskDetailFragment : Fragment() {
     private val taskViewModel: TaskViewModel by viewModels()
     private val employeeViewModel: EmployeeViewModel by viewModels()
 
-    private val notificationService = NotificationService()
+    @Inject
+    lateinit var notificationService: NotificationService
 
     private lateinit var progressDialog: Dialog
 

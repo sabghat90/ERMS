@@ -27,7 +27,6 @@ class EmployeeRepositoryImpl @Inject constructor(
     private val gson: Gson
 ) : EmployeeRepository {
     override fun getEmployeeList(
-        employee: Employee?,
         result: (UiState<List<Employee>>) -> Unit
     ) {
         // get company id from shared preference

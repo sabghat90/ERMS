@@ -1,6 +1,7 @@
 package com.kust.erms_company.di
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
@@ -25,7 +26,7 @@ object FirebaseModule {
 
     @Provides
     @Singleton
-    fun provideFirebaseDatabase() : FirebaseFirestore {
+    fun provideFirebaseFirestore() : FirebaseFirestore {
         return FirebaseFirestore.getInstance()
     }
 
@@ -34,6 +35,12 @@ object FirebaseModule {
     @Named(FirebaseStorageConstants.COMPANY_PROFILE)
     fun provideFirebaseStorage() : StorageReference {
         return FirebaseStorage.getInstance().getReference(FirebaseStorageConstants.COMPANY_PROFILE)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseDatabase() : FirebaseDatabase {
+        return FirebaseDatabase.getInstance()
     }
 
     @Provides

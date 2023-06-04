@@ -110,6 +110,7 @@
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="settings">Settings</string>
+    <string name="chat">Chat</string>
 
     <string-array name="gender">
         <item>Male</item>

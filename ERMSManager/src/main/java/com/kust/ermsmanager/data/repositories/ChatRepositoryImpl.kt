@@ -25,13 +25,13 @@ class ChatRepositoryImpl(
             val senderId = auth.currentUser?.uid ?: return
             val senderRoom = receiverId + senderId
 
-            val senderReference = database.reference.child(FirebaseRealtimeDatabaseConstants.CHAT).child(senderRoom).push()
+            val senderReference = database.reference.child(FirebaseRealtimeDatabaseConstants.CHAT).child(senderRoom).child(FirebaseRealtimeDatabaseConstants.CHAT_MESSAGES).push()
             val messageId = senderReference.key ?: return
             message.id = messageId
             senderReference.setValue(message)
                 .addOnSuccessListener {
                     val receiverRoom = senderId + receiverId
-                    val receiverReference = database.reference.child(FirebaseRealtimeDatabaseConstants.CHAT).child(receiverRoom).push()
+                    val receiverReference = database.reference.child(FirebaseRealtimeDatabaseConstants.CHAT).child(receiverRoom).child(FirebaseRealtimeDatabaseConstants.CHAT_MESSAGES).push()
                     receiverReference.setValue(message)
                         .addOnSuccessListener {
                             result(UiState.Success(messageId))
@@ -51,8 +51,8 @@ class ChatRepositoryImpl(
             val senderRoom = receiverId + senderId
             val receiverRoom = senderId + receiverId
 
-            val senderReference = database.reference.child(FirebaseRealtimeDatabaseConstants.CHAT).child(senderRoom)
-            val receiverReference = database.reference.child(FirebaseRealtimeDatabaseConstants.CHAT).child(receiverRoom)
+            val senderReference = database.reference.child(FirebaseRealtimeDatabaseConstants.CHAT).child(senderRoom).child(FirebaseRealtimeDatabaseConstants.CHAT_MESSAGES)
+            val receiverReference = database.reference.child(FirebaseRealtimeDatabaseConstants.CHAT).child(receiverRoom).child(FirebaseRealtimeDatabaseConstants.CHAT_MESSAGES)
 
             senderReference.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {

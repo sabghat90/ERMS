@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -46,7 +47,8 @@ class CreateTaskFragment : Fragment() {
         arguments?.getParcelable<Employee>("employee")
     }
     private var selectedDateTimestamp: Date? = null
-    private val notificationService = NotificationService()
+    @Inject
+    lateinit var notificationService: NotificationService
     private lateinit var manager: Employee
     private val authViewModel: AuthViewModel by viewModels()
 
@@ -147,7 +149,7 @@ class CreateTaskFragment : Fragment() {
             to = token
         )
             .also {
-                notificationService.sendNotification(it)
+                notificationService!!.sendNotification(it)
             }
     }
 

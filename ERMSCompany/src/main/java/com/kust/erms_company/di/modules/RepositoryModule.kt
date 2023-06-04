@@ -1,4 +1,4 @@
-package com.kust.erms_company.di
+package com.kust.erms_company.di.modules
 
 import android.content.SharedPreferences
 import com.google.firebase.auth.FirebaseAuth
@@ -30,34 +30,5 @@ object RepositoryModule {
         firebaseMessaging: FirebaseMessaging
     ) : AuthRepository {
         return AuthRepositoryImpl(auth, database, sharedPreferences, gson, firebaseMessaging)
-    }
-
-    @Provides
-    @Singleton
-    fun provideEmployeeRepository(
-        auth: FirebaseAuth,
-        database: FirebaseFirestore,
-    ): EmployeeRepository {
-        return EmployeeRepositoryImpl(auth, database)
-    }
-
-    @Provides
-    @Singleton
-    fun provideCompanyRepository(
-        auth: FirebaseAuth,
-        database: FirebaseFirestore,
-        @Named(FirebaseStorageConstants.COMPANY_PROFILE)
-        storage: StorageReference
-    ): CompanyRepository {
-        return CompanyRepositoryImpl(auth, database, storage)
-    }
-
-    @Provides
-    @Singleton
-    fun provideComplaintRepository(
-        database: FirebaseFirestore,
-        auth: FirebaseAuth
-    ) : ComplaintRepository {
-        return ComplaintRepositoryImpl(database, auth)
     }
 }

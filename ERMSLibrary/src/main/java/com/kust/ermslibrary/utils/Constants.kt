@@ -16,6 +16,7 @@ object FirebaseStorageConstants {
 object FirebaseRealtimeDatabaseConstants {
     const val ATTENDANCE = "attendance"
     const val CHAT = "chats"
+    const val CHAT_MESSAGES = "messages"
 }
 
 object Role {

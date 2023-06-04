@@ -37,6 +37,7 @@ class DashboardActivity : AppCompatActivity() {
     private fun setUpBottomNav() {
         val graphIds = listOf(
             R.navigation.home_nav_graph,
+            R.navigation.chat_nav_graph,
             R.navigation.profile_nav_graph,
             R.navigation.setting_nav_graph
         )

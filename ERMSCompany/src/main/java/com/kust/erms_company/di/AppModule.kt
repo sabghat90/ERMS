@@ -3,6 +3,7 @@ package com.kust.erms_company.di
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
+import com.kust.ermslibrary.services.NotificationService
 import com.kust.ermslibrary.utils.SharedPreferencesConstants
 import dagger.Module
 import dagger.Provides
@@ -25,5 +26,11 @@ object AppModule {
     @Provides
     fun provideGson(): Gson {
         return Gson()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotificationRepository(): NotificationService {
+        return NotificationService()
     }
 }
