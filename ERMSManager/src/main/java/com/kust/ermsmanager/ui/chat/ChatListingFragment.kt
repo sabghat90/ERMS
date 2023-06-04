@@ -71,7 +71,6 @@ class ChatListingFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     progressDialog.dismiss()
-                    adapter.employeeList = state.data as MutableList<Employee>
                     adapter.submitList(state.data)
                 }
                 is UiState.Error -> {

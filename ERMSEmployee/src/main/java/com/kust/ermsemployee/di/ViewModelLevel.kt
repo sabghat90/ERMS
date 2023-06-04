@@ -18,11 +18,13 @@ import com.kust.ermsemployee.data.repository.EventRepository
 import com.kust.ermsemployee.data.repository.EventRepositoryImpl
 import com.kust.ermsemployee.data.repository.TaskRepository
 import com.kust.ermsemployee.data.repository.TaskRepositoryImpl
+import com.kust.ermslibrary.utils.FirebaseStorageConstants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
+import javax.inject.Named
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -70,7 +72,7 @@ object ViewModelLevel {
     fun provideEmployeeRepository(
         auth: FirebaseAuth,
         database: FirebaseFirestore,
-//        @Named("employeeProfile")
+        @Named(FirebaseStorageConstants.EMPLOYEE_PROFILE)
         firebaseStorage: StorageReference,
         sharedPreferences: SharedPreferences,
         gson: Gson

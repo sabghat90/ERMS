@@ -60,7 +60,6 @@ class SelectEmployeeForTaskFragment : Fragment() {
 
                 }
                 is UiState.Success -> {
-                    adapter.employeeList = it.data as ArrayList
                     adapter.submitList(it.data)
                 }
                 is UiState.Error -> {

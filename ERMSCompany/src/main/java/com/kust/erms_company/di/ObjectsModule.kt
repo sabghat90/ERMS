@@ -40,9 +40,4 @@ object ObjectsModule {
         return Complaint()
     }
 
-    @Provides
-    @FragmentScoped
-    fun provideDialogObject(context: Context): Dialog {
-        return Dialog(context)
-    }
 }

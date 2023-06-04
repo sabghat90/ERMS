@@ -6,6 +6,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
+import com.kust.ermslibrary.utils.FirebaseStorageConstants
 import com.kust.ermsmanager.data.repositories.AttendanceRepository
 import com.kust.ermsmanager.data.repositories.AttendanceRepositoryImpl
 import com.kust.ermsmanager.data.repositories.ChatRepository
@@ -59,7 +60,7 @@ object ViewModelLevelModule {
     fun provideEmployeeRepository(
         auth: FirebaseAuth,
         database: FirebaseFirestore,
-        @Named("employeeProfile")
+        @Named(FirebaseStorageConstants.EMPLOYEE_PROFILE)
         firebaseStorage: StorageReference,
         sharedPreferences: SharedPreferences,
         gson: Gson

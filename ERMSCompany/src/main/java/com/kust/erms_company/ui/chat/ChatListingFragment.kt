@@ -27,8 +27,7 @@ class ChatListingFragment : Fragment() {
 
     private val employeeViewModel: EmployeeViewModel by viewModels()
 
-    @Inject
-    lateinit var progressDialog: Dialog
+    private lateinit var progressDialog: Dialog
 
     private val adapter: EmployeeListingAdapter by lazy {
         EmployeeListingAdapter(

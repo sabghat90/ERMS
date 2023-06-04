@@ -32,9 +32,9 @@ object FirebaseModule {
 
     @Provides
     @Singleton
-    @Named(FirebaseStorageConstants.COMPANY_PROFILE)
+    @Named(FirebaseStorageConstants.EMPLOYEE_PROFILE)
     fun provideFirebaseStorage() : StorageReference {
-        return FirebaseStorage.getInstance().getReference(FirebaseStorageConstants.COMPANY_PROFILE)
+        return FirebaseStorage.getInstance().getReference(FirebaseStorageConstants.EMPLOYEE_PROFILE)
     }
 
     @Provides
