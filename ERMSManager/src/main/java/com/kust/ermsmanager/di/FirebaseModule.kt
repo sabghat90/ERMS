@@ -32,16 +32,9 @@ object FirebaseModule {
 
     @Provides
     @Singleton
-    @Named("companyProfile")
+    @Named(FirebaseStorageConstants.COMPANY_PROFILE)
     fun provideFirebaseStorage() : StorageReference {
         return FirebaseStorage.getInstance().getReference(FirebaseStorageConstants.COMPANY_PROFILE)
-    }
-
-    @Provides
-    @Singleton
-    @Named("employeeProfile")
-    fun provideFirebaseStorageEmployee() : StorageReference {
-        return FirebaseStorage.getInstance().getReference(FirebaseStorageConstants.EMPLOYEE_PROFILE)
     }
 
     @Provides
@@ -52,8 +45,7 @@ object FirebaseModule {
 
     @Provides
     @Singleton
-    fun provideFirebaseMessaging() : FirebaseMessaging {
+    fun provideFCMToken() : FirebaseMessaging {
         return FirebaseMessaging.getInstance()
     }
-
 }

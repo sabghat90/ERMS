@@ -33,14 +33,12 @@ class EmployeeViewModel @Inject constructor(
     val getEmployeeRank: LiveData<UiState<List<Employee>>>
         get() = _getEmployeeRank
 
-    init {
-        getEmployee()
-    }
-
     fun getEmployeeList() {
         _getEmployeeList.value = UiState.Loading
-        employeeRepository.getEmployeeList() {
-            _getEmployeeList.value = it
+        viewModelScope.launch {
+            employeeRepository.getEmployeeList {
+                _getEmployeeList.value = it
+            }
         }
     }
 

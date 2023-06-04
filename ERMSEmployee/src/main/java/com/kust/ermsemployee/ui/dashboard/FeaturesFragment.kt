@@ -83,8 +83,7 @@ class FeaturesFragment : Fragment() {
             override fun onItemClick(position: Int) {
                 when (position) {
                     0 -> {
-                        Toast.makeText(requireContext(), "View Employees", Toast.LENGTH_SHORT)
-                            .show()
+                        findNavController().navigate(R.id.action_featureFragment_to_employeeListingFragment)
                     }
                     1 -> {
                         findNavController().navigate(R.id.action_featureFragment_to_employeeRankListingFragment)

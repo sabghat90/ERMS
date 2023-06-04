@@ -4,19 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/chat_nav_graph"
     app:startDestination="@id/chatListingFragment">
-
     <fragment
         android:id="@+id/chatListingFragment"
-        android:name="com.kust.erms_company.ui.chat.ChatListingFragment"
-        android:label="fragment_chat_listing"
-        tools:layout="@layout/fragment_chat_listing" >
+        android:name="com.kust.ermsemployee.ui.chat.ChatListingFragment"
+        android:label="Chats"
+        tools:layout="@layout/fragment_chat_listing">
         <action
             android:id="@+id/action_chatListingFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
-        android:name="com.kust.erms_company.ui.chat.ChatFragment"
+        android:name="com.kust.ermsemployee.ui.chat.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" />
 </navigation>

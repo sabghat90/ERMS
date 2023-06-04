@@ -14,10 +14,6 @@ class EmployeeRankingAdapter(
 ) :
     ListAdapter<Employee, EmployeeRankingAdapter.EmployeeViewHolder>(DiffUtilCallback()) {
 
-    // list of employees where i can index to first 3 employees
-    var employeeList = mutableListOf<Employee>()
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmployeeViewHolder {
         val binding =
             EmployeeRankItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -25,15 +21,9 @@ class EmployeeRankingAdapter(
     }
 
     override fun onBindViewHolder(holder: EmployeeViewHolder, position: Int) {
-        val employee = employeeList[position]
-        holder.bind(employee)
+        holder.bind(getItem(position))
     }
 
-    // notifies the adapter that the data set has changed
-    fun updateList(employeeList: MutableList<Employee>) {
-        this.employeeList = employeeList
-        notifyDataSetChanged()
-    }
 
     /**
     Binds the employee data to the views in the item layout.

@@ -75,7 +75,6 @@ class EmployeeListForAttendanceFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     progressDialog.dismiss()
-                    adapter.employeeList = it.data as MutableList<Employee>
                     adapter.submitList(it.data)
                 }
                 is UiState.Error -> {

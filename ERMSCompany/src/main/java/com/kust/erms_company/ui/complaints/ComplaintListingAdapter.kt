@@ -14,8 +14,6 @@ class ComplaintListingAdapter(
     val onItemClicked: (Int, Complaint) -> Unit
 ) : ListAdapter<Complaint, ComplaintListingAdapter.ComplaintViewHolder>(DiffUtilCallback()) {
 
-    var complaintList: MutableList<Complaint> = arrayListOf()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComplaintViewHolder {
         val binding =
             ComplaintItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)

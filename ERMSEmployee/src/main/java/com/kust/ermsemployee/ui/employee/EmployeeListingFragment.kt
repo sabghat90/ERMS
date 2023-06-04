@@ -1,41 +1,37 @@
-package com.kust.ermsmanager.ui.event
+package com.kust.ermsemployee.ui.employee
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kust.ermslibrary.models.Event
+import com.kust.ermsemployee.R
+import com.kust.ermsemployee.databinding.FragmentEmployeeListingBinding
 import com.kust.ermslibrary.utils.UiState
-import com.kust.ermsmanager.R
-import com.kust.ermsmanager.databinding.FragmentEventListingBinding
 import com.kust.ermslibrary.utils.hide
 import com.kust.ermslibrary.utils.show
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class EventListingFragment : Fragment() {
-
-    private var _binding: FragmentEventListingBinding? = null
+class EmployeeListingFragment : Fragment() {
+    private var _binding: FragmentEmployeeListingBinding? = null
     private val binding get() = _binding!!
 
-    private val eventViewModel: EventViewModel by viewModels()
-
+    private val employeeViewModel: EmployeeViewModel by viewModels()
 
     private val adapter by lazy {
-        EventListingAdapter(
-            context = requireContext(),
-            onItemClicked = { _, event ->
+        EmployeeListingAdapter(
+            onItemClicked = { _, employee ->
                 val bundle = Bundle()
-                bundle.putParcelable("event", event)
+                bundle.putParcelable("employee", employee)
                 findNavController().navigate(
-                    R.id.action_eventListingFragment_to_eventDetailFragment,
+                    R.id.action_employeeListingFragment_to_employeeProfileFragment,
                     bundle
                 )
             }
@@ -47,8 +43,7 @@ class EventListingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding =
-            FragmentEventListingBinding.inflate(inflater, container, false)
+        _binding = FragmentEmployeeListingBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -56,40 +51,30 @@ class EventListingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observer()
-
-        eventViewModel.getEventList()
-
-        binding.rvEvents.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvEvents.adapter = adapter
-
-        binding.fabCreateEvent.setOnClickListener {
-            findNavController().navigate(R.id.action_eventListingFragment_to_createEventFragment)
+        lifecycleScope.launch {
+            employeeViewModel.getEmployeeList()
         }
+
+        binding.rvEmployeeList.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvEmployeeList.adapter = adapter
     }
 
     private fun observer() {
-        eventViewModel.getEventList.observe(viewLifecycleOwner) {
+        employeeViewModel.getEmployeeList.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
                     binding.shimmerLayout.startShimmer()
                 }
                 is UiState.Success -> {
                     binding.shimmerLayout.stopShimmer()
-                    binding.shimmerLayout.hide()
-                    if (it.data.isEmpty()) {
-                        binding.tvEventListStatus.show()
-                        binding.rvEvents.hide()
-                    } else {
-                        binding.rvEvents.show()
-                        adapter.submitList(it.data)
-                    }
+                    binding.shimmerLayout.visibility = View.GONE
+                    binding.rvEmployeeList.visibility = View.VISIBLE
+                    adapter.submitList(it.data)
                 }
                 is UiState.Error -> {
                     binding.shimmerLayout.stopShimmer()
                     binding.shimmerLayout.hide()
-                    binding.rvEvents.hide()
-                    binding.tvEventListStatus.show()
-                    binding.tvEventListStatus.text = getString(R.string.something_went_wrong)
+                    binding.rvEmployeeList.hide()
                     toast(it.error)
                 }
             }

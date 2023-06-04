@@ -75,7 +75,6 @@ class ComplaintListingFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     progressDialog.dismiss()
-                    adapter.complaintList = it.data as MutableList<Complaint>
                     adapter.submitList(it.data)
                 }
                 is UiState.Error -> {

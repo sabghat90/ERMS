@@ -76,7 +76,6 @@ class EventListingFragment : Fragment() {
                         binding.rvEvents.hide()
                     } else {
                         binding.rvEvents.show()
-                        adapter.eventList = it.data as MutableList<Event>
                         adapter.submitList(it.data)
                     }
                 }

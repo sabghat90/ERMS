@@ -1,4 +1,4 @@
-package com.kust.erms_company.di.modules
+package com.kust.erms_company.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -19,7 +19,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Named
-import javax.inject.Singleton
 
 @Module
 @InstallIn(ViewModelComponent::class)

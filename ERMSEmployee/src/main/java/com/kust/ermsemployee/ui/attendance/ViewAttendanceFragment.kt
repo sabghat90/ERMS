@@ -80,7 +80,6 @@ class ViewAttendanceFragment : Fragment() {
                 is UiState.Success -> {
                     progressDialog.dismiss()
                     toast("Success ${it.data}")
-                    adapter.attendanceList = it.data as MutableList<Attendance>
                     adapter.submitList(it.data)
                 }
                 is UiState.Error -> {

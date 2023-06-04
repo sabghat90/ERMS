@@ -11,8 +11,6 @@ import com.kust.ermslibrary.models.Attendance
 class AttendanceListingAdapter :
     ListAdapter<Attendance, AttendanceListingAdapter.AttendanceViewHolder>(DiffUtilCallback()) {
 
-    var attendanceList: MutableList<Attendance> = arrayListOf()
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -26,7 +24,7 @@ class AttendanceListingAdapter :
         holder: AttendanceListingAdapter.AttendanceViewHolder,
         position: Int
     ) {
-        val attendance = attendanceList[position]
+        val attendance = getItem(position)
         holder.bind(attendance)
     }
 

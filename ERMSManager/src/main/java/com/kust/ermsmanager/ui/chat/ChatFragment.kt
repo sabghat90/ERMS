@@ -81,7 +81,6 @@ class ChatFragment : Fragment() {
 
     private fun observer() {
         chatViewModel.getChatList.observe(viewLifecycleOwner) {
-            messageAdapter.messageList = it as MutableList<Message>
             messageAdapter.submitList(it)
         }
     }

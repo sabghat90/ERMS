@@ -11,7 +11,6 @@ import com.kust.ermslibrary.models.ComplaintHistory
 class ComplaintHistoryAdapter:
     ListAdapter<ComplaintHistory, ComplaintHistoryAdapter.HistoryViewHolder>(DiffUtilCallback()) {
 
-    var historyList = mutableListOf<ComplaintHistory>()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {

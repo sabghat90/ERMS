@@ -2,11 +2,11 @@ package com.kust.ermsemployee.ui.chat
 
 import android.app.Dialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +14,6 @@ import com.kust.ermsemployee.R
 import com.kust.ermsemployee.databinding.FragmentChatListingBinding
 import com.kust.ermsemployee.ui.employee.EmployeeListingAdapter
 import com.kust.ermsemployee.ui.ranking.EmployeeViewModel
-import com.kust.ermslibrary.models.Employee
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -71,7 +70,6 @@ class ChatListingFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     progressDialog.dismiss()
-                    adapter.employeeList = state.data as MutableList<Employee>
                     adapter.submitList(state.data)
                 }
                 is UiState.Error -> {

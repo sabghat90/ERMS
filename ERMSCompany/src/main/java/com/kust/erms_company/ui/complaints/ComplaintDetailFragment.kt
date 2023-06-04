@@ -61,7 +61,6 @@ class ComplaintDetailFragment : Fragment() {
 
                 is UiState.Success -> {
                     toast(it.data.toString())
-                    historyAdapter.historyList = it.data as ArrayList<ComplaintHistory>
                     historyAdapter.submitList(it.data)
                 }
 

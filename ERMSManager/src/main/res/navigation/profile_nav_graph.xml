@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/managerProfileFragment"
         android:name="com.kust.ermsmanager.ui.profile.ManagerProfileFragment"
-        android:label="fragment_manager_profile"
+        android:label="@string/profile"
         tools:layout="@layout/fragment_manager_profile" />
 </navigation>

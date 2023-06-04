@@ -24,6 +24,7 @@ class EmployeeRepositoryImpl(
         val employeeHashMap = hashMapOf<String, Any>()
 
         employeeHashMap["companyId"] = companyId!!
+        employeeHashMap["joiningDate"] = employee.joiningDate
 
         dbRef.get().addOnSuccessListener { it ->
             if (it.isEmpty) {

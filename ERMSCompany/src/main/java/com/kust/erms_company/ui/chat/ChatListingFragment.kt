@@ -18,6 +18,7 @@ import com.kust.ermslibrary.models.Employee
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ChatListingFragment : Fragment() {
@@ -26,7 +27,8 @@ class ChatListingFragment : Fragment() {
 
     private val employeeViewModel: EmployeeViewModel by viewModels()
 
-    private lateinit var progressDialog: Dialog
+    @Inject
+    lateinit var progressDialog: Dialog
 
     private val adapter: EmployeeListingAdapter by lazy {
         EmployeeListingAdapter(
@@ -71,7 +73,6 @@ class ChatListingFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     progressDialog.dismiss()
-                    adapter.employeeList = state.data as MutableList<Employee>
                     adapter.submitList(state.data)
                 }
                 is UiState.Error -> {

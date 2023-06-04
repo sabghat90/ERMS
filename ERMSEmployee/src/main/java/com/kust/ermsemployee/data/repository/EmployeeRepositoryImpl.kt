@@ -26,7 +26,7 @@ class EmployeeRepositoryImpl @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val gson: Gson
 ) : EmployeeRepository {
-    override fun getEmployeeList(
+    override suspend fun getEmployeeList(
         result: (UiState<List<Employee>>) -> Unit
     ) {
         // get company id from shared preference
@@ -35,22 +35,24 @@ class EmployeeRepositoryImpl @Inject constructor(
         val employeeObj = gson.fromJson(employeeJson, Employee::class.java)
         val companyId = employeeObj.companyId
 
-
-        // get employee list where company id is equal to employee list company id
-        val docRef = database.collection(FireStoreCollectionConstants.USERS)
-            .whereEqualTo("companyId", companyId)
-        docRef.get()
-            .addOnSuccessListener { documents ->
-                val list = mutableListOf<Employee>()
-                for (document in documents) {
-                    val employee = document.toObject(Employee::class.java)
-                    list.add(employee)
+        try {
+            database.collection(FireStoreCollectionConstants.USERS)
+                .whereEqualTo("companyId", companyId)
+                .get()
+                .addOnSuccessListener { documents ->
+                    val employeeList = mutableListOf<Employee>()
+                    for (document in documents) {
+                        val employee = document.toObject(Employee::class.java)
+                        employeeList.add(employee)
+                    }
+                    result.invoke(UiState.Success(employeeList))
                 }
-                result.invoke(UiState.Success(list))
-            }
-            .addOnFailureListener { exception ->
-                result.invoke(UiState.Error(exception.localizedMessage ?: "Error"))
-            }
+                .addOnFailureListener { exception ->
+                    result.invoke(UiState.Error(exception.localizedMessage ?: "Error"))
+                }
+        } catch (e: Exception) {
+            result.invoke(UiState.Error(e.localizedMessage ?: "Error"))
+        }
     }
 
     override suspend fun getEmployee(result: (UiState<Employee>) -> Unit) {

@@ -17,8 +17,6 @@ class MessageAdapter : ListAdapter<Message, RecyclerView.ViewHolder>(DiffUtilCal
         const val VIEW_TYPE_RECEIVER = 2
     }
 
-    var messageList: MutableList<Message> = arrayListOf()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == VIEW_TYPE_SENDER) {
             val binding =
@@ -37,15 +35,15 @@ class MessageAdapter : ListAdapter<Message, RecyclerView.ViewHolder>(DiffUtilCal
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder.javaClass == SenderViewHolder::class.java) {
-            (holder as SenderViewHolder).bind(messageList[position])
+            (holder as SenderViewHolder).bind(getItem(position))
         } else {
-            (holder as ReceiverViewHolder).bind(messageList[position])
+            (holder as ReceiverViewHolder).bind(getItem(position))
         }
     }
 
     override fun getItemViewType(position: Int): Int {
 
-        val message = messageList[position]
+        val message = getItem(position)
         return if (FirebaseAuth.getInstance().currentUser?.uid.equals(message.senderId)) {
             VIEW_TYPE_SENDER
         } else {

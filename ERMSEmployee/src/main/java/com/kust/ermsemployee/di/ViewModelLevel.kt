@@ -1,4 +1,4 @@
-package com.kust.ermsemployee.di.modules
+package com.kust.ermsemployee.di
 
 import android.content.SharedPreferences
 import com.google.firebase.auth.FirebaseAuth
@@ -23,11 +23,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
-import javax.inject.Singleton
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object ViewModelLevelModule {
+object ViewModelLevel {
 
     @Provides
     @ViewModelScoped

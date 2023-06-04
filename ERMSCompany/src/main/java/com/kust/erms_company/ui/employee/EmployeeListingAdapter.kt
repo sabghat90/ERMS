@@ -13,9 +13,6 @@ class EmployeeListingAdapter(
 ) :
     ListAdapter<Employee, EmployeeListingAdapter.EmployeeViewHolder>(DiffUtilCallback()) {
 
-    var employeeList: MutableList<Employee> = arrayListOf()
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmployeeViewHolder {
         val binding =
             ItemEmployeeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -23,7 +20,7 @@ class EmployeeListingAdapter(
     }
 
     override fun onBindViewHolder(holder: EmployeeViewHolder, position: Int) {
-        val employee = employeeList[position]
+        val employee = getItem(position)
         holder.bind(employee)
     }
 
@@ -38,7 +35,7 @@ class EmployeeListingAdapter(
             binding.cardEmployee.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    onItemClicked(position, employeeList[position])
+                    onItemClicked(position, employee)
                 }
             }
         }

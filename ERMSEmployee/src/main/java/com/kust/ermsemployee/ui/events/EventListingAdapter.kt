@@ -20,8 +20,6 @@ class EventListingAdapter(
     val onItemClicked: (Int, Event) -> Unit
 ) : ListAdapter<Event, EventListingAdapter.EventViewHolder>(DiffUtilCallback()) {
 
-    var eventList: MutableList<Event> = arrayListOf()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val binding =
             EventItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -29,14 +27,9 @@ class EventListingAdapter(
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        holder.bind(eventList[position])
+        holder.bind(getItem(position))
     }
 
-    // receive event call from handler to update event list
-    fun updateEventList(eventList: MutableList<Event>) {
-        this.eventList = eventList
-        notifyDataSetChanged()
-    }
 
     inner class EventViewHolder(private val binding: EventItemBinding):
         RecyclerView.ViewHolder(binding.root) {
@@ -81,7 +74,7 @@ class EventListingAdapter(
             binding.eventCard.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    onItemClicked(position, eventList[position])
+                    onItemClicked(position, getItem(position))
                 }
             }
         }

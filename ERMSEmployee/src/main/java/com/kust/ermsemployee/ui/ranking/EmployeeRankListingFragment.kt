@@ -60,7 +60,6 @@ class EmployeeRankListingFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     progressDialog.dismiss()
-                    adapter.employeeList = it.data.toMutableList()
                     adapter.submitList(it.data)
                 }
                 is UiState.Error -> {

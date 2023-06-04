@@ -22,22 +22,14 @@ class TaskListingAdapter(
     val onItemClicked: (Int, Task) -> Unit
 ) : ListAdapter<Task, TaskListingAdapter.TaskViewHolder>(DiffUtilCallback()) {
 
-    var taskList: MutableList<Task> = arrayListOf()
-
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        val task = taskList[position]
+        val task = getItem(position)
         holder.bind(task)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val binding = TaskItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TaskViewHolder(binding)
-    }
-
-    // receive event call from handler to update task list
-    fun updateTaskList(taskList: MutableList<Task>) {
-        this.taskList = taskList
-        notifyDataSetChanged()
     }
 
     inner class TaskViewHolder(private val binding: TaskItemBinding) :
@@ -85,7 +77,7 @@ class TaskListingAdapter(
             binding.cardTask.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    onItemClicked(position, taskList[position])
+                    onItemClicked(position, getItem(position))
                 }
             }
         }

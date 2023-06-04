@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.kust.erms_company.ui.company.ProfileFragment"
-        android:label="fragment_company_profile"
-        tools:layout="@layout/fragment_profile" >
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_updateProfileFragment"
             app:destination="@id/updateProfileFragment" />
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/updateProfileFragment"
         android:name="com.kust.erms_company.ui.company.UpdateProfileFragment"
-        android:label="UpdateProfileFragment" >
+        android:label="@string/update_profile">
         <action
             android:id="@+id/action_updateProfileFragment_to_profileFragment"
             app:destination="@id/profileFragment"

@@ -1,4 +1,4 @@
-package com.kust.ermsmanager.di.modules
+package com.kust.ermsmanager.di
 
 import android.content.SharedPreferences
 import com.google.firebase.auth.FirebaseAuth

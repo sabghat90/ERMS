@@ -28,8 +28,8 @@ class ChatFragment : Fragment() {
         MessageAdapter()
     }
 
-    private lateinit var employee: Employee
-
+    @Inject
+    lateinit var employee: Employee
     @Inject
     lateinit var notificationService: NotificationService
 
@@ -81,7 +81,6 @@ class ChatFragment : Fragment() {
 
     private fun observer() {
         chatViewModel.getChatList.observe(viewLifecycleOwner) {
-            messageAdapter.messageList = it as MutableList<Message>
             messageAdapter.submitList(it)
         }
     }

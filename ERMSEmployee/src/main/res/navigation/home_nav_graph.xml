@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_featureFragment_to_complaintListingFragment"
             app:destination="@id/complaintListingFragment" />
+        <action
+            android:id="@+id/action_featureFragment_to_employeeListingFragment"
+            app:destination="@id/employeeListingFragment" />
     </fragment>
     <fragment
         android:id="@+id/viewAttendanceFragment"
@@ -98,4 +101,18 @@
         android:name="com.kust.ermsemployee.ui.complaints.CreateComplaintFragment"
         android:label="Create Complaint"
         tools:layout="@layout/fragment_create_complaint" />
+    <fragment
+        android:id="@+id/employeeListingFragment"
+        android:name="com.kust.ermsemployee.ui.employee.EmployeeListingFragment"
+        android:label="fragment_employee_listing"
+        tools:layout="@layout/fragment_employee_listing" >
+        <action
+            android:id="@+id/action_employeeListingFragment_to_employeeProfileFragment"
+            app:destination="@id/employeeProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/employeeProfileFragment"
+        android:name="com.kust.ermsemployee.ui.employee.EmployeeProfileFragment"
+        android:label="fragment_employee_profile"
+        tools:layout="@layout/fragment_employee_profile" />
 </navigation>

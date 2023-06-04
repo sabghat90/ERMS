@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.kust.ermsmanager.ui.setting.SettingFragment"
-        android:label="fragment_setting"
-        tools:layout="@layout/fragment_setting" >
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_setting">
         <action
             android:id="@+id/action_settingFragment_to_changePasswordFragment"
             app:destination="@id/changePasswordFragment" />
@@ -23,18 +23,18 @@
     <fragment
         android:id="@+id/privacyPolicyFragment"
         android:name="com.kust.ermsmanager.ui.setting.PrivacyPolicyFragment"
-        android:label="fragment_privacy_policy"
+        android:label="@string/privacy_policy"
         tools:layout="@layout/fragment_privacy_policy" />
     <fragment
         android:id="@+id/projectProposalFragment"
         android:name="com.kust.ermsmanager.ui.setting.ProjectProposalFragment"
-        android:label="fragment_project_proposal"
+        android:label="@string/project_proposal"
         tools:layout="@layout/fragment_project_proposal" />
     <fragment
         android:id="@+id/changePasswordFragment"
         android:name="com.kust.ermsmanager.ui.setting.ChangePasswordFragment"
-        android:label="fragment_change_password"
-        tools:layout="@layout/fragment_change_password" >
+        android:label="@string/change_password"
+        tools:layout="@layout/fragment_change_password">
         <action
             android:id="@+id/action_changePasswordFragment_to_settingFragment"
             app:destination="@id/settingFragment" />

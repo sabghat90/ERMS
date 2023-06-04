@@ -67,7 +67,6 @@ class TaskListingFragment : Fragment() {
                         binding.rvTaskListing.visibility = View.GONE
                     } else {
                         binding.rvTaskListing.visibility = View.VISIBLE
-                        adapter.taskList = it.data as MutableList<Task>
                         adapter.submitList(it.data)
                     }
                 }

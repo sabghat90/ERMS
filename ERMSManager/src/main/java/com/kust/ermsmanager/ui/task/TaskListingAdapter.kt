@@ -23,10 +23,8 @@ class TaskListingAdapter(
     val onItemClicked: (Int, Task) -> Unit
 ) : ListAdapter<Task, TaskListingAdapter.TaskViewHolder>(DiffUtilCallback()) {
 
-    var taskList: MutableList<Task> = arrayListOf()
-
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        val task = taskList[position]
+        val task = getItem(position)
         holder.bind(task)
     }
 
@@ -93,7 +91,7 @@ class TaskListingAdapter(
             binding.cardTask.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    onItemClicked(position, taskList[position])
+                    onItemClicked(position, getItem(position))
                 }
             }
         }

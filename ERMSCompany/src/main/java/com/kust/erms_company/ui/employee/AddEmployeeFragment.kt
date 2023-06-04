@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.Timestamp
 import com.kust.erms_company.R
 import com.kust.erms_company.databinding.FragmentAddEmployeeBinding
 import com.kust.ermslibrary.models.Employee
@@ -89,8 +90,10 @@ class AddEmployeeFragment : Fragment() {
     }
 
     private fun getObject(): Employee {
+        val joiningDate = Timestamp.now().toDate().toString()
         return Employee(
-            email = binding.etEmail.text.toString()
+            email = binding.etEmail.text.toString(),
+            joiningDate = joiningDate
         )
     }
 
