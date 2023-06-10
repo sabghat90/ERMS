@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.ermsemployee.databinding.FragmentComplaintDetailBinding
 import com.kust.ermslibrary.models.Complaint
-import com.kust.ermslibrary.models.ComplaintHistory
 import com.kust.ermslibrary.utils.ComplaintStatus
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast

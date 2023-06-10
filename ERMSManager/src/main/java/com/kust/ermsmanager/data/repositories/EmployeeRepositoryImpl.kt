@@ -39,6 +39,7 @@ class EmployeeRepositoryImpl @Inject constructor(
             val employeeList = withContext(Dispatchers.IO) {
                 database.collection(FireStoreCollectionConstants.USERS)
                     .whereEqualTo("companyId", companyId)
+                    .whereNotEqualTo("id", auth.currentUser?.uid.toString())
                     .get()
                     .await()
                     .toObjects(Employee::class.java)
@@ -102,6 +103,27 @@ class EmployeeRepositoryImpl @Inject constructor(
             .addOnFailureListener { exception ->
                 result.invoke(UiState.Error(exception.message.toString()))
             }
+    }
+
+    override suspend fun updateEmployeeProfile(
+        employee: Employee?,
+        result: (UiState<String>) -> Unit
+    ) {
+        try {
+            val docRef = database.collection(FireStoreCollectionConstants.USERS)
+                .document(employee!!.id)
+
+            val employeeHashMap = hashMapOf(
+                "department" to employee.department,
+                "jobTitle" to employee.jobTitle,
+                "salary" to employee.salary,
+            )
+
+            docRef.update(employeeHashMap as Map<String, Any>).await()
+            result.invoke(UiState.Success("Employee updated successfully"))
+        } catch (e: Exception) {
+            result.invoke(UiState.Error(e.localizedMessage))
+        }
     }
 
     override suspend fun uploadImage(imageUri: Uri, result: (UiState<Uri>) -> Unit) {

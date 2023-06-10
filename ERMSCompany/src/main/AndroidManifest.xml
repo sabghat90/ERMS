@@ -25,30 +25,36 @@
         android:theme="@style/Theme.Base.ERMS"
         tools:targetApi="31">
         <activity
-            android:name=".ui.setting.BiometricActivity"
-            android:screenOrientation="portrait"
-            android:exported="false"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".ui.dashboard.DashBoardActivity"
-            android:screenOrientation="portrait"
-            android:exported="false"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".ui.auth.RegistrationActivity"
-            android:screenOrientation="portrait"
+            android:name=".ui.onboarding.OnBoardingActivity"
             android:exported="true"
-            tools:ignore="LockedOrientationActivity">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.setting.BiometricActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.dashboard.DashBoardActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.auth.RegistrationActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
+        </activity>
 
-        <service android:name=".services.FirebaseService"
-            android:permission="com.google.android.c2dm.permission.SEND"
-            android:exported="true">
+        <service
+            android:name=".services.FirebaseService"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />

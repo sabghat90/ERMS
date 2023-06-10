@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
-import com.kust.ermsemployee.R
 import com.kust.ermsemployee.databinding.FragmentViewAttendaceBinding
 import com.kust.ermslibrary.models.Attendance
 import com.kust.ermslibrary.utils.UiState
@@ -18,6 +17,7 @@ import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Date
+import com.kust.ermslibrary.R as LibraryR
 
 @AndroidEntryPoint
 class ViewAttendanceFragment : Fragment() {
@@ -47,7 +47,7 @@ class ViewAttendanceFragment : Fragment() {
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         progressDialog.setCancelable(false)
         progressDialog.setCanceledOnTouchOutside(false)
-        progressDialog.setContentView(R.layout.custom_progress_dialog)
+        progressDialog.setContentView(LibraryR.layout.custom_progress_dialog)
 
         observer()
         setForToday()

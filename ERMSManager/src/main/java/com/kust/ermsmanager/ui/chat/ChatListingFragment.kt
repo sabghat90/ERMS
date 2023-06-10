@@ -1,17 +1,16 @@
 package com.kust.ermsmanager.ui.chat
 
-import android.app.Dialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kust.ermslibrary.models.Employee
 import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.hide
+import com.kust.ermslibrary.utils.show
 import com.kust.ermslibrary.utils.toast
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.databinding.FragmentChatListingBinding
@@ -26,14 +25,14 @@ class ChatListingFragment : Fragment() {
 
     private val employeeViewModel: EmployeeViewModel by viewModels()
 
-    private lateinit var progressDialog: Dialog
-
     private val adapter: EmployeeListingAdapter by lazy {
         EmployeeListingAdapter(
             onItemClicked = { _, employee ->
-                findNavController().navigate(R.id.action_chatListingFragment_to_chatFragment, Bundle().apply {
-                    putParcelable("employee", employee)
-                })
+                findNavController().navigate(
+                    R.id.action_chatListingFragment_to_chatFragment,
+                    Bundle().apply {
+                        putParcelable("employee", employee)
+                    })
             }
         )
     }
@@ -50,14 +49,8 @@ class ChatListingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        progressDialog = Dialog(requireContext())
-        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        progressDialog.setCancelable(false)
-        progressDialog.setCanceledOnTouchOutside(false)
-        progressDialog.setContentView(R.layout.custom_progress_dialog)
-
-        binding.rvChatListing.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvChatListing.adapter = adapter
+        binding.rvEmployees.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvEmployees.adapter = adapter
 
         observer()
         employeeViewModel.getEmployeeList()
@@ -67,14 +60,26 @@ class ChatListingFragment : Fragment() {
         employeeViewModel.getEmployeeList.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
-                    progressDialog.show()
+                    binding.shimmerLayout.startShimmer()
                 }
+
                 is UiState.Success -> {
-                    progressDialog.dismiss()
-                    adapter.submitList(state.data)
+                    if (state.data.isEmpty()) {
+                        binding.shimmerLayout.stopShimmer()
+                        binding.shimmerLayout.hide()
+                        binding.tvEmployeeDataStatus.show()
+                        binding.imgDataStatus.show()
+                    } else {
+                        binding.shimmerLayout.stopShimmer()
+                        binding.shimmerLayout.hide()
+                        binding.rvEmployees.show()
+                        adapter.submitList(state.data)
+                    }
                 }
+
                 is UiState.Error -> {
-                    progressDialog.dismiss()
+                    binding.shimmerLayout.stopShimmer()
+                    binding.shimmerLayout.hide()
                     toast(state.error)
                 }
             }

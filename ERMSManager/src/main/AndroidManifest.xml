@@ -23,6 +23,11 @@
         <activity
             android:name=".ui.auth.AuthActivity"
             android:exported="true">
+        </activity>
+        <activity
+            android:name=".ui.onboarding.OnBoardingActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

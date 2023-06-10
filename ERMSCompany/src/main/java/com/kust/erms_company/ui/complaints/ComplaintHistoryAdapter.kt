@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kust.erms_company.databinding.ComplaintHistoryItemBinding
 import com.kust.ermslibrary.models.ComplaintHistory
 
-class ComplaintHistoryAdapter:
+class ComplaintHistoryAdapter :
     ListAdapter<ComplaintHistory, ComplaintHistoryAdapter.HistoryViewHolder>(DiffUtilCallback()) {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
-        val binding = ComplaintHistoryItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding =
+            ComplaintHistoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HistoryViewHolder(binding)
     }
 
@@ -21,20 +21,26 @@ class ComplaintHistoryAdapter:
         holder.bind(getItem(position))
     }
 
-    inner class HistoryViewHolder(private val binding: ComplaintHistoryItemBinding):
+    inner class HistoryViewHolder(private val binding: ComplaintHistoryItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-            fun bind(historyModel: ComplaintHistory) {
-                binding.tvMsg.text = historyModel.message
-            }
+        fun bind(historyModel: ComplaintHistory) {
+            binding.tvMsg.text = historyModel.message
+        }
     }
 
     class DiffUtilCallback : DiffUtil.ItemCallback<ComplaintHistory>() {
-        override fun areItemsTheSame(oldItem: ComplaintHistory, newItem: ComplaintHistory): Boolean {
+        override fun areItemsTheSame(
+            oldItem: ComplaintHistory,
+            newItem: ComplaintHistory
+        ): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: ComplaintHistory, newItem: ComplaintHistory): Boolean {
+        override fun areContentsTheSame(
+            oldItem: ComplaintHistory,
+            newItem: ComplaintHistory
+        ): Boolean {
             return oldItem == newItem
         }
     }

@@ -13,7 +13,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.kust.ermsemployee.R
+import com.kust.ermsemployee.R as EmployeeR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsemployee.databinding.FragmentFeatureBinding
 import com.kust.ermsemployee.ui.auth.AuthActivity
 import com.kust.ermsemployee.ui.auth.AuthViewModel
@@ -53,7 +54,7 @@ class FeaturesFragment : Fragment() {
 
         progressDialog = Dialog(requireContext())
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        progressDialog.setContentView(R.layout.custom_progress_dialog)
+        progressDialog.setContentView(LibraryR.layout.custom_progress_dialog)
         progressDialog.setCancelable(false)
         progressDialog.setCanceledOnTouchOutside(false)
 
@@ -63,13 +64,13 @@ class FeaturesFragment : Fragment() {
 
         val features = mutableListOf<Feature>()
 
-        features.add(Feature("View Employees", R.drawable.avatar2))
-        features.add(Feature("Employee Ranking", R.drawable.avatar2))
-        features.add(Feature("View Attendance", R.drawable.avatar2))
-        features.add(Feature("Task", R.drawable.avatar2))
-        features.add(Feature("Events", R.drawable.avatar2))
-        features.add(Feature("Complaints", R.drawable.avatar2))
-        features.add(Feature("Logout", R.drawable.avatar2))
+        features.add(Feature("View Employees", LibraryR.drawable.avatar2))
+        features.add(Feature("Employee Ranking", LibraryR.drawable.avatar2))
+        features.add(Feature("View Attendance", LibraryR.drawable.avatar2))
+        features.add(Feature("Task", LibraryR.drawable.avatar2))
+        features.add(Feature("Events", LibraryR.drawable.avatar2))
+        features.add(Feature("Complaints", LibraryR.drawable.avatar2))
+        features.add(Feature("Logout", LibraryR.drawable.avatar2))
 
         adapter.features = features
 
@@ -83,22 +84,22 @@ class FeaturesFragment : Fragment() {
             override fun onItemClick(position: Int) {
                 when (position) {
                     0 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_employeeListingFragment)
+                        findNavController().navigate(EmployeeR.id.action_featureFragment_to_employeeListingFragment)
                     }
                     1 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_employeeRankListingFragment)
+                        findNavController().navigate(EmployeeR.id.action_featureFragment_to_employeeRankListingFragment)
                     }
                     2 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_viewAttendanceFragment)
+                        findNavController().navigate(EmployeeR.id.action_featureFragment_to_viewAttendanceFragment)
                     }
                     3 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_taskListingFragment)
+                        findNavController().navigate(EmployeeR.id.action_featureFragment_to_taskListingFragment)
                     }
                     4 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_eventListingFragment)
+                        findNavController().navigate(EmployeeR.id.action_featureFragment_to_eventListingFragment)
                     }
                     5 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_complaintListingFragment)
+                        findNavController().navigate(EmployeeR.id.action_featureFragment_to_complaintListingFragment)
                     }
                     6 -> {
                         Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()

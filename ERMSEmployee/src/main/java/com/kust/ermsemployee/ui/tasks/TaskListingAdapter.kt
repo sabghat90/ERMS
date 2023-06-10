@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Timestamp
-import com.kust.ermsemployee.R
+import com.kust.ermsemployee.R as EmployeeR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsemployee.databinding.TaskItemBinding
 import com.kust.ermslibrary.models.Task
 import com.kust.ermslibrary.utils.ConvertDateAndTimeFormat
@@ -16,7 +17,6 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-// task adapter using list adapter
 class TaskListingAdapter(
     val context: Context,
     val onItemClicked: (Int, Task) -> Unit
@@ -48,11 +48,11 @@ class TaskListingAdapter(
                     if (date != null) {
                         if (date.before(currentDate)) {
                             binding.tvTaskDeadlineStatus.visibility = RecyclerView.VISIBLE
-                            binding.tvTaskDeadlineStatus.text = context.getString(R.string.expired)
+                            binding.tvTaskDeadlineStatus.text = context.getString(LibraryR.string.expired)
                             binding.tvTaskDeadlineStatus.setTextColor(binding.root.context.getColor(android.R.color.holo_red_dark))
                         } else {
                             binding.tvTaskDeadlineStatus.visibility = RecyclerView.VISIBLE
-                            binding.tvTaskDeadlineStatus.text = context.getString(R.string.upcoming)
+                            binding.tvTaskDeadlineStatus.text = context.getString(LibraryR.string.upcoming)
                             // change status color to green
                             binding.tvTaskDeadlineStatus.setTextColor(binding.root.context.getColor(android.R.color.holo_green_dark))
                         }
@@ -73,7 +73,7 @@ class TaskListingAdapter(
             binding.tvTaskName.text = task.name
             binding.tvTaskDescription.text = task.description
             binding.tvStatus.text = task.status
-            binding.tvTaskCreatedDate.text = context.getString(R.string.date_time, creationDateFormatted, creationTimeFormatted)
+            binding.tvTaskCreatedDate.text = context.getString(LibraryR.string.date_time, creationDateFormatted, creationTimeFormatted)
             binding.cardTask.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {

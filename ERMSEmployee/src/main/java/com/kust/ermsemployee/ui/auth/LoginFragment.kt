@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.kust.ermsemployee.R
+import com.kust.ermsemployee.R as EmployeeR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsemployee.databinding.FragmentLoginBinding
 import com.kust.ermsemployee.ui.dashboard.DashboardActivity
 import com.kust.ermslibrary.utils.UiState
@@ -56,11 +57,11 @@ class LoginFragment : Fragment() {
         }
 
         binding.btnRegister.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+            findNavController().navigate(EmployeeR.id.action_loginFragment_to_signUpFragment)
         }
 
         binding.btnForgetPassword.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
+            findNavController().navigate(EmployeeR.id.action_loginFragment_to_forgotPasswordFragment)
         }
     }
 
@@ -72,12 +73,12 @@ class LoginFragment : Fragment() {
                     binding.progressBar.show()
                 }
                 is UiState.Error -> {
-                    binding.btnLogin.text = getString(R.string.login)
+                    binding.btnLogin.text = getString(LibraryR.string.login)
                     binding.progressBar.hide()
                     toast(state.error)
                 }
                 is UiState.Success -> {
-                    binding.btnLogin.text = getString(R.string.login)
+                    binding.btnLogin.text = getString(LibraryR.string.login)
                     binding.progressBar.hide()
                     toast(state.data)
                     val intent = Intent(requireContext(), DashboardActivity::class.java)

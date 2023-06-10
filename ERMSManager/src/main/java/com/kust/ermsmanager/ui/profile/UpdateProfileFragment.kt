@@ -15,12 +15,14 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.kust.ermslibrary.models.Employee
 import com.kust.ermslibrary.utils.UiState
-import com.kust.ermsmanager.R
+import com.kust.ermsmanager.R as ManagerR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsmanager.databinding.FragmentUpdateProfileBinding
 import com.kust.ermsmanager.ui.auth.AuthViewModel
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class UpdateProfileFragment : Fragment() {
@@ -31,8 +33,8 @@ class UpdateProfileFragment : Fragment() {
     private val employeeViewModel : EmployeeViewModel by viewModels()
     private val authViewModel : AuthViewModel by viewModels()
 
-    // create employee model object to store employee data from session
-    private val employee = Employee()
+    @Inject
+    lateinit var employee : Employee
 
     private lateinit var imageUri : Uri
     private lateinit var uploadedImageUri : Uri
@@ -200,34 +202,34 @@ class UpdateProfileFragment : Fragment() {
     }
 
     private fun updateSpinners() {
-        val spinnerDataForCities = resources.getStringArray(R.array.cities)
+        val spinnerDataForCities = resources.getStringArray(LibraryR.array.cities)
         val arrayAdapterForCities : ArrayAdapter<String> = ArrayAdapter<String>(
             requireContext(),
-            R.layout.dropdown_menu_item,
+            ManagerR.layout.dropdown_menu_item,
             spinnerDataForCities
         )
         binding.dropDownCity.setAdapter(arrayAdapterForCities)
 
-        val spinnerDataForStates = resources.getStringArray(R.array.provinces)
+        val spinnerDataForStates = resources.getStringArray(LibraryR.array.provinces)
         val arrayAdapterForStates : ArrayAdapter<String> = ArrayAdapter<String>(
             requireContext(),
-            R.layout.dropdown_menu_item,
+            ManagerR.layout.dropdown_menu_item,
             spinnerDataForStates
         )
         binding.dropDownState.setAdapter(arrayAdapterForStates)
 
-        val spinnerDataForCountries = resources.getStringArray(R.array.countries)
+        val spinnerDataForCountries = resources.getStringArray(LibraryR.array.countries)
         val arrayAdapterForCountries : ArrayAdapter<String> = ArrayAdapter<String>(
             requireContext(),
-            R.layout.dropdown_menu_item,
+            ManagerR.layout.dropdown_menu_item,
             spinnerDataForCountries
         )
         binding.dropDownCountry.setAdapter(arrayAdapterForCountries)
 
-        val spinnerDataForGender = resources.getStringArray(R.array.gender)
+        val spinnerDataForGender = resources.getStringArray(LibraryR.array.gender)
         val arrayAdapterForGender : ArrayAdapter<String> = ArrayAdapter<String>(
             requireContext(),
-            R.layout.dropdown_menu_item,
+            ManagerR.layout.dropdown_menu_item,
             spinnerDataForGender
         )
         binding.dropDownGender.setAdapter(arrayAdapterForGender)

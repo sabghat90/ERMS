@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.firebase.Timestamp
-import com.kust.ermsemployee.R
 import com.kust.ermsemployee.databinding.FragmentEventDetailBinding
 import com.kust.ermslibrary.models.Event
 import com.kust.ermslibrary.utils.ConvertDateAndTimeFormat
@@ -15,14 +14,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
+import javax.inject.Inject
+import com.kust.ermslibrary.R as LibraryR
 
 @AndroidEntryPoint
 class EventDetailFragment : Fragment() {
     private var _binding: FragmentEventDetailBinding? = null
     private val binding get() = _binding!!
 
-    // event object
-    private lateinit var event: Event
+    @Inject
+    lateinit var event: Event
 
     private val eventViewModel: EventViewModel by viewModels()
 
@@ -52,10 +53,10 @@ class EventDetailFragment : Fragment() {
 
             if (date != null) {
                 if (date.before(currentDate)) {
-                    binding.tvStatusMessage.text = getString(R.string.expired)
+                    binding.tvStatusMessage.text = getString(LibraryR.string.expired)
                     binding.tvStatusMessage.setTextColor(binding.root.context.getColor(android.R.color.holo_red_dark))
                 } else {
-                    binding.tvStatusMessage.text = getString(R.string.upcoming)
+                    binding.tvStatusMessage.text = getString(LibraryR.string.upcoming)
                     // change status color to green
                     binding.tvStatusMessage.setTextColor(binding.root.context.getColor(android.R.color.holo_green_dark))
                 }
@@ -77,8 +78,8 @@ class EventDetailFragment : Fragment() {
         with(binding) {
             tvEventName.text = event.title
             tvEventDescription.text = event.description
-            tvCreatedDateTime.text = getString(R.string.date_time, creationDateFormatted, creationTimeFormatted)
-            tvEventDateTime.text = getString(R.string.date_time, eventDateFormatted, eventTimeFormatted)
+            tvCreatedDateTime.text = getString(LibraryR.string.date_time, creationDateFormatted, creationTimeFormatted)
+            tvEventDateTime.text = getString(LibraryR.string.date_time, eventDateFormatted, eventTimeFormatted)
             tvLocation.text = event.location
             tvEventType.text = event.type
         }

@@ -10,7 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.hideKeyboard
-import com.kust.ermsmanager.R
+import com.kust.ermsmanager.R as ManagerR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsmanager.databinding.FragmentLoginBinding
 import com.kust.ermsmanager.ui.setting.BiometricActivity
 import com.kust.ermslibrary.utils.toast
@@ -55,7 +56,7 @@ class LoginFragment : Fragment() {
         }
 
         binding.btnForgetPassword.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
+            findNavController().navigate(ManagerR.id.action_loginFragment_to_forgotPasswordFragment)
         }
     }
 
@@ -64,7 +65,7 @@ class LoginFragment : Fragment() {
             when (uiState) {
                 is UiState.Error -> {
                     binding.progressBar.hide()
-                    binding.btnLogin.text = getString(R.string.login)
+                    binding.btnLogin.text = getString(LibraryR.string.login)
                     toast(uiState.error)
                 }
                 is UiState.Loading -> {
@@ -73,7 +74,7 @@ class LoginFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     binding.progressBar.hide()
-                    binding.btnLogin.text = getString(R.string.login)
+                    binding.btnLogin.text = getString(LibraryR.string.login)
                     toast(uiState.data)
                     val intent = Intent(requireContext(), BiometricActivity::class.java)
                     startActivity(intent)

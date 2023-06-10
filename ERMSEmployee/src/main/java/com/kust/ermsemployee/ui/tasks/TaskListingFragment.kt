@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.kust.ermsemployee.R as EmployeeR
+import com.kust.ermslibrary.R as LibraryR
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kust.ermsemployee.R
 import com.kust.ermsemployee.databinding.FragmentTaskListingBinding
-import com.kust.ermslibrary.models.Task
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +27,7 @@ class TaskListingFragment : Fragment() {
         TaskListingAdapter(
             context = requireContext(),
             onItemClicked = { _, task ->
-                findNavController().navigate(R.id.action_taskListingFragment_to_taskDetailFragment, Bundle().apply {
+                findNavController().navigate(EmployeeR.id.action_taskListingFragment_to_taskDetailFragment, Bundle().apply {
                     putParcelable("task", task)
                 })
             })
@@ -74,7 +74,7 @@ class TaskListingFragment : Fragment() {
                     binding.shimmerLayout.stopShimmer()
                     binding.shimmerLayout.visibility = View.GONE
                     binding.tvDataState.visibility = View.VISIBLE
-                    binding.tvDataState.text = getString(R.string.something_went_wrong)
+                    binding.tvDataState.text = getString(LibraryR.string.something_went_wrong)
                     toast(it.error)
                 }
             }

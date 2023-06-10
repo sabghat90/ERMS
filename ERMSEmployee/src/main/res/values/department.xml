@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="department_names_array">
-        <item>HR</item>
-        <item>Finance</item>
-    </string-array>
-</resources>

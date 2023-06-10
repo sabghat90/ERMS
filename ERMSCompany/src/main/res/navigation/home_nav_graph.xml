@@ -59,7 +59,7 @@
     </fragment>
     <fragment
         android:id="@+id/employeeProfileFragment"
-        android:name="com.kust.erms_company.ui.employee_profile.EmployeeProfileFragment"
+        android:name="com.kust.erms_company.ui.employee.EmployeeProfileFragment"
         android:label="Employee Profile"
         tools:layout="@layout/fragment_employee_profile" />
     <fragment
@@ -75,5 +75,11 @@
         android:id="@+id/complaintDetailFragment"
         android:name="com.kust.erms_company.ui.complaints.ComplaintDetailFragment"
         android:label="Complaint Details"
-        tools:layout="@layout/fragment_complaint_detail" />
+        tools:layout="@layout/fragment_complaint_detail" >
+        <action
+            android:id="@+id/action_complaintDetailFragment_to_complaintListingFragment"
+            app:destination="@id/complaintListingFragment"
+            app:popUpTo="@id/complaintListingFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

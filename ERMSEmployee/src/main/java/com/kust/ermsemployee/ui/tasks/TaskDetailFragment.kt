@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.kust.ermsemployee.R
 import com.kust.ermsemployee.databinding.FragmentTaskDetailBinding
 import com.kust.ermslibrary.models.NotificationData
 import com.kust.ermslibrary.models.PushNotification
@@ -20,6 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.kust.ermslibrary.R as LibraryR
 
 
 @AndroidEntryPoint
@@ -33,7 +33,6 @@ class TaskDetailFragment : Fragment() {
 
     private val taskViewModel: TaskViewModel by viewModels()
     private val notificationService = NotificationService()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,13 +60,13 @@ class TaskDetailFragment : Fragment() {
 
                 is UiState.Success -> {
                     sendNotification()
-                    binding.btnAcceptTask.text = getString(R.string.accept)
+                    binding.btnAcceptTask.text = getString(LibraryR.string.accept)
                     binding.progressBarAccept.visibility = View.GONE
                     binding.tvTaskStatus.text = task.status
                 }
 
                 is UiState.Error -> {
-                    binding.btnAcceptTask.text = getString(R.string.accept)
+                    binding.btnAcceptTask.text = getString(LibraryR.string.accept)
                     binding.progressBarAccept.visibility = View.GONE
                 }
             }
@@ -103,9 +102,9 @@ class TaskDetailFragment : Fragment() {
         binding.tvTaskDescription.text = task.description
         binding.tvAssignedTo.text = task.assigneeName
         binding.tvCreatedDate.text =
-            getString(R.string.date_time, taskCreateDateFormatted, taskCreateTimeFormatted)
+            getString(LibraryR.string.date_time, taskCreateDateFormatted, taskCreateTimeFormatted)
         binding.tvDeadline.text =
-            getString(R.string.date_time, taskDueDateFormatted, taskDueTimeFormatted)
+            getString(LibraryR.string.date_time, taskDueDateFormatted, taskDueTimeFormatted)
         binding.tvTaskStatus.text = task.status
         binding.tvCreatedBy.text = task.managerName
 
@@ -119,7 +118,7 @@ class TaskDetailFragment : Fragment() {
                 }
             }
             TaskStatus.IN_PROGRESS -> {
-                binding.btnAcceptTask.text = getString(R.string.submit)
+                binding.btnAcceptTask.text = getString(LibraryR.string.submit)
                 binding.btnAcceptTask.setOnClickListener {
                     CoroutineScope(Dispatchers.IO).launch {
                         task.status = TaskStatus.SUBMITTED
@@ -134,7 +133,7 @@ class TaskDetailFragment : Fragment() {
                 binding.btnAcceptTask.visibility = View.GONE
             }
             TaskStatus.RESUBMITTED -> {
-                binding.btnAcceptTask.text = getString(R.string.submit)
+                binding.btnAcceptTask.text = getString(LibraryR.string.submit)
                 binding.btnAcceptTask.setOnClickListener {
                     CoroutineScope(Dispatchers.IO).launch {
                         task.status = TaskStatus.SUBMITTED

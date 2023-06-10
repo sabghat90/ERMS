@@ -16,7 +16,8 @@ import com.kust.ermslibrary.models.Feature
 import com.kust.ermslibrary.utils.Role
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast
-import com.kust.ermsmanager.R
+import com.kust.ermsmanager.R as ManagerR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsmanager.databinding.FragmentFeatureBinding
 import com.kust.ermsmanager.ui.auth.AuthActivity
 import com.kust.ermsmanager.ui.auth.AuthViewModel
@@ -50,19 +51,19 @@ class FeaturesFragment : Fragment() {
 
         progressDialog = Dialog(requireContext())
         progressDialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
-        progressDialog.setContentView(R.layout.custom_progress_dialog)
+        progressDialog.setContentView(LibraryR.layout.custom_progress_dialog)
         progressDialog.setCancelable(false)
         progressDialog.setCanceledOnTouchOutside(false)
 
         observer()
 
         val features = mutableListOf<Feature>()
-        features.add(Feature("View Employees", R.drawable.avatar2))
-        features.add(Feature("Manage Employee", R.drawable.avatar2))
-        features.add(Feature("Mark Attendance", R.drawable.avatar2))
-        features.add(Feature("Task", R.drawable.avatar2))
-        features.add(Feature("Events", R.drawable.avatar2))
-        features.add(Feature("Logout", R.drawable.avatar2))
+        features.add(Feature("View Employees", LibraryR.drawable.avatar2))
+        features.add(Feature("Manage Employee", LibraryR.drawable.avatar2))
+        features.add(Feature("Mark Attendance", LibraryR.drawable.avatar2))
+        features.add(Feature("Task", LibraryR.drawable.avatar2))
+        features.add(Feature("Events", LibraryR.drawable.avatar2))
+        features.add(Feature("Logout", LibraryR.drawable.avatar2))
 
         adapter.features = features
         val layout = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
@@ -73,17 +74,17 @@ class FeaturesFragment : Fragment() {
             override fun onItemClick(position: Int) {
                 when (position) {
                     0 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_employeeListingFragment)
+                        findNavController().navigate(ManagerR.id.action_featureFragment_to_employeeListingFragment)
                     }
                     1 -> Toast.makeText(requireContext(), "Manage Employee", Toast.LENGTH_SHORT).show()
                     2 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_employeeListForAttendanceFragment)
+                        findNavController().navigate(ManagerR.id.action_featureFragment_to_employeeListForAttendanceFragment)
                     }
                     3 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_taskListingFragment)
+                        findNavController().navigate(ManagerR.id.action_featureFragment_to_taskListingFragment)
                     }
                     4 -> {
-                        findNavController().navigate(R.id.action_featureFragment_to_eventListingFragment)
+                        findNavController().navigate(ManagerR.id.action_featureFragment_to_eventListingFragment)
                     }
                     5 -> {
                         authViewModel.logout {

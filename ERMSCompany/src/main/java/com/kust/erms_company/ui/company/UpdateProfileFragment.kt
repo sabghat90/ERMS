@@ -15,15 +15,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.kust.erms_company.R
 import com.kust.erms_company.databinding.FragmentUpdateProfileBinding
 import com.kust.erms_company.ui.auth.AuthViewModel
 import com.kust.ermslibrary.models.Company
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.hideKeyboard
+import com.kust.ermslibrary.utils.isNull
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import com.kust.erms_company.R as CompanyR
+import com.kust.ermslibrary.R as LibraryR
 
 @AndroidEntryPoint
 class UpdateProfileFragment : Fragment() {
@@ -33,12 +35,10 @@ class UpdateProfileFragment : Fragment() {
 
     private val companyViewModel: CompanyViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
+
     private lateinit var companyObj: Company
 
-    private lateinit var progressDialog: Dialog
-
-
-    private lateinit var imageUri: Uri
+    private var imageUri: Uri? = null
     private lateinit var uploadedImageUrl: String
     private val PICK_IMAGE_REQUEST = 1
 
@@ -54,10 +54,6 @@ class UpdateProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        progressDialog = Dialog(requireContext())
-        progressDialog.setContentView(R.layout.custom_progress_dialog)
-        progressDialog.setCancelable(false)
 
         authViewModel.getSession {
             if (it != null) {
@@ -75,28 +71,37 @@ class UpdateProfileFragment : Fragment() {
         binding.btnUpdateProfile.setOnClickListener {
             hideKeyboard()
             if (validation()) {
-                lifecycleScope.launch {
-                    companyViewModel.uploadImage(imageUri) {
-                        when (it) {
-                            is UiState.Loading -> {
-                                progressDialog.show()
-                                progressDialog.setTitle("Uploading image...")
-                            }
+                if (!imageUri.isNull) {
+                    imageUri?.let { uri ->
+                        companyViewModel.uploadImage(uri) {
+                            when (it) {
+                                is UiState.Loading -> {
+                                    binding.progressBar.show()
+                                    binding.btnUpdateProfile.text = ""
+                                }
 
-                            is UiState.Success -> {
-                                progressDialog.dismiss()
-                                uploadedImageUrl = it.data.toString()
-                                lifecycleScope.launch {
-                                    updateUserSession()
-                                    companyViewModel.updateCompanyDetails(getCompanyObj())
+                                is UiState.Success -> {
+                                    binding.progressBar.hide()
+                                    binding.btnUpdateProfile.text = getString(LibraryR.string.update)
+                                    uploadedImageUrl = it.data.toString()
+                                    lifecycleScope.launch {
+                                        updateUserSession()
+                                        companyViewModel.updateCompanyDetails(getCompanyObj())
+                                    }
+                                }
+
+                                is UiState.Error -> {
+                                    binding.progressBar.hide()
+                                    binding.btnUpdateProfile.text = getString(LibraryR.string.update)
+                                    toast(it.error.toString())
                                 }
                             }
-
-                            is UiState.Error -> {
-                                progressDialog.dismiss()
-                                toast(it.error.toString())
-                            }
                         }
+                    }
+                } else {
+                    lifecycleScope.launch {
+                        updateUserSession()
+                        companyViewModel.updateCompanyDetails(getCompanyObj())
                     }
                 }
             }
@@ -111,22 +116,19 @@ class UpdateProfileFragment : Fragment() {
         companyViewModel.updateCompanyDetails.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
-                    progressDialog.show()
-                    progressDialog.setTitle("Updating profile...")
+                    binding.progressBar.show()
                     binding.btnUpdateProfile.text = ""
                 }
 
                 is UiState.Success -> {
-                    progressDialog.dismiss()
-                    binding.btnUpdateProfile.text = getString(R.string.update)
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBar.hide()
+                    binding.btnUpdateProfile.text = getString(LibraryR.string.update)
                     toast("Profile updated successfully")
                 }
 
                 is UiState.Error -> {
-                    progressDialog.dismiss()
-                    binding.btnUpdateProfile.text = getString(R.string.update)
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBar.hide()
+                    binding.btnUpdateProfile.text = getString(LibraryR.string.update)
                     toast(it.error.toString())
                 }
             }
@@ -135,17 +137,19 @@ class UpdateProfileFragment : Fragment() {
         authViewModel.storeUserSession.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
-                    progressDialog.show()
-                    progressDialog.setTitle("Updating User Session...")
+                    binding.progressBar.show()
+                    binding.btnUpdateProfile.text = ""
                 }
 
                 is UiState.Success -> {
-                    progressDialog.dismiss()
-                    findNavController().navigate(R.id.action_updateProfileFragment_to_profileFragment)
+                    binding.progressBar.hide()
+                    binding.btnUpdateProfile.text = getString(LibraryR.string.update)
+                    findNavController().navigate(CompanyR.id.action_updateProfileFragment_to_profileFragment)
                 }
 
                 is UiState.Error -> {
-                    progressDialog.dismiss()
+                    binding.progressBar.hide()
+                    binding.btnUpdateProfile.text = getString(LibraryR.string.update)
                     toast(it.error.toString())
                 }
             }
@@ -153,6 +157,7 @@ class UpdateProfileFragment : Fragment() {
     }
 
     private fun updateUI() {
+        uploadedImageUrl = companyObj.profilePicture
         companyObj.let {
             with(binding) {
                 textViewName.setText(it.name)
@@ -165,6 +170,7 @@ class UpdateProfileFragment : Fragment() {
 
                 Glide.with(requireContext())
                     .load(it.profilePicture)
+                    .placeholder(LibraryR.drawable.avatar2)
                     .into(imgProfile)
             }
         }
@@ -246,26 +252,26 @@ class UpdateProfileFragment : Fragment() {
     }
 
     private fun updateSpinners() {
-        val spinnerDataForCities = resources.getStringArray(R.array.cities)
+        val spinnerDataForCities = resources.getStringArray(LibraryR.array.cities)
         val arrayAdapterForCities: ArrayAdapter<String> = ArrayAdapter<String>(
             requireContext(),
-            R.layout.dropdown_menu_item,
+            CompanyR.layout.dropdown_menu_item,
             spinnerDataForCities
         )
         binding.dropDownCity.setAdapter(arrayAdapterForCities)
 
-        val spinnerDataForStates = resources.getStringArray(R.array.provinces)
+        val spinnerDataForStates = resources.getStringArray(LibraryR.array.provinces)
         val arrayAdapterForStates: ArrayAdapter<String> = ArrayAdapter<String>(
             requireContext(),
-            R.layout.dropdown_menu_item,
+            CompanyR.layout.dropdown_menu_item,
             spinnerDataForStates
         )
         binding.dropDownState.setAdapter(arrayAdapterForStates)
 
-        val spinnerDataForCountries = resources.getStringArray(R.array.countries)
+        val spinnerDataForCountries = resources.getStringArray(LibraryR.array.countries)
         val arrayAdapterForCountries: ArrayAdapter<String> = ArrayAdapter<String>(
             requireContext(),
-            R.layout.dropdown_menu_item,
+            CompanyR.layout.dropdown_menu_item,
             spinnerDataForCountries
         )
         binding.dropDownCountry.setAdapter(arrayAdapterForCountries)

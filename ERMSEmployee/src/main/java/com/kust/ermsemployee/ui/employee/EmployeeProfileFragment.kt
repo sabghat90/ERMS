@@ -1,11 +1,10 @@
 package com.kust.ermsemployee.ui.employee
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.kust.ermsemployee.R
+import androidx.fragment.app.Fragment
 import com.kust.ermsemployee.databinding.FragmentEmployeeProfileBinding
 import com.kust.ermslibrary.models.Employee
 import dagger.hilt.android.AndroidEntryPoint

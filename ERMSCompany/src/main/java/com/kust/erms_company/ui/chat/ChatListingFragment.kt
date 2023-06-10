@@ -16,6 +16,8 @@ import com.kust.erms_company.ui.employee.EmployeeListingAdapter
 import com.kust.erms_company.ui.employee.EmployeeViewModel
 import com.kust.ermslibrary.models.Employee
 import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.hide
+import com.kust.ermslibrary.utils.show
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -26,8 +28,6 @@ class ChatListingFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val employeeViewModel: EmployeeViewModel by viewModels()
-
-    private lateinit var progressDialog: Dialog
 
     private val adapter: EmployeeListingAdapter by lazy {
         EmployeeListingAdapter(
@@ -51,12 +51,6 @@ class ChatListingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        progressDialog = Dialog(requireContext())
-        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        progressDialog.setCancelable(false)
-        progressDialog.setCanceledOnTouchOutside(false)
-        progressDialog.setContentView(R.layout.custom_progress_dialog)
-
         binding.rvChatListing.layoutManager = LinearLayoutManager(requireContext())
         binding.rvChatListing.adapter = adapter
 
@@ -68,14 +62,25 @@ class ChatListingFragment : Fragment() {
         employeeViewModel.getEmployeeList.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Loading -> {
-                    progressDialog.show()
+                    binding.shimmerLayout.startShimmer()
                 }
                 is UiState.Success -> {
-                    progressDialog.dismiss()
-                    adapter.submitList(state.data)
+                    if (state.data.isEmpty()) {
+                        binding.shimmerLayout.stopShimmer()
+                        binding.shimmerLayout.hide()
+                        binding.rvChatListing.hide()
+                        binding.tvDataStatus.show()
+                        binding.imgDataStatus.show()
+                    } else {
+                        binding.shimmerLayout.stopShimmer()
+                        binding.shimmerLayout.hide()
+                        binding.rvChatListing.show()
+                        adapter.submitList(state.data)
+                    }
                 }
                 is UiState.Error -> {
-                    progressDialog.dismiss()
+                    binding.shimmerLayout.stopShimmer()
+                    binding.shimmerLayout.hide()
                     toast(state.error)
                 }
             }

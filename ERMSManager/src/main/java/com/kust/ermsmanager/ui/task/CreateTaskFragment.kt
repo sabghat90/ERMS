@@ -18,7 +18,8 @@ import com.kust.ermslibrary.models.NotificationData
 import com.kust.ermslibrary.models.PushNotification
 import com.kust.ermslibrary.models.Task
 import com.kust.ermslibrary.services.NotificationService
-import com.kust.ermsmanager.R
+import com.kust.ermsmanager.R as ManagerR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsmanager.databinding.FragmentCreateTaskBinding
 import com.kust.ermsmanager.ui.auth.AuthViewModel
 import com.kust.ermslibrary.utils.TaskStatus
@@ -90,7 +91,7 @@ class CreateTaskFragment : Fragment() {
 
     private fun updateUi() {
         employee.apply {
-            binding.tvEmployeeInfo.text = getString(R.string.employee_info, this!!.name)
+            binding.tvEmployeeInfo.text = getString(LibraryR.string.employee_info, this!!.name)
         }
     }
 
@@ -122,15 +123,15 @@ class CreateTaskFragment : Fragment() {
                 }
 
                 is UiState.Success -> {
-                    binding.btnCreateTask.text = getString(R.string.create_task)
+                    binding.btnCreateTask.text = getString(LibraryR.string.create_task)
                     binding.progressBar.hide()
                     sendNotification(employee!!.fcmToken)
                     toast("Task created successfully")
-                    findNavController().navigate(R.id.action_createTaskFragment_to_taskListingFragment)
+                    findNavController().navigate(ManagerR.id.action_createTaskFragment_to_taskListingFragment)
                 }
 
                 is UiState.Error -> {
-                    binding.btnCreateTask.text = getString(R.string.create_task)
+                    binding.btnCreateTask.text = getString(LibraryR.string.create_task)
                     binding.progressBar.hide()
                     toast(it.error)
                 }
@@ -149,7 +150,7 @@ class CreateTaskFragment : Fragment() {
             to = token
         )
             .also {
-                notificationService!!.sendNotification(it)
+                notificationService.sendNotification(it)
             }
     }
 
@@ -190,7 +191,7 @@ class CreateTaskFragment : Fragment() {
                 val formattedTime = timeFormat.format(selectedDate)
 
                 binding.taskDueDateButton.text =
-                    getString(R.string.date_time, formattedDate, formattedTime)
+                    getString(LibraryR.string.date_time, formattedDate, formattedTime)
 
                 selectedDateTimestamp = Timestamp(selectedDate).toDate()
 

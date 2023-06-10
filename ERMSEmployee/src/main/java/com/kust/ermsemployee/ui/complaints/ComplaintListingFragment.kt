@@ -11,9 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kust.ermsemployee.R
+import com.kust.ermsemployee.R as EmployeeR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsemployee.databinding.FragmentComplaintListingBinding
-import com.kust.ermslibrary.models.Complaint
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +30,7 @@ class ComplaintListingFragment : Fragment() {
 
     private val adapter by lazy {
         ComplaintListingAdapter(requireContext()) { _, complaint ->
-            findNavController().navigate(R.id.action_complaintListingFragment_to_complaintDetailFragment, Bundle().apply {
+            findNavController().navigate(EmployeeR.id.action_complaintListingFragment_to_complaintDetailFragment, Bundle().apply {
                 putParcelable("complaint", complaint)
             })
         }
@@ -52,7 +52,7 @@ class ComplaintListingFragment : Fragment() {
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         progressDialog.setCancelable(false)
         progressDialog.setCanceledOnTouchOutside(false)
-        progressDialog.setContentView(R.layout.custom_progress_dialog)
+        progressDialog.setContentView(LibraryR.layout.custom_progress_dialog)
 
         observer()
         lifecycleScope.launch {
@@ -63,7 +63,7 @@ class ComplaintListingFragment : Fragment() {
         binding.rvComplaints.adapter = adapter
 
         binding.createComplaintFab.setOnClickListener {
-            findNavController().navigate(R.id.action_complaintListingFragment_to_createComplaintFragment)
+            findNavController().navigate(EmployeeR.id.action_complaintListingFragment_to_createComplaintFragment)
         }
     }
 

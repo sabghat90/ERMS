@@ -10,7 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kust.ermsemployee.R
+import com.kust.ermslibrary.R as LibraryR
+import com.kust.ermsemployee.R as EmployeeR
 import com.kust.ermsemployee.databinding.FragmentChatListingBinding
 import com.kust.ermsemployee.ui.employee.EmployeeListingAdapter
 import com.kust.ermsemployee.ui.ranking.EmployeeViewModel
@@ -30,7 +31,7 @@ class ChatListingFragment : Fragment() {
     private val adapter: EmployeeListingAdapter by lazy {
         EmployeeListingAdapter(
             onItemClicked = { _, employee ->
-                findNavController().navigate(R.id.action_chatListingFragment_to_chatFragment, Bundle().apply {
+                findNavController().navigate(EmployeeR.id.action_chatListingFragment_to_chatFragment, Bundle().apply {
                     putParcelable("employee", employee)
                 })
             }
@@ -53,7 +54,7 @@ class ChatListingFragment : Fragment() {
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         progressDialog.setCancelable(false)
         progressDialog.setCanceledOnTouchOutside(false)
-        progressDialog.setContentView(R.layout.custom_progress_dialog)
+        progressDialog.setContentView(LibraryR.layout.custom_progress_dialog)
 
         binding.rvChatListing.layoutManager = LinearLayoutManager(requireContext())
         binding.rvChatListing.adapter = adapter

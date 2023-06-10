@@ -22,7 +22,8 @@ import com.kust.ermslibrary.utils.TaskPoints
 import com.kust.ermslibrary.utils.TaskStatus
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast
-import com.kust.ermsmanager.R
+import com.kust.ermsmanager.R as ManagerR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsmanager.databinding.FragmentTaskDetailBinding
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,7 +65,7 @@ class TaskDetailFragment : Fragment() {
 
         progressDialog = Dialog(requireContext())
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        progressDialog.setContentView(R.layout.custom_progress_dialog)
+        progressDialog.setContentView(ManagerR.layout.custom_progress_dialog)
         progressDialog.setCancelable(false)
         progressDialog.setCanceledOnTouchOutside(false)
 
@@ -120,7 +121,7 @@ class TaskDetailFragment : Fragment() {
                     progressDialog.dismiss()
                     sendNotification(TaskStatus.RESUBMITTED)
                     toast(it.data)
-                    findNavController().navigate(R.id.action_taskDetailFragment_to_taskListingFragment)
+                    findNavController().navigate(ManagerR.id.action_taskDetailFragment_to_taskListingFragment)
                 }
 
                 is UiState.Error -> {
@@ -177,9 +178,9 @@ class TaskDetailFragment : Fragment() {
         binding.tvTaskDescription.text = task.description
         binding.tvAssignTo.text = task.assigneeName
         binding.tvCreatedDate.text =
-            getString(R.string.date_time, taskCreateDateFormatted, taskCreateTimeFormatted)
+            getString(LibraryR.string.date_time, taskCreateDateFormatted, taskCreateTimeFormatted)
         binding.tvDeadline.text =
-            getString(R.string.date_time, taskDueDateFormatted, taskDueTimeFormatted)
+            getString(LibraryR.string.date_time, taskDueDateFormatted, taskDueTimeFormatted)
         binding.tvTaskStatus.text = task.status
 
         if (task.status == TaskStatus.APPROVED) {
@@ -231,7 +232,7 @@ class TaskDetailFragment : Fragment() {
     @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.delete -> {
+            ManagerR.id.delete -> {
                 CoroutineScope(Dispatchers.IO).launch {
                     taskViewModel.deleteTask(task.id)
                 }
@@ -244,7 +245,7 @@ class TaskDetailFragment : Fragment() {
 
     @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.task_menu, menu)
+        inflater.inflate(ManagerR.menu.task_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 

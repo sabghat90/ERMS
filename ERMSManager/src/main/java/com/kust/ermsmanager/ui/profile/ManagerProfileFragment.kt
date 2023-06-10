@@ -10,6 +10,7 @@ import com.kust.ermslibrary.models.Employee
 import com.kust.ermsmanager.databinding.FragmentManagerProfileBinding
 import com.kust.ermsmanager.ui.auth.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ManagerProfileFragment : Fragment() {
@@ -19,8 +20,8 @@ class ManagerProfileFragment : Fragment() {
 
     private val authViewModel: AuthViewModel by viewModels()
 
-    // create employee model object to store employee data from session
-    private val employee = Employee()
+    @Inject
+    lateinit var employee : Employee
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

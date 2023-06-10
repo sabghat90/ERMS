@@ -11,14 +11,14 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.kust.erms_company.R
 import com.kust.erms_company.databinding.ActivityDashboardBinding
-import com.kust.erms_company.utils.NetworkChangeListener
-import com.kust.erms_company.utils.setupWithNavController
+import com.kust.ermslibrary.utils.NetworkChangeListener
+import com.kust.ermslibrary.utils.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DashBoardActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityDashboardBinding
+    private lateinit var binding: ActivityDashboardBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var navController: LiveData<NavController>? = null
 

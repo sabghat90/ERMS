@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.kust.erms_company.R
+import com.kust.erms_company.R as CompanyR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.erms_company.databinding.FragmentCompanyLoginBinding
 import com.kust.erms_company.ui.dashboard.DashBoardActivity
 import com.kust.erms_company.ui.setting.BiometricActivity
@@ -53,10 +54,10 @@ class CompanyLoginFragment : Fragment() {
             }
         }
         binding.btnRegister.setOnClickListener {
-            findNavController().navigate(R.id.action_companyLoginFragment_to_companyRegistrationFragment)
+            findNavController().navigate(CompanyR.id.action_companyLoginFragment_to_companyRegistrationFragment)
         }
         binding.btnForgetPassword.setOnClickListener {
-            findNavController().navigate(R.id.action_companyLoginFragment_to_forgotPasswordFragment)
+            findNavController().navigate(CompanyR.id.action_companyLoginFragment_to_forgotPasswordFragment)
         }
     }
 
@@ -64,7 +65,7 @@ class CompanyLoginFragment : Fragment() {
         viewModel.login.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    binding.btnLogin.text = getString(R.string.login)
+                    binding.btnLogin.text = getString(LibraryR.string.login)
                     binding.progressBar.visibility = View.GONE
                     toast(state.data)
                     val intent = Intent(requireContext(), DashBoardActivity::class.java)
@@ -73,7 +74,7 @@ class CompanyLoginFragment : Fragment() {
                 }
                 is UiState.Error -> {
                     binding.progressBar.visibility = View.GONE
-                    binding.btnLogin.text = getString(R.string.login)
+                    binding.btnLogin.text = getString(LibraryR.string.login)
                     toast(state.error)
                 }
                 is UiState.Loading -> {

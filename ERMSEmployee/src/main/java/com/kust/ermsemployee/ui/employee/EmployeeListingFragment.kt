@@ -1,10 +1,10 @@
 package com.kust.ermsemployee.ui.employee
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -13,7 +13,6 @@ import com.kust.ermsemployee.R
 import com.kust.ermsemployee.databinding.FragmentEmployeeListingBinding
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.hide
-import com.kust.ermslibrary.utils.show
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

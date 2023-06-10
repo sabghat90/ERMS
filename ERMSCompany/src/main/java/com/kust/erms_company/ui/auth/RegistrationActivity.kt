@@ -5,7 +5,7 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.kust.erms_company.R
-import com.kust.erms_company.utils.NetworkChangeListener
+import com.kust.ermslibrary.utils.NetworkChangeListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

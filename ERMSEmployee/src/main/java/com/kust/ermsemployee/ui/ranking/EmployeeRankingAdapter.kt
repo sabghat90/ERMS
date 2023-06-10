@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.kust.ermsemployee.R
 import com.kust.ermsemployee.databinding.EmployeeRankItemBinding
 import com.kust.ermslibrary.models.Employee
+import com.kust.ermslibrary.R as LibraryR
 
 class EmployeeRankingAdapter(
     val onItemClicked: (Int, Employee) -> Unit
@@ -51,15 +51,15 @@ class EmployeeRankingAdapter(
             when (adapterPosition) {
                 0 -> {
                     binding.imgRank.visibility = ViewGroup.VISIBLE
-                    binding.imgRank.setImageResource(R.drawable.ic_first)
+                    binding.imgRank.setImageResource(LibraryR.drawable.ic_first)
                 }
                 1 -> {
                     binding.imgRank.visibility = ViewGroup.VISIBLE
-                    binding.imgRank.setImageResource(R.drawable.ic_second)
+                    binding.imgRank.setImageResource(LibraryR.drawable.ic_second)
                 }
                 2 -> {
                     binding.imgRank.visibility = ViewGroup.VISIBLE
-                    binding.imgRank.setImageResource(R.drawable.ic_third)
+                    binding.imgRank.setImageResource(LibraryR.drawable.ic_third)
                 }
             }
         }

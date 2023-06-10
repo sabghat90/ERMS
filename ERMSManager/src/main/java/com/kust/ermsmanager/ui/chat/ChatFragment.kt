@@ -28,7 +28,8 @@ class ChatFragment : Fragment() {
         MessageAdapter()
     }
 
-    private lateinit var employee: Employee
+    @Inject
+    lateinit var employee: Employee
 
     @Inject
     lateinit var notificationService: NotificationService

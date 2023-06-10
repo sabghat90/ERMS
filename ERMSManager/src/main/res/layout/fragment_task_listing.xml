@@ -6,61 +6,76 @@
     android:layout_height="match_parent"
     tools:context=".ui.task.TaskListingFragment">
 
-<!--    include shimmer layout-->
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <include layout="@layout/shimmer_layout_task_item"/>
-            <include layout="@layout/shimmer_layout_task_item"/>
-            <include layout="@layout/shimmer_layout_task_item"/>
-            <include layout="@layout/shimmer_layout_task_item"/>
-            <include layout="@layout/shimmer_layout_task_item"/>
+            <include layout="@layout/shimmer_layout_task_item" />
 
+            <include layout="@layout/shimmer_layout_task_item" />
+
+            <include layout="@layout/shimmer_layout_task_item" />
+
+            <include layout="@layout/shimmer_layout_task_item" />
+
+            <include layout="@layout/shimmer_layout_task_item" />
         </LinearLayout>
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_task_listing"
+        android:id="@+id/rv_tasks"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--    create floating action button-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_task"
+        android:id="@+id/fb_create_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:contentDescription="@string/create_task"
+        android:focusable="true"
         android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="SpeakableTextPresentCheck"
-        android:importantForAccessibility="no" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/tv_data_state"
+        android:id="@+id/tv_task_data_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/no_task_found"
         android:textSize="24sp"
-        android:textStyle="bold"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/shimmer_layout"
-        app:layout_constraintEnd_toEndOf="@+id/shimmer_layout"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/shimmer_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/img_data_status" />
+
+    <ImageView
+        android:id="@+id/img_data_status"
+        android:layout_width="wrap_content"
+        android:layout_height="400dp"
+        android:visibility="gone"
+        android:src="@drawable/ic_no_data2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/no_task_found" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

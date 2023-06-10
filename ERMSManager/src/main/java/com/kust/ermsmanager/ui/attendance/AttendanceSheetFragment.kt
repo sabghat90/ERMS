@@ -16,9 +16,10 @@ import com.kust.ermslibrary.services.NotificationService
 import com.kust.ermslibrary.utils.AttendancePoints
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.hideKeyboard
-import com.kust.ermsmanager.R
 import com.kust.ermsmanager.databinding.FragmentAttendanceSheetBinding
 import com.kust.ermslibrary.utils.toast
+import com.kust.ermsmanager.R as ManagerR
+import com.kust.ermslibrary.R as ERMSLibraryR
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -112,15 +113,15 @@ class AttendanceSheetFragment : Fragment() {
                 is UiState.Success -> {
                     binding.progressBar.visibility = View.GONE
                     toast(state.data)
-                    binding.btnSubmitAttendance.text = getString(R.string.submit_attendance)
+                    binding.btnSubmitAttendance.text = getString(ERMSLibraryR.string.submit_attendance)
                     sendNotification()
-                    findNavController().navigate(R.id.action_attendanceSheetFragment_to_employeeListForAttendanceFragment)
+                    findNavController().navigate(ManagerR.id.action_attendanceSheetFragment_to_employeeListForAttendanceFragment)
                 }
 
                 is UiState.Error -> {
                     toast(state.error)
                     binding.progressBar.visibility = View.GONE
-                    binding.btnSubmitAttendance.text = getString(R.string.submit_attendance)
+                    binding.btnSubmitAttendance.text = getString(ERMSLibraryR.string.submit_attendance)
                 }
             }
         }

@@ -40,11 +40,19 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
-    <fragment
+     <fragment
         android:id="@+id/employeeListingFragment"
         android:name="com.kust.ermsmanager.ui.employee.EmployeeListingFragment"
         android:label="Employees"
-        tools:layout="@layout/fragment_employee_listing" />
+        tools:layout="@layout/fragment_employee_listing" >
+        <action
+            android:id="@+id/action_employeeListingFragment_to_employeeProfileFragment"
+            app:destination="@id/employeeProfileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
     <fragment
         android:id="@+id/taskListingFragment"
         android:name="com.kust.ermsmanager.ui.task.TaskListingFragment"
@@ -161,5 +169,25 @@
         <action
             android:id="@+id/action_selectEmployeeForTaskFragment_to_createTaskFragment"
             app:destination="@id/createTaskFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/employeeProfileFragment"
+        android:name="com.kust.ermsmanager.ui.employee.EmployeeProfileFragment"
+        android:label="fragment_employee_profile"
+        tools:layout="@layout/fragment_employee_profile" >
+        <action
+            android:id="@+id/action_employeeProfileFragment_to_updateEmployeeProfileFragment"
+            app:destination="@id/updateEmployeeProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateEmployeeProfileFragment"
+        android:name="com.kust.ermsmanager.ui.employee.UpdateEmployeeProfileFragment"
+        android:label="fragment_update_employee_profile"
+        tools:layout="@layout/fragment_update_employee_profile" >
+        <action
+            android:id="@+id/action_updateEmployeeProfileFragment_to_employeeListingFragment"
+            app:destination="@id/employeeListingFragment"
+            app:popUpTo="@id/employeeListingFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

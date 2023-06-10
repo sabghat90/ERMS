@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.kust.ermsemployee.R
+import com.kust.ermsemployee.R as EmployeeR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsemployee.databinding.FragmentChangePasswordBinding
 import com.kust.ermsemployee.ui.auth.AuthViewModel
 import com.kust.ermslibrary.utils.UiState
@@ -53,13 +54,13 @@ class ChangePasswordFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    binding.btnSubmit.text = getString(R.string.submit)
+                    binding.btnSubmit.text = getString(LibraryR.string.submit)
                     toast(it.data)
-                    findNavController().navigate(R.id.action_changePasswordFragment_to_settingFragment)
+                    findNavController().navigate(EmployeeR.id.action_changePasswordFragment_to_settingFragment)
                 }
                 is UiState.Error -> {
                     binding.progressBar.visibility = View.GONE
-                    binding.btnSubmit.text = getString(R.string.submit)
+                    binding.btnSubmit.text = getString(LibraryR.string.submit)
                     toast(it.error)
                 }
             }
@@ -73,17 +74,17 @@ class ChangePasswordFragment : Fragment() {
             val confirmPassword = binding.confirmPasswordEditText.text.toString()
 
             if (newPassword.isEmpty()) {
-                binding.newPasswordEditText.error = getString(R.string.required)
+                binding.newPasswordEditText.error = getString(LibraryR.string.required)
                 isValid = false
             }
 
             else if (confirmPassword.isEmpty()) {
-                binding.confirmPasswordEditText.error = getString(R.string.required)
+                binding.confirmPasswordEditText.error = getString(LibraryR.string.required)
                 isValid = false
             }
 
             else if (newPassword != confirmPassword) {
-                binding.confirmPasswordEditText.error = getString(R.string.password_not_match)
+                binding.confirmPasswordEditText.error = getString(LibraryR.string.password_not_match)
                 isValid = false
             }
 

@@ -19,7 +19,8 @@ import com.kust.ermslibrary.models.PushNotification
 import com.kust.ermslibrary.services.NotificationService
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.hideKeyboard
-import com.kust.ermsmanager.R
+import com.kust.ermsmanager.R as ManagerR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsmanager.databinding.FragmentCreateEventBinding
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import com.kust.ermslibrary.utils.toast
@@ -39,12 +40,9 @@ class CreateEventFragment : Fragment() {
     private val employeeViewModel: EmployeeViewModel by viewModels()
     private val eventViewModel: EventViewModel by viewModels()
 
-    // create employee list to store all employees from database
     private var employeeList = listOf<Employee>()
-
     @Inject
     lateinit var notificationService: NotificationService
-
     private var selectedDateTimestamp: Date? = null
 
     override fun onCreateView(
@@ -109,7 +107,7 @@ class CreateEventFragment : Fragment() {
                 val formattedDate = dateFormat.format(selectedDate)
                 val formattedTime = timeFormat.format(selectedDate)
 
-                binding.btnDate.text = getString(R.string.date_time, formattedDate, formattedTime)
+                binding.btnDate.text = getString(LibraryR.string.date_time, formattedDate, formattedTime)
 
                 selectedDateTimestamp = Timestamp(selectedDate).toDate()
 
@@ -131,14 +129,14 @@ class CreateEventFragment : Fragment() {
                     binding.btnCreateEvent.text = ""
                 }
                 is UiState.Success -> {
-                    binding.btnCreateEvent.text = getString(R.string.create_an_event)
+                    binding.btnCreateEvent.text = getString(LibraryR.string.create_an_event)
                     binding.progressBar.visibility = View.GONE
                     toast("Event created successfully")
                     sendNotification()
-                    findNavController().navigate(R.id.action_createEventFragment_to_eventListingFragment)
+                    findNavController().navigate(ManagerR.id.action_createEventFragment_to_eventListingFragment)
                 }
                 is UiState.Error -> {
-                    binding.btnCreateEvent.text = getString(R.string.create_an_event)
+                    binding.btnCreateEvent.text = getString(LibraryR.string.create_an_event)
                     binding.progressBar.visibility = View.GONE
                     toast(it.error)
                 }

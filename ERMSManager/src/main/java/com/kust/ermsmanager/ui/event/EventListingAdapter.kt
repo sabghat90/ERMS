@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Timestamp
 import com.kust.ermslibrary.models.Event
 import com.kust.ermslibrary.utils.ConvertDateAndTimeFormat
-import com.kust.ermsmanager.R
+import com.kust.ermsmanager.R as ManagerR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsmanager.databinding.EventItemBinding
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -42,10 +43,10 @@ class EventListingAdapter(
 
                 if (date != null) {
                     if (date.before(currentDate)) {
-                        binding.tvEventStatus.text = context.getString(R.string.expired)
+                        binding.tvEventStatus.text = context.getString(LibraryR.string.expired)
                         binding.tvEventStatus.setTextColor(binding.root.context.getColor(android.R.color.holo_red_dark))
                     } else {
-                        binding.tvEventStatus.text = context.getString(R.string.upcoming)
+                        binding.tvEventStatus.text = context.getString(LibraryR.string.upcoming)
                         // change status color to green
                         binding.tvEventStatus.setTextColor(binding.root.context.getColor(android.R.color.holo_green_dark))
                     }
@@ -66,9 +67,9 @@ class EventListingAdapter(
 
 
             binding.eventName.text = event.title
-            binding.tvDateCreated.text = context.getString(R.string.date_time, creationDateFormatted, creationTimeFormatted)
+            binding.tvDateCreated.text = context.getString(LibraryR.string.date_time, creationDateFormatted, creationTimeFormatted)
             binding.eventType.text = event.type
-            binding.tvEventDate.text = context.getString(R.string.date_time, eventDateFormatted, eventTimeFormatted)
+            binding.tvEventDate.text = context.getString(LibraryR.string.date_time, eventDateFormatted, eventTimeFormatted)
 
             binding.eventCard.setOnClickListener {
                 val position = adapterPosition

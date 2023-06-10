@@ -30,6 +30,7 @@ class ChatFragment : Fragment() {
 
     @Inject
     lateinit var employee: Employee
+
     @Inject
     lateinit var notificationService: NotificationService
 

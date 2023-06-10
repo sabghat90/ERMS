@@ -5,15 +5,15 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.kust.ermsmanager.R
+import com.kust.ermslibrary.utils.SharedPreferencesConstants
+import com.kust.ermslibrary.utils.UiState
 import com.kust.ermsmanager.data.repositories.BiometricRepository
 import com.kust.ermsmanager.data.repositories.BiometricRepositoryImpl
 import com.kust.ermsmanager.databinding.ActivityBiometricBinding
 import com.kust.ermsmanager.ui.dashboard.DashboardActivity
-import com.kust.ermsmanager.utils.BiometricAuthentication
-import com.kust.ermslibrary.utils.SharedPreferencesConstants
-import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.BiometricAuthentication
 import dagger.hilt.android.AndroidEntryPoint
+import com.kust.ermslibrary.R as LibraryR
 
 @AndroidEntryPoint
 class BiometricActivity : AppCompatActivity() {
@@ -47,7 +47,7 @@ class BiometricActivity : AppCompatActivity() {
                         startActivity(loadDashBoardActivity)
                         finish()
                     } else {
-                        binding.tvBiometric.text = getString(R.string.authentication_failed)
+                        binding.tvBiometric.text = getString(LibraryR.string.authentication_failed)
                     }
                 }
             } else {

@@ -65,17 +65,41 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_date_created" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_forward"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:id="@+id/btn_layout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
-            android:layout_marginEnd="24dp"
-            android:text="Forward to Management"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+            app:layout_constraintTop_toBottomOf="@+id/recyclerView">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_forward"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:text="@string/forward_to_management"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:cornerRadius="6dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:indicatorColor="@color/md_theme_light_onPrimary" />
+
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

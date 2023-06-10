@@ -5,7 +5,7 @@ import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.kust.ermsemployee.R
-import com.kust.ermsemployee.utils.NetworkChangeListener
+import com.kust.ermslibrary.utils.NetworkChangeListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -13,6 +13,7 @@ class AuthActivity : AppCompatActivity() {
 
     private val networkChangeListener = NetworkChangeListener()
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
     }

@@ -9,11 +9,11 @@ import android.view.Window
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kust.ermsemployee.R
 import com.kust.ermsemployee.databinding.FragmentEmployeeRankListingBinding
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
+import com.kust.ermslibrary.R as LibraryR
 
 @AndroidEntryPoint
 class EmployeeRankListingFragment : Fragment() {
@@ -30,7 +30,7 @@ class EmployeeRankListingFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentEmployeeRankListingBinding.inflate(inflater, container, false)
         return binding.root
@@ -42,7 +42,7 @@ class EmployeeRankListingFragment : Fragment() {
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         progressDialog.setCancelable(false)
         progressDialog.setCanceledOnTouchOutside(false)
-        progressDialog.setContentView(R.layout.custom_progress_dialog)
+        progressDialog.setContentView(LibraryR.layout.custom_progress_dialog)
 
         observer()
 

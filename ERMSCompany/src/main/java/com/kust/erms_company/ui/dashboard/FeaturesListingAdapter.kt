@@ -35,7 +35,7 @@ class FeaturesListingAdapter : RecyclerView.Adapter<FeaturesListingAdapter.ViewH
         return features.size
     }
 
-    inner class ViewHolder(private val binding: FeatureItemBinding, listener : OnItemClickListener) :
+    inner class ViewHolder(private val binding: FeatureItemBinding, listener: OnItemClickListener) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(feature: Feature) {
             binding.featureImage.setImageResource(feature.image)

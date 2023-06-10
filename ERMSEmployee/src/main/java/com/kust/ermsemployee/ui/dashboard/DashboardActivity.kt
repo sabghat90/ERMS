@@ -11,8 +11,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.kust.ermsemployee.R
 import com.kust.ermsemployee.databinding.ActivityDashboardBinding
-import com.kust.ermsemployee.utils.NetworkChangeListener
-import com.kust.ermsemployee.utils.setupWithNavController
+import com.kust.ermslibrary.utils.NetworkChangeListener
+import com.kust.ermslibrary.utils.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

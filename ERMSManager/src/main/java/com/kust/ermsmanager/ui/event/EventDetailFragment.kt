@@ -11,20 +11,22 @@ import com.google.firebase.Timestamp
 import com.kust.ermslibrary.models.Event
 import com.kust.ermslibrary.utils.ConvertDateAndTimeFormat
 import com.kust.ermslibrary.utils.UiState
-import com.kust.ermsmanager.R
+import com.kust.ermsmanager.R as ManagerR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsmanager.databinding.FragmentEventDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class EventDetailFragment : Fragment() {
     private var _binding: FragmentEventDetailBinding? = null
     private val binding get() = _binding!!
 
-    // event object
-    private lateinit var event: Event
+    @Inject
+    lateinit var event: Event
 
     private val eventViewModel: EventViewModel by viewModels()
 
@@ -57,12 +59,12 @@ class EventDetailFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    binding.btnDeleteEvent.text = getString(R.string.delete)
-                    findNavController().navigate(R.id.action_eventDetailFragment_to_eventListingFragment)
+                    binding.btnDeleteEvent.text = getString(LibraryR.string.delete)
+                    findNavController().navigate(ManagerR.id.action_eventDetailFragment_to_eventListingFragment)
                 }
                 is UiState.Error -> {
                     binding.progressBar.visibility = View.GONE
-                    binding.btnDeleteEvent.text = getString(R.string.delete)
+                    binding.btnDeleteEvent.text = getString(LibraryR.string.delete)
                 }
             }
         }
@@ -79,10 +81,10 @@ class EventDetailFragment : Fragment() {
 
             if (date != null) {
                 if (date.before(currentDate)) {
-                    binding.tvStatusMessage.text = getString(R.string.expired)
+                    binding.tvStatusMessage.text = getString(LibraryR.string.expired)
                     binding.tvStatusMessage.setTextColor(binding.root.context.getColor(android.R.color.holo_red_dark))
                 } else {
-                    binding.tvStatusMessage.text = getString(R.string.upcoming)
+                    binding.tvStatusMessage.text = getString(LibraryR.string.upcoming)
                     // change status color to green
                     binding.tvStatusMessage.setTextColor(binding.root.context.getColor(android.R.color.holo_green_dark))
                 }
@@ -104,8 +106,8 @@ class EventDetailFragment : Fragment() {
         with(binding) {
             tvEventName.text = event.title
             tvEventDescription.text = event.description
-            tvCreatedDateTime.text = getString(R.string.date_time, creationDateFormatted, creationTimeFormatted)
-            tvEventDateTime.text = getString(R.string.date_time, eventDateFormatted, eventTimeFormatted)
+            tvCreatedDateTime.text = getString(LibraryR.string.date_time, creationDateFormatted, creationTimeFormatted)
+            tvEventDateTime.text = getString(LibraryR.string.date_time, eventDateFormatted, eventTimeFormatted)
             tvLocation.text = event.location
             tvEventType.text = event.type
         }

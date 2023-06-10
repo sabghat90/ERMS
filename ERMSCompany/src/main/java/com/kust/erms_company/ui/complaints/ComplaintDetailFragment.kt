@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.erms_company.databinding.FragmentComplaintDetailBinding
 import com.kust.ermslibrary.models.Complaint
@@ -16,6 +17,7 @@ import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ComplaintDetailFragment : Fragment() {
@@ -23,7 +25,9 @@ class ComplaintDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val complaintViewModel: ComplaintViewModel by viewModels()
-    private lateinit var complaint : Complaint
+
+    @Inject
+    lateinit var complaint: Complaint
 
     private val historyAdapter by lazy { ComplaintHistoryAdapter() }
 
@@ -32,7 +36,7 @@ class ComplaintDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentComplaintDetailBinding.inflate(layoutInflater,container,false)
+        _binding = FragmentComplaintDetailBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -55,16 +59,29 @@ class ComplaintDetailFragment : Fragment() {
     private fun observer() {
         complaintViewModel.getComplaintHistory.observe(viewLifecycleOwner) {
             when (it) {
-                is UiState.Loading -> {
-
-                }
-
                 is UiState.Success -> {
-                    toast(it.data.toString())
                     historyAdapter.submitList(it.data)
                 }
-
+                else -> {
+                    toast("History not found")
+                }
+            }
+        }
+        complaintViewModel.updateComplaint.observe(viewLifecycleOwner) {
+            when (it) {
+                is UiState.Loading -> {
+                    binding.progressBar.show()
+                    binding.btnForward.text = ""
+                }
+                is UiState.Success -> {
+                    binding.progressBar.hide()
+                    binding.btnForward.text = getString(com.kust.ermslibrary.R.string.forward_to_management)
+                    toast("Complaint is referred to manager")
+                    findNavController().navigate(com.kust.erms_company.R.id.action_complaintDetailFragment_to_complaintListingFragment)
+                }
                 is UiState.Error -> {
+                    binding.progressBar.hide()
+                    binding.btnForward.text = getString(com.kust.ermslibrary.R.string.forward_to_management)
                     toast(it.error)
                 }
             }
@@ -80,7 +97,7 @@ class ComplaintDetailFragment : Fragment() {
 
     private fun updateUi() {
         // get from bundle
-        with (binding) {
+        with(binding) {
             tvComplaintTitle.text = complaint.title
             tvComplaintDescription.text = complaint.description
             tvDateCreated.text = complaint.dateCreated

@@ -5,14 +5,15 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.kust.ermsmanager.R
 import com.kust.ermsmanager.databinding.ActivityDashboardBinding
-import com.kust.ermsmanager.utils.NetworkChangeListener
-import com.kust.ermsmanager.utils.setupWithNavController
+import com.kust.ermslibrary.utils.NetworkChangeListener
+import com.kust.ermslibrary.utils.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,6 +27,7 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)

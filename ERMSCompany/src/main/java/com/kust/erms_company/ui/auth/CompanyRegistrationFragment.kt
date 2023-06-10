@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.kust.erms_company.R
+import com.kust.erms_company.R as CompanyR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.erms_company.databinding.FragmentCompanyRegistrationBinding
 import com.kust.ermslibrary.models.Company
 import com.kust.ermslibrary.utils.Role
@@ -52,15 +53,15 @@ class CompanyRegistrationFragment : Fragment() {
         viewModel.register.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is UiState.Success -> {
-                    binding.btnRegister.text = getString(R.string.register)
+                    binding.btnRegister.text = getString(LibraryR.string.register)
                     binding.progressBar.visibility = View.GONE
                     toast(state.data)
-                    findNavController().navigate(R.id.action_companyRegistrationFragment_to_companyLoginFragment)
+                    findNavController().navigate(CompanyR.id.action_companyRegistrationFragment_to_companyLoginFragment)
 
                 }
                 is UiState.Error -> {
                     binding.progressBar.visibility = View.GONE
-                    binding.btnRegister.text = getString(R.string.register)
+                    binding.btnRegister.text = getString(LibraryR.string.register)
                     toast(state.error)
                 }
                 is UiState.Loading -> {

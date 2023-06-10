@@ -8,7 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.Timestamp
-import com.kust.erms_company.R
+import com.kust.erms_company.R as CompanyR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.erms_company.databinding.FragmentAddEmployeeBinding
 import com.kust.ermslibrary.models.Employee
 import com.kust.ermslibrary.models.NotificationData
@@ -17,6 +18,7 @@ import com.kust.ermslibrary.services.NotificationService
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddEmployeeFragment : Fragment() {
@@ -26,7 +28,8 @@ class AddEmployeeFragment : Fragment() {
 
     private val viewModel: EmployeeViewModel by viewModels()
 
-    private val notificationService = NotificationService()
+    @Inject
+    lateinit var notificationService : NotificationService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,14 +64,14 @@ class AddEmployeeFragment : Fragment() {
                 is UiState.Success -> {
                     sendNotification(it.data)
                     binding.progressBar.visibility = View.GONE
-                    binding.btnRegister.text = getString(R.string.register)
+                    binding.btnRegister.text = getString(LibraryR.string.register)
                     toast(it.data.toString())
-                    findNavController().navigate(R.id.action_addEmployeeFragment_to_featuresFragment)
+                    findNavController().navigate(CompanyR.id.action_addEmployeeFragment_to_featuresFragment)
                 }
 
                 is UiState.Error -> {
                     binding.progressBar.visibility = View.GONE
-                    binding.btnRegister.text = getString(R.string.register)
+                    binding.btnRegister.text = getString(LibraryR.string.register)
                     toast(it.error)
                 }
             }

@@ -15,22 +15,22 @@ class EmployeeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _addEmployee = MutableLiveData<UiState<Pair<Employee, String>>>()
-    val registerEmployee : LiveData<UiState<Pair<Employee, String>>>
+    val registerEmployee: LiveData<UiState<Pair<Employee, String>>>
         get() = _addEmployee
 
     private val _updateEmployee = MutableLiveData<UiState<Pair<Employee, String>>>()
-    val updateEmployee : LiveData<UiState<Pair<Employee, String>>>
+    val updateEmployee: LiveData<UiState<Pair<Employee, String>>>
         get() = _updateEmployee
 
     private val _removeEmployee = MutableLiveData<UiState<String>>()
-    val removeEmployee : LiveData<UiState<String>>
+    val removeEmployee: LiveData<UiState<String>>
         get() = _removeEmployee
 
     private val _getEmployeeList = MutableLiveData<UiState<List<Employee>>>()
-    val getEmployeeList : LiveData<UiState<List<Employee>>>
+    val getEmployeeList: LiveData<UiState<List<Employee>>>
         get() = _getEmployeeList
 
-    fun registerEmployee(email : String, employee: Employee) {
+    fun registerEmployee(email: String, employee: Employee) {
         _addEmployee.value = UiState.Loading
         employeeRepository.addEmployee(email, employee) {
             _addEmployee.value = it

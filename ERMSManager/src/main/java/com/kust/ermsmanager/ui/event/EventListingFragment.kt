@@ -1,8 +1,6 @@
 package com.kust.ermsmanager.ui.event
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kust.ermslibrary.models.Event
 import com.kust.ermslibrary.utils.UiState
-import com.kust.ermsmanager.R
-import com.kust.ermsmanager.databinding.FragmentEventListingBinding
 import com.kust.ermslibrary.utils.hide
 import com.kust.ermslibrary.utils.show
 import com.kust.ermslibrary.utils.toast
+import com.kust.ermsmanager.databinding.FragmentEventListingBinding
 import dagger.hilt.android.AndroidEntryPoint
+import com.kust.ermsmanager.R as ManagerR
 
 @AndroidEntryPoint
 class EventListingFragment : Fragment() {
@@ -35,7 +32,7 @@ class EventListingFragment : Fragment() {
                 val bundle = Bundle()
                 bundle.putParcelable("event", event)
                 findNavController().navigate(
-                    R.id.action_eventListingFragment_to_eventDetailFragment,
+                    ManagerR.id.action_eventListingFragment_to_eventDetailFragment,
                     bundle
                 )
             }
@@ -63,7 +60,7 @@ class EventListingFragment : Fragment() {
         binding.rvEvents.adapter = adapter
 
         binding.fabCreateEvent.setOnClickListener {
-            findNavController().navigate(R.id.action_eventListingFragment_to_createEventFragment)
+            findNavController().navigate(ManagerR.id.action_eventListingFragment_to_createEventFragment)
         }
     }
 
@@ -74,12 +71,15 @@ class EventListingFragment : Fragment() {
                     binding.shimmerLayout.startShimmer()
                 }
                 is UiState.Success -> {
-                    binding.shimmerLayout.stopShimmer()
-                    binding.shimmerLayout.hide()
                     if (it.data.isEmpty()) {
+                        binding.shimmerLayout.stopShimmer()
+                        binding.shimmerLayout.hide()
                         binding.tvEventListStatus.show()
                         binding.rvEvents.hide()
+                        binding.imageView7.show()
                     } else {
+                        binding.shimmerLayout.stopShimmer()
+                        binding.shimmerLayout.hide()
                         binding.rvEvents.show()
                         adapter.submitList(it.data)
                     }
@@ -87,9 +87,6 @@ class EventListingFragment : Fragment() {
                 is UiState.Error -> {
                     binding.shimmerLayout.stopShimmer()
                     binding.shimmerLayout.hide()
-                    binding.rvEvents.hide()
-                    binding.tvEventListStatus.show()
-                    binding.tvEventListStatus.text = getString(R.string.something_went_wrong)
                     toast(it.error)
                 }
             }

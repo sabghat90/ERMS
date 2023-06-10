@@ -14,7 +14,6 @@ class ProjectProposalFragment : Fragment() {
 
     private val FILENAME = "project_proposal.html"
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

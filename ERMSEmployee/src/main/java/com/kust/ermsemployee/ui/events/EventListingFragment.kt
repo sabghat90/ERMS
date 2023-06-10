@@ -1,8 +1,6 @@
 package com.kust.ermsemployee.ui.events
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kust.ermsemployee.R
+import com.kust.ermsemployee.R as EmployeeR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsemployee.databinding.FragmentEventListingBinding
-import com.kust.ermslibrary.models.Event
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.hide
 import com.kust.ermslibrary.utils.show
@@ -35,7 +33,7 @@ class EventListingFragment : Fragment() {
                 val bundle = Bundle()
                 bundle.putParcelable("event", event)
                 findNavController().navigate(
-                    R.id.action_eventListingFragment_to_eventDetailFragment,
+                    EmployeeR.id.action_eventListingFragment_to_eventDetailFragment,
                     bundle
                 )
             }
@@ -84,7 +82,7 @@ class EventListingFragment : Fragment() {
                     binding.shimmerLayout.hide()
                     binding.rvEvents.hide()
                     binding.tvEventListStatus.show()
-                    binding.tvEventListStatus.text = getString(R.string.something_went_wrong)
+                    binding.tvEventListStatus.text = getString(LibraryR.string.something_went_wrong)
                     toast(it.error)
                 }
             }

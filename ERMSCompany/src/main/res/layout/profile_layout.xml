@@ -25,9 +25,11 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_logo"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:src="@drawable/avatar4"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/avatar3"
+            app:civ_border_overlay="true"
+            app:civ_border_width="1dp"
             app:layout_constraintBottom_toBottomOf="@+id/cover_img"
             app:layout_constraintEnd_toEndOf="@+id/cover_img"
             app:layout_constraintStart_toStartOf="@+id/cover_img"
@@ -49,11 +51,10 @@
             style="@style/h2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/basic_information"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline_for_headings"
             app:layout_constraintTop_toBottomOf="@+id/name" />
 
         <View
@@ -72,15 +73,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/email"
-            app:layout_constraintStart_toStartOf="@+id/textView4"
+            app:layout_constraintStart_toStartOf="@+id/guideline_for_headings"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <TextView
             android:id="@+id/tv_email"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/textView2"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline_for_variables"
             app:layout_constraintTop_toTopOf="@+id/textView2" />
 
@@ -91,15 +91,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/phone"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
+            app:layout_constraintStart_toStartOf="@+id/guideline_for_headings"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <TextView
             android:id="@+id/tv_phone"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/textView5"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline_for_variables"
             app:layout_constraintTop_toTopOf="@+id/textView5" />
 
@@ -109,15 +108,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/website"
-            app:layout_constraintStart_toStartOf="@+id/textView5"
+            app:layout_constraintStart_toStartOf="@+id/guideline_for_headings"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
         <TextView
             android:id="@+id/tv_website"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/textView10"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline_for_variables"
             app:layout_constraintTop_toTopOf="@+id/textView10" />
 
@@ -136,11 +134,10 @@
             style="@style/h2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="@string/address"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline_for_headings"
             app:layout_constraintTop_toBottomOf="@+id/view2" />
 
         <View
@@ -159,15 +156,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/country"
-            app:layout_constraintStart_toStartOf="@+id/textView8"
+            app:layout_constraintStart_toStartOf="@+id/guideline_for_headings"
             app:layout_constraintTop_toBottomOf="@+id/view3" />
 
         <TextView
             android:id="@+id/tv_country"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/textView11"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline_for_variables"
             app:layout_constraintTop_toTopOf="@+id/textView11" />
 
@@ -178,15 +174,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/State"
-            app:layout_constraintStart_toStartOf="@+id/textView11"
+            app:layout_constraintStart_toStartOf="@+id/guideline_for_headings"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
         <TextView
             android:id="@+id/tv_state"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/textView12"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline_for_variables"
             app:layout_constraintTop_toTopOf="@+id/textView12" />
 
@@ -197,16 +192,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/full_address"
-            app:layout_constraintStart_toStartOf="@+id/textView12"
+            app:layout_constraintStart_toStartOf="@+id/guideline_for_headings"
             app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
         <TextView
             android:id="@+id/tv_full_address"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="3"
             app:layout_constraintBottom_toBottomOf="@+id/textView13"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline_for_variables"
             app:layout_constraintTop_toTopOf="@+id/textView13" />
 
@@ -214,11 +208,111 @@
             android:id="@+id/view5"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:background="@color/md_theme_light_primary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_full_address" />
+            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+        <TextView
+            android:id="@+id/textView9"
+            style="@style/h2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/professional_information"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/guideline_for_headings"
+            app:layout_constraintTop_toBottomOf="@+id/view5" />
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/md_theme_light_primary"
+            app:layout_constraintEnd_toEndOf="@+id/textView9"
+            app:layout_constraintStart_toStartOf="@+id/textView9"
+            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/department"
+            app:layout_constraintStart_toStartOf="@+id/guideline_for_headings"
+            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+        <TextView
+            android:id="@+id/tv_department"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/textView15"
+            app:layout_constraintStart_toStartOf="@+id/guideline_for_variables"
+            app:layout_constraintTop_toTopOf="@+id/textView15" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/job_title"
+            app:layout_constraintStart_toStartOf="@+id/guideline_for_headings"
+            app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+        <TextView
+            android:id="@+id/tv_job_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/textView17"
+            app:layout_constraintStart_toStartOf="@+id/guideline_for_variables"
+            app:layout_constraintTop_toTopOf="@+id/textView17" />
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/salary"
+            app:layout_constraintStart_toStartOf="@+id/guideline_for_headings"
+            app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+        <TextView
+            android:id="@+id/tv_salary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/textView19"
+            app:layout_constraintStart_toStartOf="@+id/guideline_for_variables"
+            app:layout_constraintTop_toTopOf="@+id/textView19" />
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/joining_date"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline_for_headings"
+            app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+        <TextView
+            android:id="@+id/tv_joining_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/textView21"
+            app:layout_constraintStart_toStartOf="@+id/guideline_for_variables"
+            app:layout_constraintTop_toTopOf="@+id/textView21" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_for_headings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintGuide_begin="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_for_variables"

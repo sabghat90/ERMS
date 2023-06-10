@@ -8,7 +8,8 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.kust.ermsemployee.R
+import com.kust.ermsemployee.R as EmployeeR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsemployee.databinding.FragmentSignUpBinding
 import com.kust.ermslibrary.models.Employee
 import com.kust.ermslibrary.utils.Role
@@ -37,10 +38,10 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val spinnerData = resources.getStringArray(R.array.gender)
+        val spinnerData = resources.getStringArray(LibraryR.array.gender)
         val arrayAdapter : ArrayAdapter<String> = ArrayAdapter<String>(
             requireContext(),
-            R.layout.dropdown_menu_item,
+            EmployeeR.layout.dropdown_menu_item,
             spinnerData
         )
         binding.ddmGender.setAdapter(arrayAdapter)
@@ -63,7 +64,7 @@ class SignUpFragment : Fragment() {
             when(uiState) {
                 is UiState.Error -> {
                     binding.progressBar.visibility = View.GONE
-                    binding.btnRegister.text = getString(R.string.register)
+                    binding.btnRegister.text = getString(LibraryR.string.register)
                     toast(uiState.error)
                 }
                 UiState.Loading -> {
@@ -72,9 +73,9 @@ class SignUpFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    binding.btnRegister.text = getString(R.string.register)
+                    binding.btnRegister.text = getString(LibraryR.string.register)
                     toast(uiState.data)
-                    findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+                    findNavController().navigate(EmployeeR.id.action_signUpFragment_to_loginFragment)
                 }
             }
         }

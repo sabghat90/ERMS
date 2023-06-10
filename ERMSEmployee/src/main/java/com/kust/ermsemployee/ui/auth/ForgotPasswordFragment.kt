@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.kust.ermsemployee.R
+import com.kust.ermsemployee.R as EmployeeR
+import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsemployee.databinding.FragmentForgotPasswordBinding
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast
@@ -41,7 +42,7 @@ class ForgotPasswordFragment : Fragment() {
             }
         }
         binding.btnLoginAgain.setOnClickListener {
-            findNavController().navigate(R.id.action_forgotPasswordFragment_to_loginFragment)
+            findNavController().navigate(EmployeeR.id.action_forgotPasswordFragment_to_loginFragment)
         }
     }
 
@@ -55,14 +56,14 @@ class ForgotPasswordFragment : Fragment() {
 
                 is UiState.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    binding.btnContinue.text = getString(R.string.continue_)
+                    binding.btnContinue.text = getString(LibraryR.string.continue_)
                     toast(it.data)
-                    findNavController().navigate(R.id.action_forgotPasswordFragment_to_loginFragment)
+                    findNavController().navigate(EmployeeR.id.action_forgotPasswordFragment_to_loginFragment)
                 }
 
                 is UiState.Error -> {
                     binding.progressBar.visibility = View.GONE
-                    binding.btnContinue.text = getString(R.string.continue_)
+                    binding.btnContinue.text = getString(LibraryR.string.continue_)
                     toast(it.error)
                 }
             }

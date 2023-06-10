@@ -1,8 +1,6 @@
 package com.kust.ermsmanager.ui.task
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kust.ermslibrary.models.Task
 import com.kust.ermslibrary.utils.UiState
-import com.kust.ermsmanager.R
-import com.kust.ermsmanager.databinding.FragmentTaskListingBinding
+import com.kust.ermslibrary.utils.hide
+import com.kust.ermslibrary.utils.show
 import com.kust.ermslibrary.utils.toast
+import com.kust.ermsmanager.databinding.FragmentTaskListingBinding
 import dagger.hilt.android.AndroidEntryPoint
+import com.kust.ermsmanager.R as ManagerR
 
 @AndroidEntryPoint
 class TaskListingFragment : Fragment() {
@@ -29,7 +28,7 @@ class TaskListingFragment : Fragment() {
         TaskListingAdapter(
             context = requireContext(),
             onItemClicked = { _, task ->
-                findNavController().navigate(R.id.action_taskListingFragment_to_taskDetailFragment, Bundle().apply {
+                findNavController().navigate(ManagerR.id.action_taskListingFragment_to_taskDetailFragment, Bundle().apply {
                     putParcelable("task", task)
                 })
             })
@@ -51,11 +50,11 @@ class TaskListingFragment : Fragment() {
         observer()
         taskViewModel.getTasks()
 
-        binding.rvTaskListing.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvTaskListing.adapter = adapter
+        binding.rvTasks.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvTasks.adapter = adapter
 
-        binding.fabAddTask.setOnClickListener {
-            findNavController().navigate(R.id.action_taskListingFragment_to_selectEmployeeForTaskFragment)
+        binding.fbCreateTask.setOnClickListener {
+            findNavController().navigate(ManagerR.id.action_taskListingFragment_to_selectEmployeeForTaskFragment)
         }
     }
 
@@ -67,21 +66,21 @@ class TaskListingFragment : Fragment() {
                     binding.shimmerLayout.startShimmer()
                 }
                 is UiState.Success -> {
-                    binding.shimmerLayout.stopShimmer()
-                    binding.shimmerLayout.visibility = View.GONE
                     if (it.data.isEmpty()) {
-                        binding.tvDataState.visibility = View.VISIBLE
-                        binding.rvTaskListing.visibility = View.GONE
+                        binding.shimmerLayout.stopShimmer()
+                        binding.shimmerLayout.hide()
+                        binding.tvTaskDataStatus.show()
+                        binding.imgDataStatus.show()
                     } else {
-                        binding.rvTaskListing.visibility = View.VISIBLE
+                        binding.shimmerLayout.stopShimmer()
+                        binding.shimmerLayout.hide()
+                        binding.rvTasks.show()
                         adapter.submitList(it.data)
                     }
                 }
                 is UiState.Error -> {
                     binding.shimmerLayout.stopShimmer()
-                    binding.shimmerLayout.visibility = View.GONE
-                    binding.tvDataState.visibility = View.VISIBLE
-                    binding.tvDataState.text = getString(R.string.something_went_wrong)
+                    binding.shimmerLayout.hide()
                     toast(it.error)
                 }
             }

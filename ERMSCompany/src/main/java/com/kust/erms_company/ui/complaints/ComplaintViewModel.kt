@@ -18,15 +18,15 @@ class ComplaintViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _getComplaints = MutableLiveData<UiState<List<Complaint>>>()
-    val getComplaints : LiveData<UiState<List<Complaint>>>
+    val getComplaints: LiveData<UiState<List<Complaint>>>
         get() = _getComplaints
 
     private val _updateComplaint = MutableLiveData<UiState<String>>()
-    val updateComplaint : LiveData<UiState<String>>
+    val updateComplaint: LiveData<UiState<String>>
         get() = _updateComplaint
 
     private val _deleteComplaint = MutableLiveData<UiState<String>>()
-    val deleteComplaint : LiveData<UiState<String>>
+    val deleteComplaint: LiveData<UiState<String>>
         get() = _deleteComplaint
 
     private val _getComplaintHistory = MutableLiveData<UiState<List<ComplaintHistory>>>()
