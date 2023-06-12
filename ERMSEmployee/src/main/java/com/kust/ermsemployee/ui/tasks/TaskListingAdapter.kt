@@ -13,6 +13,7 @@ import com.kust.ermsemployee.databinding.TaskItemBinding
 import com.kust.ermslibrary.models.Task
 import com.kust.ermslibrary.utils.ConvertDateAndTimeFormat
 import com.kust.ermslibrary.utils.TaskStatus
+import com.kust.ermslibrary.utils.hide
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -65,13 +66,16 @@ class TaskListingAdapter(
                 }
             }
 
+            if (task.status == TaskStatus.COMPLETED) {
+                binding.tvTaskDeadlineStatus.hide()
+            }
+
             val taskCreationDate = task.createdDate
 
             val creationDateFormatted = ConvertDateAndTimeFormat().formatDate(taskCreationDate)
             val creationTimeFormatted = ConvertDateAndTimeFormat().formatTime(taskCreationDate)
 
-            binding.tvTaskName.text = task.name
-            binding.tvTaskDescription.text = task.description
+            binding.tvTaskName.text = task.title
             binding.tvStatus.text = task.status
             binding.tvTaskCreatedDate.text = context.getString(LibraryR.string.date_time, creationDateFormatted, creationTimeFormatted)
             binding.cardTask.setOnClickListener {

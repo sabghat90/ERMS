@@ -12,7 +12,6 @@ class ComplaintHistoryAdapter:
     ListAdapter<ComplaintHistory, ComplaintHistoryAdapter.HistoryViewHolder>(DiffUtilCallback()) {
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         val binding = ComplaintHistoryItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return HistoryViewHolder(binding)
@@ -24,8 +23,8 @@ class ComplaintHistoryAdapter:
 
     inner class HistoryViewHolder(private val binding: ComplaintHistoryItemBinding):
         RecyclerView.ViewHolder(binding.root) {
-
             fun bind(historyModel: ComplaintHistory) {
+
                 binding.tvMsg.text = historyModel.message
             }
     }

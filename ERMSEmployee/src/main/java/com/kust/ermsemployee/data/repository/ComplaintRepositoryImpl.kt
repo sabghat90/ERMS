@@ -1,5 +1,6 @@
 package com.kust.ermsemployee.data.repository
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kust.ermslibrary.models.Complaint
@@ -60,9 +61,20 @@ class ComplaintRepositoryImpl(
 
     override suspend fun updateComplaint(
         complaint: Complaint,
-        result: (UiState<Pair<Complaint,String>>) -> Unit
+        historyModel: ComplaintHistory,
+        result: (UiState<String>) -> Unit
     ) {
-        TODO("Not yet implemented")
+        database.collection(FireStoreCollectionConstants.COMPLAINTS)
+            .document(complaint.id)
+            .set(complaint)
+            .await()
+        val historyRef = database.collection(FireStoreCollectionConstants.COMPLAINTS)
+            .document(complaint.id)
+            .collection(FireStoreCollectionConstants.COMPLAINT_HISTORY)
+            .document()
+        historyModel.id = historyRef.id
+        historyRef.set(historyModel).await()
+        result(UiState.Success("Complaint updated"))
     }
 
     override suspend fun deleteComplaint(
@@ -76,10 +88,11 @@ class ComplaintRepositoryImpl(
         id: String,
         result: (UiState<List<ComplaintHistory>>) -> Unit
     ) {
-        return try {
+        try {
             val historyList = database.collection(FireStoreCollectionConstants.COMPLAINTS)
                 .document(id)
                 .collection(FireStoreCollectionConstants.COMPLAINT_HISTORY)
+                .orderBy("date", com.google.firebase.firestore.Query.Direction.ASCENDING)
                 .get()
                 .await()
                 .toObjects(ComplaintHistory::class.java)

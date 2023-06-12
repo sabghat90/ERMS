@@ -26,15 +26,15 @@ class EmployeeRepositoryImpl @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val gson: Gson
 ) : EmployeeRepository {
+
+    // get company id from shared preference
+    private val employeeJson =
+        sharedPreferences.getString(SharedPreferencesConstants.USER_SESSION, null)
+    private val employeeObj: Employee = gson.fromJson(employeeJson, Employee::class.java)
+    private val companyId = employeeObj.companyId
     override suspend fun getEmployeeList(
         result: (UiState<List<Employee>>) -> Unit
     ) {
-        // get company id from shared preference
-        val employeeJson =
-            sharedPreferences.getString(SharedPreferencesConstants.USER_SESSION, null)
-        val employeeObj = gson.fromJson(employeeJson, Employee::class.java)
-        val companyId = employeeObj.companyId
-
         try {
             database.collection(FireStoreCollectionConstants.USERS)
                 .whereEqualTo("companyId", companyId)
@@ -134,6 +134,7 @@ class EmployeeRepositoryImpl @Inject constructor(
 
         val querySnapshot = database.collection(FireStoreCollectionConstants.USERS)
             .whereEqualTo("role", Role.EMPLOYEE)
+            .whereEqualTo("companyId", companyId)
             .orderBy("points", Query.Direction.DESCENDING)
             .get()
             .await()

@@ -61,7 +61,11 @@
         android:id="@+id/employeeProfileFragment"
         android:name="com.kust.erms_company.ui.employee.EmployeeProfileFragment"
         android:label="Employee Profile"
-        tools:layout="@layout/fragment_employee_profile" />
+        tools:layout="@layout/fragment_employee_profile" >
+        <action
+            android:id="@+id/action_employeeProfileFragment_to_updateEmployeeProfileFragment"
+            app:destination="@id/updateEmployeeProfileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/complaintListingFragment"
         android:name="com.kust.erms_company.ui.complaints.ComplaintListingFragment"
@@ -80,6 +84,17 @@
             android:id="@+id/action_complaintDetailFragment_to_complaintListingFragment"
             app:destination="@id/complaintListingFragment"
             app:popUpTo="@id/complaintListingFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateEmployeeProfileFragment"
+        android:name="com.kust.erms_company.ui.employee.UpdateEmployeeProfileFragment"
+        android:label="fragment_update_employee_profile"
+        tools:layout="@layout/fragment_update_employee_profile" >
+        <action
+            android:id="@+id/action_updateEmployeeProfileFragment_to_manageEmployeeFragment"
+            app:destination="@id/manageEmployeeFragment"
+            app:popUpTo="@id/manageEmployeeFragment"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>

@@ -63,12 +63,16 @@ class FeaturesFragment : Fragment() {
         features.add(Feature("Mark Attendance", LibraryR.drawable.avatar2))
         features.add(Feature("Task", LibraryR.drawable.avatar2))
         features.add(Feature("Events", LibraryR.drawable.avatar2))
+        features.add(Feature("Complaints", LibraryR.drawable.avatar2))
+        features.add(Feature("Company Profile", LibraryR.drawable.avatar2))
         features.add(Feature("Logout", LibraryR.drawable.avatar2))
 
         adapter.features = features
         val layout = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         binding.rvFeature.layoutManager = layout
         binding.rvFeature.adapter = adapter
+
+        employeeViewModel.getEmployee()
 
         adapter.setOnItemClickListener(object : FeaturesListingAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
@@ -87,6 +91,12 @@ class FeaturesFragment : Fragment() {
                         findNavController().navigate(ManagerR.id.action_featureFragment_to_eventListingFragment)
                     }
                     5 -> {
+                        findNavController().navigate(ManagerR.id.action_featureFragment_to_complaintListingFragment)
+                    }
+                    6 -> {
+                        findNavController().navigate(ManagerR.id.action_featureFragment_to_companyProfileFragment)
+                    }
+                    7 -> {
                         authViewModel.logout {
                             val intent = Intent(requireContext(), AuthActivity::class.java)
                             intent.flags =

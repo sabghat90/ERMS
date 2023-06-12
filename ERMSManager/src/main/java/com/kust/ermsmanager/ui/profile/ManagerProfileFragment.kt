@@ -19,7 +19,6 @@ class ManagerProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val authViewModel: AuthViewModel by viewModels()
-
     @Inject
     lateinit var employee : Employee
 

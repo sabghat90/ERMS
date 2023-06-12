@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.kust.ermslibrary.models.Employee
 import com.kust.ermslibrary.utils.FireStoreCollectionConstants
 import com.kust.ermslibrary.utils.UiState
+import kotlinx.coroutines.tasks.await
 
 class EmployeeRepositoryImpl(
     auth: FirebaseAuth,
@@ -102,5 +103,26 @@ class EmployeeRepositoryImpl(
             }.addOnFailureListener {
                 result(UiState.Error(it.message.toString()))
             }
+    }
+
+    override suspend fun updateEmployeeProfile(
+        employee: Employee?,
+        result: (UiState<String>) -> Unit
+    ) {
+        try {
+            val docRef = database.collection(FireStoreCollectionConstants.USERS)
+                .document(employee!!.id)
+
+            val employeeHashMap = hashMapOf(
+                "department" to employee.department,
+                "jobTitle" to employee.jobTitle,
+                "salary" to employee.salary,
+            )
+
+            docRef.update(employeeHashMap as Map<String, Any>).await()
+            result.invoke(UiState.Success("Employee updated successfully"))
+        } catch (e: Exception) {
+            result.invoke(UiState.Error(e.localizedMessage))
+        }
     }
 }

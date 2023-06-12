@@ -15,6 +15,8 @@ import com.kust.ermsemployee.R as EmployeeR
 import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsemployee.databinding.FragmentComplaintListingBinding
 import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.hide
+import com.kust.ermslibrary.utils.show
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -26,7 +28,6 @@ class ComplaintListingFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val complaintViewModel: ComplaintViewModel by viewModels()
-    private lateinit var progressDialog: Dialog
 
     private val adapter by lazy {
         ComplaintListingAdapter(requireContext()) { _, complaint ->
@@ -48,12 +49,6 @@ class ComplaintListingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        progressDialog = Dialog(requireContext())
-        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        progressDialog.setCancelable(false)
-        progressDialog.setCanceledOnTouchOutside(false)
-        progressDialog.setContentView(LibraryR.layout.custom_progress_dialog)
-
         observer()
         lifecycleScope.launch {
             complaintViewModel.getComplaints()
@@ -62,7 +57,7 @@ class ComplaintListingFragment : Fragment() {
         binding.rvComplaints.layoutManager = LinearLayoutManager(requireContext())
         binding.rvComplaints.adapter = adapter
 
-        binding.createComplaintFab.setOnClickListener {
+        binding.fabCreateComplaint.setOnClickListener {
             findNavController().navigate(EmployeeR.id.action_complaintListingFragment_to_createComplaintFragment)
         }
     }
@@ -71,14 +66,22 @@ class ComplaintListingFragment : Fragment() {
         complaintViewModel.getComplaints.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
-                    progressDialog.show()
+                    binding.shimmerLayout.startShimmer()
                 }
                 is UiState.Success -> {
-                    progressDialog.dismiss()
-                    adapter.submitList(it.data)
+                    binding.shimmerLayout.stopShimmer()
+                    binding.shimmerLayout.hide()
+                    if (it.data.isEmpty()) {
+                        binding.tvComplaintListStatus.show()
+                        binding.imgDataStatus.show()
+                    } else {
+                        binding.rvComplaints.show()
+                        adapter.submitList(it.data)
+                    }
                 }
                 is UiState.Error -> {
-                    progressDialog.dismiss()
+                    binding.shimmerLayout.stopShimmer()
+                    binding.shimmerLayout.hide()
                     toast(it.error)
                 }
             }

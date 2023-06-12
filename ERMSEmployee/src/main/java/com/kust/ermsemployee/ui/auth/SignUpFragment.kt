@@ -115,9 +115,13 @@ class SignUpFragment : Fragment() {
     }
 
     private fun getEmployeeObj(): Employee {
+        val name = binding.editTextName.text.toString()
+        // for employeeId take employee name and add 3 random number
+        val employeeId = name + (0..1000).random().toString()
+
         return Employee(
             name = binding.editTextName.text.toString(),
-            employeeId = binding.editTextName.text.toString(),
+            employeeId = employeeId,
             email = binding.editTextEmail.text.toString().trim(),
             phone = binding.editTextPhone.text.toString(),
             gender = binding.ddmGender.text.toString(),

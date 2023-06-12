@@ -8,10 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.Timestamp
 import com.kust.ermsemployee.databinding.FragmentComplaintDetailBinding
 import com.kust.ermslibrary.models.Complaint
+import com.kust.ermslibrary.models.ComplaintHistory
 import com.kust.ermslibrary.utils.ComplaintStatus
 import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.hide
+import com.kust.ermslibrary.utils.show
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -42,7 +46,6 @@ class ComplaintDetailFragment : Fragment() {
         observer()
 
         lifecycleScope.launch {
-            toast(complaint.id)
             complaintViewModel.getComplaintHistory(complaint.id)
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -53,11 +56,10 @@ class ComplaintDetailFragment : Fragment() {
         complaintViewModel.getComplaintHistory.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
-
+                    toast("Loading history")
                 }
 
                 is UiState.Success -> {
-                    toast(it.data.toString())
                     historyAdapter.submitList(it.data)
                 }
 
@@ -76,19 +78,24 @@ class ComplaintDetailFragment : Fragment() {
             tvDateCreated.text = complaint.dateCreated
         }
 
-        when {
-            complaint.status == ComplaintStatus.CLOSED -> {
-                binding.btnFeedback.visibility = View.VISIBLE
-                binding.btnFeedback.visibility = View.VISIBLE
-                complaint.feedBack = binding.etFeedback.text.toString()
-                lifecycleScope.launch {
-                    complaintViewModel.updateComplaint(complaint)
+        when (complaint.status) {
+            ComplaintStatus.RESOLVED -> {
+                binding.btnFeedback.show()
+                binding.textInputLayout8.show()
+                complaint.employeeFeedBack = binding.etFeedback.text.toString()
+                binding.btnFeedback.setOnClickListener {
+                    complaint.status = ComplaintStatus.CLOSED
+                    lifecycleScope.launch {
+                        complaintViewModel.updateComplaint(complaint, ComplaintHistory(
+                            message = "From Employee\nFeedback: ${binding.etFeedback.text}",
+                            date = Timestamp.now().toDate().toString(),
+                        ))
+                    }
                 }
             }
-
-            complaint.feedBack.isNotEmpty() -> {
-                binding.etFeedback.visibility = View.GONE
-                binding.btnFeedback.visibility = View.GONE
+            ComplaintStatus.CLOSED -> {
+                binding.btnFeedback.hide()
+                binding.textInputLayout8.hide()
             }
         }
     }

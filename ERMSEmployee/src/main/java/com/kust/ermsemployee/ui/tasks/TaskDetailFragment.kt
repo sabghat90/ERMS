@@ -14,6 +14,8 @@ import com.kust.ermslibrary.services.NotificationService
 import com.kust.ermslibrary.utils.ConvertDateAndTimeFormat
 import com.kust.ermslibrary.utils.TaskStatus
 import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.hide
+import com.kust.ermslibrary.utils.show
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -75,7 +77,7 @@ class TaskDetailFragment : Fragment() {
 
     private fun sendNotification() {
         val title = "Task Update"
-        val message = "Task ${task.name} has been updated by ${task.assigneeName}"
+        val message = "Task ${task.title} has been updated by ${task.assigneeName}"
         PushNotification(
             NotificationData(
                 title,
@@ -98,7 +100,7 @@ class TaskDetailFragment : Fragment() {
         val taskDueDateFormatted = ConvertDateAndTimeFormat().formatDate(task.deadline)
         val taskDueTimeFormatted = ConvertDateAndTimeFormat().formatTime(task.deadline)
 
-        binding.tvTaskName.text = task.name
+        binding.tvTaskName.text = task.title
         binding.tvTaskDescription.text = task.description
         binding.tvAssignedTo.text = task.assigneeName
         binding.tvCreatedDate.text =
@@ -110,6 +112,8 @@ class TaskDetailFragment : Fragment() {
 
         when (task.status) {
             TaskStatus.PENDING -> {
+                binding.btnRejectLayout.show()
+                binding.btnAcceptLayout.show()
                 binding.btnAcceptTask.setOnClickListener {
                     CoroutineScope(Dispatchers.IO).launch {
                         task.status = TaskStatus.IN_PROGRESS
@@ -117,7 +121,9 @@ class TaskDetailFragment : Fragment() {
                     }
                 }
             }
+
             TaskStatus.IN_PROGRESS -> {
+                binding.btnAcceptLayout.show()
                 binding.btnAcceptTask.text = getString(LibraryR.string.submit)
                 binding.btnAcceptTask.setOnClickListener {
                     CoroutineScope(Dispatchers.IO).launch {
@@ -126,12 +132,17 @@ class TaskDetailFragment : Fragment() {
                     }
                 }
             }
+
             TaskStatus.COMPLETED -> {
-                binding.btnAcceptTask.visibility = View.GONE
+                binding.btnAcceptLayout.hide()
+                binding.btnRejectLayout.hide()
             }
+
             TaskStatus.REJECTED -> {
-                binding.btnAcceptTask.visibility = View.GONE
+                binding.btnAcceptLayout.hide()
+                binding.btnRejectLayout.hide()
             }
+
             TaskStatus.RESUBMITTED -> {
                 binding.btnAcceptTask.text = getString(LibraryR.string.submit)
                 binding.btnAcceptTask.setOnClickListener {
@@ -140,9 +151,6 @@ class TaskDetailFragment : Fragment() {
                         taskViewModel.updateTask(task)
                     }
                 }
-            }
-            else -> {
-                binding.btnAcceptTask.visibility = View.VISIBLE
             }
         }
     }

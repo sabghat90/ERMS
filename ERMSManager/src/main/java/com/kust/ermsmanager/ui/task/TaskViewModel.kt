@@ -33,6 +33,10 @@ class TaskViewModel @Inject constructor(
     val getTasks: LiveData<UiState<List<Task>>>
         get() = _getTasks
 
+    private val _updateTaskStatus = MutableLiveData<UiState<String>>()
+    val updateTaskStatus: LiveData<UiState<String>>
+        get() = _updateTaskStatus
+
     suspend fun createTask(task: Task) {
         viewModelScope.launch {
             _createTask.value = UiState.Loading
@@ -44,10 +48,12 @@ class TaskViewModel @Inject constructor(
         }
     }
 
-    fun updateTask(task: Task) {
+    suspend fun updateTask(task: Task) {
         _updateTask.value = UiState.Loading
-        taskRepository.updateTask(task) {
-            _updateTask.value = it
+        viewModelScope.launch {
+            taskRepository.updateTask(task) {
+                _updateTask.value = it
+            }
         }
     }
 
@@ -68,6 +74,17 @@ class TaskViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 taskRepository.getTasks {
                     _getTasks.postValue(it)
+                }
+            }
+        }
+    }
+
+    suspend fun updateTaskStatus(task: Task) {
+        viewModelScope.launch {
+            _updateTaskStatus.value = UiState.Loading
+            withContext(Dispatchers.IO) {
+                taskRepository.updateTaskStatus(task) {
+                    _updateTaskStatus.postValue(it)
                 }
             }
         }

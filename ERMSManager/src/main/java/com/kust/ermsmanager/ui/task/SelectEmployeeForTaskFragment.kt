@@ -19,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SelectEmployeeForTaskFragment : Fragment() {
 
-    private var _binding : FragmentSelectEmployeeForTaskBinding? = null
+    private var _binding: FragmentSelectEmployeeForTaskBinding? = null
     private val binding get() = _binding!!
 
     private val employeeViewModel: EmployeeViewModel by viewModels()
@@ -27,9 +27,13 @@ class SelectEmployeeForTaskFragment : Fragment() {
     private val adapter by lazy {
         EmployeeListingAdapter(
             onItemClicked = { _, employee ->
-                findNavController().navigate(R.id.action_selectEmployeeForTaskFragment_to_createTaskFragment, Bundle().apply {
-                    putParcelable("employee", employee)
-                })
+                val bundle = Bundle()
+                bundle.putParcelable("employee", employee)
+                bundle.putBoolean("isEdit", false)
+                findNavController().navigate(
+                    R.id.action_selectEmployeeForTaskFragment_to_createTaskFragment,
+                    bundle
+                )
             }
         )
     }
@@ -59,9 +63,11 @@ class SelectEmployeeForTaskFragment : Fragment() {
                 is UiState.Loading -> {
 
                 }
+
                 is UiState.Success -> {
                     adapter.submitList(it.data)
                 }
+
                 is UiState.Error -> {
                     toast(it.error)
                 }

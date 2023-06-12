@@ -10,6 +10,7 @@ import android.view.Window
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -24,6 +25,7 @@ import com.kust.ermslibrary.utils.Role
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -70,6 +72,7 @@ class FeaturesFragment : Fragment() {
         features.add(Feature("Task", LibraryR.drawable.avatar2))
         features.add(Feature("Events", LibraryR.drawable.avatar2))
         features.add(Feature("Complaints", LibraryR.drawable.avatar2))
+        features.add(Feature("Company Profile", LibraryR.drawable.avatar2))
         features.add(Feature("Logout", LibraryR.drawable.avatar2))
 
         adapter.features = features
@@ -79,6 +82,10 @@ class FeaturesFragment : Fragment() {
         binding.rvFeatures.layoutManager = layout
 
         binding.rvFeatures.adapter = adapter
+
+        lifecycleScope.launch {
+            employeeViewModel.getEmployee()
+        }
 
         adapter.setOnItemClickListener(object : FeatureListingAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
@@ -102,6 +109,9 @@ class FeaturesFragment : Fragment() {
                         findNavController().navigate(EmployeeR.id.action_featureFragment_to_complaintListingFragment)
                     }
                     6 -> {
+                        findNavController().navigate(EmployeeR.id.action_featureFragment_to_companyProfileFragment)
+                    }
+                    7 -> {
                         Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()
                         // Logout
                         authViewModel.logout {

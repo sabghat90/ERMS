@@ -54,7 +54,9 @@ class TaskListingFragment : Fragment() {
         binding.rvTasks.adapter = adapter
 
         binding.fbCreateTask.setOnClickListener {
-            findNavController().navigate(ManagerR.id.action_taskListingFragment_to_selectEmployeeForTaskFragment)
+            val bundle = Bundle()
+            bundle.putBoolean("isEdit", false)
+            findNavController().navigate(ManagerR.id.action_taskListingFragment_to_selectEmployeeForTaskFragment, bundle)
         }
     }
 

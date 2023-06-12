@@ -38,18 +38,13 @@ class ComplaintRepositoryImpl(
             .document(complaint.id)
             .set(complaint)
             .await()
-
         val historyRef = database.collection(FireStoreCollectionConstants.COMPLAINTS)
             .document(complaint.id)
             .collection(FireStoreCollectionConstants.COMPLAINT_HISTORY)
             .document()
-
         historyModel.id = historyRef.id
-
         historyRef.set(historyModel).await()
-
         result(UiState.Success("Complaint updated"))
-
     }
 
     override suspend fun deleteComplaint(
@@ -67,6 +62,7 @@ class ComplaintRepositoryImpl(
             val historyList = database.collection(FireStoreCollectionConstants.COMPLAINTS)
                 .document(id)
                 .collection(FireStoreCollectionConstants.COMPLAINT_HISTORY)
+                .orderBy("date", com.google.firebase.firestore.Query.Direction.ASCENDING)
                 .get()
                 .await()
                 .toObjects(ComplaintHistory::class.java)

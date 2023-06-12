@@ -3,10 +3,12 @@ package com.kust.erms_company.ui.employee
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kust.erms_company.data.repositroy.EmployeeRepository
 import com.kust.ermslibrary.models.Employee
 import com.kust.ermslibrary.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,6 +31,10 @@ class EmployeeViewModel @Inject constructor(
     private val _getEmployeeList = MutableLiveData<UiState<List<Employee>>>()
     val getEmployeeList: LiveData<UiState<List<Employee>>>
         get() = _getEmployeeList
+
+    private val _updateEmployeeProfile = MutableLiveData<UiState<String>>()
+    val updateEmployeeProfile: LiveData<UiState<String>>
+        get() = _updateEmployeeProfile
 
     fun registerEmployee(email: String, employee: Employee) {
         _addEmployee.value = UiState.Loading
@@ -55,6 +61,15 @@ class EmployeeViewModel @Inject constructor(
         _getEmployeeList.value = UiState.Loading
         employeeRepository.getEmployeeList() {
             _getEmployeeList.value = it
+        }
+    }
+
+    fun updateEmployeeProfile(employee: Employee) {
+        _updateEmployeeProfile.value = UiState.Loading
+        viewModelScope.launch {
+            employeeRepository.updateEmployeeProfile(employee) {
+                _updateEmployeeProfile.value = it
+            }
         }
     }
 }

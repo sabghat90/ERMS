@@ -42,7 +42,7 @@ class EmployeeViewModel @Inject constructor(
         }
     }
 
-    private fun getEmployee() {
+    suspend fun getEmployee() {
         _getEmployee.value = UiState.Loading
         viewModelScope.launch {
             employeeRepository.getEmployee {

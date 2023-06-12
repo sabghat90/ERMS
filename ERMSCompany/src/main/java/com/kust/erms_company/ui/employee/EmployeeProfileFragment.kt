@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.kust.erms_company.R as CompanyR
 import com.kust.ermslibrary.R as LibraryR
@@ -52,62 +53,6 @@ class EmployeeProfileFragment : Fragment() {
 
         updateUi()
         observer()
-
-        binding.btnSelectManager.setOnClickListener {
-            if (validation()) {
-                // check if employee is already a manager
-                if (employeeObj.role == Role.MANAGER) {
-                    val dialog = Dialog(requireContext())
-                    dialog.setCancelable(false)
-                    dialog.setContentView(CompanyR.layout.custom_dialog_layout)
-                    dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                    dialog.window!!.setLayout(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                    )
-                    dialog.window!!.attributes.windowAnimations = LibraryR.style.DialogAnimation
-                    val btnYes = dialog.findViewById<View>(LibraryR.id.btn_yes)
-                    val btnNo = dialog.findViewById<View>(LibraryR.id.btn_cancel)
-                    dialog.show()
-
-                    btnYes.setOnClickListener {
-                        dialog.dismiss()
-                        employeeObj.role = Role.EMPLOYEE
-                        employeeViewModel.updateEmployee(employeeObj)
-                    }
-
-                    btnNo.setOnClickListener {
-                        dialog.dismiss()
-                    }
-                } else {
-
-                    val dialog = Dialog(requireContext())
-                    dialog.setCancelable(false)
-                    dialog.setContentView(CompanyR.layout.custom_dialog_layout)
-                    dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                    dialog.window!!.setLayout(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                    )
-                    dialog.window!!.attributes.windowAnimations = LibraryR.style.DialogAnimation
-                    val btnYes = dialog.findViewById<View>(LibraryR.id.btn_yes)
-                    val btnNo = dialog.findViewById<View>(LibraryR.id.btn_cancel)
-                    dialog.show()
-
-                    btnYes.setOnClickListener {
-                        dialog.dismiss()
-                        employeeObj.role = Role.MANAGER
-                        employeeViewModel.updateEmployee(employeeObj)
-                    }
-
-                    btnNo.setOnClickListener {
-                        dialog.dismiss()
-                    }
-                }
-            } else {
-                return@setOnClickListener
-            }
-        }
 
         binding.btnRemoveEmployee.setOnClickListener {
             val dialog = Dialog(requireContext())
@@ -227,6 +172,71 @@ class EmployeeProfileFragment : Fragment() {
             binding.btnSelectManager.text = getString(LibraryR.string.unselect)
         } else {
             binding.btnSelectManager.text = getString(LibraryR.string.select_manager)
+        }
+
+        if (employeeObj.salary == 0.00 && employeeObj.jobTitle.isEmpty() && employeeObj.department.isEmpty()) {
+            binding.btnSelectManager.text = com.kust.ermslibrary.R.string.update_profile.toString()
+            binding.btnSelectManager.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putParcelable("employee", employeeObj)
+                findNavController().navigate(com.kust.erms_company.R.id.action_employeeProfileFragment_to_updateEmployeeProfileFragment, bundle)
+            }
+        } else {
+            binding.btnSelectManager.setOnClickListener {
+                if (validation()) {
+                    // check if employee is already a manager
+                    if (employeeObj.role == Role.MANAGER) {
+                        val dialog = Dialog(requireContext())
+                        dialog.setCancelable(false)
+                        dialog.setContentView(CompanyR.layout.custom_dialog_layout)
+                        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        dialog.window!!.setLayout(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                        )
+                        dialog.window!!.attributes.windowAnimations = LibraryR.style.DialogAnimation
+                        val btnYes = dialog.findViewById<View>(LibraryR.id.btn_yes)
+                        val btnNo = dialog.findViewById<View>(LibraryR.id.btn_cancel)
+                        dialog.show()
+
+                        btnYes.setOnClickListener {
+                            dialog.dismiss()
+                            employeeObj.role = Role.EMPLOYEE
+                            employeeViewModel.updateEmployee(employeeObj)
+                        }
+
+                        btnNo.setOnClickListener {
+                            dialog.dismiss()
+                        }
+                    } else {
+
+                        val dialog = Dialog(requireContext())
+                        dialog.setCancelable(false)
+                        dialog.setContentView(CompanyR.layout.custom_dialog_layout)
+                        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        dialog.window!!.setLayout(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                        )
+                        dialog.window!!.attributes.windowAnimations = LibraryR.style.DialogAnimation
+                        val btnYes = dialog.findViewById<View>(LibraryR.id.btn_yes)
+                        val btnNo = dialog.findViewById<View>(LibraryR.id.btn_cancel)
+                        dialog.show()
+
+                        btnYes.setOnClickListener {
+                            dialog.dismiss()
+                            employeeObj.role = Role.MANAGER
+                            employeeViewModel.updateEmployee(employeeObj)
+                        }
+
+                        btnNo.setOnClickListener {
+                            dialog.dismiss()
+                        }
+                    }
+                } else {
+                    return@setOnClickListener
+                }
+            }
         }
     }
 

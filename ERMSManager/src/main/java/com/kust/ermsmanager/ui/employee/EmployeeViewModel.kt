@@ -41,10 +41,6 @@ class EmployeeViewModel @Inject constructor(
     val updateEmployeeProfile: LiveData<UiState<String>>
         get() = _updateEmployeeProfile
 
-    init {
-        getEmployee()
-    }
-
     fun getEmployeeList() {
         _getEmployeeList.value = UiState.Loading
         viewModelScope.launch {
@@ -54,7 +50,7 @@ class EmployeeViewModel @Inject constructor(
         }
     }
 
-    private fun getEmployee() {
+    fun getEmployee() {
         getEmployee.value = UiState.Loading
         viewModelScope.launch {
             employeeRepository.getEmployee {

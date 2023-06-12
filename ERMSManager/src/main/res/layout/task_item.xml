@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_task"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
     android:clickable="true"
     android:elevation="10dp"
-    android:layout_margin="10dp"
-    app:cardCornerRadius="6dp"
     android:focusable="true"
-    android:padding="15dp">
+    android:padding="15dp"
+    app:cardCornerRadius="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -25,16 +25,6 @@
             android:text="Task Name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_task_description"
-            style="@style/body"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Description"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_task_name" />
 
         <TextView
             android:id="@+id/task_status"
@@ -53,7 +43,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/date"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_task_description" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_task_name" />
 
         <TextView
             android:id="@+id/tv_task_deadline_status"
@@ -68,11 +58,11 @@
             android:layout_height="20dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:contentDescription="@string/status"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_success"
-            android:contentDescription="@string/status" />
+            app:srcCompat="@drawable/ic_success" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

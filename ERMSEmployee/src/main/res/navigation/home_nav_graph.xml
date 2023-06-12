@@ -36,6 +36,13 @@
         <action
             android:id="@+id/action_featureFragment_to_employeeListingFragment"
             app:destination="@id/employeeListingFragment" />
+        <action
+            android:id="@+id/action_featureFragment_to_companyProfileFragment"
+            app:destination="@id/companyProfileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/viewAttendanceFragment"
@@ -115,4 +122,9 @@
         android:name="com.kust.ermsemployee.ui.employee.EmployeeProfileFragment"
         android:label="fragment_employee_profile"
         tools:layout="@layout/fragment_employee_profile" />
+    <fragment
+        android:id="@+id/companyProfileFragment"
+        android:name="com.kust.ermsemployee.ui.company.CompanyProfileFragment"
+        android:label="fragment_company_profile"
+        tools:layout="@layout/fragment_company_profile" />
 </navigation>

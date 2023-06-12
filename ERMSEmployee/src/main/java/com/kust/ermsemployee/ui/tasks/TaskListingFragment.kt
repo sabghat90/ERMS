@@ -12,6 +12,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.ermsemployee.databinding.FragmentTaskListingBinding
 import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.hide
+import com.kust.ermslibrary.utils.show
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -48,8 +50,8 @@ class TaskListingFragment : Fragment() {
 
         observer()
 
-        binding.rvTaskListing.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvTaskListing.adapter = adapter
+        binding.rvTasks.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvTasks.adapter = adapter
     }
 
     // observer with UiState to handle the state of the data
@@ -61,20 +63,18 @@ class TaskListingFragment : Fragment() {
                 }
                 is UiState.Success -> {
                     binding.shimmerLayout.stopShimmer()
-                    binding.shimmerLayout.visibility = View.GONE
+                    binding.shimmerLayout.hide()
                     if (it.data.isEmpty()) {
-                        binding.tvDataState.visibility = View.VISIBLE
-                        binding.rvTaskListing.visibility = View.GONE
+                        binding.tvTaskListStatus.show()
+                        binding.imgDataStatus.show()
                     } else {
-                        binding.rvTaskListing.visibility = View.VISIBLE
+                        binding.rvTasks.show()
                         adapter.submitList(it.data)
                     }
                 }
                 is UiState.Error -> {
                     binding.shimmerLayout.stopShimmer()
-                    binding.shimmerLayout.visibility = View.GONE
-                    binding.tvDataState.visibility = View.VISIBLE
-                    binding.tvDataState.text = getString(LibraryR.string.something_went_wrong)
+                    binding.shimmerLayout.hide()
                     toast(it.error)
                 }
             }

@@ -16,10 +16,8 @@ import com.kust.ermslibrary.services.NotificationService
 import com.kust.ermslibrary.utils.AttendancePoints
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.hideKeyboard
-import com.kust.ermsmanager.databinding.FragmentAttendanceSheetBinding
 import com.kust.ermslibrary.utils.toast
-import com.kust.ermsmanager.R as ManagerR
-import com.kust.ermslibrary.R as ERMSLibraryR
+import com.kust.ermsmanager.databinding.FragmentAttendanceSheetBinding
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -27,6 +25,8 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import kotlin.properties.Delegates
+import com.kust.ermslibrary.R as ERMSLibraryR
+import com.kust.ermsmanager.R as ManagerR
 
 @AndroidEntryPoint
 class AttendanceSheetFragment : Fragment() {
@@ -41,7 +41,7 @@ class AttendanceSheetFragment : Fragment() {
     // notification service instance
     private val notificationService = NotificationService()
 
-    private lateinit var day : String
+    private lateinit var date : String
     private var points by Delegates.notNull<Double>()
 
     override fun onCreateView(
@@ -87,7 +87,7 @@ class AttendanceSheetFragment : Fragment() {
                 selectedDate.set(year, month, dayOfMonth)
                 binding.tvDayName.text = SimpleDateFormat("EEEE", Locale.getDefault()).format(selectedDate.time)
                 binding.tvDate.text = SimpleDateFormat("MMM d, y", Locale.getDefault()).format(selectedDate.time)
-                day = SimpleDateFormat("d", Locale.getDefault()).format(selectedDate.time)
+                date = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).format(selectedDate.time)
             },
             currentYear,
             currentMonth,
@@ -130,6 +130,8 @@ class AttendanceSheetFragment : Fragment() {
     private fun updateUI() {
 
         employeeObj = arguments?.getParcelable("employeeObj")!!
+        val todayDate = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).format(Date())
+        date = todayDate
 
         with(binding) {
             tvEmployeeName.text = employeeObj.name
@@ -142,8 +144,6 @@ class AttendanceSheetFragment : Fragment() {
 
     private fun getAttendanceObj(): Attendance {
         val time = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(Date())
-        val year = SimpleDateFormat("yyyy", Locale.getDefault()).format(Date())
-        val month = SimpleDateFormat("MMM", Locale.getDefault()).format(Date())
 
         val extraBonus = {
             if (binding.etExtraBonus.text.toString().isEmpty()) {
@@ -164,14 +164,11 @@ class AttendanceSheetFragment : Fragment() {
         return Attendance(
             employeeId = employeeObj.id,
             employeeName = employeeObj.name,
-            date = binding.tvDate.text.toString(),
+            date = date,
             status = attendanceStatus(),
             time = time,
             extraBonus = extraBonus(),
-            advanceOrLoan = advanceOrLoan(),
-            year = year,
-            month = month,
-            day = day
+            advanceOrLoan = advanceOrLoan()
         )
     }
 

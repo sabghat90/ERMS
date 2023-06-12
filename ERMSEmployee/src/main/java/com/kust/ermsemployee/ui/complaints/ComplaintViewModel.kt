@@ -1,5 +1,6 @@
 package com.kust.ermsemployee.ui.complaints
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,8 +26,8 @@ class ComplaintViewModel @Inject constructor(
     val getComplaints : LiveData<UiState<List<Complaint>>>
         get() = _getComplaints
 
-    private val _updateComplaint = MutableLiveData<UiState<Pair<Complaint,String>>>()
-    val updateComplaint : LiveData<UiState<Pair<Complaint,String>>>
+    private val _updateComplaint = MutableLiveData<UiState<String>>()
+    val updateComplaint : LiveData<UiState<String>>
         get() = _updateComplaint
 
     private val _deleteComplaint = MutableLiveData<UiState<String>>()
@@ -55,10 +56,10 @@ class ComplaintViewModel @Inject constructor(
         }
     }
 
-    suspend fun updateComplaint(complaint: Complaint) {
+    suspend fun updateComplaint(complaint: Complaint, history: ComplaintHistory) {
         _updateComplaint.value = UiState.Loading
         viewModelScope.launch {
-            complaintRepository.updateComplaint(complaint) {
+            complaintRepository.updateComplaint(complaint, history) {
                 _updateComplaint.value = it
             }
         }

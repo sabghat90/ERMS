@@ -8,14 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kust.ermsemployee.R as EmployeeR
-import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsemployee.databinding.FragmentEventListingBinding
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.hide
 import com.kust.ermslibrary.utils.show
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
+import com.kust.ermsemployee.R as EmployeeR
 
 @AndroidEntryPoint
 class EventListingFragment : Fragment() {
@@ -24,7 +23,6 @@ class EventListingFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val eventViewModel: EventViewModel by viewModels()
-
 
     private val adapter by lazy {
         EventListingAdapter(
@@ -67,22 +65,21 @@ class EventListingFragment : Fragment() {
                     binding.shimmerLayout.startShimmer()
                 }
                 is UiState.Success -> {
-                    binding.shimmerLayout.stopShimmer()
-                    binding.shimmerLayout.hide()
                     if (it.data.isEmpty()) {
+                        binding.shimmerLayout.stopShimmer()
+                        binding.shimmerLayout.hide()
+                        binding.imgDataStatus.show()
                         binding.tvEventListStatus.show()
-                        binding.rvEvents.hide()
                     } else {
                         binding.rvEvents.show()
+                        binding.shimmerLayout.stopShimmer()
+                        binding.shimmerLayout.hide()
                         adapter.submitList(it.data)
                     }
                 }
                 is UiState.Error -> {
                     binding.shimmerLayout.stopShimmer()
                     binding.shimmerLayout.hide()
-                    binding.rvEvents.hide()
-                    binding.tvEventListStatus.show()
-                    binding.tvEventListStatus.text = getString(LibraryR.string.something_went_wrong)
                     toast(it.error)
                 }
             }

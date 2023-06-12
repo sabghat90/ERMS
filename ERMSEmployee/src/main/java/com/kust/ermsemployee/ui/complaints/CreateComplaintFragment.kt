@@ -48,7 +48,12 @@ class CreateComplaintFragment : Fragment() {
 
         binding.btnCreateComplaint.setOnClickListener {
             lifecycleScope.launch {
-                complaintViewModel.createComplaint(getComplaintObj(), getComplaintHistoryObj())
+                complaintViewModel.createComplaint(
+                    getComplaintObj(), ComplaintHistory(
+                        message = "Complaint created, forward to company for review",
+                        date = Timestamp.now().toDate().toString()
+                    )
+                )
             }
         }
     }
@@ -85,14 +90,6 @@ class CreateComplaintFragment : Fragment() {
             employeeId = employee.id,
             employeeName = employee.name,
             employeeFCMToken = employee.fcmToken
-        )
-    }
-
-    private fun getComplaintHistoryObj(): ComplaintHistory {
-        val message = "Complaint created, forward to company for review"
-        return ComplaintHistory(
-            message = message,
-            date = Timestamp.now().toDate().toString()
         )
     }
 

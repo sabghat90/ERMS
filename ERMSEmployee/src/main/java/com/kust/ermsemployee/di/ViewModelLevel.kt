@@ -10,6 +10,8 @@ import com.kust.ermsemployee.data.repository.AttendanceRepository
 import com.kust.ermsemployee.data.repository.AttendanceRepositoryImpl
 import com.kust.ermsemployee.data.repository.ChatRepository
 import com.kust.ermsemployee.data.repository.ChatRepositoryImpl
+import com.kust.ermsemployee.data.repository.CompanyRepository
+import com.kust.ermsemployee.data.repository.CompanyRepositoryImpl
 import com.kust.ermsemployee.data.repository.ComplaintRepository
 import com.kust.ermsemployee.data.repository.ComplaintRepositoryImpl
 import com.kust.ermsemployee.data.repository.EmployeeRepository
@@ -87,5 +89,14 @@ object ViewModelLevel {
         auth: FirebaseAuth
     ) : ComplaintRepository {
         return ComplaintRepositoryImpl(database, auth)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideCompanyRepository (
+        database: FirebaseFirestore,
+        sharedPreferences: SharedPreferences
+    ) : CompanyRepository {
+        return CompanyRepositoryImpl(database, sharedPreferences)
     }
 }

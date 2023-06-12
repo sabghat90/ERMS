@@ -37,10 +37,6 @@ class EmployeeViewModel @Inject constructor(
     val removePoints: LiveData<UiState<String>>
         get() = _removePoints
 
-    init {
-        getEmployee()
-    }
-
     suspend fun getEmployeeList() {
         _getEmployeeList.value = UiState.Loading
         viewModelScope.launch {

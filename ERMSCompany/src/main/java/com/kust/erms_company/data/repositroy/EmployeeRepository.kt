@@ -9,4 +9,5 @@ interface EmployeeRepository {
     fun updateEmployee(employee: Employee, result: (UiState<Pair<Employee, String>>) -> Unit)
     fun removeEmployee(employee: Employee, result: (UiState<String>) -> Unit)
     fun getEmployeeList(result: (UiState<List<Employee>>) -> Unit)
+    suspend fun updateEmployeeProfile(employee: Employee?, result: (UiState<String>) -> Unit)
 }

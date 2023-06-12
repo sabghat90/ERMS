@@ -166,4 +166,7 @@
     <string name="forward_to_management">Forward to Management</string>
     <string name="no_chat_found">No Chat Found!</string>
     <string name="update_employee_profile">Update Employee Profile</string>
+    <string name="resolve">Resolve</string>
+    <string name="remarks">Remarks</string>
+    <string name="update_task">Update Task</string>
 </resources>

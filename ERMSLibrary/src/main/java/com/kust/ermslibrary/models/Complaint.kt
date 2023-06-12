@@ -10,7 +10,7 @@ data class Complaint(
     val description: String = "",
     var status: String = "",
     val dateCreated: String = "",
-    val dateUpdated: String = "",
+    var dateUpdated: String = "",
     val dateClosed: String = "",
     val companyId: String = "",
     val employeeId: String = "",
@@ -18,5 +18,7 @@ data class Complaint(
     val employeeName: String = "",
     val ManagerFCMToken: String = "",
     var isReferToManager: Boolean = false,
-    var feedBack : String = "",
+    var managerFeedBack: String = "",
+    var employeeFeedBack: String = "",
+    var companyFeedBack: String = "",
 ) : Parcelable

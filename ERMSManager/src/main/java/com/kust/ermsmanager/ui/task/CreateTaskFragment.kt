@@ -4,12 +4,14 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
@@ -18,23 +20,21 @@ import com.kust.ermslibrary.models.NotificationData
 import com.kust.ermslibrary.models.PushNotification
 import com.kust.ermslibrary.models.Task
 import com.kust.ermslibrary.services.NotificationService
-import com.kust.ermsmanager.R as ManagerR
-import com.kust.ermslibrary.R as LibraryR
-import com.kust.ermsmanager.databinding.FragmentCreateTaskBinding
-import com.kust.ermsmanager.ui.auth.AuthViewModel
 import com.kust.ermslibrary.utils.TaskStatus
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.hideKeyboard
 import com.kust.ermslibrary.utils.toast
+import com.kust.ermsmanager.databinding.FragmentCreateTaskBinding
+import com.kust.ermsmanager.ui.auth.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
+import com.kust.ermslibrary.R as LibraryR
+import com.kust.ermsmanager.R as ManagerR
 
 
 @AndroidEntryPoint
@@ -48,10 +48,18 @@ class CreateTaskFragment : Fragment() {
         arguments?.getParcelable<Employee>("employee")
     }
     private var selectedDateTimestamp: Date? = null
+
     @Inject
     lateinit var notificationService: NotificationService
     private lateinit var manager: Employee
     private val authViewModel: AuthViewModel by viewModels()
+
+    private val taskObj by lazy {
+        arguments?.getParcelable<Task>("task")
+    }
+    private val isEdit by lazy {
+        arguments?.getBoolean("isEdit") ?: false
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,41 +84,68 @@ class CreateTaskFragment : Fragment() {
 
         binding.taskDueDateButton.setOnClickListener {
             hideKeyboard()
-            getDueDateAndTime() }
+            getDueDateAndTime()
+        }
 
-        binding.btnCreateTask.setOnClickListener {
-            hideKeyboard()
-            if (validateInput()) {
-                val task = taskObj()
-                CoroutineScope(Dispatchers.IO).launch {
-                    taskViewModel.createTask(task)
+        if (isEdit) {
+            binding.btnCreateTask.setOnClickListener {
+                hideKeyboard()
+                if (validateInput()) {
+                    val task = taskObj()
+                    lifecycleScope.launch {
+                        taskViewModel.updateTask(task)
+                    }
+                }
+            }
+        } else {
+            binding.btnCreateTask.setOnClickListener {
+                hideKeyboard()
+                if (validateInput()) {
+                    val task = taskObj()
+                    lifecycleScope.launch {
+                        taskViewModel.createTask(task)
+                    }
                 }
             }
         }
+
     }
 
     private fun updateUi() {
-        employee.apply {
-            binding.tvEmployeeInfo.text = getString(LibraryR.string.employee_info, this!!.name)
+        binding.tvEmployeeInfo.text = employee?.name ?: taskObj?.assigneeName
+        binding.taskNameInput.setText(taskObj?.title ?: "")
+        binding.taskDescriptionInput.setText(taskObj?.description ?: "")
+        binding.taskDueDateButton.text = taskObj?.deadline ?: "Select Due Date"
+
+        if (isEdit) {
+            binding.btnCreateTask.text = getString(LibraryR.string.update_task)
+        } else {
+            binding.btnCreateTask.text = getString(LibraryR.string.create_task)
         }
     }
 
     private fun taskObj(): Task {
 
+        val assigneeName = employee?.name ?: taskObj?.assigneeName
+        val assigneeEmail = employee?.email ?: taskObj?.assigneeEmail
+        val assigneeId = employee?.id ?: taskObj?.assigneeId
+        val assigneeFCMToken = employee?.fcmToken ?: taskObj?.assigneeFCMToken
+
         return Task(
-            name = binding.taskNameInput.text.toString(),
+            id = taskObj?.id ?: "",
+            title = binding.taskNameInput.text.toString(),
             description = binding.taskDescriptionInput.text.toString(),
             status = TaskStatus.PENDING,
             deadline = selectedDateTimestamp.toString(),
             createdDate = Timestamp.now().toDate().toString(),
-            assigneeName = employee!!.name,
-            assigneeEmail = employee!!.email,
-            assigneeId = employee!!.id,
+            assigneeName = assigneeName!!,
+            assigneeEmail = assigneeEmail!!,
+            assigneeId = assigneeId!!,
             companyId = manager.companyId,
             managerId = FirebaseAuth.getInstance().currentUser!!.uid,
             managerName = manager.name,
             managerFCMToken = manager.fcmToken,
-            assigneeFCMToken = employee!!.fcmToken
+            assigneeFCMToken = assigneeFCMToken!!
         )
     }
 
@@ -137,21 +172,61 @@ class CreateTaskFragment : Fragment() {
                 }
             }
         }
+        taskViewModel.updateTask.observe(viewLifecycleOwner) {
+            when (it) {
+                is UiState.Loading -> {
+                    binding.progressBar.show()
+                    binding.btnCreateTask.text = ""
+                }
+
+                is UiState.Success -> {
+                    binding.btnCreateTask.text = getString(LibraryR.string.update_task)
+                    binding.progressBar.hide()
+                    sendNotification(employee!!.fcmToken)
+                    toast("Task updated successfully")
+                    findNavController().navigate(ManagerR.id.action_createTaskFragment_to_taskListingFragment)
+                }
+
+                is UiState.Error -> {
+                    binding.btnCreateTask.text = getString(LibraryR.string.update_task)
+                    binding.progressBar.hide()
+                    Log.d("TAG", "observer: ${it.error}")
+                    toast(it.error)
+                }
+            }
+        }
     }
 
     private fun sendNotification(token: String) {
-        val title = "New Task"
-        val message = "Dear ${employee!!.name}, you have a new task"
-        PushNotification(
-            NotificationData(
-                title,
-                message
-            ),
-            to = token
-        )
-            .also {
-                notificationService.sendNotification(it)
-            }
+
+        if (isEdit) {
+            val title = "Task Updated"
+            val message = "Dear ${employee!!.name}, your task has been updated"
+            PushNotification(
+                NotificationData(
+                    title,
+                    message
+                ),
+                to = token
+            )
+                .also {
+                    notificationService.sendNotification(it)
+                }
+        } else {
+            val title = "New Task"
+            val message = "Dear ${employee!!.name}, you have a new task"
+            PushNotification(
+                NotificationData(
+                    title,
+                    message
+                ),
+                to = token
+            )
+                .also {
+                    notificationService.sendNotification(it)
+                }
+        }
+
     }
 
     private fun getDueDateAndTime() {

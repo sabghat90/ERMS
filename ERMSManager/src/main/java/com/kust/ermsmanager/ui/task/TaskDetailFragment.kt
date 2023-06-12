@@ -21,6 +21,8 @@ import com.kust.ermslibrary.utils.ConvertDateAndTimeFormat
 import com.kust.ermslibrary.utils.TaskPoints
 import com.kust.ermslibrary.utils.TaskStatus
 import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.hide
+import com.kust.ermslibrary.utils.show
 import com.kust.ermslibrary.utils.toast
 import com.kust.ermsmanager.R as ManagerR
 import com.kust.ermslibrary.R as LibraryR
@@ -39,12 +41,10 @@ class TaskDetailFragment : Fragment() {
     private var _binding: FragmentTaskDetailBinding? = null
     private val binding get() = _binding!!
 
-    // task object
-    private lateinit var task: Task
-
+    @Inject
+    lateinit var task: Task
     private val taskViewModel: TaskViewModel by viewModels()
     private val employeeViewModel: EmployeeViewModel by viewModels()
-
     @Inject
     lateinit var notificationService: NotificationService
 
@@ -68,7 +68,6 @@ class TaskDetailFragment : Fragment() {
         progressDialog.setContentView(ManagerR.layout.custom_progress_dialog)
         progressDialog.setCancelable(false)
         progressDialog.setCanceledOnTouchOutside(false)
-
 
         updateUI()
         observer()
@@ -174,7 +173,7 @@ class TaskDetailFragment : Fragment() {
         val taskDueDateFormatted = ConvertDateAndTimeFormat().formatDate(task.deadline)
         val taskDueTimeFormatted = ConvertDateAndTimeFormat().formatTime(task.deadline)
 
-        binding.tvTaskName.text = task.name
+        binding.tvTaskName.text = task.title
         binding.tvTaskDescription.text = task.description
         binding.tvAssignTo.text = task.assigneeName
         binding.tvCreatedDate.text =
@@ -189,30 +188,30 @@ class TaskDetailFragment : Fragment() {
 
         when (task.status) {
             TaskStatus.PENDING -> {
-                binding.btnApproveTask.visibility = View.GONE
-                binding.btnResubmitTask.visibility = View.GONE
+                binding.btnApproveTask.hide()
+                binding.btnResubmitTask.hide()
             }
 
             TaskStatus.RESUBMITTED -> {
-                binding.btnApproveTask.visibility = View.VISIBLE
-                binding.btnResubmitTask.visibility = View.VISIBLE
+                binding.btnApproveTask.hide()
+                binding.btnResubmitTask.hide()
             }
 
             TaskStatus.APPROVED -> {
-                binding.btnApproveTask.visibility = View.GONE
+                binding.btnApproveTask.hide()
                 binding.btnResubmitTask.visibility = View.VISIBLE
                 binding.btnResubmitTask.setOnClickListener {
                     task.status = TaskStatus.RESUBMITTED
-                    taskViewModel.updateTask(task)
                     lifecycleScope.launch {
-                        employeeViewModel.removePoints(task.assigneeId, TaskPoints.APPROVED)
+                        taskViewModel.updateTaskStatus(task)
+                        employeeViewModel.removePoints(task.assigneeId, TaskPoints.RESUBMITTED)
                     }
                 }
             }
 
             TaskStatus.IN_PROGRESS -> {
-                binding.btnApproveTask.visibility = View.GONE
-                binding.btnResubmitTask.visibility = View.GONE
+                binding.btnApproveTask.hide()
+                binding.btnResubmitTask.hide()
             }
 
             TaskStatus.SUBMITTED -> {
@@ -220,9 +219,9 @@ class TaskDetailFragment : Fragment() {
                 binding.btnResubmitTask.visibility = View.VISIBLE
                 binding.btnApproveTask.setOnClickListener {
                     task.status = TaskStatus.APPROVED
-                    taskViewModel.updateTask(task)
                     lifecycleScope.launch {
-                        employeeViewModel.addPoints(task.assigneeId, TaskPoints.RESUBMITTED)
+                        taskViewModel.updateTaskStatus(task)
+                        employeeViewModel.addPoints(task.assigneeId, TaskPoints.APPROVED)
                     }
                 }
             }
@@ -236,6 +235,13 @@ class TaskDetailFragment : Fragment() {
                 CoroutineScope(Dispatchers.IO).launch {
                     taskViewModel.deleteTask(task.id)
                 }
+                true
+            }
+            ManagerR.id.edit -> {
+                val bundle = Bundle()
+                bundle.putParcelable("task", task)
+                bundle.putBoolean("isEdit", true)
+                findNavController().navigate(ManagerR.id.action_taskDetailFragment_to_createTaskFragment, bundle)
                 true
             }
 
