@@ -9,7 +9,7 @@ interface EmployeeRepository {
     suspend fun getEmployee(result: (UiState<Employee>) -> Unit)
     fun updateEmployee(employee: Employee?, result: (UiState<Pair<Employee, String>>) -> Unit)
     suspend fun updateEmployeeProfile(employee: Employee?, result: (UiState<String>) -> Unit)
-    suspend fun uploadImage(imageUri: Uri, result: (UiState<Uri>) -> Unit)
+    suspend fun uploadProfilePicture(imageUri: Uri, result: (UiState<Uri>) -> Unit)
     suspend fun addPoints(id: String, points: Double): UiState<String>
     suspend fun removePoints(id: String, points: Double): UiState<String>
 }

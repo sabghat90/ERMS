@@ -58,14 +58,13 @@ class FeaturesFragment : Fragment() {
         observer()
 
         val features = mutableListOf<Feature>()
-        features.add(Feature("View Employees", LibraryR.drawable.avatar2))
-        features.add(Feature("Manage Employee", LibraryR.drawable.avatar2))
-        features.add(Feature("Mark Attendance", LibraryR.drawable.avatar2))
-        features.add(Feature("Task", LibraryR.drawable.avatar2))
-        features.add(Feature("Events", LibraryR.drawable.avatar2))
-        features.add(Feature("Complaints", LibraryR.drawable.avatar2))
-        features.add(Feature("Company Profile", LibraryR.drawable.avatar2))
-        features.add(Feature("Logout", LibraryR.drawable.avatar2))
+        features.add(Feature("View Employees", LibraryR.drawable.ic_employee))
+        features.add(Feature("Manage Employee", LibraryR.drawable.ic_manage_emp))
+        features.add(Feature("Mark Attendance", LibraryR.drawable.ic_attendance))
+        features.add(Feature("Task", LibraryR.drawable.ic_task))
+        features.add(Feature("Events", LibraryR.drawable.ic_events))
+        features.add(Feature("Complaints", LibraryR.drawable.ic_report))
+        features.add(Feature("Company Profile", LibraryR.drawable.ic_profile))
 
         adapter.features = features
         val layout = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
@@ -95,15 +94,6 @@ class FeaturesFragment : Fragment() {
                     }
                     6 -> {
                         findNavController().navigate(ManagerR.id.action_featureFragment_to_companyProfileFragment)
-                    }
-                    7 -> {
-                        authViewModel.logout {
-                            val intent = Intent(requireContext(), AuthActivity::class.java)
-                            intent.flags =
-                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            startActivity(intent)
-                            requireActivity().finish()
-                        }
                     }
                 }
             }

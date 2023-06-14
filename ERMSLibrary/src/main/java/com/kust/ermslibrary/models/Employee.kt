@@ -15,6 +15,7 @@ data class Employee(
     var address: String = "",
     var city: String = "",
     var state: String = "",
+    var fullAddress: String = "",
     val country: String = "",
     var department: String = "",
     var companyId: String = "",

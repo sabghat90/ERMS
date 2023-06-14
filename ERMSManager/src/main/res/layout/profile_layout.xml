@@ -197,10 +197,11 @@
 
         <TextView
             android:id="@+id/tv_full_address"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:maxLines="3"
             app:layout_constraintBottom_toBottomOf="@+id/textView13"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline_for_variables"
             app:layout_constraintTop_toTopOf="@+id/textView13" />
 

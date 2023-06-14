@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.kust.ermsemployee.databinding.FragmentTaskDetailBinding
 import com.kust.ermslibrary.models.NotificationData
 import com.kust.ermslibrary.models.PushNotification
@@ -65,6 +66,7 @@ class TaskDetailFragment : Fragment() {
                     binding.btnAcceptTask.text = getString(LibraryR.string.accept)
                     binding.progressBarAccept.visibility = View.GONE
                     binding.tvTaskStatus.text = task.status
+                    findNavController().navigate(com.kust.ermsemployee.R.id.action_taskDetailFragment_to_taskListingFragment)
                 }
 
                 is UiState.Error -> {
@@ -145,6 +147,7 @@ class TaskDetailFragment : Fragment() {
 
             TaskStatus.RESUBMITTED -> {
                 binding.btnAcceptTask.text = getString(LibraryR.string.submit)
+                binding.btnAcceptLayout.show()
                 binding.btnAcceptTask.setOnClickListener {
                     CoroutineScope(Dispatchers.IO).launch {
                         task.status = TaskStatus.SUBMITTED

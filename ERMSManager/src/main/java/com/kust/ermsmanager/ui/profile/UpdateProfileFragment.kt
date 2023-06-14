@@ -1,7 +1,6 @@
 package com.kust.ermsmanager.ui.profile
 
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -12,37 +11,37 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.kust.ermslibrary.R
 import com.kust.ermslibrary.models.Employee
 import com.kust.ermslibrary.utils.UiState
-import com.kust.ermsmanager.R as ManagerR
-import com.kust.ermslibrary.R as LibraryR
+import com.kust.ermslibrary.utils.hideKeyboard
+import com.kust.ermslibrary.utils.isNull
+import com.kust.ermslibrary.utils.toast
 import com.kust.ermsmanager.databinding.FragmentUpdateProfileBinding
 import com.kust.ermsmanager.ui.auth.AuthViewModel
 import com.kust.ermsmanager.ui.employee.EmployeeViewModel
-import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import kotlinx.coroutines.launch
+import com.kust.ermslibrary.R as LibraryR
+import com.kust.ermsmanager.R as ManagerR
 
 @AndroidEntryPoint
 class UpdateProfileFragment : Fragment() {
 
-    private var _binding : FragmentUpdateProfileBinding? = null
+    private var _binding: FragmentUpdateProfileBinding? = null
     private val binding get() = _binding!!
 
-    private val employeeViewModel : EmployeeViewModel by viewModels()
-    private val authViewModel : AuthViewModel by viewModels()
+    private val employeeViewModel: EmployeeViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
 
-    @Inject
-    lateinit var employee : Employee
+    private lateinit var employeeObj: Employee
 
-    private lateinit var imageUri : Uri
-    private lateinit var uploadedImageUri : Uri
+    private var imageUri: Uri? = null
+    private lateinit var uploadedImageUrl: String
     private val PICK_IMAGE_REQUEST = 1
-
-    private val dialog: ProgressDialog by lazy {
-        ProgressDialog(requireContext())
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,95 +49,151 @@ class UpdateProfileFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentUpdateProfileBinding.inflate(layoutInflater, container, false)
-
-        dialog.setCanceledOnTouchOutside(false)
-        dialog.setMessage("Loading...")
-        dialog.setCancelable(false)
-
         updateSpinners()
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        authViewModel.getSession {
+            if (it != null) {
+                employeeObj = it
+                updateUI()
+            }
+        }
+
         observer()
-        updateUI()
 
         binding.imgProfile.setOnClickListener {
             pickImageFromGallery()
         }
 
         binding.btnUpdateProfile.setOnClickListener {
-            employeeViewModel.updateEmployee(getEmployeeObj())
+            hideKeyboard()
+            if (validation()) {
+                if (!imageUri.isNull) {
+                    imageUri?.let { uri ->
+                        employeeViewModel.uploadImage(uri) {
+                            when (it) {
+                                is UiState.Loading -> {
+                                    binding.progressBar.show()
+                                    binding.btnUpdateProfile.text = ""
+                                }
+
+                                is UiState.Success -> {
+                                    binding.progressBar.hide()
+                                    binding.btnUpdateProfile.text = getString(LibraryR.string.update)
+                                    uploadedImageUrl = it.data.toString()
+                                    lifecycleScope.launch {
+                                        updateUserSession()
+                                        employeeViewModel.updateProfile(getCompanyObj())
+                                    }
+                                }
+
+                                is UiState.Error -> {
+                                    binding.progressBar.hide()
+                                    binding.btnUpdateProfile.text = getString(LibraryR.string.update)
+                                    toast(it.error.toString())
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    lifecycleScope.launch {
+                        updateUserSession()
+                        employeeViewModel.updateProfile(getCompanyObj())
+                    }
+                }
+            }
         }
     }
 
+    private fun updateUserSession() {
+        authViewModel.storeUserSession(employeeObj.id)
+    }
+
     private fun observer() {
-        employeeViewModel.updateEmployee.observe(viewLifecycleOwner) {
+        employeeViewModel.updateProfile.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
+                    binding.progressBar.show()
+                    binding.btnUpdateProfile.text = ""
                 }
 
                 is UiState.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    toast(it.data.toString())
+                    binding.progressBar.hide()
+                    binding.btnUpdateProfile.text = getString(LibraryR.string.update)
+                    toast("Profile updated successfully")
                 }
 
                 is UiState.Error -> {
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBar.hide()
+                    binding.btnUpdateProfile.text = getString(LibraryR.string.update)
                     toast(it.error.toString())
                 }
             }
         }
 
-        authViewModel.getSession {
-            employee.apply {
-                id = it?.id.toString()
-                name = it?.name.toString()
-                phone = it?.phone.toString()
-                gender = it?.gender.toString()
-                dob = it?.dob.toString()
-                city = it?.city.toString()
-                state = it?.state.toString()
-                address = it?.address.toString()
+        authViewModel.storeUserSession.observe(viewLifecycleOwner) {
+            when (it) {
+                is UiState.Loading -> {
+                    binding.progressBar.show()
+                    binding.btnUpdateProfile.text = ""
+                }
+
+                is UiState.Success -> {
+                    binding.progressBar.hide()
+                    binding.btnUpdateProfile.text = getString(LibraryR.string.update)
+                    findNavController().navigate(ManagerR.id.action_updateProfileFragment_to_managerProfileFragment)
+                }
+
+                is UiState.Error -> {
+                    binding.progressBar.hide()
+                    binding.btnUpdateProfile.text = getString(LibraryR.string.update)
+                    toast(it.error.toString())
+                }
             }
         }
     }
 
     private fun updateUI() {
-        employee.let {
+        uploadedImageUrl = employeeObj.profilePicture
+        employeeObj.let {
             with(binding) {
                 textViewName.setText(it.name)
                 textViewPhone.setText(it.phone)
-                dropDownGender.setText(it.gender)
-                btnDateOfBirth.text = it.dob
                 dropDownCity.setText(it.city)
                 dropDownState.setText(it.state)
                 dropDownCountry.setText(it.country)
                 textViewAddress.setText(it.address)
+
+                Glide.with(requireContext())
+                    .load(it.profilePicture)
+                    .placeholder(R.drawable.avatar2)
+                    .into(imgProfile)
             }
         }
     }
 
-    private fun getEmployeeObj() : Employee {
+    private fun getCompanyObj(): Employee {
+        val address = binding.textViewAddress.text.toString().trim()
+        val state = binding.dropDownState.text.toString().trim()
+        val city = binding.dropDownCity.text.toString().trim()
+        val country = binding.dropDownCountry.text.toString().trim()
         return Employee(
             name = binding.textViewName.text.toString().trim(),
-            email = employee.email,
-            phone = binding.textViewPhone.text.toString(),
-            gender = binding.dropDownGender.text.toString(),
-            dob = binding.btnDateOfBirth.text.toString(),
-            city = binding.dropDownCity.text.toString(),
-            state = binding.dropDownState.text.toString(),
-            country = binding.dropDownCountry.text.toString(),
-            address = binding.textViewAddress.text.toString(),
-            profilePicture = uploadedImageUri.toString()
+            phone = binding.textViewPhone.text.toString().trim(),
+            city = binding.dropDownCity.text.toString().trim(),
+            state = binding.dropDownState.text.toString().trim(),
+            country = binding.dropDownCountry.text.toString().trim(),
+            address = binding.textViewAddress.text.toString().trim(),
+            profilePicture = uploadedImageUrl,
+            fullAddress = "$address, $city, $state, $country"
         )
     }
 
-    private fun validation() : Boolean {
+    private fun validation(): Boolean {
         var isValid = true
 
         val errorMessage = "This field is required"
@@ -159,18 +214,6 @@ class UpdateProfileFragment : Fragment() {
         if (binding.textViewPhone.text.toString().trim().isEmpty()) {
             binding.textViewPhone.error = errorMessage
             binding.textViewPhone.requestFocus()
-            isValid = false
-        }
-
-        if (binding.dropDownGender.text.toString().trim().isEmpty()) {
-            binding.dropDownGender.error = errorMessage
-            binding.dropDownGender.requestFocus()
-            isValid = false
-        }
-
-        if (binding.btnDateOfBirth.text.toString().trim().isEmpty()) {
-            binding.btnDateOfBirth.error = errorMessage
-            binding.btnDateOfBirth.requestFocus()
             isValid = false
         }
 
@@ -203,7 +246,7 @@ class UpdateProfileFragment : Fragment() {
 
     private fun updateSpinners() {
         val spinnerDataForCities = resources.getStringArray(LibraryR.array.cities)
-        val arrayAdapterForCities : ArrayAdapter<String> = ArrayAdapter<String>(
+        val arrayAdapterForCities: ArrayAdapter<String> = ArrayAdapter<String>(
             requireContext(),
             ManagerR.layout.dropdown_menu_item,
             spinnerDataForCities
@@ -211,7 +254,7 @@ class UpdateProfileFragment : Fragment() {
         binding.dropDownCity.setAdapter(arrayAdapterForCities)
 
         val spinnerDataForStates = resources.getStringArray(LibraryR.array.provinces)
-        val arrayAdapterForStates : ArrayAdapter<String> = ArrayAdapter<String>(
+        val arrayAdapterForStates: ArrayAdapter<String> = ArrayAdapter<String>(
             requireContext(),
             ManagerR.layout.dropdown_menu_item,
             spinnerDataForStates
@@ -219,7 +262,7 @@ class UpdateProfileFragment : Fragment() {
         binding.dropDownState.setAdapter(arrayAdapterForStates)
 
         val spinnerDataForCountries = resources.getStringArray(LibraryR.array.countries)
-        val arrayAdapterForCountries : ArrayAdapter<String> = ArrayAdapter<String>(
+        val arrayAdapterForCountries: ArrayAdapter<String> = ArrayAdapter<String>(
             requireContext(),
             ManagerR.layout.dropdown_menu_item,
             spinnerDataForCountries
@@ -227,7 +270,7 @@ class UpdateProfileFragment : Fragment() {
         binding.dropDownCountry.setAdapter(arrayAdapterForCountries)
 
         val spinnerDataForGender = resources.getStringArray(LibraryR.array.gender)
-        val arrayAdapterForGender : ArrayAdapter<String> = ArrayAdapter<String>(
+        val arrayAdapterForGender: ArrayAdapter<String> = ArrayAdapter<String>(
             requireContext(),
             ManagerR.layout.dropdown_menu_item,
             spinnerDataForGender
@@ -240,34 +283,17 @@ class UpdateProfileFragment : Fragment() {
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST &&
             resultCode == Activity.RESULT_OK &&
-            data != null && data.data != null) {
+            data != null && data.data != null
+        ) {
 
             imageUri = data.data!!
             // Load the image using Glide
             Glide.with(this).load(imageUri).into(binding.imgProfile)
-        }
-
-        employeeViewModel.uploadImage(imageUri) {
-            when (it) {
-                is UiState.Loading -> {
-                    dialog.show()
-                }
-
-                is UiState.Success -> {
-                    dialog.hide()
-                    toast("Profile Image Uploaded!")
-                    uploadedImageUri = it.data
-                }
-
-                is UiState.Error -> {
-                    dialog.hide()
-                    toast("Error: ${it.error}")
-                }
-            }
         }
     }
 

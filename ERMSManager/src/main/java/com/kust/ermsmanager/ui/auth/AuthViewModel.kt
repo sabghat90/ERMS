@@ -3,6 +3,7 @@ package com.kust.ermsmanager.ui.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.kust.ermslibrary.models.Company
 import com.kust.ermslibrary.models.Employee
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermsmanager.data.repositories.AuthRepository
@@ -33,6 +34,10 @@ class AuthViewModel @Inject constructor(
     private val _changePassword = MutableLiveData<UiState<String>>()
     val changePassword : LiveData<UiState<String>>
         get() = _changePassword
+
+    private val _storeUserSession = MutableLiveData<UiState<Employee>>()
+    val storeUserSession : LiveData<UiState<Employee>>
+        get() = _storeUserSession
 
     init {
         _isUserLoggedIn.value = authRepository.isUserLoggedIn()
@@ -68,6 +73,13 @@ class AuthViewModel @Inject constructor(
         _changePassword.value = UiState.Loading
         authRepository.changePassword(newPassword) {
             _changePassword.value = it
+        }
+    }
+
+    fun storeUserSession(id: String) {
+        _storeUserSession.value = UiState.Loading
+        authRepository.storeUserSession(id) {
+            _storeUserSession.value = it?.let { it1 -> UiState.Success(it1) }
         }
     }
 }

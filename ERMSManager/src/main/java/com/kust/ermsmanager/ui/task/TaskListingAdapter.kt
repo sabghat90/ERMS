@@ -84,7 +84,6 @@ class TaskListingAdapter(
             val creationTimeFormatted = ConvertDateAndTimeFormat().formatTime(taskCreationDate)
 
             binding.tvTaskName.text = task.title
-            binding.tvTaskDescription.text = task.description
             binding.taskStatus.text = task.status
             binding.tvTaskCreatedDate.text =
                 context.getString(LibraryR.string.date_time, creationDateFormatted, creationTimeFormatted)

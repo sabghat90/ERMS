@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kust.ermsemployee.databinding.FragmentEventListingBinding
@@ -14,6 +15,7 @@ import com.kust.ermslibrary.utils.hide
 import com.kust.ermslibrary.utils.show
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import com.kust.ermsemployee.R as EmployeeR
 
 @AndroidEntryPoint
@@ -53,6 +55,9 @@ class EventListingFragment : Fragment() {
 
         observer()
 
+        lifecycleScope.launch {
+            eventViewModel.getEventList()
+        }
         binding.rvEvents.layoutManager = LinearLayoutManager(requireContext())
         binding.rvEvents.adapter = adapter
 

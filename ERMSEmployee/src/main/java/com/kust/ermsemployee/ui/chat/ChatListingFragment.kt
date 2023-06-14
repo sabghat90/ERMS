@@ -30,6 +30,7 @@ class ChatListingFragment : Fragment() {
 
     private val adapter: EmployeeListingAdapter by lazy {
         EmployeeListingAdapter(
+            requireContext(),
             onItemClicked = { _, employee ->
                 findNavController().navigate(EmployeeR.id.action_chatListingFragment_to_chatFragment, Bundle().apply {
                     putParcelable("employee", employee)

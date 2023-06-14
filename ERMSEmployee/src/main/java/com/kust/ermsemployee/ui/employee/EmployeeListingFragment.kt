@@ -26,6 +26,7 @@ class EmployeeListingFragment : Fragment() {
 
     private val adapter by lazy {
         EmployeeListingAdapter(
+            requireContext(),
             onItemClicked = { _, employee ->
                 val bundle = Bundle()
                 bundle.putParcelable("employee", employee)

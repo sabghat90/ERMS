@@ -9,5 +9,20 @@
         android:id="@+id/managerProfileFragment"
         android:name="com.kust.ermsmanager.ui.profile.ManagerProfileFragment"
         android:label="@string/profile"
-        tools:layout="@layout/fragment_manager_profile" />
+        tools:layout="@layout/fragment_manager_profile" >
+        <action
+            android:id="@+id/action_managerProfileFragment_to_updateProfileFragment"
+            app:destination="@id/updateProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateProfileFragment"
+        android:name="com.kust.ermsmanager.ui.profile.UpdateProfileFragment"
+        android:label="@string/update_profile"
+        tools:layout="@layout/fragment_update_profile">
+        <action
+            android:id="@+id/action_updateProfileFragment_to_managerProfileFragment"
+            app:destination="@id/managerProfileFragment"
+            app:popUpTo="@id/managerProfileFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

@@ -3,10 +3,12 @@ package com.kust.ermsemployee.ui.events
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kust.ermsemployee.data.repository.EventRepository
 import com.kust.ermslibrary.models.Event
 import com.kust.ermslibrary.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,35 +31,39 @@ class EventViewModel @Inject constructor(
     val deleteEvent : LiveData<UiState<Pair<Event, String>>>
         get() = _deleteEvent
 
-    init {
-        getEventList()
-    }
-
-    private fun getEventList() {
+    fun getEventList() {
         _getEventList.value = UiState.Loading
-        eventRepository.getEventList() {
-            _getEventList.value = it
+        viewModelScope.launch {
+            eventRepository.getEventList {
+                _getEventList.value = it
+            }
         }
     }
 
-    fun createEvent(event: Event) {
+    suspend fun createEvent(event: Event) {
         _createEvent.value = UiState.Loading
-        eventRepository.createEvent(event) {
-            _createEvent.value = it
+        viewModelScope.launch {
+            eventRepository.createEvent(event) {
+                _createEvent.value = it
+            }
         }
     }
 
-    fun updateEvent(event: Event) {
+    suspend fun updateEvent(event: Event) {
         _updateEvent.value = UiState.Loading
-        eventRepository.updateEvent(event) {
-            _updateEvent.value = it
+        viewModelScope.launch {
+            eventRepository.updateEvent(event) {
+                _updateEvent.value = it
+            }
         }
     }
 
-    fun deleteEvent(event: Event) {
+    suspend fun deleteEvent(event: Event) {
         _deleteEvent.value = UiState.Loading
-        eventRepository.deleteEvent(event) {
-            _deleteEvent.value = it
+        viewModelScope.launch {
+            eventRepository.deleteEvent(event) {
+                _deleteEvent.value = it
+            }
         }
     }
 }

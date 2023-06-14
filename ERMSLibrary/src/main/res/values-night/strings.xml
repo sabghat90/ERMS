@@ -169,4 +169,6 @@
     <string name="resolve">Resolve</string>
     <string name="remarks">Remarks</string>
     <string name="update_task">Update Task</string>
+    <string name="logout">Logout</string>
+    <string name="create">Create</string>
 </resources>

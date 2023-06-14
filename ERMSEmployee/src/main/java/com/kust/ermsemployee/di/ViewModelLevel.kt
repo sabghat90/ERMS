@@ -45,9 +45,10 @@ object ViewModelLevel {
     @ViewModelScoped
     fun provideAttendanceRepository(
         firebaseDatabase: FirebaseDatabase,
-        auth: FirebaseAuth
+        auth: FirebaseAuth,
+        sharedPreferences: SharedPreferences
     ) : AttendanceRepository {
-        return AttendanceRepositoryImpl(firebaseDatabase, auth)
+        return AttendanceRepositoryImpl(firebaseDatabase, auth, sharedPreferences)
     }
 
     @Provides

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kust.ermsemployee.data.repository.AuthRepository
+import com.kust.ermslibrary.models.Company
 import com.kust.ermslibrary.models.Employee
 import com.kust.ermslibrary.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,6 +34,10 @@ class AuthViewModel @Inject constructor(
     private val _changePassword = MutableLiveData<UiState<String>>()
     val changePassword : LiveData<UiState<String>>
         get() = _changePassword
+
+    private val _storeUserSession = MutableLiveData<UiState<Employee>>()
+    val storeUserSession : LiveData<UiState<Employee>>
+        get() = _storeUserSession
 
     init {
         _isUserLoggedIn.value = repository.isUserLoggedIn()
@@ -81,6 +86,13 @@ class AuthViewModel @Inject constructor(
         _changePassword.value = UiState.Loading
         repository.changePassword(newPassword) {
             _changePassword.value = it
+        }
+    }
+
+    fun storeUserSession(id: String) {
+        _storeUserSession.value = UiState.Loading
+        repository.storeUserSession(id) {
+            _storeUserSession.value = it?.let { it1 -> UiState.Success(it1) }
         }
     }
 }

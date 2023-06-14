@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.kust.ermsemployee.R as EmployeeR
 import com.kust.ermslibrary.R as LibraryR
 import androidx.navigation.fragment.findNavController
@@ -16,6 +17,7 @@ import com.kust.ermslibrary.utils.hide
 import com.kust.ermslibrary.utils.show
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TaskListingFragment : Fragment() {
@@ -49,6 +51,10 @@ class TaskListingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observer()
+
+        lifecycleScope.launch {
+            taskViewModel.getTasks()
+        }
 
         binding.rvTasks.layoutManager = LinearLayoutManager(requireContext())
         binding.rvTasks.adapter = adapter

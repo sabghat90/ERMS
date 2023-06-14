@@ -58,13 +58,6 @@ class EmployeeViewModel @Inject constructor(
         }
     }
 
-    fun uploadImage(fileUris: Uri, result: (UiState<Uri>) -> Unit) {
-        result.invoke(UiState.Loading)
-        viewModelScope.launch {
-            employeeRepository.uploadImage(fileUris, result)
-        }
-    }
-
     fun getEmployeeRank() {
         _getEmployeeRank.value = UiState.Loading
         viewModelScope.launch {

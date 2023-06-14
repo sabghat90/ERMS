@@ -7,15 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.kust.ermsemployee.R as EmployeeR
-import com.kust.ermslibrary.R as LibraryR
 import com.kust.ermsemployee.databinding.FragmentFeatureBinding
 import com.kust.ermsemployee.ui.auth.AuthActivity
 import com.kust.ermsemployee.ui.auth.AuthViewModel
@@ -26,6 +23,8 @@ import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import com.kust.ermsemployee.R as EmployeeR
+import com.kust.ermslibrary.R as LibraryR
 
 
 @AndroidEntryPoint
@@ -66,14 +65,13 @@ class FeaturesFragment : Fragment() {
 
         val features = mutableListOf<Feature>()
 
-        features.add(Feature("View Employees", LibraryR.drawable.avatar2))
-        features.add(Feature("Employee Ranking", LibraryR.drawable.avatar2))
-        features.add(Feature("View Attendance", LibraryR.drawable.avatar2))
-        features.add(Feature("Task", LibraryR.drawable.avatar2))
-        features.add(Feature("Events", LibraryR.drawable.avatar2))
-        features.add(Feature("Complaints", LibraryR.drawable.avatar2))
-        features.add(Feature("Company Profile", LibraryR.drawable.avatar2))
-        features.add(Feature("Logout", LibraryR.drawable.avatar2))
+        features.add(Feature("View Employees", LibraryR.drawable.ic_employee))
+        features.add(Feature("Employee Ranking", LibraryR.drawable.ic_rank))
+        features.add(Feature("View Attendance", LibraryR.drawable.ic_attendance))
+        features.add(Feature("Task", LibraryR.drawable.ic_task))
+        features.add(Feature("Events", LibraryR.drawable.ic_events))
+        features.add(Feature("Complaints", LibraryR.drawable.ic_report))
+        features.add(Feature("Company Profile", LibraryR.drawable.ic_profile))
 
         adapter.features = features
 
@@ -110,16 +108,6 @@ class FeaturesFragment : Fragment() {
                     }
                     6 -> {
                         findNavController().navigate(EmployeeR.id.action_featureFragment_to_companyProfileFragment)
-                    }
-                    7 -> {
-                        Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()
-                        // Logout
-                        authViewModel.logout {
-                            val intent = Intent(requireContext(), AuthActivity::class.java)
-                            intent.flags =
-                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            startActivity(intent)
-                        }
                     }
                 }
             }

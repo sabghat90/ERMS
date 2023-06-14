@@ -12,12 +12,15 @@ import androidx.biometric.BiometricManager
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.kust.ermsemployee.BuildConfig
 import com.kust.ermsemployee.R
 import com.kust.ermsemployee.data.repository.BiometricRepository
 import com.kust.ermsemployee.data.repository.BiometricRepositoryImpl
 import com.kust.ermsemployee.databinding.FragmentSettingBinding
+import com.kust.ermsemployee.ui.auth.AuthActivity
+import com.kust.ermsemployee.ui.auth.AuthViewModel
 import com.kust.ermslibrary.utils.SharedPreferencesConstants
 import com.kust.ermslibrary.utils.UiState
 import com.kust.ermslibrary.utils.toast
@@ -28,6 +31,8 @@ class SettingFragment : Fragment() {
 
     private var _binding: FragmentSettingBinding? = null
     private val binding get() = _binding!!
+
+    private val authViewModel: AuthViewModel by viewModels()
 
     private val biometricRepository : BiometricRepository by lazy {
         BiometricRepositoryImpl(requireActivity().getSharedPreferences(SharedPreferencesConstants.BIOMETRIC, 0))
@@ -77,6 +82,15 @@ class SettingFragment : Fragment() {
 
         binding.changePasswordLayout.setOnClickListener {
             findNavController().navigate(R.id.action_settingFragment_to_changePasswordFragment)
+        }
+
+        binding.logoutCard.setOnClickListener {
+            authViewModel.logout {
+                toast("Logout success")
+                val intent = Intent(requireContext(), AuthActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            }
         }
 
         getVersionCodeAndName()

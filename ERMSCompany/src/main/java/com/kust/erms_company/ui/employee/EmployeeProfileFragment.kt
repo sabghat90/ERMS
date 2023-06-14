@@ -175,7 +175,7 @@ class EmployeeProfileFragment : Fragment() {
         }
 
         if (employeeObj.salary == 0.00 && employeeObj.jobTitle.isEmpty() && employeeObj.department.isEmpty()) {
-            binding.btnSelectManager.text = com.kust.ermslibrary.R.string.update_profile.toString()
+            binding.btnSelectManager.text = getString(com.kust.ermslibrary.R.string.update_profile)
             binding.btnSelectManager.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putParcelable("employee", employeeObj)

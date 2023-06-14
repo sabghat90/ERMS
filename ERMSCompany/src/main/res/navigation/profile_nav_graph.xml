@@ -12,12 +12,17 @@
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_updateProfileFragment"
-            app:destination="@id/updateProfileFragment" />
+            app:destination="@id/updateProfileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/updateProfileFragment"
         android:name="com.kust.erms_company.ui.company.UpdateProfileFragment"
-        android:label="@string/update_profile">
+        android:label="@string/update_profile"
+        tools:layout="@layout/fragment_update_profile">
         <action
             android:id="@+id/action_updateProfileFragment_to_profileFragment"
             app:destination="@id/profileFragment"

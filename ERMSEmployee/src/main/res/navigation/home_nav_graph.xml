@@ -38,11 +38,7 @@
             app:destination="@id/employeeListingFragment" />
         <action
             android:id="@+id/action_featureFragment_to_companyProfileFragment"
-            app:destination="@id/companyProfileFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/companyProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/viewAttendanceFragment"
@@ -66,7 +62,13 @@
         android:id="@+id/taskDetailFragment"
         android:name="com.kust.ermsemployee.ui.tasks.TaskDetailFragment"
         android:label="@string/task_details"
-        tools:layout="@layout/fragment_task_detail" />
+        tools:layout="@layout/fragment_task_detail" >
+        <action
+            android:id="@+id/action_taskDetailFragment_to_taskListingFragment"
+            app:destination="@id/taskListingFragment"
+            app:popUpTo="@id/taskListingFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/eventListingFragment"
         android:name="com.kust.ermsemployee.ui.events.EventListingFragment"
@@ -107,7 +109,13 @@
         android:id="@+id/createComplaintFragment"
         android:name="com.kust.ermsemployee.ui.complaints.CreateComplaintFragment"
         android:label="Create Complaint"
-        tools:layout="@layout/fragment_create_complaint" />
+        tools:layout="@layout/fragment_create_complaint" >
+        <action
+            android:id="@+id/action_createComplaintFragment_to_complaintListingFragment"
+            app:destination="@id/complaintListingFragment"
+            app:popUpTo="@id/complaintListingFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/employeeListingFragment"
         android:name="com.kust.ermsemployee.ui.employee.EmployeeListingFragment"
@@ -125,6 +133,5 @@
     <fragment
         android:id="@+id/companyProfileFragment"
         android:name="com.kust.ermsemployee.ui.company.CompanyProfileFragment"
-        android:label="fragment_company_profile"
-        tools:layout="@layout/fragment_company_profile" />
+        android:label="CompanyProfileFragment" />
 </navigation>

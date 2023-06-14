@@ -87,7 +87,7 @@ class AttendanceSheetFragment : Fragment() {
                 selectedDate.set(year, month, dayOfMonth)
                 binding.tvDayName.text = SimpleDateFormat("EEEE", Locale.getDefault()).format(selectedDate.time)
                 binding.tvDate.text = SimpleDateFormat("MMM d, y", Locale.getDefault()).format(selectedDate.time)
-                date = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).format(selectedDate.time)
+                date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate.time)
             },
             currentYear,
             currentMonth,

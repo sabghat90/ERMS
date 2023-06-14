@@ -126,7 +126,7 @@ class EmployeeRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun uploadImage(imageUri: Uri, result: (UiState<Uri>) -> Unit) {
+    override suspend fun uploadProfilePicture(imageUri: Uri, result: (UiState<Uri>) -> Unit) {
         try {
             val uri: Uri = withContext(Dispatchers.IO) {
                 firebaseStorage

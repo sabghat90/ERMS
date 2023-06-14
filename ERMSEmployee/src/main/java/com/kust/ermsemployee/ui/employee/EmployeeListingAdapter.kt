@@ -1,14 +1,17 @@
 package com.kust.ermsemployee.ui.employee
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.kust.ermsemployee.databinding.ItemEmployeeBinding
 import com.kust.ermslibrary.models.Employee
 
 class EmployeeListingAdapter(
+    val context: Context,
     val onItemClicked: (Int, Employee) -> Unit
 ) :
     ListAdapter<Employee, EmployeeListingAdapter.EmployeeViewHolder>(DiffUtilCallback()) {
@@ -31,6 +34,11 @@ class EmployeeListingAdapter(
             binding.tvEmployeeName.text = employee.name
             binding.tvDepartment.text = employee.department
             binding.tvStatus.text = employee.role
+
+            Glide.with(context)
+                .load(employee.profilePicture)
+                .placeholder(com.kust.ermslibrary.R.drawable.avatar1)
+                .into(binding.imgEmployee)
 
             binding.cardEmployee.setOnClickListener {
                 val position = adapterPosition

@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.kust.ermsemployee.R
 import com.kust.ermsemployee.databinding.FragmentProfileBinding
 import com.kust.ermsemployee.ui.auth.AuthViewModel
 import com.kust.ermslibrary.models.Employee
@@ -34,6 +37,10 @@ class ProfileFragment : Fragment() {
 
         observer()
         updateUi()
+
+        binding.btnUpdateProfile.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_updateProfileFragment)
+        }
     }
 
     private fun observer() {
@@ -58,6 +65,11 @@ class ProfileFragment : Fragment() {
             tvSalary.text = employeeObj.salary.toString()
             tvJoiningDate.text = employeeObj.joiningDate
         }
+
+        Glide.with(requireContext())
+            .load(employeeObj.profilePicture)
+            .placeholder(com.kust.ermslibrary.R.drawable.avatar6)
+            .into(binding.profileView.imgLogo)
     }
 
     override fun onDestroyView() {

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.Timestamp
 import com.kust.ermsemployee.databinding.FragmentCreateComplaintBinding
 import com.kust.ermsemployee.ui.auth.AuthViewModel
@@ -63,18 +64,19 @@ class CreateComplaintFragment : Fragment() {
             when (it) {
                 is UiState.Loading -> {
                     binding.btnCreateComplaint.text = ""
-                    binding.progressBar.visibility = View.VISIBLE
+                    binding.progressBar.show()
                 }
 
                 is UiState.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    binding.btnCreateComplaint.text = "Create"
+                    binding.progressBar.hide()
+                    binding.btnCreateComplaint.text = getString(com.kust.ermslibrary.R.string.create)
                     toast("Complaint created successfully")
+                    findNavController().navigate(com.kust.ermsemployee.R.id.action_createComplaintFragment_to_complaintListingFragment)
                 }
 
                 is UiState.Error -> {
-                    binding.btnCreateComplaint.text = "Create"
-                    binding.progressBar.visibility = View.GONE
+                    binding.btnCreateComplaint.text = getString(com.kust.ermslibrary.R.string.create)
+                    binding.progressBar.hide()
                 }
             }
         }

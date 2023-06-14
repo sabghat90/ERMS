@@ -5,18 +5,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.kust.ermsemployee.databinding.FragmentEmployeeProfileBinding
-import com.kust.ermslibrary.models.Employee
+import com.kust.ermsemployee.ui.company.CompanyViewModel
+import com.kust.ermslibrary.models.Company
+import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class EmployeeProfileFragment : Fragment() {
-    private var _binding: FragmentEmployeeProfileBinding? = null
+    private var _binding : FragmentEmployeeProfileBinding? = null
     private val binding get() = _binding!!
 
+    private val companyViewModel: CompanyViewModel by viewModels()
     @Inject
-    lateinit var employee: Employee
+    lateinit var companyObj: Company
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,16 +38,51 @@ class EmployeeProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        employee = arguments?.getParcelable("employee")!!
+        observer()
+        updateUi(companyObj)
 
-        updateUI()
+        lifecycleScope.launch {
+            companyViewModel.getCompanyProfile()
+        }
     }
 
-    private fun updateUI() {
+    private fun updateUi(company: Company) {
+        binding.profileLayout.apply {
+            name.text = company.name
+            tvEmail.text = company.email
+            tvPhone.text = company.phone
+            tvWebsite.text = company.website
+            tvCountry.text = company.country
+            tvState.text = company.state
+            tvFullAddress.text = company.address
+
+            Glide.with(requireContext())
+                .load(company.profilePicture)
+                .placeholder(com.kust.ermslibrary.R.drawable.avatar2)
+                .into(imgLogo)
+        }
+    }
+
+    private fun observer() {
+        companyViewModel.getCompanyProfile.observe(viewLifecycleOwner) {
+            when (it) {
+                is UiState.Loading -> {
+                    toast("Loading...")
+                }
+                is UiState.Success -> {
+                    companyObj = it.data[0]
+                    updateUi(companyObj)
+                }
+                is UiState.Error -> {
+                    toast(it.error)
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }

@@ -73,31 +73,29 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-    </androidx.cardview.widget.CardView>
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:layout_gravity="center_vertical|end"
+            android:src="@drawable/ic_right" />
 
-    <View
-        android:id="@+id/view5"
-        android:layout_width="200dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/md_theme_dark_primaryContainer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/change_password_layout" />
+    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/privacy_policy_layout"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
         android:clickable="true"
         android:elevation="0dp"
         android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view5">
+        app:layout_constraintTop_toBottomOf="@+id/change_password_layout">
 
         <TextView
             android:id="@+id/textView3"
@@ -109,31 +107,29 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-    </androidx.cardview.widget.CardView>
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:layout_gravity="center_vertical|end"
+            android:src="@drawable/ic_right" />
 
-    <View
-        android:id="@+id/view6"
-        android:layout_width="200dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/md_theme_dark_primaryContainer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/project_proposal" />
+    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/project_proposal"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
         android:clickable="true"
         android:elevation="0dp"
         android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view9">
+        app:layout_constraintTop_toBottomOf="@+id/privacy_policy_layout">
 
         <TextView
             android:id="@+id/textView7"
@@ -145,31 +141,29 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-    </androidx.cardview.widget.CardView>
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:layout_gravity="center_vertical|end"
+            android:src="@drawable/ic_right" />
 
-    <View
-        android:id="@+id/view9"
-        android:layout_width="200dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/md_theme_dark_primaryContainer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/privacy_policy_layout" />
+    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/about"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
         android:clickable="true"
         android:elevation="0dp"
         android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view6">
+        app:layout_constraintTop_toBottomOf="@+id/project_proposal">
 
         <TextView
             android:id="@+id/textView9"
@@ -180,6 +174,59 @@
             android:text="@string/about"
             android:textSize="18sp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:layout_gravity="center_vertical|end"
+            android:src="@drawable/ic_right" />
+
+    </androidx.cardview.widget.CardView>
+
+    <View
+        android:id="@+id/view10"
+        android:layout_width="200dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/md_theme_dark_primaryContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/about" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/logout_card"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        android:clickable="true"
+        android:elevation="0dp"
+        android:focusable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view10">
+
+        <TextView
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:layout_marginStart="8dp"
+            android:text="@string/logout"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="8dp"
+            android:layout_gravity="center_vertical|end"
+            android:src="@drawable/ic_logout" />
 
     </androidx.cardview.widget.CardView>
 

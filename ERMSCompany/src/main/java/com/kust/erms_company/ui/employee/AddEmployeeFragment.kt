@@ -16,6 +16,7 @@ import com.kust.ermslibrary.models.NotificationData
 import com.kust.ermslibrary.models.PushNotification
 import com.kust.ermslibrary.services.NotificationService
 import com.kust.ermslibrary.utils.UiState
+import com.kust.ermslibrary.utils.hideKeyboard
 import com.kust.ermslibrary.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -45,6 +46,7 @@ class AddEmployeeFragment : Fragment() {
         observer()
 
         binding.btnRegister.setOnClickListener {
+            hideKeyboard()
             if (validation()) {
                 val email = binding.etEmail.text.toString()
                 val employeeModel = getObject()

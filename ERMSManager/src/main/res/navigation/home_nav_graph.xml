@@ -186,7 +186,7 @@
     <fragment
         android:id="@+id/employeeProfileFragment"
         android:name="com.kust.ermsmanager.ui.employee.EmployeeProfileFragment"
-        android:label="fragment_employee_profile"
+        android:label="Employee Profile"
         tools:layout="@layout/fragment_employee_profile">
         <action
             android:id="@+id/action_employeeProfileFragment_to_updateEmployeeProfileFragment"
